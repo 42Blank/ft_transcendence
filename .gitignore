@@ -1,3 +1,12 @@
+# ft_transcendence
+
+# [Subject II.2]
+# For obvious security reasons, any credentials, API keys, env variables etc...
+# must be saved locally in a .env file and ignored by git.
+# Publicly stored credentials will lead you directly to a failure of the project.
+.env
+*/.env
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
