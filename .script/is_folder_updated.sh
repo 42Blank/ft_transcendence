@@ -13,13 +13,11 @@ fi
 echo "---"
 git diff --name-only origin/main;
 echo "---"
-git diff --name-only origin/main | cut -d '/' -f 1 | uniq;
-echo "---"
-git diff --name-only origin/main | cut -d '/' -f 1 | uniq | grep $1;
+git diff --name-only main;
 echo "---"
 
 # check if folder is updated
-if [ ! -z "$(git diff --name-only origin/main | cut -d '/' -f 1 | uniq | grep $1)" ]; then
+if [ ! -z "$(git diff --name-only main | cut -d '/' -f 1 | uniq | grep $1)" ]; then
     echo "Folder $1 is updated"
     exit 0
 else
