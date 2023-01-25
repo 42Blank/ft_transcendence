@@ -4,8 +4,8 @@
 echo "try to find $1"
 if [ ! -z "$(git diff origin/main | grep $1)" ]; then
     echo "$1 found"
-    exit 1
+    exit 0
 else
     echo "no $1 found"
-    exit 0
+    exit 1
 fi
