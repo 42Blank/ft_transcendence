@@ -23,6 +23,28 @@ jobs:
         with:
           node-version: 16.x
           cache: "yarn"
-      - run: if bash .script/is_folder_updated.sh backend; then cd backend && yarn format && yarn lint; fi
-      - run: if bash .script/is_folder_updated.sh frontend; then cd frontend && yarn format && yarn lint; fi
+          cache-dependency-path: "**/yarn.lock"
+
+      - run: |
+          if bash .script/is_folder_updated.sh backend; then
+            cd backend;
+            yarn --frozen-lockfile;
+            yarn format;
+            yarn lint;
+            CI=true yarn test --testPathIgnorePatterns="e2e";
+          else
+            echo "No backend changes, skip backend CI";
+          fi
+
+      - run: |
+          if bash .script/is_folder_updated.sh frontend; then
+            cd frontend;
+            yarn --frozen-lockfile;
+            yarn format;
+            yarn lint;
+            CI=true yarn test --testPathIgnorePatterns="e2e";
+          else
+            echo "No frontend changes, skip frontend CI";
+          fi
+
       - run: bash .script/check_test_file_path_convention.sh
