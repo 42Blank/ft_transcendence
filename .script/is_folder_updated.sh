@@ -10,6 +10,14 @@ if [ ! -d "$1" ]; then
     exit 1
 fi
 
+echo "---"
+git diff --name-only origin/main;
+echo "---"
+git diff --name-only origin/main | cut -d '/' -f 1 | uniq;
+echo "---"
+git diff --name-only origin/main | cut -d '/' -f 1 | uniq | grep $1;
+echo "---"
+
 # check if folder is updated
 if [ ! -z "$(git diff --name-only origin/main | cut -d '/' -f 1 | uniq | grep $1)" ]; then
     echo "Folder $1 is updated"
