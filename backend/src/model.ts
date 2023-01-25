@@ -1,13 +1,13 @@
 type User = {
   id: number;
-  name: string;  
+  name: string;
   avatar: string;
   friends: User[];
 };
 
 type Game = {
   id: string;
-  state: "waiting" | "playing" | "finished";
+  state: 'waiting' | 'playing' | 'finished';
   player1: User;
   player2: User;
   player1Ready: boolean;

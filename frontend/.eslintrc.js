@@ -1,41 +1,32 @@
 module.exports = {
-  env: {
-    browser: true,
-    es6: true,
-    node: true,
-  },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 2020,
+    project: 'tsconfig.json',
+    tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', 'prettier'],
-  rules: {
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
-    'react/react-in-jsx-scope': 'off',
-    'no-unused-vars': 'off',
-    'prettier/prettier': 'off',
-    'no-var': 'off',
-    'react/no-unescaped-entities': 'off',
-    'react/prop-types': 'off',
-    'react/jsx-key': 'off',
-    'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
-    'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
-  },
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      rules: {
-        'no-undef': 'off',
-      },
-    },
+  plugins: ['@typescript-eslint/eslint-plugin'],
+  extends: [
+    'airbnb',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
   ],
+  ignorePatterns: ['.eslintrc.js'],
+  rules: {
+    'linebreak-style': 0,
+    'import/prefer-default-export': 0,
+    'prettier/prettier': 0,
+    'import/extensions': 0,
+    'no-use-before-define': 0,
+    'import/no-unresolved': 0,
+    'import/no-extraneous-dependencies': 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
+    'no-shadow': 0,
+    'react/prop-types': 0,
+    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
+    '@typescript-eslint/no-explicit-any': 'error',
+  },
 };
