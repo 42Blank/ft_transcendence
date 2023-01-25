@@ -12,16 +12,6 @@ fi
 
 git fetch origin main
 
-echo "---"
-git diff --name-only origin/main;
-echo "---"
-git diff --name-only main;
-echo "---"
-git diff --name-only main HEAD^;
-echo "---"
-git diff --name-only --diff-filter=duxb origin/$BASE origin/$HEAD
-echo "---"
-
 # check if folder is updated
 if [ ! -z "$(git diff --name-only origin/main | cut -d '/' -f 1 | uniq | grep $1)" ]; then
     echo "Folder $1 is updated"
