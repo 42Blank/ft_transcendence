@@ -10,8 +10,6 @@ if [ ! -d "$1" ]; then
     exit 1
 fi
 
-git fetch origin main
-
 # check if folder is updated
 if [ ! -z "$(git diff --name-only origin/main | cut -d '/' -f 1 | uniq | grep $1)" ]; then
     echo "Folder $1 is updated"
