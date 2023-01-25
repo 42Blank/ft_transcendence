@@ -37,7 +37,7 @@ jobs:
             yarn --frozen-lockfile;
             yarn format;
             yarn lint;
-            CI: true yarn test --testPathIgnorePatterns="e2e";
+            CI=true yarn test --testPathIgnorePatterns="e2e";
           else
             echo "No backend changes, skip backend CI";
           fi
@@ -55,7 +55,7 @@ jobs:
             yarn --frozen-lockfile;
             yarn format;
             yarn lint;
-            CI: true yarn test --testPathIgnorePatterns="e2e";
+            CI=true yarn test --testPathIgnorePatterns="e2e";
           else
             echo "No frontend changes, skip frontend CI";
           fi
