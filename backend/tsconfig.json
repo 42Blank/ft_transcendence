@@ -19,6 +19,6 @@
     "noFallthroughCasesInSwitch": false,
 
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   }
 }
