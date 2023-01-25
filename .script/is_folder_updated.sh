@@ -10,6 +10,8 @@ if [ ! -d "$1" ]; then
     exit 1
 fi
 
+git fetch origin main
+
 echo "---"
 git diff --name-only origin/main;
 echo "---"
