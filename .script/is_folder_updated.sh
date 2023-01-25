@@ -17,7 +17,7 @@ git diff --name-only main;
 echo "---"
 git diff --name-only main HEAD^;
 echo "---"
-git diff --name-only origin/main origin/${GITHUB_HEAD_REF}
+git diff --name-only --diff-filter=duxb origin/$BASE origin/$HEAD
 echo "---"
 
 # check if folder is updated

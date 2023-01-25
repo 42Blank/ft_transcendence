@@ -33,10 +33,14 @@ jobs:
             yarn --frozen-lockfile;
             yarn format;
             yarn lint;
-            CI=true yarn test --testPathIgnorePatterns="e2e";
+            yarn test --testPathIgnorePatterns="e2e";
           else
             echo "No backend changes, skip backend CI";
           fi
+        env:
+          CI: true
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
 
       - run: |
           if bash .script/is_folder_updated.sh frontend; then
@@ -44,9 +48,13 @@ jobs:
             yarn --frozen-lockfile;
             yarn format;
             yarn lint;
-            CI=true yarn test --testPathIgnorePatterns="e2e";
+            yarn test --testPathIgnorePatterns="e2e";
           else
             echo "No frontend changes, skip frontend CI";
           fi
+        env:
+          CI: true
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
 
       - run: bash .script/check_test_file_path_convention.sh
