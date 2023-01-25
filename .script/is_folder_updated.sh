@@ -21,7 +21,7 @@ git diff --name-only origin/main origin/${GITHUB_HEAD_REF}
 echo "---"
 
 # check if folder is updated
-if [ ! -z "$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} | cut -d '/' -f 1 | uniq | grep $1)" ]; then
+if [ ! -z "$(git diff --name-only origin/main | cut -d '/' -f 1 | uniq | grep $1)" ]; then
     echo "Folder $1 is updated"
     exit 0
 else
