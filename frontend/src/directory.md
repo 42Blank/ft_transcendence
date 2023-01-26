@@ -7,6 +7,8 @@
 │    logo.svg
 │    pochita.svg
 │    (...)
+├─/hook
+│    //커스텀 hook 관리
 ├─/common
 │    //자주 사용하는 공용 컴포넌트 관리
 ├─/page
