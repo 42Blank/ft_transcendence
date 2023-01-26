@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["**"]
+    types: [labeled, unlabeled, opened, synchronize, reopened]
+
+# Cancel previous workflows if they are the same workflow on same ref (branch/tags)
+# with the same event (push/pull_request) even they are in progress.
+# This setting will help reduce the number of duplicated workflows.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: "yarn"
+          cache-dependency-path: "**/yarn.lock"
+
+      - name: Fetch main branch
+        run: git fetch origin main
+
+      - name: Backend lint and test
+        run: |
+          if bash .script/is_folder_updated.sh backend; then
+            cd backend;
+            yarn --frozen-lockfile;
+            yarn format;
+            yarn lint;
+            CI=true yarn test --testPathIgnorePatterns="e2e";
+          else
+            echo "No backend changes, skip backend CI";
+          fi
+
+      - name: Backend test file path convention
+        run: |
+          if bash .script/is_folder_updated.sh backend; then
+            bash .script/check_test_file_path_convention.sh;
+          fi
+
+      - name: Frontend lint and test
+        run: |
+          if bash .script/is_folder_updated.sh frontend; then
+            cd frontend;
+            yarn --frozen-lockfile;
+            yarn format;
+            yarn lint;
+            CI=true yarn test --testPathIgnorePatterns="e2e";
+          else
+            echo "No frontend changes, skip frontend CI";
+          fi
+
+      - name: Check if "console.log, any, object" is used
+        run: |
+          if bash .script/is_contain.sh console.log; then
+            echo "console.log is used, please remove it before merging";
+            gh pr comment $PR_URL --body "console.log 발견 👀"
+            exit 1;
+          fi
+
+          if bash .script/is_contain.sh any; then
+            echo "any is used, please remove it before merging";
+            gh pr comment $PR_URL --body "any 발견 👀"
+            exit 1;
+          fi
+
+          if bash .script/is_contain.sh object; then
+            echo "object is used, please remove it before merging";
+            gh pr comment $PR_URL --body "object 발견 👀"
+            exit 1;
+          fi
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
