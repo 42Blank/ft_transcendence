@@ -30,7 +30,11 @@ $ yarn test:e2e
 $ yarn test:cov
 ```
 
-## env
+## Env
 
 - please create .env file in backend folder
 - see .env.example
+
+## API Document
+
+- http://localhost:3000/docs
