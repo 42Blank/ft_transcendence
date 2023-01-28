@@ -4,7 +4,6 @@ docker-compose down
 
 git reset
 git checkout .
-git clean -fdx
 
 git pull
 
