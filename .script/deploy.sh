@@ -8,7 +8,7 @@ git clean -fdx
 
 git pull
 
-cp -f backend/.env.prod backend/.env
+yes | cp backend/.env.prod backend/.env
 
 docker-compose up --build -d
 
