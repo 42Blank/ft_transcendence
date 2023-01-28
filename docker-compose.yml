@@ -1,0 +1,41 @@
+version: "3.4"
+services:
+  front:
+    build:
+      context: ./frontend
+    ports:
+      - 80:80
+    networks:
+      - transcendence
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - 8081:8081
+    networks:
+      - transcendence
+    depends_on:
+      - db
+
+  db:
+    image: postgres:alpine
+    env_file:
+      - ./backend/.env
+    volumes:
+      - data:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - transcendence
+
+networks:
+  transcendence:
+
+volumes:
+  data:

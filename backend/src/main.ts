@@ -12,9 +12,7 @@ async function bootstrap() {
   app.use(morgan(':method :url :status :body > :res[content-length] bytes :response-time ms'));
 
   const config = new DocumentBuilder()
-    .setTitle(
-      `Transcendence API - ${configService.get('PROFILE') || 'dev'} (${configService.get('VERSION') || 'local'})`,
-    )
+    .setTitle(`Transcendence API - ${configService.get('PROFILE') || 'local'}`)
     .setDescription(`ft_transcendence api`)
     .setVersion('0.1')
     .addCookieAuth(configService.get('ACCESS_TOKEN_KEY'))

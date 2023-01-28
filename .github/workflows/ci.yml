@@ -18,8 +18,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
       - name: Use Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -37,6 +35,7 @@ jobs:
             yarn --frozen-lockfile;
             yarn format;
             yarn lint;
+            yarn build;
             CI=true yarn test --testPathIgnorePatterns="e2e";
           else
             echo "No backend changes, skip backend CI";
@@ -55,6 +54,7 @@ jobs:
             yarn --frozen-lockfile;
             yarn format;
             yarn lint;
+            yarn build;
             CI=true yarn test --testPathIgnorePatterns="e2e";
           else
             echo "No frontend changes, skip frontend CI";
