@@ -26,8 +26,6 @@ services:
     image: postgres:alpine
     env_file:
       - ./backend/.env
-    volumes:
-      - data:/var/lib/postgresql/data
     restart: always
     ports:
       - 5432:5432
