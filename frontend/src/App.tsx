@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { ROUTE } from './constants';
 
-function App() {
+export const App = () => {
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<div>아아아기본 레이아웃</div>}>
@@ -16,6 +16,4 @@ function App() {
       </Route>
     </Routes>
   );
-}
-
-export default App;
+};
