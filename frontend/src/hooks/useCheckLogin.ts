@@ -18,7 +18,7 @@ export function useCheckLogin() {
         setUserInfo(res);
       })
       .catch(() => {
-        console.log('악!!');
+        // 에러
       });
-  }, [userInfo.id, pathname]);
+  }, [setUserInfo, userInfo.id, pathname]);
 }
