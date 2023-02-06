@@ -4,5 +4,5 @@ export const ROUTE: Readonly<Record<string, string>> = {
   GAME: '/game',
   PROFILE: '/profile',
   LOGIN: '/login',
-  REGISTER: '/new',
+  REGISTER: '/login/new',
 };
