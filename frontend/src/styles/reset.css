@@ -145,3 +145,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+div[id='root'] {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
