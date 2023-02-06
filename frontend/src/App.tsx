@@ -2,7 +2,7 @@ import { LoginLayout, MainLayout } from 'common';
 import { LoginPage } from 'pages';
 import { Route, Routes } from 'react-router-dom';
 
-import { ROUTE } from './constants';
+import { ROUTE } from 'common/constants';
 
 export const App = () => {
   return (
