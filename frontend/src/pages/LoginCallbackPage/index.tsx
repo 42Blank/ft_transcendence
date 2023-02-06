@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
+import { getFtCallbackCode } from 'services';
 
 export const LoginCallbackPage = () => {
   const [param] = useSearchParams();
@@ -9,8 +10,14 @@ export const LoginCallbackPage = () => {
 
   useEffect(() => {
     const code = param.get('code');
-    if (!code) nav(ROUTE.LOGIN);
-  }, [param]);
+    if (!code) {
+      nav(ROUTE.LOGIN);
+      return;
+    }
+    getFtCallbackCode(code).then(() => {
+      nav(ROUTE.CHAT);
+    });
+  }, [param, nav]);
 
   return (
     <div>
