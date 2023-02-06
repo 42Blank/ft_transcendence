@@ -90,7 +90,6 @@ video {
   font-size: 100%;
   vertical-align: baseline;
   border: 0;
-  box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -133,72 +132,6 @@ q::after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-a {
-  color: #000000;
-  background-color: transparent;
-  text-decoration: none;
-}
-
-a:link {
-  color: #000000;
-  background-color: transparent;
-  text-decoration: none;
-}
-
-a:visited {
-  color: #000000;
-  background-color: transparent;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #000000;
-  background-color: transparent;
-  text-decoration: none;
-}
-
-a:active {
-  color: #000000;
-  background-color: transparent;
-  text-decoration: none;
-}
-
-div[id='root'] {
-  width: 100vw;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #eef1ff;
-}
-
-button {
-  background: none;
-  border: none;
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-body {
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
-*::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-*::-webkit-scrollbar-track {
-  background: none;
-}
-
-*::-webkit-scrollbar-thumb {
-  border-radius: 2.5px;
-  background-color: #949ab3;
 }
 
 body {

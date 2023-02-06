@@ -1,34 +1,47 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: 'tsconfig.json',
-    tsconfigRootDir: __dirname,
-    sourceType: 'module',
-  },
-  plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
     'airbnb',
-    'plugin:import/errors',
-    'plugin:import/warnings',
+    'airbnb/hooks',
+    'react-app',
+    'prettier',
+    'plugin:react/recommended',
     'plugin:prettier/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'plugin:react/jsx-runtime',
   ],
-  ignorePatterns: ['.eslintrc.js'],
+  settings: {
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+    react: {
+      pragma: 'React',
+      version: 'detect',
+    },
+  },
   rules: {
-    'linebreak-style': 0,
-    'import/prefer-default-export': 0,
-    'prettier/prettier': 0,
-    'import/extensions': 0,
-    'import/no-unresolved': 0,
-    'import/no-extraneous-dependencies': 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
-    'react/prop-types': 0,
-    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
-    'jsx-a11y/no-noninteractive-element-interactions': 0,
-    '@typescript-eslint/no-shadow': 0,
-    '@typescript-eslint/no-explicit-any': 'error',
-    '@typescript-eslint/no-unused-vars': 'error',
-    '@typescript-eslint/no-use-before-define': 0,
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+    'react/function-component-definition': ['warn', { namedComponents: 'arrow-function' }],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'react/react-in-jsx-scope': 'off',
+    'lines-between-class-members': 'off',
+    'import/no-unresolved': 'off',
+    'prefer-template': 'warn',
+    'import/prefer-default-export': 'off',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: ['.storybook/**', 'src/stories/**'],
+      },
+    ],
   },
 };
