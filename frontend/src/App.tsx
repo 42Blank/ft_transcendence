@@ -1,4 +1,5 @@
-import { MainLayout } from 'common';
+import { LoginLayout, MainLayout } from 'common';
+import { LoginPage } from 'pages';
 import { Route, Routes } from 'react-router-dom';
 
 import { ROUTE } from './constants';
@@ -11,8 +12,8 @@ export const App = () => {
         <Route path={ROUTE.GAME} element={<div>게임</div>} />
         <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
       </Route>
-      <Route path={ROUTE.ROOT} element={<div>로그인 페이지 레이아웃</div>}>
-        <Route path={ROUTE.LOGIN} element={<div>로그인합쉬다~</div>} />
+      <Route path={ROUTE.ROOT} element={<LoginLayout />}>
+        <Route path={ROUTE.LOGIN} element={<LoginPage />} />
         <Route path={ROUTE.REGISTER} element={<div>회원가입합쉬다~~</div>} />
       </Route>
     </Routes>
