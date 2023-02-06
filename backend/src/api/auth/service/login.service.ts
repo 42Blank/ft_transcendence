@@ -52,7 +52,7 @@ export class LoginService {
     return {
       name,
       value: this.jwtService.sign(payload),
-      option: { maxAge },
+      option: { maxAge, sameSite: 'none' },
     };
   }
 }

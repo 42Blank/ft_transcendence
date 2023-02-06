@@ -71,11 +71,6 @@ jobs:
             echo "any is used, please remove it before merging";
             gh pr comment $PR_URL --body "any 발견 👀"
           fi
-
-          if bash .script/is_contain.sh object; then
-            echo "object is used, please remove it before merging";
-            gh pr comment $PR_URL --body "object 발견 👀"
-          fi
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
