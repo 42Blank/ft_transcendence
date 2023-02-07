@@ -9,4 +9,21 @@ export const chatInputStyle = css({
   alignItems: 'center',
   backgroundColor: 'white', // TODO: 상수화
   borderTop: '1px solid black', // TODO: 상수화
+
+  input: {
+    flex: 1,
+    padding: '5px 10px',
+
+    ':placeholder': {
+      opacity: 0.5,
+    },
+  },
+
+  button: {
+    width: 40,
+    height: 40,
+    marginLeft: 20,
+    borderRadius: 5,
+    border: '1px solid black', // TODO: 상수화
+  },
 });

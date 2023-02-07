@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 import { userState } from 'store';
 import { ChatElement } from './ChatElement';
@@ -80,12 +79,8 @@ const DUMMY_CHAT = [
 ];
 
 export const ChatPage = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const userInfo = useRecoilValue(userState);
-
-  useEffect(() => {
-    console.log(id);
-  }, [id]);
 
   return (
     <main className={chatPageWrapperStyle}>
