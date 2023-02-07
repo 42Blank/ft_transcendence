@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
+
+import { userState } from 'store';
 import { ChatElement } from './ChatElement';
+
 import { chatInputStyle, chatPageListWrapperStyle, chatPageTitleStyle, chatPageWrapperStyle } from './ChatPage.styles';
 
 const DUMMY_CHAT = [
@@ -17,6 +21,55 @@ const DUMMY_CHAT = [
     timestamp: '1970-01-01T00:01:00.000Z',
   },
   {
+    nickname: 'asdasdadasdasdads',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+  {
+    nickname: 'san',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+  {
+    nickname: 'san',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+  {
+    nickname: 'san',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+  {
+    nickname: 'san',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+  {
+    nickname: 'san',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+  {
+    nickname: 'san',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+  {
     nickname: 'san',
     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
     message:
@@ -27,6 +80,7 @@ const DUMMY_CHAT = [
 
 export const ChatPage = () => {
   const { id } = useParams();
+  const userInfo = useRecoilValue(userState);
 
   useEffect(() => {
     console.log(id);
@@ -46,6 +100,7 @@ export const ChatPage = () => {
             avatar={avatar}
             message={message}
             timestamp={timestamp}
+            isMine={userInfo.nickname === nickname}
           />
         ))}
       </ul>
