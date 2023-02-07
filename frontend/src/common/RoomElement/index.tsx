@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import { roomElementStyle, roomImageSectionStyle, roomLinkStyle, roomTextSectionStyle } from './RoomElement.styles';
 
 export const RoomElement = () => {

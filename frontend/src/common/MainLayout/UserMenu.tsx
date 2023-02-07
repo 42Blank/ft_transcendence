@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 import { userState } from 'store';
 import { ROUTE } from 'common/constants';

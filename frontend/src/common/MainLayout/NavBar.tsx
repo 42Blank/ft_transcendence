@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { headerIconButtonStyle, headerLeftSectionStyle, headerMainButtonStyle, headerStyle } from './NavBar.styles';
 import { UserMenu } from './UserMenu';
+
+import { headerIconButtonStyle, headerLeftSectionStyle, headerMainButtonStyle, headerStyle } from './NavBar.styles';
 
 export const NavBar = () => {
   const nav = useNavigate();
