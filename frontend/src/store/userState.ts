@@ -5,7 +5,7 @@ export const userState = atom<UserInfoType>({
   key: 'userState',
   default: {
     id: -1,
-    intraID: '',
+    intraId: '',
     nickname: '',
     avatar: '',
     point: 0,
