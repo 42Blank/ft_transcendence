@@ -11,10 +11,16 @@ export const userMenuWrapperStyle = css({
   span: {
     userSelect: 'none',
   },
+
+  ':hover': {
+    cursor: 'pointer',
+  },
 });
 
 export const userMenuInnerStyle = (isMenuShown: boolean) =>
   css({
+    zIndex: 2, // TODO: zindex 상수화
+    backgroundColor: 'white', // TODO: color 상수화
     position: 'absolute',
     display: isMenuShown ? 'flex' : 'none',
     border: `1px solid black`, // TODO: border color
@@ -28,7 +34,7 @@ export const userMenuInnerStyle = (isMenuShown: boolean) =>
     width: 90,
 
     button: {
-      padding: '10px 20px',
+      padding: 10,
       width: '100%',
       transition: 'background-color 0.2s ease-in-out',
 
