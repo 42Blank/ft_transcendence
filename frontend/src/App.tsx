@@ -11,6 +11,7 @@ export const App = () => {
     <Routes>
       <Route path={ROUTE.ROOT} element={<MainLayout />}>
         <Route path={ROUTE.CHAT} element={<MainPage />} />
+        <Route path={`${ROUTE.CHAT}/:id`} element={<div>hihi</div>} />
         <Route path={ROUTE.GAME} element={<div>게임</div>} />
         <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
       </Route>

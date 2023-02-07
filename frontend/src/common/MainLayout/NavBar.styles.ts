@@ -10,18 +10,37 @@ export const headerStyle = css({
   justifyContent: 'space-between',
 });
 
-export const headerMainButtonStyle = css({
-  border: 'none',
-  background: 'none',
-  padding: 0,
-  width: 200,
+export const headerLeftSectionStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
   height: '100%',
 
-  ' span': {
-    // TODO: 나중에 색상, 글자 크기 추가 후 스타일 정의
+  img: {
+    height: 40,
+    marginRight: 15,
   },
-
-  ':hover': {
-    cursor: 'pointer',
+  h1: {
+    // TODO: 폰트 크기 및 색상 지정
+    marginRight: 15,
   },
 });
+
+export const headerMainButtonStyle = (isSelected: boolean) =>
+  css({
+    border: 'none',
+    background: 'none',
+    padding: `0 20px`,
+    height: '100%',
+    fontWeight: isSelected ? 700 : 400,
+
+    ' span': {
+      // TODO: 나중에 색상, 글자 크기 추가 후 스타일 정의
+    },
+
+    ':hover': {
+      cursor: 'pointer',
+      backgroundColor: 'lightgray', // TODO: 나중에 색상 변경
+    },
+  });

@@ -1,22 +1,40 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { headerMainButtonStyle, headerStyle } from './NavBar.styles';
+import { headerLeftSectionStyle, headerMainButtonStyle, headerStyle } from './NavBar.styles';
 import { UserMenu } from './UserMenu';
 
 export const NavBar = () => {
   const nav = useNavigate();
+  const { pathname } = useLocation();
 
   function handleClickMainPageButton() {
     nav(ROUTE.CHAT);
   }
+  function handleClickGamePageButton() {
+    nav(ROUTE.GAME);
+  }
 
   return (
     <header className={headerStyle}>
-      <img src="/icon.png" alt="title pochita icon" />
-      <button type="button" onClick={handleClickMainPageButton} className={headerMainButtonStyle}>
-        <span>트센 트센</span>
-      </button>
+      <div className={headerLeftSectionStyle}>
+        <img src="/icon.png" alt="title pochita icon" />
+        <h1>Pochitandence</h1>
+        <button
+          type="button"
+          onClick={handleClickMainPageButton}
+          className={headerMainButtonStyle(pathname.startsWith(ROUTE.CHAT))}
+        >
+          <span>채팅</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleClickGamePageButton}
+          className={headerMainButtonStyle(pathname.startsWith(ROUTE.GAME))}
+        >
+          <span>게임</span>
+        </button>
+      </div>
       <UserMenu />
     </header>
   );

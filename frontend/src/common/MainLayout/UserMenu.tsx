@@ -5,6 +5,7 @@ import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { userState } from 'store';
 import { ROUTE } from 'common/constants';
 import { deleteAuthSignout } from 'services';
+
 import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
 export const UserMenu = () => {
