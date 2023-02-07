@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 
 import { getCurrentUserInfo } from 'services';
 import { userState } from 'store';
-import { UserInfoType } from 'types/auth';
+import { UserInfoType } from 'types/user';
 
 export function useCheckLogin() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
