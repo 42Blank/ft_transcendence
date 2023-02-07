@@ -4,6 +4,8 @@ import { UserInfoType } from 'types/auth';
 
 import { ProfileCard } from './ProfileCard';
 
+import './tmp.css';
+
 export const ProfilePage = () => {
   const [profile, setProfile] = useState<UserInfoType>();
 
@@ -28,6 +30,12 @@ export const ProfilePage = () => {
         avatar={profile.avatar}
       />
       <button type="button">Edit Profile</button>
+      <div className="modal-test">
+        <div className="modal-test-content">
+          <span className="close">&times;</span>
+          <p>Some text in the Modal ...</p>
+        </div>
+      </div>
     </main>
   );
 };
