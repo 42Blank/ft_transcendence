@@ -21,7 +21,7 @@ export class LoginService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(ftProfile: FtProfile): Promise<Cookie[]> {
+  async login(ftProfile: FtProfile): Promise<Cookie> {
     let user = await this.userRepository.findOne({
       where: { intraId: ftProfile.id },
     });
@@ -37,7 +37,7 @@ export class LoginService {
     return this.createAuthCookie(user);
   }
 
-  private createAuthCookie(user: User): Cookie[] {
+  private createAuthCookie(user: User): Cookie {
     const name = 'access_token';
     const payload: JwtPayload = {
       id: user.id,
@@ -45,17 +45,10 @@ export class LoginService {
     const oneHour = 60 * 60 * 1000;
     const maxAge = 7 * 24 * oneHour; // 7days
 
-    return [
-      {
-        name,
-        value: this.jwtService.sign(payload),
-        option: { maxAge, domain: 'localhost' },
-      },
-      {
-        name,
-        value: this.jwtService.sign(payload),
-        option: { maxAge },
-      },
-    ];
+    return {
+      name,
+      value: this.jwtService.sign(payload),
+      option: { secure: true, sameSite: 'none', maxAge },
+    };
   }
 }
