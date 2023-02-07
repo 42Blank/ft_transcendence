@@ -1,5 +1,11 @@
 import { css } from '@emotion/css';
 
+export const chatRoomLinkStyle = css({
+  color: 'black', // TODO: color 상수화
+  textDecoration: 'none',
+  userSelect: 'none',
+});
+
 export const chatRoomElementStyle = css({
   display: 'flex',
   flexDirection: 'column',
