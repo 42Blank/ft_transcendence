@@ -28,8 +28,6 @@ export const userMenuInnerStyle = (isMenuShown: boolean) =>
     width: 90,
 
     button: {
-      border: 'none',
-      background: 'none',
       padding: '10px 20px',
       width: '100%',
       transition: 'background-color 0.2s ease-in-out',
@@ -40,7 +38,6 @@ export const userMenuInnerStyle = (isMenuShown: boolean) =>
 
       ':hover': {
         backgroundColor: 'lightgray', // TODO: background hover color
-        cursor: 'pointer',
       },
     },
   });

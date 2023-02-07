@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { headerLeftSectionStyle, headerMainButtonStyle, headerStyle } from './NavBar.styles';
+import { headerIconButtonStyle, headerLeftSectionStyle, headerMainButtonStyle, headerStyle } from './NavBar.styles';
 import { UserMenu } from './UserMenu';
 
 export const NavBar = () => {
@@ -18,8 +18,10 @@ export const NavBar = () => {
   return (
     <header className={headerStyle}>
       <div className={headerLeftSectionStyle}>
-        <img src="/icon.png" alt="title pochita icon" />
-        <h1>Pochitandence</h1>
+        <button type="button" onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
+          <img src="/icon.png" alt="title pochita icon" />
+          <h1>Pochitandence</h1>
+        </button>
         <button
           type="button"
           onClick={handleClickMainPageButton}

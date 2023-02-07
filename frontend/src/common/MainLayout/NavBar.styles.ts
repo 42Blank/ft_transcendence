@@ -16,6 +16,13 @@ export const headerLeftSectionStyle = css({
   alignItems: 'center',
   justifyContent: 'flex-start',
   height: '100%',
+});
+
+export const headerIconButtonStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  height: '100%',
+  alignItems: 'center',
 
   img: {
     height: 40,
@@ -29,8 +36,6 @@ export const headerLeftSectionStyle = css({
 
 export const headerMainButtonStyle = (isSelected: boolean) =>
   css({
-    border: 'none',
-    background: 'none',
     padding: `0 20px`,
     height: '100%',
     fontWeight: isSelected ? 700 : 400,
@@ -40,7 +45,6 @@ export const headerMainButtonStyle = (isSelected: boolean) =>
     },
 
     ':hover': {
-      cursor: 'pointer',
       backgroundColor: 'lightgray', // TODO: 나중에 색상 변경
     },
   });
