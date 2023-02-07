@@ -1,20 +1,24 @@
-import './App.css';
-import logo from './logo.svg';
+import { LoginLayout, MainLayout } from 'common';
+import { LoginCallbackPage, LoginPage } from 'pages';
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
+import { ROUTE } from 'common/constants';
+import { useCheckLogin } from 'hooks';
+
+export const App = () => {
+  useCheckLogin();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path={ROUTE.ROOT} element={<MainLayout />}>
+        <Route path={ROUTE.CHAT} element={<div>메인 화면 (채팅)</div>} />
+        <Route path={ROUTE.GAME} element={<div>게임</div>} />
+        <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
+      </Route>
+      <Route path={ROUTE.ROOT} element={<LoginLayout />}>
+        <Route path={ROUTE.LOGIN} element={<LoginPage />} />
+        <Route path={ROUTE.LOGIN_CHECK} element={<LoginCallbackPage />} />
+        <Route path={ROUTE.REGISTER} element={<div>회원가입합쉬다~~</div>} />
+      </Route>
+    </Routes>
   );
-}
-
-export default App;
+};
