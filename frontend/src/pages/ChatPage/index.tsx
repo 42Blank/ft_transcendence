@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 
 import { userState } from 'store';
 import { ChatElement } from './ChatElement';
+import { ChatInput } from './ChatInput';
 
-import { chatInputStyle, chatPageListWrapperStyle, chatPageTitleStyle, chatPageWrapperStyle } from './ChatPage.styles';
+import { chatPageListWrapperStyle, chatPageTitleStyle, chatPageWrapperStyle } from './ChatPage.styles';
 
 const DUMMY_CHAT = [
   {
@@ -104,7 +105,7 @@ export const ChatPage = () => {
           />
         ))}
       </ul>
-      <div className={chatInputStyle}>입력칸</div>
+      <ChatInput />
     </main>
   );
 };
