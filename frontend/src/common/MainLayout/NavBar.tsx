@@ -1,18 +1,11 @@
-import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { userState } from 'store';
 import { headerMainButtonStyle, headerStyle } from './NavBar.styles';
 import { UserMenu } from './UserMenu';
 
 export const NavBar = () => {
-  const userInfo = useRecoilValue(userState);
   const nav = useNavigate();
-
-  function handleClickLoginButton() {
-    nav(ROUTE.LOGIN);
-  }
 
   function handleClickMainPageButton() {
     nav(ROUTE.CHAT);
@@ -24,13 +17,7 @@ export const NavBar = () => {
       <button type="button" onClick={handleClickMainPageButton} className={headerMainButtonStyle}>
         <span>트센 트센</span>
       </button>
-      {userInfo.id >= 0 ? (
-        <UserMenu userInfo={userInfo} />
-      ) : (
-        <button type="button" onClick={handleClickLoginButton}>
-          <span>로그인</span>
-        </button>
-      )}
+      <UserMenu />
     </header>
   );
 };

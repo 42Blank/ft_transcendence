@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { userState } from 'store';
 import { ROUTE } from 'common/constants';
-import { UserInfoType } from 'types/user';
 import { deleteAuthSignout } from 'services';
 import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
-interface Props {
-  userInfo: UserInfoType;
-}
-
-export const UserMenu = ({ userInfo }: Props) => {
+export const UserMenu = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
+  const userInfo = useRecoilValue(userState);
   const resetUserInfo = useResetRecoilState(userState);
   const nav = useNavigate();
 
