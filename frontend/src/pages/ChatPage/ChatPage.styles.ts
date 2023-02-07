@@ -6,7 +6,6 @@ export const chatPageWrapperStyle = css({
   flexDirection: 'column',
   overflow: 'hidden',
   height: 'calc(100vh - 70px)',
-  backgroundColor: 'gray', // TODO: 상수화
 });
 
 export const chatPageTitleStyle = css({

@@ -56,12 +56,14 @@ export const chatTimestampWrapper = (isMine: boolean) =>
   });
 
 export const chatMessageWrapper = css({
-  backgroundColor: 'white', // TODO: 상수화
+  border: `1px solid black`, // TODO: 상수화
   borderRadius: 5,
   padding: 10,
   height: 'fit-content',
   flex: 1,
   marginTop: 10,
 
-  span: {},
+  span: {
+    // TODO: style
+  },
 });
