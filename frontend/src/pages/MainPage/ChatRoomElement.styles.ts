@@ -8,13 +8,20 @@ export const chatRoomElementStyle = css({
 
   h3: {
     fontWeight: 600,
-    padding: '10px 0',
+    padding: 15,
   },
 });
 
 export const chatRoomImageSectionStyle = css({
   marginTop: 10,
   marginBottom: 10,
+  width: '100%',
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+
   img: {
     width: 50,
     height: 50,
@@ -25,5 +32,25 @@ export const chatRoomImageSectionStyle = css({
     ':not(:last-child)': {
       marginRight: -15,
     },
+  },
+});
+
+export const chatRoomTextSectionStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  padding: 15,
+
+  span: {
+    maxWidth: '70%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    lineHeight: 1.5,
+  },
+
+  'span:last-child': {
+    marginLeft: 5,
+    opacity: 0.5,
+    width: '30%',
   },
 });

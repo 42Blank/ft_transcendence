@@ -1,4 +1,4 @@
-import { chatRoomElementStyle, chatRoomImageSectionStyle } from './ChatRoomElement.styles';
+import { chatRoomElementStyle, chatRoomImageSectionStyle, chatRoomTextSectionStyle } from './ChatRoomElement.styles';
 
 export const ChatRoomElement = () => {
   return (
@@ -15,7 +15,10 @@ export const ChatRoomElement = () => {
           alt="profile1"
         />
       </div>
-      <span>ycha 외 2명</span>
+      <div className={chatRoomTextSectionStyle}>
+        <span>jisoasdadasdkang</span>
+        <span>외 2명</span>
+      </div>
     </div>
   );
 };

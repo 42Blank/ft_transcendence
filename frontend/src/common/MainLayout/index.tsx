@@ -18,10 +18,10 @@ export const MainLayout = () => {
   return (
     <>
       <NavBar />
-      <main className={mainLayoutStyle}>
+      <div className={mainLayoutStyle}>
         <FriendsList />
         <Outlet />
-      </main>
+      </div>
     </>
   );
 };

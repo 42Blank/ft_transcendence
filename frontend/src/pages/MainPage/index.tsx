@@ -1,3 +1,13 @@
+import { ChatRoomElement } from './ChatRoomElement';
+
+import { MainPageWrapperStyle } from './MainPage.styles';
+
 export const MainPage = () => {
-  return <div>안녕하세요</div>;
+  return (
+    <main className={MainPageWrapperStyle}>
+      <ChatRoomElement />
+      <ChatRoomElement />
+      <ChatRoomElement />
+    </main>
+  );
 };

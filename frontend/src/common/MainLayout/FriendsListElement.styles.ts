@@ -10,6 +10,7 @@ export const friendsListElementStyle = css({
 export const friendsListImageStyle = css({
   width: 50,
   height: 50,
+  objectFit: 'cover',
   borderRadius: 25,
   marginRight: 20,
 });
