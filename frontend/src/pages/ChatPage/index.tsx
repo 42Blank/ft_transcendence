@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ChatElement } from './ChatElement';
+import { chatInputStyle, chatPageListWrapperStyle, chatPageTitleStyle, chatPageWrapperStyle } from './ChatPage.styles';
 
 const DUMMY_CHAT = [
   {
@@ -32,9 +33,12 @@ export const ChatPage = () => {
   }, [id]);
 
   return (
-    <main>
-      <h3>ycha 바보</h3>
-      <ul>
+    <main className={chatPageWrapperStyle}>
+      <header className={chatPageTitleStyle}>
+        <span>ycha 바보</span>
+        <button type="button">V</button> {/* TODO: svg로 변경 */}
+      </header>
+      <ul className={chatPageListWrapperStyle}>
         {DUMMY_CHAT.map(({ nickname, avatar, message, timestamp }, index) => (
           <ChatElement
             key={`${index}-${nickname}`}
@@ -45,7 +49,7 @@ export const ChatPage = () => {
           />
         ))}
       </ul>
-      <div>입력칸</div>
+      <div className={chatInputStyle}>입력칸</div>
     </main>
   );
 };

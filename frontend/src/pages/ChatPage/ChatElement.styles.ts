@@ -2,6 +2,8 @@ import { css } from '@emotion/css';
 
 export const chatElementWrapper = css({
   width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
 });
 
 export const chatProfileWrapper = css({
