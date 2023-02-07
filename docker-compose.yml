@@ -3,6 +3,8 @@ services:
   front:
     build:
       context: ./frontend
+      args:
+        - REACT_APP_SERVER=${REACT_APP_SERVER:-http://localhost:8081}
     ports:
       - 80:80
     networks:
@@ -11,6 +13,7 @@ services:
       - backend
 
   backend:
+    image: backend
     build:
       context: ./backend
     env_file:
