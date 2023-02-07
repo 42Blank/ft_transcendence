@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CookieOptions } from 'express';
@@ -19,6 +20,7 @@ export class LoginService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>, //
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async login(ftProfile: FtProfile): Promise<Cookie> {
@@ -45,10 +47,13 @@ export class LoginService {
     const oneHour = 60 * 60 * 1000;
     const maxAge = 7 * 24 * oneHour; // 7days
 
+    const option: CookieOptions =
+      this.configService.get('PROFILE') === 'production' ? { secure: true, sameSite: 'none', maxAge } : { maxAge };
+
     return {
       name,
       value: this.jwtService.sign(payload),
-      option: { secure: true, sameSite: 'none', maxAge },
+      option,
     };
   }
 }
