@@ -5,7 +5,7 @@ export const headerStyle = css({
   flexDirection: 'row',
   padding: '10px 30px',
   width: 'calc(100% - 60px)',
-  height: 50,
+  height: 49,
   alignItems: 'center',
   justifyContent: 'space-between',
   borderBottom: '1px solid black', // TODO: border color
