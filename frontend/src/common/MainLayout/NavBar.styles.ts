@@ -8,6 +8,7 @@ export const headerStyle = css({
   height: 50,
   alignItems: 'center',
   justifyContent: 'space-between',
+  borderBottom: '1px solid black', // TODO: border color
 });
 
 export const headerLeftSectionStyle = css({

@@ -5,6 +5,10 @@ export const friendsListElementStyle = css({
   flexDirection: 'row',
   alignItems: 'center',
   padding: `5px 10px`,
+
+  '&:not(:last-child)': {
+    borderBottom: `1px solid black`, // TODO: border color
+  },
 });
 
 export const friendsListImageStyle = css({
