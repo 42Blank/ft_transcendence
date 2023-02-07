@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 
+import { ROUTE } from 'common/constants';
 import { NavBar } from './NavBar';
 import { FriendsList } from './FriendsList';
 
@@ -11,7 +12,7 @@ export const MainLayout = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    if (pathname === '/') nav('/chat');
+    if (pathname === ROUTE.ROOT) nav(ROUTE.CHAT);
   }, [pathname, nav]);
 
   return (

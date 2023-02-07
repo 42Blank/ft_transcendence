@@ -26,7 +26,7 @@ export function useCheckLogin() {
         if (pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
       })
       .catch(() => {
-        nav('/login');
+        nav(ROUTE.LOGIN);
       });
   }, [setUserInfo, userInfo.id, pathname, nav]);
 }
