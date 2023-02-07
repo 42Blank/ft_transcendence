@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { getCurrentUserInfo } from 'services';
 import { UserInfoType } from 'types/auth';
 
+import { ProfileCard } from './ProfileCard';
+
 export const ProfilePage = () => {
   const [profile, setProfile] = useState<UserInfoType>();
 
@@ -12,17 +14,20 @@ export const ProfilePage = () => {
       setProfile(res);
     });
   }, []);
-  console.log(profile);
 
   if (!profile) return <span>error</span>;
   return (
     <main>
       <h1>Profile Page</h1>
-      {/* make profile card */}
-      <div>
-        <img src={profile.avatar} alt="avatar" />
-        <h1>{profile.nickname}</h1>
-      </div>
+      <ProfileCard
+        id={profile.id}
+        intraID={profile.intraID}
+        nickname={profile.nickname}
+        point={profile.point}
+        createdAt={profile.createdAt}
+        updatedAt={profile.updatedAt}
+        avatar={profile.avatar}
+      />
     </main>
   );
 };
