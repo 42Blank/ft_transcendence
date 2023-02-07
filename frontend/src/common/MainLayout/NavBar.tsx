@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
 import { userState } from 'store';
+import { HeaderStyle } from './NavBar.styles';
 
 export const NavBar = () => {
   const userInfo = useRecoilValue(userState);
@@ -13,7 +14,8 @@ export const NavBar = () => {
   }
 
   return (
-    <header>
+    <header className={HeaderStyle}>
+      <img src="/icon.png" alt="title pochita icon" />
       <span>트센 트센</span>
       {userInfo.id >= 0 ? (
         <div>
