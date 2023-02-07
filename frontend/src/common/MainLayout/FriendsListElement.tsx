@@ -7,10 +7,10 @@ interface Props {
 }
 
 export const FriendsListElement = ({ userInfo }: Props) => {
-  const { intraId, nickname, avatar: imageSrc } = userInfo;
+  const { intraId, nickname, avatar } = userInfo;
   return (
     <li className={friendsListElementStyle}>
-      <img src={imageSrc} alt={`${intraId}-profile`} className={friendsListImageStyle} />
+      <img src={avatar} alt={`${intraId}-profile`} className={friendsListImageStyle} />
       <span className={friendsListNameStyle}>{nickname}</span>
     </li>
   );

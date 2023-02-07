@@ -1,0 +1,51 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { ChatElement } from './ChatElement';
+
+const DUMMY_CHAT = [
+  {
+    nickname: 'ycha',
+    avatar: 'https://cdn.intra.42.fr/users/6038c103da3bb9180a072f8154e6b428/ycha.jpg',
+    message: '이방 뭐임',
+    timestamp: '1970-01-01T00:00:00.000Z',
+  },
+  {
+    nickname: 'jiychoi',
+    avatar: 'https://cdn.intra.42.fr/users/b9c44cf9ae13ffec04381638c0a2f204/jiychoi.jpg',
+    message: 'ㅋㅋ',
+    timestamp: '1970-01-01T00:01:00.000Z',
+  },
+  {
+    nickname: 'san',
+    avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
+    message:
+      'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
+    timestamp: '1970-01-01T00:02:00.000Z',
+  },
+];
+
+export const ChatPage = () => {
+  const { id } = useParams();
+
+  useEffect(() => {
+    console.log(id);
+  }, [id]);
+
+  return (
+    <main>
+      <h3>ycha 바보</h3>
+      <ul>
+        {DUMMY_CHAT.map(({ nickname, avatar, message, timestamp }, index) => (
+          <ChatElement
+            key={`${index}-${nickname}`}
+            nickname={nickname}
+            avatar={avatar}
+            message={message}
+            timestamp={timestamp}
+          />
+        ))}
+      </ul>
+      <div>입력칸</div>
+    </main>
+  );
+};
