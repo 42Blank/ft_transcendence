@@ -12,6 +12,7 @@ export const chatRoomElementStyle = css({
   border: `1px solid black`, // TODO: border color 상수화
   borderRadius: 5,
   overflow: 'hidden',
+  height: 180,
 
   h3: {
     fontWeight: 600,

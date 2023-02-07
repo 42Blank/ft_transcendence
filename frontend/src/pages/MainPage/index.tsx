@@ -8,6 +8,8 @@ export const MainPage = () => {
       <ChatRoomElement />
       <ChatRoomElement />
       <ChatRoomElement />
+      <ChatRoomElement />
+      <ChatRoomElement />
     </main>
   );
 };

@@ -5,6 +5,6 @@ export const MainPageWrapperStyle = css({
   padding: 20,
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
-  gridTemplateRows: 'repeat(2, 200px)',
+  gridTemplateRows: 'repeat(9, 180px)',
   gap: 20,
 });
