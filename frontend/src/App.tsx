@@ -3,10 +3,11 @@ import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, MainPage } from '
 import { Route, Routes } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { useCheckLogin } from 'hooks';
+import { useCheckLogin, useHandleSocket } from 'hooks';
 
 export const App = () => {
   useCheckLogin();
+  useHandleSocket();
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<MainLayout />}>
