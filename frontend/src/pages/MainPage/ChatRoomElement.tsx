@@ -16,7 +16,7 @@ export const ChatRoomElement = () => {
         />
       </div>
       <div className={chatRoomTextSectionStyle}>
-        <span>jisoasdadasdkang</span>
+        <span>jisokang</span>
         <span>외 2명</span>
       </div>
     </div>

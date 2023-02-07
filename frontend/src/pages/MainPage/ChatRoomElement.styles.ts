@@ -5,10 +5,15 @@ export const chatRoomElementStyle = css({
   flexDirection: 'column',
   border: `1px solid black`, // TODO: border color 상수화
   borderRadius: 5,
+  overflow: 'hidden',
 
   h3: {
     fontWeight: 600,
     padding: 15,
+    width: 'calc(100% - 30px)',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 });
 
