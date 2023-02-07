@@ -9,7 +9,8 @@ export const friendsListStyle = css({
 
   ul: {
     flex: 1,
-    overflow: 'scroll',
+    overflowX: 'hidden',
+    overflowY: 'scroll',
   },
 });
 

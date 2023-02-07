@@ -4,7 +4,7 @@ export const chatPageWrapperStyle = css({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'scroll',
+  overflow: 'hidden',
   height: 'calc(100vh - 70px)',
   backgroundColor: 'gray', // TODO: 상수화
 });
@@ -25,7 +25,8 @@ export const chatPageTitleStyle = css({
 
 export const chatPageListWrapperStyle = css({
   flex: 1,
-  overflow: 'scroll',
+  overflowX: 'hidden',
+  overflowY: 'scroll',
 });
 
 export const chatInputStyle = css({
