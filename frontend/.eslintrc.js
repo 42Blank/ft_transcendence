@@ -43,6 +43,7 @@ module.exports = {
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/function-component-definition': ['warn', { namedComponents: 'arrow-function' }],
     'react/react-in-jsx-scope': 'off',
+    'react/no-array-index-key': 'off',
     'lines-between-class-members': 'off',
     'linebreak-style': 'off',
     'no-useless-return': 'off',
