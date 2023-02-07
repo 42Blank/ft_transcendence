@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { getCurrentUserInfo } from 'services';
@@ -9,6 +9,7 @@ import { UserInfoType } from 'types/auth';
 export function useCheckLogin() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
   const { pathname } = useLocation();
+  const nav = useNavigate();
 
   useEffect(() => {
     if (userInfo.id >= 0) return;
@@ -18,7 +19,7 @@ export function useCheckLogin() {
         setUserInfo(res);
       })
       .catch(() => {
-        // 에러
+        nav('/login');
       });
-  }, [setUserInfo, userInfo.id, pathname]);
+  }, [setUserInfo, userInfo.id, pathname, nav]);
 }
