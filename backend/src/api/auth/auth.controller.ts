@@ -27,9 +27,11 @@ export class AuthController {
     @ReqFtProfile() ftProfile: FtProfile,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    const cookie = await this.loginService.login(ftProfile);
+    const cookies = await this.loginService.login(ftProfile);
 
-    response.cookie(cookie.name, cookie.value, cookie.option);
+    cookies.forEach(cookie => {
+      response.cookie(cookie.name, cookie.value, cookie.option);
+    });
   }
 
   @Delete('signout')
