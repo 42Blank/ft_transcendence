@@ -10,7 +10,6 @@ export const ProfilePage = () => {
   useEffect(() => {
     getCurrentUserInfo().then((res: void | UserInfoType) => {
       if (!res) throw Error();
-      // When Successed
       setProfile(res);
     });
   }, []);
@@ -28,6 +27,7 @@ export const ProfilePage = () => {
         updatedAt={profile.updatedAt}
         avatar={profile.avatar}
       />
+      <button type="button">Edit Profile</button>
     </main>
   );
 };
