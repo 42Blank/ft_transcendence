@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 
 import { NavBar } from './NavBar';
+import { FriendsList } from './FriendsList';
+
+import { mainLayoutStyle } from './MainLayout.styles';
 
 export const MainLayout = () => {
   const { pathname } = useLocation();
@@ -14,7 +17,8 @@ export const MainLayout = () => {
   return (
     <>
       <NavBar />
-      <main>
+      <main className={mainLayoutStyle}>
+        <FriendsList />
         <Outlet />
       </main>
     </>
