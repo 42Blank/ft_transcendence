@@ -13,6 +13,7 @@ services:
       - backend
 
   backend:
+    image: backend
     build:
       context: ./backend
     env_file:
