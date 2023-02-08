@@ -1,8 +1,7 @@
-import { LoginLayout, MainLayout } from 'common';
-import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, MainPage,ProfilePage } from 'pages';
-
 import { Route, Routes } from 'react-router-dom';
 
+import { LoginLayout, MainLayout } from 'common';
+import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, MainPage, ProfilePage } from 'pages';
 import { ROUTE } from 'common/constants';
 import { useCheckLogin } from 'hooks';
 
