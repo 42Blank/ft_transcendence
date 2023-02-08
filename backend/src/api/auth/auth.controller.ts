@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Res, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseIntPipe, Res, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FtProfile, ReqFtProfile } from '../../common/guard/ft-auth';
@@ -39,6 +39,16 @@ export class AuthController {
   @ApiOkResponse({ description: '로그아웃 성공' })
   @ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
   signout(@Res({ passthrough: true }) response: Response): void {
-    response.clearCookie('access_token');
+    response.clearCookie('access_token', this.loginService.getCookieOption());
+  }
+
+  @Get('debug/jwt/:id')
+  @ApiCookieAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'jwt 훔쳐오기' })
+  @ApiOkResponse({ description: 'jwt' })
+  @ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
+  async getJwt(@Param('id', ParseIntPipe) id: number): Promise<string> {
+    return await this.loginService.getJwt(id);
   }
 }
