@@ -4,8 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn install --frozen-lockfile
-RUN yarn build
+RUN yarn install --frozen-lockfile && yarn build
 
 EXPOSE 8081
 
