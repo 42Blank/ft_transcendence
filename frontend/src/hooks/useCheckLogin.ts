@@ -13,20 +13,17 @@ export function useCheckLogin() {
   const nav = useNavigate();
 
   useEffect(() => {
-    if (userInfo.id >= 0) {
-      if (pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
-      return;
-    }
     getCurrentUserInfo()
       .then((res: void | UserInfoType) => {
         if (!res) throw Error();
         setUserInfo(res);
       })
-      .then(() => {
-        if (pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
-      })
       .catch(() => {
         nav(ROUTE.LOGIN);
       });
-  }, [setUserInfo, userInfo.id, pathname, nav]);
+  }, []);
+
+  useEffect(() => {
+    if (userInfo.id !== -1 && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
+  }, [userInfo]);
 }
