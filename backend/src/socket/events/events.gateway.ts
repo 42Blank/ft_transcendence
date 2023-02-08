@@ -1,4 +1,4 @@
-import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from '@nestjs/websockets';
+import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 
 interface ChatData {
@@ -18,7 +18,7 @@ export class EventsGateway {
   server: Server;
 
   @SubscribeMessage('eventsToServer')
-  findAll(@MessageBody() data: ChatData): WsResponse<ChatData> {
-    return { event: 'eventsToClient', data };
+  findAll(@MessageBody() data: ChatData): void {
+    this.server.emit('eventsToClient', data);
   }
 }
