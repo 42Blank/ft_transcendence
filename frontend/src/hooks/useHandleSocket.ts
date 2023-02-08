@@ -6,7 +6,7 @@ import { io } from 'socket.io-client';
 import { newMessageState, userState } from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
-const socket = io(process.env.REACT_APP_SOCKET_URL as string);
+const socket = io(process.env.REACT_APP_SERVER as string);
 
 export function useHandleSocket() {
   const [newMessage, setNewMessage] = useRecoilState(newMessageState);
