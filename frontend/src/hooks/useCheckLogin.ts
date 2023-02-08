@@ -4,7 +4,8 @@ import { useRecoilState } from 'recoil';
 
 import { getCurrentUserInfo } from 'services';
 import { userState } from 'store';
-import { UserInfoType } from 'types/auth';
+import { ROUTE } from 'common/constants';
+import { UserInfoType } from 'types/user';
 
 export function useCheckLogin() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
@@ -12,14 +13,17 @@ export function useCheckLogin() {
   const nav = useNavigate();
 
   useEffect(() => {
-    if (userInfo.id >= 0) return;
     getCurrentUserInfo()
       .then((res: void | UserInfoType) => {
         if (!res) throw Error();
         setUserInfo(res);
       })
       .catch(() => {
-        nav('/login');
+        nav(ROUTE.LOGIN);
       });
-  }, [setUserInfo, userInfo.id, pathname, nav]);
+  }, []);
+
+  useEffect(() => {
+    if (userInfo.id !== -1 && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
+  }, [userInfo]);
 }

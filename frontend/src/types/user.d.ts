@@ -1,6 +1,6 @@
 export interface UserInfoType {
   id: number;
-  intraID: string;
+  intraId: string;
   nickname: string;
   avatar: string;
   point: number;
