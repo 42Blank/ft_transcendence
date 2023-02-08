@@ -36,24 +36,29 @@ export class LoginService {
       });
     }
 
-    return this.createAuthCookie(user);
+    return {
+      name: 'access_token',
+      value: await this.getJwt(user.id),
+      option: this.getCookieOption(),
+    };
   }
 
-  private createAuthCookie(user: User): Cookie {
-    const name = 'access_token';
-    const payload: JwtPayload = {
-      id: user.id,
-    };
+  getCookieOption(): CookieOptions {
     const oneHour = 60 * 60 * 1000;
     const maxAge = 7 * 24 * oneHour; // 7days
 
-    const option: CookieOptions =
-      this.configService.get('PROFILE') === 'production' ? { secure: true, sameSite: 'none', maxAge } : { maxAge };
+    return this.configService.get('PROFILE') === 'production' //
+      ? { secure: true, sameSite: 'none', maxAge }
+      : { maxAge };
+  }
 
-    return {
-      name,
-      value: this.jwtService.sign(payload),
-      option,
+  async getJwt(userId: number): Promise<string> {
+    const user = await this.userRepository.findOneOrFail(userId);
+
+    const payload: JwtPayload = {
+      id: user.id,
     };
+
+    return this.jwtService.sign(payload);
   }
 }
