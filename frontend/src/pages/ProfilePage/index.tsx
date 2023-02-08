@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getCurrentUserInfo } from 'services';
 import { UserInfoType } from 'types/auth';
 
@@ -16,6 +16,16 @@ export const ProfilePage = () => {
     });
   }, []);
 
+  const nameInput = useRef();
+
+  function displayEditModal(): void {
+    const modal: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName(
+      'modal-test',
+    ) as HTMLCollectionOf<HTMLElement>;
+    console.log(modal[0]);
+    modal[0].style.display = 'block';
+  }
+
   if (!profile) return <span>error</span>;
   return (
     <main>
@@ -29,8 +39,10 @@ export const ProfilePage = () => {
         updatedAt={profile.updatedAt}
         avatar={profile.avatar}
       />
-      <button type="button">Edit Profile</button>
-      <div className="modal-test">
+      <button type="button" onClick={displayEditModal}>
+        Edit Profile
+      </button>
+      <div className="modal-test" ref={nameInput}>
         <div className="modal-test-content">
           <span className="close">&times;</span>
           <p>Some text in the Modal ...</p>
