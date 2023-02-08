@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
-import { UserInfoType } from 'types/auth';
+import { UserInfoType } from 'types/user';
 
 export function getCurrentUserInfo(): Promise<void | UserInfoType> {
   return axios
