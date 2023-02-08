@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConnectionOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ApiModule } from './api/api.module';
+import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 
 @Module({
   imports: [
@@ -30,6 +32,12 @@ import { ApiModule } from './api/api.module';
       }),
     }),
     ApiModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule {}
