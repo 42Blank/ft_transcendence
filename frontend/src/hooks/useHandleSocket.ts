@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { io } from 'socket.io-client';
