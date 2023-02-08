@@ -6,6 +6,7 @@ import { ConnectionOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { ApiModule } from './api/api.module';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { HttpExceptionFilter } from './common/filter/http-exception.filter';
       }),
     }),
     ApiModule,
+    SocketModule,
   ],
   providers: [
     {
