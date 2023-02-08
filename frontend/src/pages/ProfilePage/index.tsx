@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { getCurrentUserInfo } from 'services';
 import { UserInfoType } from 'types/auth';
+import { EditModal } from './EditModal';
 
 import { ProfileCard } from './ProfileCard';
 
@@ -16,16 +17,6 @@ export const ProfilePage = () => {
     });
   }, []);
 
-  const modalRef = useRef<HTMLInputElement>(null);
-
-  function displayEditModal(): void {
-    modalRef.current.style.display = 'block';
-  }
-
-  function exitEditModal(): void {
-    modalRef.current.style.display = 'none';
-  }
-
   if (!profile) return <span>error</span>;
   return (
     <main>
@@ -39,17 +30,7 @@ export const ProfilePage = () => {
         updatedAt={profile.updatedAt}
         avatar={profile.avatar}
       />
-      <button type="button" onClick={displayEditModal}>
-        Edit Profile
-      </button>
-      <div className="modal-test" ref={modalRef}>
-        <div className="modal-test-content">
-          <button type="button" className="close" onClick={exitEditModal}>
-            &times;
-          </button>
-          <p>Some text in the Modal ...</p>
-        </div>
-      </div>
+      <EditModal />
     </main>
   );
 };
