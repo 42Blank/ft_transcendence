@@ -1,11 +1,16 @@
 import { putUserProfile } from 'services';
-import { useRef } from 'react';
+import { useRef, Dispatch, SetStateAction } from 'react';
 
-export const EditForm = () => {
+type PropType = {
+  setVisible: Dispatch<SetStateAction<Boolean>>;
+};
+
+export const EditForm = ({ setVisible }: PropType) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   function submitProfile() {
     putUserProfile({ nickname: inputRef.current.value });
+    setVisible(false);
   }
 
   return (

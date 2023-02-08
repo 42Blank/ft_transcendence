@@ -17,6 +17,8 @@ export const ProfilePage = () => {
     });
   }, []);
 
+  const [isVisible, setVisible] = useState<Boolean>(false);
+
   if (!profile) return <span>error</span>;
   return (
     <main>
@@ -30,7 +32,10 @@ export const ProfilePage = () => {
         updatedAt={profile.updatedAt}
         avatar={profile.avatar}
       />
-      <EditModal />
+      <button type="button" onClick={() => setVisible(true)}>
+        Edit Profile
+      </button>
+      {isVisible && <EditModal setModal={setVisible} />}
     </main>
   );
 };
