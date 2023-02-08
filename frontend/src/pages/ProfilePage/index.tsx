@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCurrentUserInfo } from 'services';
-import { UserInfoType } from 'types/auth';
+import { UserInfoType } from 'types/user';
 import { EditModal } from './EditModal';
 
 import { ProfileCard } from './ProfileCard';
@@ -25,7 +25,7 @@ export const ProfilePage = () => {
       <h1>Profile Page</h1>
       <ProfileCard
         id={profile.id}
-        intraID={profile.intraID}
+        intraId={profile.intraId}
         nickname={profile.nickname}
         point={profile.point}
         createdAt={profile.createdAt}
