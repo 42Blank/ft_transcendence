@@ -47,5 +47,12 @@ module.exports = {
     'linebreak-style': 'off',
     'no-useless-return': 'off',
     'prefer-template': 'warn',
+    // Add rule for connect label-htmlFor && input-id
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelAttributes: ['htmlFor'],
+      },
+    ],
   },
 };
