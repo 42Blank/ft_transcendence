@@ -15,6 +15,8 @@ export class FindUserService {
   }
 
   async findOneByIdOrFail(id: number): Promise<User> {
-    return this.userRepository.findOneOrFail(id);
+    return this.userRepository.findOneOrFail({
+      where: { id },
+    });
   }
 }

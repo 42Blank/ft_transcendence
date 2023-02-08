@@ -53,7 +53,9 @@ export class LoginService {
   }
 
   async getJwt(userId: number): Promise<string> {
-    const user = await this.userRepository.findOneOrFail(userId);
+    const user = await this.userRepository.findOneOrFail({
+      where: { id: userId },
+    });
 
     const payload: JwtPayload = {
       id: user.id,
