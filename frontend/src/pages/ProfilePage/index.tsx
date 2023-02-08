@@ -16,14 +16,16 @@ export const ProfilePage = () => {
     });
   }, []);
 
-  const nameInput = useRef();
+  const buttonRef = useRef<HTMLInputElement>(null);
 
   function displayEditModal(): void {
-    const modal: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName(
-      'modal-test',
-    ) as HTMLCollectionOf<HTMLElement>;
-    console.log(modal[0]);
-    modal[0].style.display = 'block';
+    // const modal: HTMLCollectionOf<HTMLElement> = document.getElementsByClassName(
+    //   'modal-test',
+    // ) as HTMLCollectionOf<HTMLElement>;
+    // console.log(modal[0]);
+    // console.log(buttonRef.current);
+    // modal[0].style.display = 'block';
+    buttonRef.current.style.display = 'block';
   }
 
   if (!profile) return <span>error</span>;
@@ -42,7 +44,7 @@ export const ProfilePage = () => {
       <button type="button" onClick={displayEditModal}>
         Edit Profile
       </button>
-      <div className="modal-test" ref={nameInput}>
+      <div className="modal-test" ref={buttonRef}>
         <div className="modal-test-content">
           <span className="close">&times;</span>
           <p>Some text in the Modal ...</p>
