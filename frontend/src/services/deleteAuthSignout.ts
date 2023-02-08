@@ -8,6 +8,6 @@ export function deleteAuthSignout(): Promise<void | AxiosResponse> {
       withCredentials: true,
     })
     .catch(() => {
-      alert('로그아웃 실패'); // TODO: 로그아웃 실패할 경우?
+      // TODO: 로그아웃 실패할 경우?
     });
 }
