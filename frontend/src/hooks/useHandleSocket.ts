@@ -56,7 +56,7 @@ export function useHandleSocket() {
 
   useEffect(() => {
     if (!sockets.chatSocket) {
-      sockets.chatSocket = createSocket('events', {
+      sockets.chatSocket = createSocket('chat', {
         connectHandler,
         disconnectHandler,
         eventsToClientHandler,

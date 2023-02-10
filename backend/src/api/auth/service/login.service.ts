@@ -4,9 +4,9 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CookieOptions } from 'express';
 import { Repository } from 'typeorm';
+import { FtProfile } from '../../../common/auth/ft-auth';
+import { JwtPayload } from '../../../common/auth/jwt-auth';
 import { User } from '../../../common/database/entities/user.entity';
-import { FtProfile } from '../../../common/guard/ft-auth';
-import { JwtPayload } from '../../../common/guard/jwt-auth';
 
 type Cookie = {
   name: string;
@@ -38,7 +38,7 @@ export class LoginService {
 
     return {
       name: 'access_token',
-      value: await this.getJwt(user.id),
+      value: await this.createJwt(user.id),
       option: this.getCookieOption(),
     };
   }
@@ -52,13 +52,14 @@ export class LoginService {
       : { maxAge };
   }
 
-  async getJwt(userId: number): Promise<string> {
+  async createJwt(userId: number): Promise<string> {
     const user = await this.userRepository.findOneOrFail({
       where: { id: userId },
     });
 
     const payload: JwtPayload = {
       id: user.id,
+      intraId: user.intraId,
     };
 
     return this.jwtService.sign(payload);
