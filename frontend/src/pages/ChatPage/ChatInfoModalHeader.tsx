@@ -14,11 +14,11 @@ import {
 
 interface Props {
   roomTitle: string;
-  isMeOperator: boolean;
+  isOperator: boolean;
   isPrivate: boolean;
 }
 
-export const ChatInfoModalHeader = ({ roomTitle, isMeOperator, isPrivate }: Props) => {
+export const ChatInfoModalHeader = ({ roomTitle, isOperator, isPrivate }: Props) => {
   const isPrivateString = isPrivate ? '비공개' : '공개';
 
   function handleChangePrivate() {
@@ -34,7 +34,7 @@ export const ChatInfoModalHeader = ({ roomTitle, isMeOperator, isPrivate }: Prop
     <header className={chatModalHeaderStyle}>
       <div className={chatModalTitleWrapperStyle}>
         <h4>#{roomTitle}</h4>
-        {isMeOperator && (
+        {isOperator && (
           <button type="button">
             <EditIcon />
           </button>
@@ -42,7 +42,7 @@ export const ChatInfoModalHeader = ({ roomTitle, isMeOperator, isPrivate }: Prop
       </div>
       <div className={chatVisibilityWrapperStyle}>
         <span className={chatVisibilityLeftSpanStyle}>이 방은</span>
-        {isMeOperator ? (
+        {isOperator ? (
           <Dropdown
             currentKey={isPrivateString}
             elements={[
@@ -56,7 +56,7 @@ export const ChatInfoModalHeader = ({ roomTitle, isMeOperator, isPrivate }: Prop
         )}
         <span className={chatVisibilityRightSpanStyle}>입니다.</span>
       </div>
-      {isPrivate && isMeOperator && (
+      {isPrivate && isOperator && (
         <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
           <label htmlFor="password-name">
             비밀번호

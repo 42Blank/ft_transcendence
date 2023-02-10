@@ -1,11 +1,20 @@
-import { useGetCurrentUser, useModal } from 'hooks';
-import { ChatDataType } from 'types/chat';
+import { useState } from 'react';
+
+import { useGetCurrentUser } from 'hooks';
+import { Modal } from 'common';
 import { HamburgerIcon } from 'assets';
+import { checkIsUserOperator } from 'utils';
+import { ChatDataType } from 'types/chat';
 import { ChatElement } from './ChatElement';
-import { ChatInfoModal } from './ChatInfoModal';
 import { ChatInput } from './ChatInput';
 
-import { chatPageListWrapperStyle, chatPageTitleStyle, chatPageWrapperStyle } from './ChatPage.styles';
+import {
+  chatPageListWrapperStyle,
+  chatPageTitleStyle,
+  chatPageWrapperStyle,
+  closeButtonStyle,
+} from './ChatPage.styles';
+import { ChatInfoModalHeader } from './ChatInfoModalHeader';
 
 const DUMMY_CHAT: ChatDataType[] = [
   {
@@ -102,13 +111,22 @@ const DUMMY_CHAT_INFO = {
       isOperator: false,
     },
   ],
-};
+}; // TODO: 더미데이터 날리기
 
 export const ChatPage = () => {
   // const { id } = useParams();
   const { id: currentUserID } = useGetCurrentUser();
-  const { modalRef, isShown, handleOpenModal, handleCloseModal } = useModal();
+  const [isShown, setIsShown] = useState(false);
+
+  function handleOpenModal() {
+    setIsShown(true);
+  }
+
+  function handleCloseModal() {
+    setIsShown(false);
+  }
   // const currentChatData = useRecoilValue(currentChatDataState);
+  const isOperator = checkIsUserOperator(DUMMY_CHAT_INFO.users, currentUserID);
 
   return (
     <>
@@ -132,7 +150,18 @@ export const ChatPage = () => {
         </ul>
         <ChatInput />
       </main>
-      {isShown && <ChatInfoModal modalRef={modalRef} chatInfo={DUMMY_CHAT_INFO} onClickClose={handleCloseModal} />}
+      {isShown && (
+        <Modal handleCloseModal={handleCloseModal}>
+          <ChatInfoModalHeader
+            roomTitle={DUMMY_CHAT_INFO.roomTitle}
+            isOperator={isOperator}
+            isPrivate={DUMMY_CHAT_INFO.isPrivate}
+          />
+          <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
+            닫기
+          </button>
+        </Modal>
+      )}
     </>
   );
 };
