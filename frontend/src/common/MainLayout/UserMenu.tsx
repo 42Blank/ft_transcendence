@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { currentUserState } from 'store';
 import { ROUTE } from 'common/constants';
-import { useLogout } from 'hooks';
+import { useGetCurrentUser, useLogout } from 'hooks';
 
 import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
 export const UserMenu = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
-  const currentUser = useRecoilValue(currentUserState);
+  const currentUser = useGetCurrentUser();
   const nav = useNavigate();
   const logout = useLogout();
 

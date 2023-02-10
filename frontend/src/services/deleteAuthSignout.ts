@@ -1,13 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 import { API } from 'common/constants';
 
-export function deleteAuthSignout(): Promise<void | AxiosResponse> {
-  return axios
-    .delete(`${process.env.REACT_APP_SERVER}${API.SIGN_OUT}`, {
-      withCredentials: true,
-    })
-    .catch(() => {
-      // TODO: 로그아웃 실패할 경우?
-    });
+export async function deleteAuthSignout() {
+  const data = await axios.delete(`${process.env.REACT_APP_SERVER}${API.SIGN_OUT}`, {
+    withCredentials: true,
+  });
+
+  return data;
 }
