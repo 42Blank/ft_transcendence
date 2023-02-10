@@ -1,0 +1,1 @@
+export { checkIsMyselfOperator } from './checkIsMyselfOperator';
