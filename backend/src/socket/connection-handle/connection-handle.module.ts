@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SocketJwtAuthModule } from './auth';
 
-import { ConnectionHandleGateWay } from './connection-handle.gateway';
+import { ConnectionHandleService } from './connection-handle.service';
 
 @Module({
   imports: [SocketJwtAuthModule],
-  providers: [ConnectionHandleGateWay],
-  exports: [ConnectionHandleGateWay],
+  providers: [ConnectionHandleService],
+  exports: [ConnectionHandleService],
 })
 export class ConnectionHandleModule {}

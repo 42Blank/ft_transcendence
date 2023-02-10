@@ -15,7 +15,7 @@ export class SocketJwtAuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async guard(socket: Socket): Promise<boolean> {
+  async verify(socket: Socket): Promise<boolean> {
     const tokenCookie = socket.handshake.headers.cookie
       .split(';')
       .map(v => v.trim())
