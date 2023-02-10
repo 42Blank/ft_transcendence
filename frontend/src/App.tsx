@@ -15,6 +15,7 @@ export const App = () => {
         <Route path={ROUTE.GAME} element={<GameListPage />} />
         <Route path={`${ROUTE.GAME}/:id`} element={<div>hihi</div>} />
         <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
+        <Route path={`${ROUTE.PROFILE}/:id`} element={<div>프로필</div>} />
       </Route>
       <Route path={ROUTE.ROOT} element={<LoginLayout />}>
         <Route path={ROUTE.LOGIN} element={<LoginPage />} />
