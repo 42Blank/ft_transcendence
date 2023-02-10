@@ -37,7 +37,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @SocketJwtPayload() { id }: JwtPayload,
     @MessageBody() data: ChatData,
   ): void {
-    console.debug(`SubscribeMessage('eventsToServer')`, client.id, id, data.message);
+    this.logger.debug(`SubscribeMessage('eventsToServer')`, client.id, id, data.message);
 
     this.io.emit('eventsToClient', data);
   }

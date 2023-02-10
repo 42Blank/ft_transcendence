@@ -12,8 +12,6 @@ export class SocketIOAdapter extends IoAdapter {
   }
 
   createIOServer(port: number, options?: ServerOptions) {
-    console.log('createIOServer', this.corsOrigin);
-
     const optionsWithCORS: ServerOptions = {
       ...options,
       cors: {
