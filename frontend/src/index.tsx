@@ -19,14 +19,14 @@ const queryClient = new QueryClient({
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools />
-          <App />
-        </QueryClientProvider>
-      </BrowserRouter>
-    </RecoilRoot>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <RecoilRoot>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <App />
+      </QueryClientProvider>
+    </BrowserRouter>
+  </RecoilRoot>,
+  // </React.StrictMode>,
 );

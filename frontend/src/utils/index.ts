@@ -1,1 +1,1 @@
-export { checkIsMyselfOperator } from './checkIsMyselfOperator';
+export { checkIsUserOperator } from './checkIsUserOperator';
