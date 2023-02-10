@@ -1,4 +1,5 @@
 export { MainLayout } from './MainLayout';
 export { LoginLayout } from './LoginLayout';
 export { RoomElement } from './RoomElement';
-export { ModalPortal } from './ModalPortal';
+export { Modal } from './Modal';
+export { Dropdown } from './Dropdown';
