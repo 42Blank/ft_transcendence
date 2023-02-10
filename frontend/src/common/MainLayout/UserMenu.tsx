@@ -4,15 +4,15 @@ import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { currentUserState } from 'store';
 import { ROUTE } from 'common/constants';
-import { deleteAuthSignout } from 'services';
+import { useLogout } from 'hooks';
 
 import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
 export const UserMenu = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
   const currentUser = useRecoilValue(currentUserState);
-  const resetCurrentUser = useResetRecoilState(currentUserState);
   const nav = useNavigate();
+  const logout = useLogout();
 
   function handleMouseOver() {
     setIsMenuShown(true);
@@ -26,10 +26,9 @@ export const UserMenu = () => {
     nav(ROUTE.PROFILE);
   }
 
-  function handleClickLogoutButton() {
-    deleteAuthSignout().then(() => {
-      resetCurrentUser();
-    });
+  async function handleClickLogoutButton() {
+    await logout();
+    nav(ROUTE.LOGIN);
   }
 
   return (
