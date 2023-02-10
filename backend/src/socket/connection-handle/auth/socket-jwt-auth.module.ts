@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { EventsGateway } from './events.gateway';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../../../common/database/entities/user.entity';
+import { SocketJwtAuthService } from './socket-jwt-auth.service';
 
 @Module({
   imports: [
@@ -13,7 +15,9 @@ import { EventsGateway } from './events.gateway';
         signOptions: { expiresIn: '7d' },
       }),
     }),
+    TypeOrmModule.forFeature([User]),
   ],
-  providers: [EventsGateway],
+  providers: [SocketJwtAuthService],
+  exports: [SocketJwtAuthService],
 })
-export class EventsModule {}
+export class SocketJwtAuthModule {}
