@@ -8,7 +8,7 @@ import { ROUTE } from 'common/constants';
 import { UserInfoType } from 'types/user';
 
 export function useCheckLogin() {
-  const [userInfo, setUserInfo] = useRecoilState(currentUserState);
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const { pathname } = useLocation();
   const nav = useNavigate();
 
@@ -16,7 +16,7 @@ export function useCheckLogin() {
     getCurrentUserInfo()
       .then((res: void | UserInfoType) => {
         if (!res) throw Error();
-        setUserInfo(res);
+        setCurrentUser(res);
       })
       .catch(() => {
         nav(ROUTE.LOGIN);
@@ -24,6 +24,6 @@ export function useCheckLogin() {
   }, []);
 
   useEffect(() => {
-    if (userInfo.id !== -1 && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
-  }, [userInfo]);
+    if (currentUser.id !== -1 && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
+  }, [currentUser]);
 }
