@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
+import { ROUTE } from 'common/constants';
 import { getCurrentUserInfo } from 'services';
 import { userState } from 'store';
-import { ROUTE } from 'common/constants';
 import { UserInfoType } from 'types/user';
+import { sockets } from './useHandleSocket';
 
 export function useCheckLogin() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
@@ -13,6 +14,11 @@ export function useCheckLogin() {
   const nav = useNavigate();
 
   useEffect(() => {
+    if (sockets.chatSocket) {
+      sockets.chatSocket.disconnect();
+      sockets.chatSocket = null;
+    }
+
     getCurrentUserInfo()
       .then((res: void | UserInfoType) => {
         if (!res) throw Error();
@@ -25,5 +31,6 @@ export function useCheckLogin() {
 
   useEffect(() => {
     if (userInfo.id !== -1 && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
+    else if (userInfo.id === -1) nav(ROUTE.LOGIN);
   }, [userInfo]);
 }
