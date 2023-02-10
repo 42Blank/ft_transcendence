@@ -22,6 +22,7 @@ export function useGetCurrentUser() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60 * 12,
     cacheTime: 1000 * 60 * 60 * 12, // TODO: 적절한 시간으로 수정
+    retry: 0,
     onSuccess: () => {
       if (pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
     },
