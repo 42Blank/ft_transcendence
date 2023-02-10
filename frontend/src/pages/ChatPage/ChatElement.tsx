@@ -1,3 +1,4 @@
+import { ChatUserInfoType } from 'types/chat';
 import {
   chatBodyWrapper,
   chatElementWrapper,
@@ -7,14 +8,15 @@ import {
 } from './ChatElement.styles';
 
 interface Props {
-  nickname: string;
-  avatar: string;
+  user: ChatUserInfoType;
   message: string;
   timestamp: string; // TODO: 임시, 변경될 수 있음
   isMine: boolean;
 }
 
-export const ChatElement = ({ nickname, avatar, message, timestamp, isMine }: Props) => {
+export const ChatElement = ({ user, message, timestamp, isMine }: Props) => {
+  const { nickname, avatar } = user;
+
   if (isMine)
     return (
       <li className={chatElementWrapper(true)}>
