@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { currentUserState } from 'store';
 import { ROUTE } from 'common/constants';
@@ -29,7 +29,6 @@ export const UserMenu = () => {
   function handleClickLogoutButton() {
     deleteAuthSignout().then(() => {
       resetCurrentUser();
-      nav(ROUTE.CHAT);
     });
   }
 
