@@ -5,7 +5,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Modal = ({ children }: Props) => {
+export const ModalPortal = ({ children }: Props) => {
   const element = document.getElementById('modal') as Element;
   return createPortal(children, element);
 };
