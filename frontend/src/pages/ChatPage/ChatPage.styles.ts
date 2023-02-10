@@ -27,3 +27,7 @@ export const chatPageListWrapperStyle = css({
   overflowX: 'hidden',
   overflowY: 'scroll',
 });
+
+export const closeButtonStyle = css`
+  border: 1px solid black; // TODO: 색상 상수화
+`;

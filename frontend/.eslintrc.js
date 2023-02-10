@@ -44,6 +44,7 @@ module.exports = {
     'react/function-component-definition': ['warn', { namedComponents: 'arrow-function' }],
     'react/react-in-jsx-scope': 'off',
     'react/no-array-index-key': 'off',
+    'react/jsx-no-bind': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'no-alert': 'off',
     'lines-between-class-members': 'off',

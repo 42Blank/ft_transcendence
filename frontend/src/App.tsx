@@ -3,10 +3,8 @@ import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, MainPage } from '
 import { Route, Routes } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { useCheckLogin } from 'hooks';
 
 export const App = () => {
-  useCheckLogin();
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<MainLayout />}>
@@ -15,6 +13,7 @@ export const App = () => {
         <Route path={ROUTE.GAME} element={<GameListPage />} />
         <Route path={`${ROUTE.GAME}/:id`} element={<div>hihi</div>} />
         <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
+        <Route path={`${ROUTE.PROFILE}/:id`} element={<div>프로필</div>} />
       </Route>
       <Route path={ROUTE.ROOT} element={<LoginLayout />}>
         <Route path={ROUTE.LOGIN} element={<LoginPage />} />
