@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import { ROUTE } from 'common/constants';
-import { deleteAuthSignout } from 'services';
-import { userState } from 'store';
+import { useGetCurrentUser, useLogout } from 'hooks';
 
 import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
 export const UserMenu = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
-  const userInfo = useRecoilValue(userState);
-  const resetUserInfo = useResetRecoilState(userState);
+  const currentUser = useGetCurrentUser();
   const nav = useNavigate();
+  const logout = useLogout();
 
   function handleMouseOver() {
     setIsMenuShown(true);
@@ -26,10 +24,9 @@ export const UserMenu = () => {
     nav(ROUTE.PROFILE);
   }
 
-  function handleClickLogoutButton() {
-    deleteAuthSignout().then(() => {
-      resetUserInfo();
-    });
+  async function handleClickLogoutButton() {
+    await logout();
+    nav(ROUTE.LOGIN);
   }
 
   return (
@@ -40,7 +37,7 @@ export const UserMenu = () => {
       onBlur={handleMouseOut}
       className={userMenuWrapperStyle}
     >
-      <span>{userInfo.nickname}</span>
+      <span>{currentUser.nickname}</span>
       <div className={userMenuInnerStyle(isMenuShown)}>
         <button type="button" onClick={handleClickProfileButton}>
           <span>내 프로필</span>

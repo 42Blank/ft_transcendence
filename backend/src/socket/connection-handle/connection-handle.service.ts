@@ -1,10 +1,11 @@
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { SocketJwtAuthService } from './auth';
 
-export class ConnectionHandleService implements OnGatewayConnection, OnGatewayDisconnect {
-  private readonly logger: Logger = new Logger(ConnectionHandleService.name);
+@Injectable()
+export class ConnectionHandleGateWay implements OnGatewayConnection, OnGatewayDisconnect {
+  private readonly logger: Logger = new Logger(ConnectionHandleGateWay.name);
 
   constructor(private readonly socketJwtAuthService: SocketJwtAuthService) {}
 
@@ -12,6 +13,7 @@ export class ConnectionHandleService implements OnGatewayConnection, OnGatewayDi
     try {
       await this.socketJwtAuthService.verify(client);
     } catch (exception: unknown) {
+      this.logger.debug(`client connection failed ${exception}`);
       if (exception instanceof Error) {
         client.emit('exception', {
           name: exception.name,
@@ -19,6 +21,7 @@ export class ConnectionHandleService implements OnGatewayConnection, OnGatewayDi
         });
       }
       client.disconnect();
+      return;
     }
 
     this.logger.debug(`client connected ${client.id}`);
