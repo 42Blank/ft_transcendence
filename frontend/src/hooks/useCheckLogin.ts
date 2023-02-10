@@ -3,12 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { getCurrentUserInfo } from 'services';
-import { userState } from 'store';
+import { currentUserState } from 'store';
 import { ROUTE } from 'common/constants';
 import { UserInfoType } from 'types/user';
 
 export function useCheckLogin() {
-  const [userInfo, setUserInfo] = useRecoilState(userState);
+  const [userInfo, setUserInfo] = useRecoilState(currentUserState);
   const { pathname } = useLocation();
   const nav = useNavigate();
 

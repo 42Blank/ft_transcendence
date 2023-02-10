@@ -3,14 +3,14 @@ import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { io } from 'socket.io-client';
 
-import { newMessageState, userState } from 'store';
+import { newMessageState, currentUserState } from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
 const socket = io(process.env.REACT_APP_SERVER as string);
 
 export function useHandleSocket() {
   const [newMessage, setNewMessage] = useRecoilState(newMessageState);
-  const { nickname, avatar } = useRecoilValue(userState);
+  const { nickname, avatar } = useRecoilValue(currentUserState);
   const { connectHandler, disconnectHandler, eventsToClientHandler } = useSetSocketHandler();
 
   useEffect(() => {

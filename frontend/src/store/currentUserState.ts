@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 import { UserInfoType } from 'types/user';
 
-export const userState = atom<UserInfoType>({
-  key: 'userState',
+export const currentUserState = atom<UserInfoType>({
+  key: 'currentUserState',
   default: {
     id: -1,
     intraId: '',
