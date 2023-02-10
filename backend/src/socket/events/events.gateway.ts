@@ -1,4 +1,4 @@
-import { UseFilters, UseGuards } from '@nestjs/common';
+import { Logger, UseFilters, UseGuards } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -25,6 +25,8 @@ interface ChatData {
   namespace: 'events',
 })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
+  private readonly logger: Logger = new Logger(EventsGateway.name);
+
   @WebSocketServer()
   io: Server;
 
@@ -35,16 +37,16 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @SocketJwtPayload() { id }: JwtPayload,
     @MessageBody() data: ChatData,
   ): void {
-    console.log(`SubscribeMessage('eventsToServer')`, client.id, id, data);
+    console.debug(`SubscribeMessage('eventsToServer')`, client.id, id, data.message);
 
     this.io.emit('eventsToClient', data);
   }
 
   handleConnection(client: Socket): void {
-    console.log('client connected', client.id);
+    this.logger.debug('client connected', client.id);
   }
 
   handleDisconnect(client: Socket): void {
-    console.log('client disconnected', client.id);
+    this.logger.debug('client disconnected', client.id);
   }
 }
