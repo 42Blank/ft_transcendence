@@ -12,7 +12,7 @@ import { Server, Socket } from 'socket.io';
 import { SocketUser } from '../../common/auth/jwt-auth';
 import { User } from '../../common/database/entities/user.entity';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
-import { SocketJwtAuthService } from '../auth';
+import { ConnectionHandleGateWay } from '../connection-handle';
 
 interface ChatData {
   nickname: string;
@@ -28,7 +28,7 @@ interface ChatData {
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger: Logger = new Logger(ChatGateway.name);
 
-  constructor(private readonly socketJwtAuthService: SocketJwtAuthService) {}
+  constructor(private readonly connectionHandleGateWay: ConnectionHandleGateWay) {}
 
   @WebSocketServer()
   io: Server;
@@ -45,22 +45,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   async handleConnection(client: Socket): Promise<void> {
-    try {
-      await this.socketJwtAuthService.guard(client);
-    } catch (exception: unknown) {
-      if (exception instanceof Error) {
-        client.emit('exception', {
-          name: exception.name,
-          message: exception.message,
-        });
-      }
-      client.disconnect();
-    }
-
-    this.logger.debug(`client connected ${client.id}`);
+    await this.connectionHandleGateWay.handleConnection(client);
   }
 
   handleDisconnect(client: Socket): void {
-    this.logger.debug(`client disconnected ${client.id}`);
+    this.connectionHandleGateWay.handleDisconnect(client);
   }
 }
