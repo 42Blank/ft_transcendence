@@ -56,7 +56,7 @@ export const ChatInfoModalHeader = ({ roomTitle, isMeOperator, isPrivate }: Prop
         )}
         <span className={chatVisibilityRightSpanStyle}>입니다.</span>
       </div>
-      {isPrivate && (
+      {isPrivate && isMeOperator && (
         <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
           <label htmlFor="password-name">
             비밀번호
