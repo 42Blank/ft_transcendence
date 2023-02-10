@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import { AppModule } from './app.module';
+import { SocketIOAdapter } from './common/adapter/socket-io.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -36,12 +37,12 @@ async function bootstrap() {
   const originRegex = configService.get<string>('ORIGIN_REGEX')
     ? new RegExp(configService.get<string>('ORIGIN_REGEX'))
     : '';
-  app.enableCors({
-    origin: [...originList.split(',').map(item => item.trim()), originRegex],
-    credentials: true,
-  });
+  const corsOrigin = [...originList.split(',').map(item => item.trim()), originRegex];
+  app.enableCors({ origin: corsOrigin, credentials: true });
 
   app.use(cookieParser());
-  await app.listen(configService.getOrThrow<string>('PORT'));
+  app.useWebSocketAdapter(new SocketIOAdapter(app, corsOrigin));
+
+  await app.listen(parseInt(configService.getOrThrow('PORT')));
 }
 bootstrap();

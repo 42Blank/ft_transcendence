@@ -35,11 +35,6 @@ import { SocketModule } from './socket/socket.module';
     ApiModule,
     SocketModule,
   ],
-  providers: [
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-  ],
+  providers: [{ provide: APP_FILTER, useClass: HttpExceptionFilter }],
 })
 export class AppModule {}

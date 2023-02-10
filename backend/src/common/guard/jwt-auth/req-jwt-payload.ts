@@ -1,8 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-
-export type JwtPayload = {
-  id: number;
-};
+import { JwtPayload } from './jwtPayload';
 
 /**
  * @description Request에 담긴 User를 가져온다.

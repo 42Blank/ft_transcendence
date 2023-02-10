@@ -1,5 +1,17 @@
-import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { UseFilters, UseGuards } from '@nestjs/common';
+import {
+  ConnectedSocket,
+  MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
+import { JwtPayload, SocketJwtPayload } from '../../common/guard/jwt-auth';
+import { SocketJwtAuthGuard } from '../../common/guard/jwt-auth/socket-jwt-auth.guard';
 
 interface ChatData {
   nickname: string;
@@ -8,17 +20,31 @@ interface ChatData {
   timestamp: string;
 }
 
+@UseFilters(new WsExceptionFilter())
 @WebSocketGateway({
-  cors: {
-    origin: '*',
-  },
+  namespace: 'events',
 })
-export class EventsGateway {
+export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server;
+  io: Server;
 
+  @UseGuards(SocketJwtAuthGuard)
   @SubscribeMessage('eventsToServer')
-  findAll(@MessageBody() data: ChatData): void {
-    this.server.emit('eventsToClient', data);
+  findAll(
+    @ConnectedSocket() client: Socket, //
+    @SocketJwtPayload() { id }: JwtPayload,
+    @MessageBody() data: ChatData,
+  ): void {
+    console.log(`SubscribeMessage('eventsToServer')`, client.id, id, data);
+
+    this.io.emit('eventsToClient', data);
+  }
+
+  handleConnection(client: Socket): void {
+    console.log('client connected', client.id);
+  }
+
+  handleDisconnect(client: Socket): void {
+    console.log('client disconnected', client.id);
   }
 }
