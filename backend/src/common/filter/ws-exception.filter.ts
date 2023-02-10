@@ -8,44 +8,47 @@ import {
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Socket } from 'socket.io';
 import { EntityNotFoundError } from 'typeorm/error/EntityNotFoundError';
 import { TypeORMError } from 'typeorm/error/TypeORMError';
 
 const FIND_DOUBLE_QUOTE = /\"/g;
 
 @Catch()
-export class HttpExceptionFilter implements ExceptionFilter {
-  private logger = new Logger(HttpExceptionFilter.name);
+export class WsExceptionFilter implements ExceptionFilter {
+  private logger = new Logger(WsExceptionFilter.name);
 
   public catch(exception: Error, host: ArgumentsHost) {
-    const response = host.switchToHttp().getResponse<Response>();
+    const socket: Socket = host.switchToWs().getClient();
 
     if (exception instanceof EntityNotFoundError) {
       const error = new NotFoundException(`NotFound Error : ${this.getErrorMessage(exception)}`);
-      return this.responseError(response, error);
+      return this.responseError(socket, error);
     }
 
     if (exception instanceof TypeORMError) {
       const error = new ServiceUnavailableException(`TypeOrm Error : ${this.getErrorMessage(exception)}`);
-      return this.responseError(response, error);
+      return this.responseError(socket, error);
     }
 
     if (exception instanceof HttpException) {
-      return this.responseError(response, exception);
+      return this.responseError(socket, exception);
     }
 
-    this.logger.error('HttpException', exception);
+    this.logger.error('WsException', exception);
 
     const error = new InternalServerErrorException(`Unknown Error : ${this.getErrorMessage(exception)}`);
-    return this.responseError(response, error);
+    return this.responseError(socket, error);
   }
 
   private getErrorMessage(exception: Error) {
     return exception.message.replace(FIND_DOUBLE_QUOTE, '');
   }
 
-  private responseError(response: Response, exception: Error) {
-    return response.status((exception as HttpException).getStatus()).json((exception as HttpException).getResponse());
+  private responseError(socket: Socket, exception: Error) {
+    socket.emit('exception', {
+      name: exception.name,
+      message: exception.message,
+    });
   }
 }
