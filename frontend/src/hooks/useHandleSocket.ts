@@ -1,12 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { io, Socket } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { newMessageState } from 'store';
-import { ChatDataType } from '../types/chat';
+import { ChatDataType } from 'types/chat';
 import { useSetSocketHandler } from './useSetSocketHandler';
-import { useGetCurrentUser } from './useGetCurrentUser';
 
 export const sockets: {
   chatSocket: Socket | null;
@@ -37,7 +35,6 @@ function createSocket(
 
 export function useHandleSocket() {
   const [newMessage, setNewMessage] = useRecoilState(newMessageState);
-  const { nickname, avatar } = useGetCurrentUser();
   const { connectHandler, disconnectHandler, eventsToClientHandler } = useSetSocketHandler();
 
   useEffect(() => {
@@ -45,14 +42,12 @@ export function useHandleSocket() {
     if (sockets.chatSocket === null) return;
 
     sockets.chatSocket.emit('eventsToServer', {
-      nickname,
-      avatar,
       message: newMessage,
       timestamp: new Date().toString(),
     });
 
     setNewMessage('');
-  }, [newMessage, setNewMessage, nickname, avatar]);
+  }, [newMessage, setNewMessage]);
 
   useEffect(() => {
     if (!sockets.chatSocket) {
