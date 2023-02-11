@@ -11,6 +11,7 @@ import { ChatInput } from './ChatInput';
 
 import {
   chatPageListWrapperStyle,
+  chatPageMenuButtonStyle,
   chatPageTitleStyle,
   chatPageWrapperStyle,
   closeButtonStyle,
@@ -74,7 +75,7 @@ export const ChatPage = () => {
       <main className={chatPageWrapperStyle}>
         <header className={chatPageTitleStyle}>
           <span>{DUMMY_CHAT_INFO.roomTitle}</span>
-          <button type="button" onClick={handleOpenModal}>
+          <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
             <HamburgerIcon /> {/* TODO: 더 잘 어울리는 아이콘 있으면 그걸로 바꿀 예정 */}
           </button>
         </header>
