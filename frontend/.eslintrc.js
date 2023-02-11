@@ -36,6 +36,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'prettier/prettier': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off', // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
