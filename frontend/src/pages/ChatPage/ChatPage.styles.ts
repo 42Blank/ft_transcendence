@@ -38,6 +38,12 @@ export const chatPageListWrapperStyle = css`
   overflow-y: scroll;
 `;
 
+export const chatPageModalStyle = css`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const closeButtonStyle = css`
-  border: 1px solid black; // TODO: 색상 상수화
+  width: 100%;
+  padding: 5px 20px;
 `;

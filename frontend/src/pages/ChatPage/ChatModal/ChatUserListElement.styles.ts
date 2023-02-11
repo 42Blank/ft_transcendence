@@ -14,6 +14,7 @@ export const chatUserLinkWrapperStyle = css`
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
   color: black; // TODO: 상수화
   text-decoration: none;
 

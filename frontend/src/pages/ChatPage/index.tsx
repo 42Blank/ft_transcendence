@@ -14,6 +14,7 @@ import { ChatInfoModalHeader, ChatInfoModalBody } from './ChatModal';
 import {
   chatPageListWrapperStyle,
   chatPageMenuButtonStyle,
+  chatPageModalStyle,
   chatPageTitleStyle,
   chatPageWrapperStyle,
   closeButtonStyle,
@@ -107,7 +108,7 @@ export const ChatPage = () => {
         <ChatInput />
       </main>
       {isShown && (
-        <Modal handleCloseModal={handleCloseModal}>
+        <Modal handleCloseModal={handleCloseModal} className={chatPageModalStyle}>
           <ChatInfoModalHeader
             roomTitle={DUMMY_CHAT_INFO.roomTitle}
             isCurrentUserOperator={isCurrentUserOperator}
