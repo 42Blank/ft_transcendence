@@ -17,7 +17,7 @@ export interface ChatRoomInfoType {
 }
 
 export interface ChatDataType {
-  user: ChatUserInfoType;
+  chatUser: Pick<ChatUserInfoType, 'user' | 'isOperator'>; // 헐 쩐다
   message: string;
   timestamp: string;
 } // TODO: 바뀔 수도 있음, 백엔드와 상의 필요
