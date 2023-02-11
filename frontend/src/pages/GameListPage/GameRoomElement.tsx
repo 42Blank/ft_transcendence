@@ -5,6 +5,7 @@ import {
   gameRoomVsSectionStyle,
   gameRoomLinkStyle,
   gameRoomUserWrapperStyle,
+  gameRoomVsSpanStyle,
 } from './GameRoomElement.styles';
 
 export const GameRoomElement = () => {
@@ -22,7 +23,7 @@ export const GameRoomElement = () => {
             />
             <span>ycha</span>
           </div>
-          <span>vs</span>
+          <span className={gameRoomVsSpanStyle}>vs</span>
           <div className={gameRoomUserWrapperStyle}>
             <img
               src="https://pbs.twimg.com/profile_images/1579899155048239127/xbwg77D0_400x400.jpg"

@@ -16,7 +16,7 @@ export const gameRoomElementStyle = css`
 
   & > h3 {
     font-weight: 600;
-    padding: 15px;
+    padding: 15px 15px 0 15px;
     width: calc(100% - 30px);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -25,23 +25,22 @@ export const gameRoomElementStyle = css`
 `;
 
 export const gameRoomVsSectionStyle = css`
-  margin-top: 10;
-  margin-bottom: 10;
   width: 100%;
   flex: 1;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 `;
 
+export const gameRoomVsSpanStyle = css`
+  font-size: 20px;
+`;
+
 export const gameRoomUserWrapperStyle = css`
-  width: calc(100% - 30px);
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 15px;
   overflow: hidden;
 
   & > img {
@@ -49,7 +48,7 @@ export const gameRoomUserWrapperStyle = css`
     height: 70px;
     border: 2px solid white; // TODO: border color 상수화
     object-fit: cover;
-    border-radius: 35px;
+    border-radius: 40px;
   }
 
   & > span {
