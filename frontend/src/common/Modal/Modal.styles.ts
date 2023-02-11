@@ -4,6 +4,7 @@ export const modalBackgroundStyle = css`
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 5;
   width: 100vw;
   height: 100vh;
   backdrop-filter: blur(5px);
@@ -15,7 +16,8 @@ export const modalBackgroundStyle = css`
 `;
 
 export const modalInnerStyle = css`
-  background-color: white; // TODO: 고쳐야됨
+  z-index: 10;
+  background-color: white;
   width: 50%;
   height: 50%;
   border: 1px solid black; // TODO: 상수화
