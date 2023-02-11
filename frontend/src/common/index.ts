@@ -3,3 +3,4 @@ export { LoginLayout } from './LoginLayout';
 export { RoomElement } from './RoomElement';
 export { Modal } from './Modal';
 export { Dropdown } from './Dropdown';
+export { Tooltip } from './Tooltip';
