@@ -16,6 +16,12 @@ export interface ChatRoomInfoType {
   bannedUsers: UserInfoType[];
 }
 
+export interface NewChatRoomType {
+  roomTitle: string;
+  isPrivate: boolean;
+  password?: string;
+}
+
 export interface ChatDataType {
   chatUser: Pick<ChatUserInfoType, 'user' | 'isOperator'>; // 헐 쩐다
   message: string;
