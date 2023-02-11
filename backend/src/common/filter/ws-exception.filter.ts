@@ -35,7 +35,7 @@ export class WsExceptionFilter implements ExceptionFilter {
       return this.responseError(socket, exception);
     }
 
-    this.logger.error(`WsException ${exception}`);
+    this.logger.error(`WsException ${exception.name} ${exception.stack}`);
 
     const error = new InternalServerErrorException(`Unknown Error : ${this.getErrorMessage(exception)}`);
     return this.responseError(socket, error);
