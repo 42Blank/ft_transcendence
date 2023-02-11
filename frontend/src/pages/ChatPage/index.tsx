@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { useGetCurrentUser } from 'hooks';
+import { useGetCurrentChatRoom, useGetCurrentUser } from 'hooks';
 import { Modal } from 'common';
 import { HamburgerIcon } from 'assets';
-import { currentChatDataState } from 'store';
 import { checkIsUserOperator } from 'utils';
+import { currentChatDataState } from 'store';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
 import { ChatInfoModalHeader, ChatInfoModalBody } from './ChatModal';
@@ -21,12 +20,11 @@ import {
 } from './ChatPage.styles';
 
 export const ChatPage = () => {
-  const { state } = useLocation();
   const { id: currentUserID } = useGetCurrentUser();
-  const nav = useNavigate();
   const currentChatData = useRecoilValue(currentChatDataState);
+  const currentChatRoom = useGetCurrentChatRoom();
   const [isModalShown, setIsModalShown] = useState(false);
-  const [isCurrentUserOperator, setIsCurrentUserOperator] = useState(false);
+  const isOperator = checkIsUserOperator(currentChatRoom.users, currentUserID);
 
   function handleOpenModal() {
     setIsModalShown(true);
@@ -36,19 +34,11 @@ export const ChatPage = () => {
     setIsModalShown(false);
   }
 
-  useEffect(() => {
-    if (!state) {
-      alert('잘못된 접근입니다');
-      nav(-1);
-    }
-    setIsCurrentUserOperator(checkIsUserOperator(state.users, currentUserID));
-  }, [state]);
-
   return (
     <>
       <main className={chatPageWrapperStyle}>
         <header className={chatPageTitleStyle}>
-          <span>{state?.roomTitle ?? ''}</span>
+          <span>{currentChatRoom.roomTitle ?? ''}</span>
           <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
             <HamburgerIcon />
           </button>
@@ -69,11 +59,11 @@ export const ChatPage = () => {
       {isModalShown && (
         <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
           <ChatInfoModalHeader
-            roomTitle={state.roomTitle}
-            isCurrentUserOperator={isCurrentUserOperator}
-            isPrivate={state.isPrivate}
+            roomTitle={currentChatRoom.roomTitle}
+            isCurrentUserOperator={isOperator}
+            isPrivate={currentChatRoom.isPrivate}
           />
-          <ChatInfoModalBody users={state.users} isCurrentUserOperator={isCurrentUserOperator} />
+          <ChatInfoModalBody users={currentChatRoom.users} isCurrentUserOperator={isOperator} />
           <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
             닫기
           </button>

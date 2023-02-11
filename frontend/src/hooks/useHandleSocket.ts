@@ -20,6 +20,7 @@ function createSocket(
     disconnectHandler: (reason: string) => void;
     getCurrentChatHandler: (data: ChatDataType) => void;
     getAllChatRoomHandler: (data: ChatRoomInfoType[]) => void;
+    joinChatRoomHandler: (id: string) => void;
   },
 ) {
   const socket = io(`${process.env.REACT_APP_SERVER as string}/${namespace}`, {
@@ -32,6 +33,7 @@ function createSocket(
     socket.on('exception', handler.exceptionHandler);
     socket.on('chat_message', handler.getCurrentChatHandler);
     socket.on('update_chat_room', handler.getAllChatRoomHandler);
+    socket.on('join_room', handler.joinChatRoomHandler);
   }
 
   return socket;
@@ -44,8 +46,14 @@ export function useHandleSocket() {
   const joinChatRoom = useRecoilValue(joinChatRoomState);
   const resetJoinChatRoom = useResetRecoilState(joinChatRoomState);
 
-  const { connectHandler, exceptionHandler, disconnectHandler, getCurrentChatHandler, getAllChatRoomHandler } =
-    useSetSocketHandler();
+  const {
+    connectHandler,
+    exceptionHandler,
+    disconnectHandler,
+    getCurrentChatHandler,
+    getAllChatRoomHandler,
+    joinChatRoomHandler,
+  } = useSetSocketHandler();
 
   useEffect(() => {
     if (newMessage.length === 0) return;
@@ -83,6 +91,7 @@ export function useHandleSocket() {
         disconnectHandler,
         getCurrentChatHandler,
         getAllChatRoomHandler,
+        joinChatRoomHandler,
       });
     }
   }, []);
