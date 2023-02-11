@@ -74,15 +74,15 @@ export const ChatPage = () => {
   // const { id } = useParams();
   const { id: currentUserID } = useGetCurrentUser();
   const currentChatData = useRecoilValue(currentChatDataState);
-  const [isShown, setIsShown] = useState(false);
+  const [isModalShown, setIsModalShown] = useState(false);
   const isCurrentUserOperator = checkIsUserOperator(DUMMY_CHAT_INFO.users, currentUserID);
 
   function handleOpenModal() {
-    setIsShown(true);
+    setIsModalShown(true);
   }
 
   function handleCloseModal() {
-    setIsShown(false);
+    setIsModalShown(false);
   }
 
   return (
@@ -107,7 +107,7 @@ export const ChatPage = () => {
         </ul>
         <ChatInput />
       </main>
-      {isShown && (
+      {isModalShown && (
         <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
           <ChatInfoModalHeader
             roomTitle={DUMMY_CHAT_INFO.roomTitle}
