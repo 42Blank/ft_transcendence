@@ -5,14 +5,13 @@ export class MainScene extends Phaser.Scene {
   private key: Phaser.Types.Input.Keyboard.CursorKeys;
 
   constructor() {
-    super({ key: 'MainScene', active: true, physics: { default: 'arcade' } });
+    super({ key: 'MainScene', active: true });
   }
   preload() {
-    this.load.image('pochita', 'small_pochita.png');
+    this.load.image('pochita', '/small_pochita.png');
   }
 
   create() {
-    console.log(this.physics);
     this.pochita = this.physics.add.image(400, 300, 'pochita');
     this.key = this.input.keyboard.createCursorKeys();
   }

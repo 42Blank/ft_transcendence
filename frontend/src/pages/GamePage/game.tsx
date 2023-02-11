@@ -8,26 +8,15 @@ const game: GameInstance = {
   height: 600,
   type: Phaser.AUTO,
   scene: MainScene,
+  physics: { default: 'arcade', arcade: { gravity: { y: 0 } } },
 };
 
 const GameExample = () => {
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   // Call `setInitialize` when you want to initialize your game! :)
-  const [initialize, setInitialize] = useState(true);
-  const destroy = () => {
-    if (gameRef.current) {
-      gameRef.current.destroy();
-    }
-    setInitialize(false);
-  };
+  const [initialize] = useState(true);
 
-  return (
-    <>
-      <IonPhaser ref={gameRef} game={game} initialize={initialize} />
-      {/*<button onClick={() => setInitialize(true)}>Initialize</button>*/}
-      {/*<button onClick={destroy}>Destroy</button>*/}
-    </>
-  );
+  return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
 };
 
 export default GameExample;
