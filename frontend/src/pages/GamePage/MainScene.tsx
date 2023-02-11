@@ -2,7 +2,8 @@ import Phaser from 'phaser';
 
 export class MainScene extends Phaser.Scene {
   private pochita: Phaser.Physics.Arcade.Image;
-  private paddle1: Phaser.GameObjects.Rectangle;
+  private ball: Phaser.Physics.Arcade.Image;
+  private paddle1: Phaser.Physics.Arcade.Image;
 
   private key: Phaser.Types.Input.Keyboard.CursorKeys;
 
@@ -11,6 +12,7 @@ export class MainScene extends Phaser.Scene {
   }
   preload() {
     this.load.image('pochita', '/small_pochita.png');
+    this.load.image('peddal', '/icon.png');
   }
 
   create() {
@@ -20,8 +22,17 @@ export class MainScene extends Phaser.Scene {
     //this.pochita = this.physics.add.image(400, 300, 'pochita');
     //this.pochita.body.setSize(200, 200);
     */
-    this.paddle1 = this.add.rectangle(50, 250, 30, 100, 0xffffff, 1);
-    this.physics.add.existing(this.paddle1, true);
+
+    this.ball = this.physics.add.image(100, 100, 'pochita');
+    this.ball.setCollideWorldBounds(true);
+    this.ball.setBounce(1);
+    this.ball.setVelocity(200, 200);
+
+    /* this.paddle1 = this.add.rectangle(50, 250, 30, 100, 0xffffff, 1); */
+    this.paddle1 = this.physics.add.image(100, 300, 'peddal');
+    this.paddle1.setImmovable(true);
+
+    this.physics.add.collider(this.ball, this.paddle1, null, null, this);
 
     this.key = this.input.keyboard.createCursorKeys();
   }
@@ -31,7 +42,7 @@ export class MainScene extends Phaser.Scene {
       if (this.key.up.isDown) this.paddle1.y -= 10;
       else if (this.key.down.isDown) this.paddle1.y += 10;
     }
-    /* 임시 충돌 판정 코드 */
+    /* Paddle 임시 충돌 판정 코드 */
     this.paddle1.y = Phaser.Math.Clamp(this.paddle1.y, 50, 550);
   }
 }
