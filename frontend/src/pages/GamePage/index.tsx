@@ -1,9 +1,9 @@
-import PhaserGame from './game';
+import GameExample from './game';
 
 export const GamePage = () => {
   return (
     <div>
-      <PhaserGame />
+      <GameExample />
     </div>
   );
 };
