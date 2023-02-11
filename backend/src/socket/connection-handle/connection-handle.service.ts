@@ -9,11 +9,11 @@ export class ConnectionHandleService implements OnGatewayConnection, OnGatewayDi
 
   constructor(private readonly socketJwtAuthService: SocketJwtAuthService) {}
 
-  async handleConnection(client: Socket): Promise<void> {
+  async handleConnection(client: Socket): Promise<boolean> {
     try {
       await this.socketJwtAuthService.verify(client);
     } catch (exception: unknown) {
-      this.logger.debug(`client connection failed ${exception}`);
+      this.logger.log(`client connection failed ${exception}`);
       if (exception instanceof Error) {
         client.emit('exception', {
           name: exception.name,
@@ -21,13 +21,14 @@ export class ConnectionHandleService implements OnGatewayConnection, OnGatewayDi
         });
       }
       client.disconnect();
-      return;
+      return false;
     }
 
-    this.logger.debug(`client connected ${client.id}`);
+    this.logger.log(`client connected ${client.id}`);
+    return true;
   }
 
   handleDisconnect(client: Socket): void {
-    this.logger.debug(`client disconnected ${client.id}`);
+    this.logger.log(`client disconnected ${client.id}`);
   }
 }
