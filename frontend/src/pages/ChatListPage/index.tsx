@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { Modal } from 'common';
 import { PlusIcon } from 'assets';
+import { chatRoomListState } from 'store';
 import { NewChatModalBody } from './NewChatModalBody';
 import { ChatRoomElement } from './ChatRoomElement';
-import { DUMMY_CHAT_DATA } from './DUMMY_DATA';
 
 import {
   chatListPageWrapperStyle,
@@ -15,6 +16,7 @@ import {
 
 export const ChatListPage = () => {
   const [isModalShown, setIsModalShown] = useState(false);
+  const chatRoomList = useRecoilValue(chatRoomListState);
 
   function handleClickButton() {
     setIsModalShown(true);
@@ -26,7 +28,7 @@ export const ChatListPage = () => {
 
   return (
     <main className={chatListPageWrapperStyle}>
-      {DUMMY_CHAT_DATA.map((data, index) => (
+      {chatRoomList.map((data, index) => (
         <ChatRoomElement key={`chat-room-${index}`} chatRoomInfo={data} />
       ))}
       <button type="button" onClick={handleClickButton} className={chatRoomIconStyle}>

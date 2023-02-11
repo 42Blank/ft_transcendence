@@ -1,9 +1,9 @@
 import { io, Socket } from 'socket.io-client';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { newMessageState } from 'store';
-import { ChatDataType } from 'types/chat';
+import { newChatRoomState, newMessageState } from 'store';
+import { ChatDataType, ChatRoomInfoType } from 'types/chat';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
 export const sockets: {
@@ -16,8 +16,10 @@ function createSocket(
   namespace: string,
   handler?: {
     connectHandler: () => void;
+    exceptionHandler: (data: Error) => void;
     disconnectHandler: (reason: string) => void;
-    eventsToClientHandler: (data: ChatDataType) => void;
+    getCurrentChatHandler: (data: ChatDataType) => void;
+    getAllChatRoomHandler: (data: ChatRoomInfoType[]) => void;
   },
 ) {
   const socket = io(`${process.env.REACT_APP_SERVER as string}/${namespace}`, {
@@ -27,7 +29,9 @@ function createSocket(
   if (handler) {
     socket.on('connect', handler.connectHandler);
     socket.on('disconnect', handler.disconnectHandler);
-    socket.on('eventsToClient', handler.eventsToClientHandler);
+    socket.on('exception', handler.exceptionHandler);
+    socket.on('chat_message', handler.getCurrentChatHandler);
+    socket.on('update_chat_room', handler.getAllChatRoomHandler);
   }
 
   return socket;
@@ -35,26 +39,39 @@ function createSocket(
 
 export function useHandleSocket() {
   const [newMessage, setNewMessage] = useRecoilState(newMessageState);
-  const { connectHandler, disconnectHandler, eventsToClientHandler } = useSetSocketHandler();
+  const newChatRoom = useRecoilValue(newChatRoomState);
+  const resetNewChatRoom = useResetRecoilState(newChatRoomState);
+  const { connectHandler, exceptionHandler, disconnectHandler, getCurrentChatHandler, getAllChatRoomHandler } =
+    useSetSocketHandler();
 
   useEffect(() => {
     if (newMessage.length === 0) return;
     if (sockets.chatSocket === null) return;
 
-    sockets.chatSocket.emit('eventsToServer', {
+    sockets.chatSocket.emit('chat_message', {
       message: newMessage,
       timestamp: new Date().toString(),
     });
 
     setNewMessage('');
-  }, [newMessage, setNewMessage]);
+  }, [newMessage]);
+
+  useEffect(() => {
+    if (newChatRoom.roomTitle.length === 0) return;
+    if (sockets.chatSocket === null) return;
+
+    sockets.chatSocket.emit('create_room', newChatRoom);
+    resetNewChatRoom();
+  }, [newChatRoom]);
 
   useEffect(() => {
     if (!sockets.chatSocket) {
       sockets.chatSocket = createSocket('chat', {
         connectHandler,
+        exceptionHandler,
         disconnectHandler,
-        eventsToClientHandler,
+        getCurrentChatHandler,
+        getAllChatRoomHandler,
       });
     }
   }, []);
