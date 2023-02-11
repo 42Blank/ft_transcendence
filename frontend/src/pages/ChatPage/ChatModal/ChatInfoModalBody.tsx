@@ -1,7 +1,7 @@
 import { ChatUserInfoType } from 'types/chat';
 import { ChatUserListElement } from './ChatUserListElement';
 
-import { chatInfoModalBodyStyle } from './ChatModal.styles';
+import { chatInfoModalBodyStyle } from './ChatInfoModalBody.styles';
 
 interface Props {
   users: ChatUserInfoType[];
