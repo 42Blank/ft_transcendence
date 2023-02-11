@@ -4,6 +4,7 @@ import { Modal } from 'common';
 import { PlusIcon } from 'assets';
 import { NewChatModalBody } from './NewChatModalBody';
 import { ChatRoomElement } from './ChatRoomElement';
+import { DUMMY_CHAT_DATA } from './DUMMY_DATA';
 
 import {
   chatListPageWrapperStyle,
@@ -25,7 +26,9 @@ export const ChatListPage = () => {
 
   return (
     <main className={chatListPageWrapperStyle}>
-      <ChatRoomElement />
+      {DUMMY_CHAT_DATA.map((data, index) => (
+        <ChatRoomElement key={`chat-room-${index}`} chatRoomInfo={data} />
+      ))}
       <button type="button" onClick={handleClickButton} className={chatRoomIconStyle}>
         <PlusIcon />
       </button>
