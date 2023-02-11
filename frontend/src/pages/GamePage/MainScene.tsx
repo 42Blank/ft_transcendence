@@ -43,11 +43,11 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number) {
-    if (this.paddle1 && this.key) {
-      if (this.key.up.isDown) this.paddle1.y -= 10;
-      else if (this.key.down.isDown) this.paddle1.y += 10;
-      if (this.key.shift.isDown) this.paddle2.y -= 10;
-      else if (this.key.space.isDown) this.paddle2.y += 10;
+    if (this.paddle1 && this.paddle2 && this.key) {
+      if (this.key.up.isDown) this.paddle2.y -= 10;
+      else if (this.key.down.isDown) this.paddle2.y += 10;
+      if (this.key.shift.isDown) this.paddle1.y -= 10;
+      else if (this.key.space.isDown) this.paddle1.y += 10;
     }
     /* Paddle 임시 충돌 판정 코드 */
     this.paddle1.y = Phaser.Math.Clamp(this.paddle1.y, 50, 550);
