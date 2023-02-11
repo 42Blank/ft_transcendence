@@ -6,9 +6,10 @@ import { modalBackgroundStyle, modalInnerStyle } from './Modal.styles';
 interface Props {
   children: ReactNode;
   handleCloseModal: () => void;
+  className?: string;
 }
 
-export const Modal = ({ children, handleCloseModal }: Props) => {
+export const Modal = ({ children, handleCloseModal, className }: Props) => {
   const modalRef: RefObject<HTMLDivElement> = createRef();
   const element = document.getElementById('modal') as Element;
 
@@ -26,7 +27,7 @@ export const Modal = ({ children, handleCloseModal }: Props) => {
 
   return createPortal(
     <div className={modalBackgroundStyle}>
-      <div className={modalInnerStyle} ref={modalRef}>
+      <div className={`${modalInnerStyle} ${className}`} ref={modalRef}>
         {children}
       </div>
     </div>,
