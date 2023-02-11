@@ -23,7 +23,7 @@ export interface NewChatRoomType {
 }
 
 export interface JoinChatRoomType {
-  roomID: string;
+  id: string;
   password?: string;
 }
 

@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 
+import { joinChatRoomState } from 'store';
 import { ChatRoomInfoType } from 'types/chat';
 
 import {
@@ -15,9 +16,14 @@ interface Props {
 
 export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
   const { roomTitle, id: roomID, users } = chatRoomInfo;
+  const setJoinChatRoom = useSetRecoilState(joinChatRoomState);
+
+  function handleClickButton() {
+    setJoinChatRoom({ id: roomID });
+  }
 
   return (
-    <Link to={`./${roomID}`} className={chatRoomLinkStyle} state={chatRoomInfo}>
+    <button type="button" onClick={handleClickButton} className={chatRoomLinkStyle}>
       <div className={chatRoomElementStyle}>
         <h3>{roomTitle}</h3>
         <div className={chatRoomImageSectionStyle}>
@@ -30,6 +36,6 @@ export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
           <span>{`외 ${users.length - 1}명`}</span>
         </div>
       </div>
-    </Link>
+    </button>
   );
 };

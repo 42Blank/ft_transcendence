@@ -4,6 +4,6 @@ import { JoinChatRoomType } from 'types/chat';
 export const joinChatRoomState = atom<JoinChatRoomType>({
   key: 'joinChatRoomState',
   default: {
-    roomID: '',
+    id: '',
   },
 });

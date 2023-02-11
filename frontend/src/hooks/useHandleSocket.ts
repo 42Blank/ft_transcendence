@@ -2,7 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { newChatRoomState, newMessageState } from 'store';
+import { joinChatRoomState, newChatRoomState, newMessageState } from 'store';
 import { ChatDataType, ChatRoomInfoType } from 'types/chat';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
@@ -41,6 +41,9 @@ export function useHandleSocket() {
   const [newMessage, setNewMessage] = useRecoilState(newMessageState);
   const newChatRoom = useRecoilValue(newChatRoomState);
   const resetNewChatRoom = useResetRecoilState(newChatRoomState);
+  const joinChatRoom = useRecoilValue(joinChatRoomState);
+  const resetJoinChatRoom = useResetRecoilState(joinChatRoomState);
+
   const { connectHandler, exceptionHandler, disconnectHandler, getCurrentChatHandler, getAllChatRoomHandler } =
     useSetSocketHandler();
 
@@ -63,6 +66,14 @@ export function useHandleSocket() {
     sockets.chatSocket.emit('create_room', newChatRoom);
     resetNewChatRoom();
   }, [newChatRoom]);
+
+  useEffect(() => {
+    if (joinChatRoom.id.length === 0) return;
+    if (sockets.chatSocket === null) return;
+
+    sockets.chatSocket.emit('join_room', joinChatRoom);
+    resetJoinChatRoom();
+  }, [joinChatRoom]);
 
   useEffect(() => {
     if (!sockets.chatSocket) {
