@@ -6,13 +6,13 @@ import { NewChatModalBody } from './NewChatModalBody';
 import { ChatRoomElement } from './ChatRoomElement';
 
 import {
-  mainPageWrapperStyle,
+  chatListPageWrapperStyle,
   chatRoomIconStyle,
   newChatModalHeaderStyle,
   newChatModalWrapperStyle,
-} from './MainPage.styles';
+} from './ChatListPage.styles';
 
-export const MainPage = () => {
+export const ChatListPage = () => {
   const [isModalShown, setIsModalShown] = useState(false);
 
   function handleClickButton() {
@@ -24,7 +24,7 @@ export const MainPage = () => {
   }
 
   return (
-    <main className={mainPageWrapperStyle}>
+    <main className={chatListPageWrapperStyle}>
       <ChatRoomElement />
       <button type="button" onClick={handleClickButton} className={chatRoomIconStyle}>
         <PlusIcon />

@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-export const mainPageWrapperStyle = css`
+export const chatListPageWrapperStyle = css`
   position: relative;
   flex: 1;
   height: calc(100vh - 110px);

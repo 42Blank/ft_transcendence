@@ -1,5 +1,5 @@
 import { LoginLayout, MainLayout } from 'common';
-import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, MainPage } from 'pages';
+import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, ChatListPage } from 'pages';
 import { Route, Routes } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
@@ -8,7 +8,7 @@ export const App = () => {
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<MainLayout />}>
-        <Route path={ROUTE.CHAT} element={<MainPage />} />
+        <Route path={ROUTE.CHAT} element={<ChatListPage />} />
         <Route path={`${ROUTE.CHAT}/:id`} element={<ChatPage />} />
         <Route path={ROUTE.GAME} element={<GameListPage />} />
         <Route path={`${ROUTE.GAME}/:id`} element={<div>hihi</div>} />
