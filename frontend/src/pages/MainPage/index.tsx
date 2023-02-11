@@ -4,6 +4,7 @@ import { Modal, RoomElement } from 'common';
 import { PlusIcon } from 'assets';
 
 import { MainPageWrapperStyle, chatRoomIconStyle, newChatModalHeaderStyle } from './MainPage.styles';
+import { NewChatModalBody } from './NewChatModalBody';
 
 export const MainPage = () => {
   const [isModalShown, setIsModalShown] = useState(false);
@@ -31,7 +32,7 @@ export const MainPage = () => {
           <header className={newChatModalHeaderStyle}>
             <h4>새 채팅방</h4>
           </header>
-          <main>이름 공개여부 어쩌구</main>
+          <NewChatModalBody />
         </Modal>
       )}
     </main>
