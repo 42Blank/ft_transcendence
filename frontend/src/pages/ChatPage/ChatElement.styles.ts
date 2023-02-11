@@ -12,6 +12,7 @@ export const chatElementWrapper = (isMine: boolean) =>
   `;
 
 export const chatProfileWrapper = css`
+  position: relative;
   width: 70px;
   display: flex;
   flex-direction: column;
@@ -19,12 +20,23 @@ export const chatProfileWrapper = css`
   margin-right: 20px;
 
   & > img {
-    position: relative;
     width: 50px;
     height: 50px;
     object-fit: cover;
-    border: 2px solid white; // TODO: 상수화
-    border-radius: 25px;
+    border: 1px solid black; // TODO: 상수화
+    border-radius: 30px;
+  }
+
+  & > svg {
+    position: absolute;
+    right: 5px;
+    top: 33px;
+    width: 20px;
+    height: 20px;
+    background-color: black; // TODO: 상수화
+    border: 1px solid black; // TODO: 상수화
+    fill: white; // TODO: 상수화
+    border-radius: 20px;
   }
 
   & > span {

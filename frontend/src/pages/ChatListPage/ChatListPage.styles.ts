@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-export const gameListWrapperStyle = css`
+export const chatListPageWrapperStyle = css`
   position: relative;
   flex: 1;
   height: calc(100vh - 110px);
@@ -13,7 +13,7 @@ export const gameListWrapperStyle = css`
   gap: 20px;
 `;
 
-export const gameRoomIconStyle = css`
+export const chatRoomIconStyle = css`
   position: absolute;
   z-index: 2;
   right: 30px;
@@ -29,13 +29,13 @@ export const gameRoomIconStyle = css`
   }
 `;
 
-export const newGameModalWrapperStyle = css`
+export const newChatModalWrapperStyle = css`
   height: 30%;
   display: flex;
   flex-direction: column;
 `;
 
-export const newGameModalHeaderStyle = css`
+export const newChatModalHeaderStyle = css`
   width: calc(100% - 40px);
   padding: 10px 20px;
   border-bottom: 1px solid black; // TODO: 색상 상수화

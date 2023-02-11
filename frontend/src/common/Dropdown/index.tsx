@@ -4,7 +4,6 @@ import { useState } from 'react';
 import {
   dropdownListElementStyle,
   dropdownListStyle,
-  dropdownToggleIconStyle,
   dropdownTopValueStyle,
   dropdownWrapperStyle,
 } from './Dropdown.styles';
@@ -16,27 +15,25 @@ interface Props {
 }
 
 export const Dropdown = ({ currentKey, elements, onChange }: Props) => {
-  const [isShown, setIsShown] = useState(false);
+  const [isDropdownShown, setIsDropdownShown] = useState(false);
 
   function handleClickValue(value: number | boolean) {
     onChange(value);
-    setIsShown(false);
+    setIsDropdownShown(false);
   }
 
   function handleClickToggle() {
-    setIsShown(prevState => !prevState);
+    setIsDropdownShown(prevState => !prevState);
   }
 
   return (
     <div className={dropdownWrapperStyle}>
-      <div className={dropdownTopValueStyle}>
+      <button type="button" onClick={handleClickToggle} className={dropdownTopValueStyle(isDropdownShown)}>
         <span>{currentKey}</span>
-        <button type="button" onClick={handleClickToggle} className={dropdownToggleIconStyle(isShown)}>
-          <ArrowDownIcon />
-        </button>
-      </div>
-      {isShown && (
-        <ul className={dropdownListStyle(isShown)}>
+        <ArrowDownIcon />
+      </button>
+      {isDropdownShown && (
+        <ul className={dropdownListStyle(isDropdownShown)}>
           {elements.map(({ key, value }, index) => (
             <li key={`dropdown-${index}`} className={dropdownListElementStyle}>
               <button type="button" onClick={() => handleClickValue(value)}>

@@ -13,7 +13,7 @@ export const FriendsListElement = ({ userInfo }: Props) => {
   return (
     <li className={friendsListElementStyle}>
       <Link to={`${ROUTE.PROFILE}/${id}`}>
-        <img src={avatar} alt={`${intraId}-profile`} className={friendsListImageStyle} />
+        <img src={avatar} alt={`${intraId}-profile`} width={50} height={50} className={friendsListImageStyle} />
         <span className={friendsListNameStyle}>{nickname}</span>
       </Link>
     </li>
