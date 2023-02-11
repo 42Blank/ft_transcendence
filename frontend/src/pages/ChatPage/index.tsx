@@ -38,7 +38,7 @@ export const ChatPage = () => {
 
   useEffect(() => {
     if (!state) {
-      alert('채팅방이 존재하지 않습니다!');
+      alert('잘못된 접근입니다');
       nav(-1);
     }
     setIsCurrentUserOperator(checkIsUserOperator(state.users, currentUserID));

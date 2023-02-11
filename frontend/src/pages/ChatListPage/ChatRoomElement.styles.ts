@@ -1,68 +1,69 @@
 import { css } from '@emotion/css';
 
-export const chatRoomLinkStyle = css({
-  color: 'black', // TODO: color 상수화
-  textDecoration: 'none',
-  userSelect: 'none',
-});
+export const chatRoomLinkStyle = css`
+  color: black; // TODO: color 상수화
+  text-decoration: none;
+  user-select: none;
+`;
 
-export const chatRoomElementStyle = css({
-  display: 'flex',
-  flexDirection: 'column',
-  border: `1px solid black`, // TODO: border color 상수화
-  borderRadius: 5,
-  overflow: 'hidden',
-  height: 180,
+export const chatRoomElementStyle = css`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black; // TODO: border color 상수화
+  border-radius: 5px;
+  overflow: hidden;
+  height: 180px;
 
-  h3: {
-    fontWeight: 600,
-    padding: 15,
-    width: 'calc(100% - 30px)',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  },
-});
+  & > h3 {
+    font-weight: 600;
+    padding: 15px;
+    width: calc(100% - 30px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
 
-export const chatRoomImageSectionStyle = css({
-  marginTop: 10,
-  marginBottom: 10,
-  width: '100%',
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
+export const chatRoomImageSectionStyle = css`
+  margin-top: 10;
+  margin-bottom: 10;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
-  img: {
-    width: 50,
-    height: 50,
-    border: `2px solid white`, // TODO: border color 상수화
-    objectFit: 'cover',
-    borderRadius: 25,
+  & > img {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white; // TODO: border color 상수화
+    object-fit: cover;
+    border-radius: 25px;
 
-    ':not(:last-child)': {
-      marginRight: -15,
-    },
-  },
-});
+    &:not(:last-child) {
+      margin-right: -15px;
+    }
+  }
+`;
 
-export const chatRoomTextSectionStyle = css({
-  display: 'flex',
-  flexDirection: 'row',
-  padding: 15,
+export const chatRoomTextSectionStyle = css`
+  width: calc(100% - 30px);
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+  overflow: hidden;
 
-  span: {
-    maxWidth: '70%',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    lineHeight: 1.5,
-  },
+  & > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 18px;
+  }
 
-  'span:last-child': {
-    marginLeft: 5,
-    opacity: 0.5,
-    width: '30%',
-  },
-});
+  & > span:last-child {
+    margin-left: 5px;
+    opacity: 0.5;
+    width: 30%;
+  }
+`;
