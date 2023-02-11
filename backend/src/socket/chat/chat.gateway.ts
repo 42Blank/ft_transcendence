@@ -8,13 +8,18 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
-import { SocketUser } from '../../common/auth/jwt-auth';
-import { User } from '../../common/database/entities/user.entity';
+import { Server } from 'socket.io';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
-import { ChatDataMessageDto } from './dto/chat-data-message.dto';
-import { ChatData } from './model/chat-data';
+import { ChatMessageDto } from './dto/incoming/chat-message.dto';
+import { CreateChatRoomDto } from './dto/incoming/create-chat-room.dto';
+import { JoinChatRoomDto } from './dto/incoming/join-chat-room.dto';
+import { LeaveChatRoomDto } from './dto/incoming/leave-chat-room.dto';
+import { UpdateChatRoomDto } from './dto/incoming/update-chat-room.dto';
+import { ChatRoomService } from './service/chat-room.service';
+import { ChatUserService } from './service/chat-user.service';
+import { UserConnectionService } from './service/user-connection.service';
+import { SocketWithUser } from './types/SocketWithUser';
 
 @UseFilters(new WsExceptionFilter())
 @WebSocketGateway({
@@ -23,36 +28,97 @@ import { ChatData } from './model/chat-data';
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger: Logger = new Logger(ChatGateway.name);
 
-  constructor(private readonly connectionHandleGateWay: ConnectionHandleService) {}
+  constructor(
+    private readonly connectionHandleService: ConnectionHandleService,
+    private readonly userConnectionService: UserConnectionService,
+    private readonly chatRoomService: ChatRoomService,
+    private readonly chatUserService: ChatUserService,
+  ) {}
 
   @WebSocketServer()
   io: Server;
 
-  @SubscribeMessage('eventsToServer')
-  findAll(
-    @ConnectedSocket() { id }: Socket, //
-    @SocketUser() user: User,
-    @MessageBody() data: ChatDataMessageDto,
+  @SubscribeMessage('create_room')
+  createRoom(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: CreateChatRoomDto,
   ): void {
-    this.logger.debug(`eventsToServer ${id}, ${user.id}, ${JSON.stringify(data)}`);
+    this.logger.verbose(`createRoom: ${JSON.stringify(data)}`);
 
-    const chatData: ChatData = {
-      user: {
-        ...user,
-        isOperator: true,
-      },
-      message: data.message,
-      timestamp: data.timestamp,
-    };
-
-    this.io.emit('eventsToClient', chatData);
+    this.chatRoomService.createChatRoom(client.user.id, data);
+    this.emitChatRooms();
+    client.emit('join_room');
   }
 
-  async handleConnection(client: Socket): Promise<void> {
-    await this.connectionHandleGateWay.handleConnection(client);
+  @SubscribeMessage('get_chat_rooms')
+  getChatRooms() {
+    this.emitChatRooms();
   }
 
-  handleDisconnect(client: Socket): void {
-    this.connectionHandleGateWay.handleDisconnect(client);
+  @SubscribeMessage('update_room')
+  updateRoom(
+    @ConnectedSocket() { user }: SocketWithUser, //
+    @MessageBody() data: UpdateChatRoomDto,
+  ): void {
+    this.logger.verbose(`updateRoom: ${JSON.stringify(data)}`);
+
+    this.chatRoomService.updateChatRoom(user.id, data.chatRoomId, data);
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('join_room')
+  joinRoom(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: JoinChatRoomDto,
+  ): void {
+    this.logger.verbose(`joinRoom: ${JSON.stringify(data)}`);
+
+    this.chatUserService.joinChatRoom(data.chatRoomId, client.user.id);
+    this.emitChatRooms();
+    client.emit('join_room');
+  }
+
+  @SubscribeMessage('leave_room')
+  leaveRoom(
+    @ConnectedSocket() { user }: SocketWithUser, //
+    @MessageBody() data: LeaveChatRoomDto,
+  ): void {
+    this.logger.verbose(`leaveRoom: ${JSON.stringify(data)}`);
+
+    this.chatUserService.leaveChatRoom(data.chatRoomId, user.id);
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('chat_message')
+  emitChatData(
+    @ConnectedSocket() { user }: SocketWithUser, //
+    @MessageBody() data: ChatMessageDto,
+  ): void {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(user.id);
+    const chatData = this.chatUserService.getChatData(user.id, data.message, data.timestamp);
+
+    this.chatUserService.getChatUsersSocketId(chatRoom.id).forEach(socketId => {
+      this.io.to(socketId).emit('chat_message', chatData);
+    });
+  }
+
+  async emitChatRooms(): Promise<void> {
+    const chatRoom = await this.chatRoomService.getChatRooms();
+
+    this.logger.verbose(`emitChatRooms: ${JSON.stringify(chatRoom)}`);
+
+    this.io.emit('update_chat_room', chatRoom);
+  }
+
+  async handleConnection(client: SocketWithUser): Promise<void> {
+    await this.connectionHandleService.handleConnection(client);
+    this.userConnectionService.userConnected(client.user.id, client.id);
+    this.emitChatRooms();
+  }
+
+  handleDisconnect(client: SocketWithUser): void {
+    this.userConnectionService.userDisconnected(client.user.id);
+    this.connectionHandleService.handleDisconnect(client);
+    this.emitChatRooms();
   }
 }
