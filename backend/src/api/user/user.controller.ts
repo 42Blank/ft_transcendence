@@ -7,8 +7,8 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard, ReqUser } from '../../common/auth/jwt-auth';
 import { User } from '../../common/database/entities/user.entity';
-import { JwtAuthGuard, JwtPayload, ReqJwtPayload } from '../../common/guard/jwt-auth';
 import { UpdateUserProfileRequestDto } from './dto/update-user-profile-request.dto';
 import { FindUserService } from './service/find-user.service';
 import { UpdateProfileService } from './service/update-profile.service';
@@ -34,7 +34,7 @@ export class UserController {
   @Get('me')
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiOkResponse({ description: '내 정보', type: User })
-  async me(@ReqJwtPayload() { id }: JwtPayload): Promise<User> {
+  async me(@ReqUser() { id }: User): Promise<User> {
     return await this.findUserService.findOneByIdOrFail(id);
   }
 
@@ -50,7 +50,7 @@ export class UserController {
   @ApiOperation({ summary: '유저 프로필 변경' })
   @ApiOkResponse({ description: '성공' })
   async update(
-    @ReqJwtPayload() user: User, //
+    @ReqUser() user: User, //
     @Body() updateUserProfileDto: UpdateUserProfileRequestDto,
   ): Promise<void> {
     await this.updateProfileService.updateProfile(user, updateUserProfileDto);

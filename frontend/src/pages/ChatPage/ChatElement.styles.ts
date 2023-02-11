@@ -1,69 +1,70 @@
 import { css } from '@emotion/css';
 
 export const chatElementWrapper = (isMine: boolean) =>
-  css({
-    padding: 10,
-    overflow: 'hidden',
-    width: 'calc(100% - 20px)',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: isMine ? 'flex-end' : 'flex-start',
-    alignItems: 'flex-start',
-  });
+  css`
+    padding: 10px;
+    overflow: hidden;
+    width: calc(100% - 20px);
+    display: flex;
+    flex-direction: row;
+    justify-content: ${isMine ? 'flex-end' : 'flex-start'};
+    align-items: flex-start;
+  `;
 
-export const chatProfileWrapper = css({
-  width: 70,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  marginRight: 20,
+export const chatProfileWrapper = css`
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
 
-  img: {
-    width: 50,
-    height: 50,
-    objectFit: 'cover',
-    border: `2px solid white`, // TODO: 상수화
-    borderRadius: 25,
-  },
+  & > img {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid white; // TODO: 상수화
+    border-radius: 25px;
+  }
 
-  span: {
-    marginTop: 3,
-    width: 70,
-    lineHeight: 1.5,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
-  },
-});
+  & > span {
+    margin-top: 3px;
+    width: 70px;
+    line-height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+`;
 
-export const chatBodyWrapper = css({
-  maxWidth: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'flex-end',
-});
+export const chatBodyWrapper = css`
+  max-width: calc(100% - 90px);
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+`;
 
 export const chatTimestampWrapper = (isMine: boolean) =>
-  css({
-    textAlign: isMine ? 'end' : 'start',
-    margin: isMine ? '0 10px 0 0' : '0 0 0 10px',
-    width: 80,
-    marginBottom: 5,
-    fontSize: 10, // TODO: 상수화
-    opacity: 0.5,
-  });
+  css`
+    text-align: ${isMine ? 'end' : 'start'};
+    margin: ${isMine ? '0 10px 0 0' : '0 0 0 10px'};
+    width: 80px;
+    margin-bottom: 5px;
+    font-size: 10px; // TODO: 상수화
+    opacity: 0.5;
+  `;
 
-export const chatMessageWrapper = css({
-  border: `1px solid black`, // TODO: 상수화
-  borderRadius: 5,
-  padding: 10,
-  height: 'fit-content',
-  flex: 1,
-  marginTop: 10,
+export const chatMessageWrapper = css`
+  border: 1px solid black; // TODO: 상수화
+  border-radius: 5px;
+  padding: 10px;
+  height: fit-content;
+  flex: 1;
+  margin-top: 10px;
 
-  span: {
+  & > span: {
     // TODO: style
   },
-});
+`;

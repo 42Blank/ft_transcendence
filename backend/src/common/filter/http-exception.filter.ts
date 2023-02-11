@@ -4,6 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
@@ -15,9 +16,10 @@ const FIND_DOUBLE_QUOTE = /\"/g;
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
+  private logger = new Logger(HttpExceptionFilter.name);
+
   public catch(exception: Error, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
+    const response = host.switchToHttp().getResponse<Response>();
 
     if (exception instanceof EntityNotFoundError) {
       const error = new NotFoundException(`NotFound Error : ${this.getErrorMessage(exception)}`);
@@ -28,6 +30,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
       const error = new ServiceUnavailableException(`TypeOrm Error : ${this.getErrorMessage(exception)}`);
       return this.responseError(response, error);
     }
+
+    if (exception instanceof HttpException) {
+      return this.responseError(response, exception);
+    }
+
+    this.logger.error('HttpException', exception);
 
     const error = new InternalServerErrorException(`Unknown Error : ${this.getErrorMessage(exception)}`);
     return this.responseError(response, error);
