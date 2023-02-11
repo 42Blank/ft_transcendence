@@ -1,12 +1,12 @@
 import { css } from '@emotion/css';
 
-export const roomLinkStyle = css({
+export const chatRoomLinkStyle = css({
   color: 'black', // TODO: color 상수화
   textDecoration: 'none',
   userSelect: 'none',
 });
 
-export const roomElementStyle = css({
+export const chatRoomElementStyle = css({
   display: 'flex',
   flexDirection: 'column',
   border: `1px solid black`, // TODO: border color 상수화
@@ -24,7 +24,7 @@ export const roomElementStyle = css({
   },
 });
 
-export const roomImageSectionStyle = css({
+export const chatRoomImageSectionStyle = css({
   marginTop: 10,
   marginBottom: 10,
   width: '100%',
@@ -47,7 +47,7 @@ export const roomImageSectionStyle = css({
   },
 });
 
-export const roomTextSectionStyle = css({
+export const chatRoomTextSectionStyle = css({
   display: 'flex',
   flexDirection: 'row',
   padding: 15,

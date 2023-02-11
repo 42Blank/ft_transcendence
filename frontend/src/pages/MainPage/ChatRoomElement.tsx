@@ -1,14 +1,19 @@
 import { Link } from 'react-router-dom';
 
-import { roomElementStyle, roomImageSectionStyle, roomLinkStyle, roomTextSectionStyle } from './RoomElement.styles';
+import {
+  chatRoomElementStyle,
+  chatRoomImageSectionStyle,
+  chatRoomLinkStyle,
+  chatRoomTextSectionStyle,
+} from './ChatRoomElement.styles';
 
-export const RoomElement = () => {
+export const ChatRoomElement = () => {
   // TODO: 하드코딩 Data 대신 타입 지정한 실제 더미 데이터 작성
   return (
-    <Link to="./123" className={roomLinkStyle}>
-      <div className={roomElementStyle}>
+    <Link to="./123" className={chatRoomLinkStyle}>
+      <div className={chatRoomElementStyle}>
         <h3>초보만</h3>
-        <div className={roomImageSectionStyle}>
+        <div className={chatRoomImageSectionStyle}>
           <img
             src="https://beebom.com/wp-content/uploads/2022/10/Cute-Weakened-form-of-Pochita.jpg?w=640"
             width={50}
@@ -28,7 +33,7 @@ export const RoomElement = () => {
             alt="profile1"
           />
         </div>
-        <div className={roomTextSectionStyle}>
+        <div className={chatRoomTextSectionStyle}>
           <span>jisokang</span>
           <span>외 2명</span>
         </div>

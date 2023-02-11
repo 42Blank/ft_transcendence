@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
-import { Modal, RoomElement } from 'common';
+import { Modal } from 'common';
 import { PlusIcon } from 'assets';
+import { NewChatModalBody } from './NewChatModalBody';
+import { ChatRoomElement } from './ChatRoomElement';
 
 import {
   MainPageWrapperStyle,
@@ -9,7 +11,6 @@ import {
   newChatModalHeaderStyle,
   newChatModalWrapperStyle,
 } from './MainPage.styles';
-import { NewChatModalBody } from './NewChatModalBody';
 
 export const MainPage = () => {
   const [isModalShown, setIsModalShown] = useState(false);
@@ -24,11 +25,7 @@ export const MainPage = () => {
 
   return (
     <main className={MainPageWrapperStyle}>
-      <RoomElement />
-      <RoomElement />
-      <RoomElement />
-      <RoomElement />
-      <RoomElement />
+      <ChatRoomElement />
       <button type="button" onClick={handleClickButton} className={chatRoomIconStyle}>
         <PlusIcon />
       </button>
