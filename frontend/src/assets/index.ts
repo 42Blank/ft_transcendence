@@ -7,3 +7,4 @@ export { ReactComponent as MuteIcon } from './muteIcon.svg';
 export { ReactComponent as UnmuteIcon } from './unmuteIcon.svg';
 export { ReactComponent as VerifyIcon } from './verifyIcon.svg';
 export { ReactComponent as VerifiedIcon } from './verifiedIcon.svg';
+export { ReactComponent as SaveIcon } from './saveIcon.svg';
