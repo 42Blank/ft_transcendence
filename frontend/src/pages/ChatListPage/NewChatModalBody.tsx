@@ -1,8 +1,8 @@
 import { FormEvent, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 
 import { Dropdown } from 'common';
-import { ROUTE } from 'common/constants';
+import { newChatRoomState } from 'store';
 
 import {
   formSectionButtonWrapper,
@@ -17,24 +17,29 @@ interface Props {
 
 export const NewChatModalBody = ({ onClickClose }: Props) => {
   const [isPrivate, setIsPrivate] = useState(false);
+  const setNewChatRoom = useSetRecoilState(newChatRoomState);
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const nav = useNavigate();
 
   const dropdownElement = [
     { key: '공개', value: false },
     { key: '비공개', value: true },
   ];
 
-  function handleTogglePrivate() {
-    setIsPrivate(prevState => !prevState);
+  function handleTogglePrivate(value: number | boolean) {
+    setIsPrivate(value as boolean);
   }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    // TODO: 서버에 채팅방 만들고 제출하는 로직 추가
+    if (!nameRef.current || nameRef.current?.value.length === 0) return;
+    setNewChatRoom({
+      roomTitle: nameRef.current.value,
+      isPrivate,
+      password: passwordRef.current?.value ?? null,
+    });
     onClickClose();
-    nav(`${ROUTE.CHAT}/123`); // TODO: 채팅방 uuid 서버로부터 답장받아야 함
+    // nav(`${ROUTE.CHAT}/123`); // TODO: 채팅방 uuid 서버로부터 답장받아야 함
   }
 
   return (
