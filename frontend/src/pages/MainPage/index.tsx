@@ -6,7 +6,7 @@ import { NewChatModalBody } from './NewChatModalBody';
 import { ChatRoomElement } from './ChatRoomElement';
 
 import {
-  MainPageWrapperStyle,
+  mainPageWrapperStyle,
   chatRoomIconStyle,
   newChatModalHeaderStyle,
   newChatModalWrapperStyle,
@@ -24,7 +24,7 @@ export const MainPage = () => {
   }
 
   return (
-    <main className={MainPageWrapperStyle}>
+    <main className={mainPageWrapperStyle}>
       <ChatRoomElement />
       <button type="button" onClick={handleClickButton} className={chatRoomIconStyle}>
         <PlusIcon />

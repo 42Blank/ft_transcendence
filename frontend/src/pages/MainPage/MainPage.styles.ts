@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-export const MainPageWrapperStyle = css`
+export const mainPageWrapperStyle = css`
   position: relative;
   flex: 1;
   height: calc(100vh - 110px);
@@ -8,7 +8,7 @@ export const MainPageWrapperStyle = css`
   overflow-y: scroll;
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 180px);
   gap: 20px;
 `;
