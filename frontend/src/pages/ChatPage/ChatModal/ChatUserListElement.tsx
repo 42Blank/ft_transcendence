@@ -1,8 +1,12 @@
 import { BanIcon, FightIcon, MuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ChatUserInfoType } from 'types/chat';
-import { ChatUserListElementButton } from './ChatUserListElementButton';
 
-import { chatUserElementImageStyle, chatUserElementWrapperStyle, chatUserNicknameSpanStyle } from './ChatModal.styles';
+import {
+  chatUserButtonStyle,
+  chatUserElementImageStyle,
+  chatUserElementWrapperStyle,
+  chatUserNicknameSpanStyle,
+} from './ChatModal.styles';
 
 interface Props {
   user: ChatUserInfoType;
@@ -22,20 +26,20 @@ export const ChatUserListElement = ({ user, isOperator }: Props) => {
       <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       {isOperator && (
         <>
-          <ChatUserListElementButton text="차단">
+          <button type="button" className={chatUserButtonStyle}>
             <BanIcon />
-          </ChatUserListElementButton>
-          <ChatUserListElementButton text="뮤트">
+          </button>
+          <button type="button" className={chatUserButtonStyle}>
             <MuteIcon />
-          </ChatUserListElementButton>
-          <ChatUserListElementButton text="방장 임명">
+          </button>
+          <button type="button" className={chatUserButtonStyle}>
             {user.isOperator ? <VerifiedIcon /> : <VerifyIcon />}
-          </ChatUserListElementButton>
+          </button>
         </>
       )}
-      <ChatUserListElementButton text="대결 신청">
+      <button type="button" className={chatUserButtonStyle}>
         <FightIcon />
-      </ChatUserListElementButton>
+      </button>
     </li>
   );
 };
