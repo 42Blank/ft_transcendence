@@ -18,7 +18,6 @@ import { LeaveChatRoomDto } from './dto/incoming/leave-chat-room.dto';
 import { UpdateChatRoomDto } from './dto/incoming/update-chat-room.dto';
 import { ChatRoomService } from './service/chat-room.service';
 import { ChatUserService } from './service/chat-user.service';
-import { UserConnectionService } from './service/user-connection.service';
 import { SocketWithUser } from './types/SocketWithUser';
 
 @UseFilters(new WsExceptionFilter())
@@ -30,7 +29,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   constructor(
     private readonly connectionHandleService: ConnectionHandleService,
-    private readonly userConnectionService: UserConnectionService,
     private readonly chatRoomService: ChatRoomService,
     private readonly chatUserService: ChatUserService,
   ) {}
@@ -124,13 +122,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const isConnected = await this.connectionHandleService.handleConnection(client);
 
     if (isConnected) {
-      this.userConnectionService.userConnected(client.user.id, client.id);
       this.emitChatRooms();
     }
   }
 
   public handleDisconnect(client: SocketWithUser): void {
-    this.userConnectionService.userDisconnected(client.id);
+    this.chatUserService.leaveAllChatRooms(client.id);
     this.connectionHandleService.handleDisconnect(client);
     this.emitChatRooms();
   }

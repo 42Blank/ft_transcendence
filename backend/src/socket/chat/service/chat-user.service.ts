@@ -45,6 +45,10 @@ export class ChatUserService {
     this.chatRoomRepository.removeSocketFromChatRoom(chatRoomId, socketId);
   }
 
+  public leaveAllChatRooms(socketId: string): void {
+    this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
+  }
+
   public getJoinedChatRoom(socketId: string): ChatRoom {
     const chatRoom = this.chatRoomRepository.getChatRooms().find(chatRoom => {
       return chatRoom.sockets.has(socketId);
