@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { PlusIcon } from 'assets';
 import { Modal } from 'common';
+import { GameRoomElement } from './GameRoomElement';
 
 import {
   gameListWrapperStyle,
@@ -23,6 +24,7 @@ export const GameListPage = () => {
 
   return (
     <main className={gameListWrapperStyle}>
+      <GameRoomElement />
       <button type="button" onClick={handleClickButton} className={gameRoomIconStyle}>
         <PlusIcon />
       </button>
