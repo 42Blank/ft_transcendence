@@ -29,6 +29,12 @@ export const chatRoomIconStyle = css`
   }
 `;
 
+export const newChatModalWrapperStyle = css`
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+`;
+
 export const newChatModalHeaderStyle = css`
   width: calc(100% - 40px);
   padding: 10px 20px;

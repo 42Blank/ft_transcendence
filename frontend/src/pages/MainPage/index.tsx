@@ -3,7 +3,12 @@ import { useState } from 'react';
 import { Modal, RoomElement } from 'common';
 import { PlusIcon } from 'assets';
 
-import { MainPageWrapperStyle, chatRoomIconStyle, newChatModalHeaderStyle } from './MainPage.styles';
+import {
+  MainPageWrapperStyle,
+  chatRoomIconStyle,
+  newChatModalHeaderStyle,
+  newChatModalWrapperStyle,
+} from './MainPage.styles';
 import { NewChatModalBody } from './NewChatModalBody';
 
 export const MainPage = () => {
@@ -28,11 +33,11 @@ export const MainPage = () => {
         <PlusIcon />
       </button>
       {isModalShown && (
-        <Modal onClickClose={handleClickClose}>
+        <Modal onClickClose={handleClickClose} className={newChatModalWrapperStyle}>
           <header className={newChatModalHeaderStyle}>
             <h4>새 채팅방</h4>
           </header>
-          <NewChatModalBody />
+          <NewChatModalBody onClickClose={handleClickClose} />
         </Modal>
       )}
     </main>
