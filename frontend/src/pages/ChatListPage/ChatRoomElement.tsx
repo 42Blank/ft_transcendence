@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
-  const { roomTitle, roomID, users } = chatRoomInfo;
+  const { roomTitle, id: roomID, users } = chatRoomInfo;
 
   return (
     <Link to={`./${roomID}`} className={chatRoomLinkStyle} state={chatRoomInfo}>
