@@ -9,6 +9,7 @@ interface ChatUserInfoType {
 
 export interface ChatRoomInfoType {
   roomTitle: string;
+  roomID: string;
   isPrivate: boolean;
   password?: string;
   users: ChatUserInfoType[];

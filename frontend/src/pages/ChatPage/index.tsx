@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { useGetCurrentUser } from 'hooks';
 import { Modal } from 'common';
 import { HamburgerIcon } from 'assets';
-import { ChatRoomInfoType } from 'types/chat';
 import { currentChatDataState } from 'store';
 import { checkIsUserOperator } from 'utils';
 import { ChatElement } from './ChatElement';
@@ -20,62 +20,13 @@ import {
   closeButtonStyle,
 } from './ChatPage.styles';
 
-const DUMMY_CHAT_INFO: ChatRoomInfoType = {
-  roomTitle: 'ycha 바보',
-  isPrivate: true,
-  users: [
-    {
-      user: {
-        id: 1,
-        nickname: '자송 the 엄청긴닉네임소유자',
-        intraId: '11111',
-        avatar: 'https://cdn.intra.42.fr/users/b3af07505013b8500276523f65b49ff1/jasong.JPG',
-        point: 0,
-        createdAt: '1970-01-01T00:00:00.000Z',
-        updatedAt: '1970-01-01T00:00:00.000Z',
-      },
-      isOperator: true,
-      isMuted: false,
-      muteTime: 0,
-    },
-    {
-      user: {
-        id: 5,
-        nickname: '지최',
-        intraId: '55555',
-        avatar: 'https://cdn.intra.42.fr/users/b9c44cf9ae13ffec04381638c0a2f204/jiychoi.jpg',
-        point: 0,
-        createdAt: '1970-01-01T00:00:00.000Z',
-        updatedAt: '1970-01-01T00:00:00.000Z',
-      },
-      isOperator: true,
-      isMuted: false,
-      muteTime: 0,
-    },
-    {
-      user: {
-        id: 4,
-        nickname: '영차',
-        intraId: '44444',
-        avatar: 'https://cdn.intra.42.fr/users/6038c103da3bb9180a072f8154e6b428/ycha.jpg',
-        point: 0,
-        createdAt: '1970-01-01T00:00:00.000Z',
-        updatedAt: '1970-01-01T00:00:00.000Z',
-      },
-      isOperator: false,
-      isMuted: true,
-      muteTime: 10000,
-    },
-  ],
-  bannedUsers: [],
-}; // TODO: 더미데이터 날리기
-
 export const ChatPage = () => {
-  // const { id } = useParams();
+  const { state } = useLocation();
   const { id: currentUserID } = useGetCurrentUser();
+  const nav = useNavigate();
   const currentChatData = useRecoilValue(currentChatDataState);
   const [isModalShown, setIsModalShown] = useState(false);
-  const isCurrentUserOperator = checkIsUserOperator(DUMMY_CHAT_INFO.users, currentUserID);
+  const [isCurrentUserOperator, setIsCurrentUserOperator] = useState(false);
 
   function handleOpenModal() {
     setIsModalShown(true);
@@ -85,13 +36,21 @@ export const ChatPage = () => {
     setIsModalShown(false);
   }
 
+  useEffect(() => {
+    if (!state) {
+      alert('채팅방이 존재하지 않습니다!');
+      nav(-1);
+    }
+    setIsCurrentUserOperator(checkIsUserOperator(state.users, currentUserID));
+  }, [state]);
+
   return (
     <>
       <main className={chatPageWrapperStyle}>
         <header className={chatPageTitleStyle}>
-          <span>{DUMMY_CHAT_INFO.roomTitle}</span>
+          <span>{state?.roomTitle ?? ''}</span>
           <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
-            <HamburgerIcon /> {/* TODO: 더 잘 어울리는 아이콘 있으면 그걸로 바꿀 예정 */}
+            <HamburgerIcon />
           </button>
         </header>
         <ul className={chatPageListWrapperStyle}>
@@ -110,11 +69,11 @@ export const ChatPage = () => {
       {isModalShown && (
         <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
           <ChatInfoModalHeader
-            roomTitle={DUMMY_CHAT_INFO.roomTitle}
+            roomTitle={state.roomTitle}
             isCurrentUserOperator={isCurrentUserOperator}
-            isPrivate={DUMMY_CHAT_INFO.isPrivate}
+            isPrivate={state.isPrivate}
           />
-          <ChatInfoModalBody users={DUMMY_CHAT_INFO.users} isCurrentUserOperator={isCurrentUserOperator} />
+          <ChatInfoModalBody users={state.users} isCurrentUserOperator={isCurrentUserOperator} />
           <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
             닫기
           </button>
