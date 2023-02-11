@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 
 import { Tooltip } from 'common';
-import { chatUserButtonStyle } from './ChatUserListElement.styles';
+import { chatUserButtonStyle } from './ChatModal.styles';
 
 interface Props {
   children: ReactNode;

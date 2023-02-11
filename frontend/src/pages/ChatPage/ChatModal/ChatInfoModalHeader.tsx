@@ -10,7 +10,7 @@ import {
   chatVisibilityLeftSpanStyle,
   chatVisibilityRightSpanStyle,
   chatVisibilityWrapperStyle,
-} from './ChatInfoModalHeader.styles';
+} from './ChatModal.styles';
 
 interface Props {
   roomTitle: string;

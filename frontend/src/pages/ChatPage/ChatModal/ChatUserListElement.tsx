@@ -2,11 +2,7 @@ import { BanIcon, FightIcon, MuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ChatUserInfoType } from 'types/chat';
 import { ChatUserListElementButton } from './ChatUserListElementButton';
 
-import {
-  chatUserElementImageStyle,
-  chatUserElementWrapperStyle,
-  chatUserNicknameSpanStyle,
-} from './ChatUserListElement.styles';
+import { chatUserElementImageStyle, chatUserElementWrapperStyle, chatUserNicknameSpanStyle } from './ChatModal.styles';
 
 interface Props {
   user: ChatUserInfoType;

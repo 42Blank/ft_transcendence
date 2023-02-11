@@ -63,3 +63,49 @@ export const chatPasswordWrapperStyle = css`
     font-size: 13px;
   }
 `;
+
+export const chatInfoModalBodyStyle = css`
+  width: 100%;
+  height: 65%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border-bottom: 1px solid black; // TODO: 상수화
+`;
+
+export const chatUserElementWrapperStyle = css`
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+`;
+
+export const chatUserElementImageStyle = css`
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 25px;
+  margin-right: 10px;
+`;
+
+export const chatUserNicknameSpanStyle = css`
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const chatUserButtonStyle = css`
+  position: relative;
+  width: 30px;
+  height: 30px;
+
+  & > svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+`;
