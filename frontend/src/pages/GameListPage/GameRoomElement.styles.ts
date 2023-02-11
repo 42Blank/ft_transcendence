@@ -52,7 +52,8 @@ export const gameRoomUserWrapperStyle = css`
   }
 
   & > span {
-    font-size: 15px;
+    font-size: 17px;
     margin-top: 10px;
+    line-height: 20px;
   }
 `;
