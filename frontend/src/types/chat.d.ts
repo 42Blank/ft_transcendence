@@ -1,7 +1,10 @@
 import { UserInfoType } from './user';
 
-interface ChatUserInfoType extends UserInfoType {
+interface ChatUserInfoType {
+  user: UserInfoType;
   isOperator: boolean;
+  isMuted?: boolean;
+  muteTime?: number;
 }
 
 export interface ChatRoomInfoType {
@@ -9,6 +12,7 @@ export interface ChatRoomInfoType {
   isPrivate: boolean;
   password?: string;
   users: ChatUserInfoType[];
+  bannedUsers: UserInfoType[];
 }
 
 export interface ChatDataType {

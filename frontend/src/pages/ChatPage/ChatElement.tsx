@@ -8,14 +8,14 @@ import {
 } from './ChatElement.styles';
 
 interface Props {
-  user: ChatUserInfoType;
+  chatUser: ChatUserInfoType;
   message: string;
   timestamp: string; // TODO: 임시, 변경될 수 있음
   isMine: boolean;
 }
 
-export const ChatElement = ({ user, message, timestamp, isMine }: Props) => {
-  const { nickname, avatar } = user;
+export const ChatElement = ({ chatUser, message, timestamp, isMine }: Props) => {
+  const { nickname, avatar } = chatUser.user;
 
   if (isMine)
     return (

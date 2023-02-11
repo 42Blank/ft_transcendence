@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { BanIcon, FightIcon, MuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
+import { BanIcon, FightIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ROUTE } from 'common/constants';
 import { ChatUserInfoType } from 'types/chat';
 
@@ -13,11 +13,12 @@ import {
 } from './ChatUserListElement.styles';
 
 interface Props {
-  user: ChatUserInfoType;
-  isOperator: boolean;
+  chatUser: ChatUserInfoType;
+  isCurrentUserOperator: boolean;
 }
 
-export const ChatUserListElement = ({ user, isOperator }: Props) => {
+export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) => {
+  const { user, isOperator, isMuted } = chatUser;
   return (
     <li className={chatUserElementWrapperStyle}>
       <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle}>
@@ -30,16 +31,16 @@ export const ChatUserListElement = ({ user, isOperator }: Props) => {
         />
         <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       </Link>
-      {isOperator && (
+      {isCurrentUserOperator && (
         <>
           <button type="button" className={chatUserButtonStyle}>
             <BanIcon />
           </button>
           <button type="button" className={chatUserButtonStyle}>
-            <MuteIcon />
+            {isMuted ? <UnmuteIcon /> : <MuteIcon />}
           </button>
           <button type="button" className={chatUserButtonStyle}>
-            {user.isOperator ? <VerifiedIcon /> : <VerifyIcon />}
+            {isOperator ? <VerifiedIcon /> : <VerifyIcon />}
           </button>
         </>
       )}

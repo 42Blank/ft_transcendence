@@ -5,14 +5,18 @@ import { chatInfoModalBodyStyle } from './ChatInfoModalBody.styles';
 
 interface Props {
   users: ChatUserInfoType[];
-  isOperator: boolean; // TODO: 헷갈릴 여지 있는 변수명?
+  isCurrentUserOperator: boolean; // TODO: 헷갈릴 여지 있는 변수명?
 }
 
-export const ChatInfoModalBody = ({ users, isOperator }: Props) => {
+export const ChatInfoModalBody = ({ users, isCurrentUserOperator }: Props) => {
   return (
     <ul className={chatInfoModalBodyStyle}>
       {users.map((user, index) => (
-        <ChatUserListElement key={`chat-user-list-${index}`} user={user} isOperator={isOperator} />
+        <ChatUserListElement
+          key={`chat-user-list-${index}`}
+          chatUser={user}
+          isCurrentUserOperator={isCurrentUserOperator}
+        />
       ))}
     </ul>
   );

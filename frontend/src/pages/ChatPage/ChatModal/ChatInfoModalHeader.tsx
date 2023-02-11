@@ -14,11 +14,11 @@ import {
 
 interface Props {
   roomTitle: string;
-  isOperator: boolean;
+  isCurrentUserOperator: boolean;
   isPrivate: boolean;
 }
 
-export const ChatInfoModalHeader = ({ roomTitle, isOperator, isPrivate }: Props) => {
+export const ChatInfoModalHeader = ({ roomTitle, isCurrentUserOperator, isPrivate }: Props) => {
   const isPrivateString = isPrivate ? '비공개' : '공개';
 
   function handleChangePrivate() {
@@ -34,7 +34,7 @@ export const ChatInfoModalHeader = ({ roomTitle, isOperator, isPrivate }: Props)
     <header className={chatModalHeaderStyle}>
       <div className={chatModalTitleWrapperStyle}>
         <h4>#{roomTitle}</h4>
-        {isOperator && (
+        {isCurrentUserOperator && (
           <button type="button">
             <EditIcon />
           </button>
@@ -42,7 +42,7 @@ export const ChatInfoModalHeader = ({ roomTitle, isOperator, isPrivate }: Props)
       </div>
       <div className={chatVisibilityWrapperStyle}>
         <span className={chatVisibilityLeftSpanStyle}>이 방은</span>
-        {isOperator ? (
+        {isCurrentUserOperator ? (
           <Dropdown
             currentKey={isPrivateString}
             elements={[
@@ -56,7 +56,7 @@ export const ChatInfoModalHeader = ({ roomTitle, isOperator, isPrivate }: Props)
         )}
         <span className={chatVisibilityRightSpanStyle}>입니다.</span>
       </div>
-      {isPrivate && isOperator && (
+      {isPrivate && isCurrentUserOperator && (
         <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
           <label htmlFor="password-name">
             비밀번호
