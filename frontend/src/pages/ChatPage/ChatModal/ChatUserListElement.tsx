@@ -1,8 +1,8 @@
 import { BanIcon, FightIcon, MuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ChatUserInfoType } from 'types/chat';
+import { ChatUserListElementButton } from './ChatUserListElementButton';
 
 import {
-  chatUserButtonStyle,
   chatUserElementImageStyle,
   chatUserElementWrapperStyle,
   chatUserNicknameSpanStyle,
@@ -26,20 +26,20 @@ export const ChatUserListElement = ({ user, isOperator }: Props) => {
       <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       {isOperator && (
         <>
-          <button type="button" className={chatUserButtonStyle}>
+          <ChatUserListElementButton text="차단">
             <BanIcon />
-          </button>
-          <button type="button" className={chatUserButtonStyle}>
+          </ChatUserListElementButton>
+          <ChatUserListElementButton text="뮤트">
             <MuteIcon />
-          </button>
-          <button type="button" className={chatUserButtonStyle}>
+          </ChatUserListElementButton>
+          <ChatUserListElementButton text="방장 임명">
             {user.isOperator ? <VerifiedIcon /> : <VerifyIcon />}
-          </button>
+          </ChatUserListElementButton>
         </>
       )}
-      <button type="button" className={chatUserButtonStyle}>
+      <ChatUserListElementButton text="대결 신청">
         <FightIcon />
-      </button>
+      </ChatUserListElementButton>
     </li>
   );
 };

@@ -8,6 +8,7 @@ import { currentChatDataState } from 'store';
 import { checkIsUserOperator } from 'utils';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
+import { ChatInfoModalHeader, ChatInfoModalBody } from './ChatModal';
 
 import {
   chatPageListWrapperStyle,
@@ -16,8 +17,6 @@ import {
   chatPageWrapperStyle,
   closeButtonStyle,
 } from './ChatPage.styles';
-import { ChatInfoModalHeader } from './ChatInfoModalHeader';
-import { ChatInfoModalBody } from './ChatInfoModalBody';
 
 const DUMMY_CHAT_INFO = {
   roomTitle: 'ycha 바보',
