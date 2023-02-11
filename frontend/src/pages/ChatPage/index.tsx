@@ -17,6 +17,7 @@ import {
   closeButtonStyle,
 } from './ChatPage.styles';
 import { ChatInfoModalHeader } from './ChatInfoModalHeader';
+import { ChatInfoModalBody } from './ChatInfoModalBody';
 
 const DUMMY_CHAT_INFO = {
   roomTitle: 'ycha 바보',
@@ -99,6 +100,7 @@ export const ChatPage = () => {
             isOperator={isOperator}
             isPrivate={DUMMY_CHAT_INFO.isPrivate}
           />
+          <ChatInfoModalBody users={DUMMY_CHAT_INFO.users} isOperator={isOperator} />
           <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
             닫기
           </button>
