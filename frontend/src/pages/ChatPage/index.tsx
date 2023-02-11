@@ -108,7 +108,7 @@ export const ChatPage = () => {
         <ChatInput />
       </main>
       {isShown && (
-        <Modal handleCloseModal={handleCloseModal} className={chatPageModalStyle}>
+        <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
           <ChatInfoModalHeader
             roomTitle={DUMMY_CHAT_INFO.roomTitle}
             isCurrentUserOperator={isCurrentUserOperator}

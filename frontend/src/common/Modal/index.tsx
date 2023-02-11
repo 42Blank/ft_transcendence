@@ -5,18 +5,18 @@ import { modalBackgroundStyle, modalInnerStyle } from './Modal.styles';
 
 interface Props {
   children: ReactNode;
-  handleCloseModal: () => void;
+  onClickClose: () => void;
   className?: string;
 }
 
-export const Modal = ({ children, handleCloseModal, className }: Props) => {
+export const Modal = ({ children, onClickClose, className }: Props) => {
   const modalRef: RefObject<HTMLDivElement> = createRef();
   const element = document.getElementById('modal') as Element;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (!e?.target) return;
-      if (modalRef.current && !modalRef.current.contains(e.target as HTMLDivElement)) handleCloseModal();
+      if (modalRef.current && !modalRef.current.contains(e.target as HTMLDivElement)) onClickClose();
     };
 
     document.addEventListener('mousedown', handleClickOutside);
