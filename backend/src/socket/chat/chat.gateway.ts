@@ -39,70 +39,80 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   io: Server;
 
   @SubscribeMessage('create_room')
-  createRoom(
+  public createRoom(
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: CreateChatRoomDto,
   ): void {
-    this.logger.verbose(`createRoom: ${JSON.stringify(data)}`);
+    const chatRoom = this.chatRoomService.createChatRoom(client.id, client.user.id, data);
 
-    this.chatRoomService.createChatRoom(client.user.id, data);
-    this.emitChatRooms();
-    client.emit('join_room');
-  }
+    this.logger.verbose(`${client.user.nickname} createRoom: ${JSON.stringify(chatRoom)}`);
 
-  @SubscribeMessage('get_chat_rooms')
-  getChatRooms() {
     this.emitChatRooms();
+    this.emitJoinRoom(client, chatRoom.id);
   }
 
   @SubscribeMessage('update_room')
-  updateRoom(
-    @ConnectedSocket() { user }: SocketWithUser, //
+  public updateRoom(
+    @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: UpdateChatRoomDto,
   ): void {
-    this.logger.verbose(`updateRoom: ${JSON.stringify(data)}`);
+    this.chatRoomService.updateChatRoom(client.id, data.chatRoomId, data);
+    this.logger.verbose(`${client.user.nickname} updateRoom: ${JSON.stringify(data)}`);
 
-    this.chatRoomService.updateChatRoom(user.id, data.chatRoomId, data);
     this.emitChatRooms();
   }
 
   @SubscribeMessage('join_room')
-  joinRoom(
+  public joinRoom(
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: JoinChatRoomDto,
   ): void {
-    this.logger.verbose(`joinRoom: ${JSON.stringify(data)}`);
+    this.chatUserService.joinChatRoom(data.id, client.id, client.user.id);
 
-    this.chatUserService.joinChatRoom(data.chatRoomId, client.user.id);
+    this.logger.verbose(`${client.user.nickname} joinRoom: ${JSON.stringify(data)}`);
+
     this.emitChatRooms();
-    client.emit('join_room');
+    this.emitJoinRoom(client, data.id);
   }
 
   @SubscribeMessage('leave_room')
-  leaveRoom(
-    @ConnectedSocket() { user }: SocketWithUser, //
+  public leaveRoom(
+    @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: LeaveChatRoomDto,
   ): void {
-    this.logger.verbose(`leaveRoom: ${JSON.stringify(data)}`);
+    this.chatUserService.leaveChatRoom(data.id, client.id);
 
-    this.chatUserService.leaveChatRoom(data.chatRoomId, user.id);
+    this.logger.verbose(`${client.user.nickname} leaveRoom: ${JSON.stringify(data)}`);
+
+    // this.emitLeaveRoom(client, data.chatRoomId);
     this.emitChatRooms();
   }
 
   @SubscribeMessage('chat_message')
-  emitChatData(
-    @ConnectedSocket() { user }: SocketWithUser, //
+  public async emitChatData(
+    @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: ChatMessageDto,
-  ): void {
-    const chatRoom = this.chatUserService.getJoinedChatRoom(user.id);
-    const chatData = this.chatUserService.getChatData(user.id, data.message, data.timestamp);
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    const chatData = await this.chatUserService.getChatData(client.id, data.message, data.timestamp);
 
-    this.chatUserService.getChatUsersSocketId(chatRoom.id).forEach(socketId => {
+    this.logger.verbose(`${client.user.nickname} chatMessage: ${JSON.stringify(data)}`);
+
+    Array.from(chatRoom.sockets.keys()).forEach(socketId => {
       this.io.to(socketId).emit('chat_message', chatData);
     });
   }
 
-  async emitChatRooms(): Promise<void> {
+  public async emitJoinRoom(client: SocketWithUser, chatRoomId: string): Promise<void> {
+    const chatRoom = await this.chatRoomService.getChatRooms();
+
+    this.logger.verbose(`${client.user.nickname} emitJoinRoom: ${chatRoomId}`);
+
+    this.io.to(client.id).emit('update_chat_room', chatRoom);
+    this.io.to(client.id).emit('join_room', chatRoomId);
+  }
+
+  public async emitChatRooms(): Promise<void> {
     const chatRoom = await this.chatRoomService.getChatRooms();
 
     this.logger.verbose(`emitChatRooms: ${JSON.stringify(chatRoom)}`);
@@ -110,14 +120,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.io.emit('update_chat_room', chatRoom);
   }
 
-  async handleConnection(client: SocketWithUser): Promise<void> {
-    await this.connectionHandleService.handleConnection(client);
-    this.userConnectionService.userConnected(client.user.id, client.id);
-    this.emitChatRooms();
+  public async handleConnection(client: SocketWithUser): Promise<void> {
+    const isConnected = await this.connectionHandleService.handleConnection(client);
+
+    if (isConnected) {
+      this.userConnectionService.userConnected(client.user.id, client.id);
+      this.emitChatRooms();
+    }
   }
 
-  handleDisconnect(client: SocketWithUser): void {
-    this.userConnectionService.userDisconnected(client.user.id);
+  public handleDisconnect(client: SocketWithUser): void {
+    this.userConnectionService.userDisconnected(client.id);
     this.connectionHandleService.handleDisconnect(client);
     this.emitChatRooms();
   }

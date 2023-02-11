@@ -12,7 +12,7 @@ export class ChatRoomRepository {
       roomTitle: data.roomTitle,
       isPrivate: data.isPrivate,
       password: data.password,
-      users: new Map(),
+      sockets: new Map(),
       bannedUsers: new Set(),
     };
 
@@ -29,7 +29,7 @@ export class ChatRoomRepository {
     return Array.from(this.chatRooms.values());
   }
 
-  public getChatRoom(chatRoomId: string): ChatRoom {
+  public getChatRoom(chatRoomId: string): ChatRoom | undefined {
     return this.chatRooms.get(chatRoomId);
   }
 
@@ -40,29 +40,30 @@ export class ChatRoomRepository {
     chatRoom.password = data.password ?? chatRoom.password;
   }
 
-  public addUserToChatRoom(chatRoomId: string, userId: number): void {
+  public addSocketToChatRoom(chatRoomId: string, socketId: string, userId: number, isOperator = false): void {
     const chatRoom = this.getChatRoom(chatRoomId);
 
-    chatRoom.users.set(userId, {
-      isOperator: false,
+    chatRoom.sockets.set(socketId, {
+      id: userId,
+      isOperator,
       isMutted: false,
       muteTime: 0,
     });
   }
 
-  public removeUserFromChatRoom(chatRoomId: string, userId: number): void {
+  public removeSocketFromChatRoom(chatRoomId: string, socketId: string): void {
     const chatRoom = this.getChatRoom(chatRoomId);
 
-    chatRoom.users.delete(userId);
+    chatRoom.sockets.delete(socketId);
 
-    if (chatRoom.users.size === 0) {
+    if (chatRoom.sockets.size === 0) {
       this.removeChatRoom(chatRoomId);
     }
   }
 
-  public removeUserFromAllChatRoom(userId: number): void {
+  public removeSocketFromAllChatRoom(socketId: string): void {
     this.chatRooms.forEach(chatRoom => {
-      this.removeUserFromChatRoom(chatRoom.id, userId);
+      this.removeSocketFromChatRoom(chatRoom.id, socketId);
     });
   }
 }

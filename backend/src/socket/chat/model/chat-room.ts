@@ -1,4 +1,5 @@
 type ChatUserDetail = {
+  id: number;
   isOperator: boolean;
   isMutted: boolean;
   muteTime: number;
@@ -9,7 +10,7 @@ export type ChatRoom = {
   roomTitle: string;
   isPrivate: boolean;
   password?: string;
-  users: Map<number, ChatUserDetail>;
+  sockets: Map<string, ChatUserDetail>;
   bannedUsers: Set<{
     id: number;
   }>;

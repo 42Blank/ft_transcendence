@@ -1,61 +1,69 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
 import { ChatDataDto } from '../dto/outcoming/chat-data.dto';
 import { ChatRoom } from '../model/chat-room';
 import { ChatRoomRepository } from '../repository/chat-room.repository';
-import { UserSocketRepository } from '../repository/user-socket.repository';
 
 @Injectable()
 export class ChatUserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>, //
-    private readonly userSocketRepository: UserSocketRepository,
     private readonly chatRoomRepository: ChatRoomRepository,
   ) {}
 
-  public joinChatRoom(chatRoomId: string, userId: number): void {
-    this.chatRoomRepository.addUserToChatRoom(chatRoomId, userId);
-  }
-
-  public leaveChatRoom(chatRoomId: string, userId: number): void {
+  public joinChatRoom(chatRoomId: string, socketId: string, userId: number): void {
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
 
-    if (!chatRoom.users.has(userId)) {
-      throw new NotFoundException(`User ${userId} is not in chat room ${chatRoomId}`);
+    if (!chatRoom) {
+      throw new NotAcceptableException(`Chat room ${chatRoomId} not found`);
     }
 
-    this.chatRoomRepository.removeUserFromChatRoom(chatRoomId, userId);
+    if (Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.id === userId)) {
+      throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoomId}`);
+    }
+
+    this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
+    this.chatRoomRepository.addSocketToChatRoom(chatRoomId, socketId, userId);
   }
 
-  public getJoinedChatRoom(userId: number): ChatRoom {
+  public leaveChatRoom(chatRoomId: string, socketId: string): void {
+    const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
+
+    if (!chatRoom) {
+      // throw new NotAcceptableException(`Chat room ${chatRoomId} not found`);
+      return;
+    }
+
+    if (!chatRoom.sockets.has(socketId)) {
+      // throw new NotAcceptableException(`Socket ${socketId} is not in chat room ${chatRoomId}`);
+      return;
+    }
+
+    this.chatRoomRepository.removeSocketFromChatRoom(chatRoomId, socketId);
+  }
+
+  public getJoinedChatRoom(socketId: string): ChatRoom {
     const chatRoom = this.chatRoomRepository.getChatRooms().find(chatRoom => {
-      return chatRoom.users.has(userId);
+      return chatRoom.sockets.has(socketId);
     });
 
     if (!chatRoom) {
-      throw new NotFoundException(`User ${userId} is not in any chat room`);
+      throw new NotAcceptableException(`Socket ${socketId} is not in any chat room`);
     }
 
     return chatRoom;
   }
 
-  public getChatUsersSocketId(chatRoomId: string): string[] {
-    const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
-
-    return Array.from(chatRoom.users.keys()) //
-      .map(userId => this.userSocketRepository.getSocketIdByUser(userId));
-  }
-
-  public async getChatData(userId: number, message: string, timestamp: string): Promise<ChatDataDto> {
-    const chatRoom = this.getJoinedChatRoom(userId);
-    const chatUser = chatRoom.users.get(userId);
+  public async getChatData(socketId: string, message: string, timestamp: string): Promise<ChatDataDto> {
+    const chatRoom = this.getJoinedChatRoom(socketId);
+    const chatUser = chatRoom.sockets.get(socketId);
 
     return {
       chatUser: {
-        user: await this.userRepository.findOneBy({ id: userId }),
+        user: await this.userRepository.findOneBy({ id: chatUser.id }),
         isOperator: chatUser.isOperator,
       },
       message,

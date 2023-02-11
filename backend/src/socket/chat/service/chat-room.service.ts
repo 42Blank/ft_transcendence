@@ -14,19 +14,32 @@ export class ChatRoomService {
     private readonly chatRoomRepository: ChatRoomRepository,
   ) {}
 
-  public createChatRoom(userId: number, data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>): void {
+  public createChatRoom(
+    socketId: string,
+    userId: number,
+    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+  ): ChatRoom {
+    this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
+
     const chatRoom = this.chatRoomRepository.createChatRoom(data);
-    this.chatRoomRepository.addUserToChatRoom(chatRoom.id, userId);
+
+    this.chatRoomRepository.addSocketToChatRoom(chatRoom.id, socketId, userId, true);
+
+    return chatRoom;
   }
 
   public updateChatRoom(
-    userId: number,
+    socketId: string,
     chatRoomId: string,
     data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
   ): void {
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
 
-    if (!chatRoom.users.has(userId)) {
+    if (!chatRoom) {
+      throw new ForbiddenException('Chat room not found');
+    }
+
+    if (!chatRoom.sockets.has(socketId)) {
       throw new ForbiddenException('You are not in this chat room');
     }
 
@@ -45,11 +58,11 @@ export class ChatRoomService {
       roomTitle: chatRoom.roomTitle,
       isPrivate: chatRoom.isPrivate,
       users: await Promise.all(
-        Array.from(chatRoom.users.entries()).map(async ([userId, userDetail]) => ({
-          user: await this.userRepository.findOneBy({ id: userId }),
-          isMutted: userDetail.isMutted,
-          isOperator: userDetail.isOperator,
-          muteTime: userDetail.muteTime,
+        Array.from(chatRoom.sockets.values()).map(async chatUser => ({
+          user: await this.userRepository.findOneBy({ id: chatUser.id }),
+          isMutted: chatUser.isMutted,
+          isOperator: chatUser.isOperator,
+          muteTime: chatUser.muteTime,
         })),
       ),
       bannedUsers: await Promise.all(

@@ -13,8 +13,8 @@ export class UserConnectionService {
     this.userSocketRepository.addUserSocketMap(userId, socketId);
   }
 
-  public userDisconnected(userId: number): void {
-    this.chatRoomRepository.removeUserFromAllChatRoom(userId);
-    this.userSocketRepository.removeUserSocketMap(userId);
+  public userDisconnected(socketId: string): void {
+    this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
+    this.userSocketRepository.removeUserSocketMap(socketId);
   }
 }
