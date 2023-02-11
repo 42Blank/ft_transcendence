@@ -27,9 +27,13 @@ export class SocketJwtAuthService {
 
     const token = parse(tokenCookie).value;
     try {
-      const jwtPayload = this.jwtService.verify<JwtPayload>(token);
+      const payload = this.jwtService.verify<JwtPayload>(token);
 
-      const user = await this.userRepository.findOne({ where: { id: jwtPayload.id, intraId: jwtPayload.intraId } });
+      if (!payload.id || !payload.intraId) {
+        throw new UnauthorizedException('Invalid token');
+      }
+
+      const user = await this.userRepository.findOne({ where: { id: payload.id, intraId: payload.intraId } });
 
       if (!user) {
         throw new UnauthorizedException('User not found');
