@@ -1,4 +1,6 @@
+import { CrownIcon } from 'assets';
 import { ChatUserInfoType } from 'types/chat';
+
 import {
   chatBodyWrapper,
   chatElementWrapper,
@@ -8,7 +10,7 @@ import {
 } from './ChatElement.styles';
 
 interface Props {
-  chatUser: ChatUserInfoType;
+  chatUser: Pick<ChatUserInfoType, 'user' | 'isOperator'>;
   message: string;
   timestamp: string; // TODO: 임시, 변경될 수 있음
   isMine: boolean;
@@ -28,11 +30,13 @@ export const ChatElement = ({ chatUser, message, timestamp, isMine }: Props) => 
         </div>
       </li>
     );
+
   return (
     <li className={chatElementWrapper(false)}>
       <div className={chatProfileWrapper}>
         <img src={avatar} alt={`${nickname}-profile`} width={50} height={50} />
         <span>{nickname}</span>
+        {chatUser.isOperator && <CrownIcon />}
       </div>
       <div className={chatBodyWrapper}>
         <div className={chatMessageWrapper}>

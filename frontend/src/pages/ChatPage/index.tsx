@@ -54,7 +54,7 @@ export const ChatPage = () => {
           </button>
         </header>
         <ul className={chatPageListWrapperStyle}>
-          {currentChatData.map(({ user: chatUser, message, timestamp }, index) => (
+          {currentChatData.map(({ chatUser, message, timestamp }, index) => (
             <ChatElement
               key={`${index}-${chatUser.user.nickname}`}
               chatUser={chatUser}
