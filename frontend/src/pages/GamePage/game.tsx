@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import Phaser from 'phaser';
 import { IonPhaser, GameInstance } from '@ion-phaser/react';
+
 import { MainScene } from './MainScene';
 
 const game: GameInstance = {
