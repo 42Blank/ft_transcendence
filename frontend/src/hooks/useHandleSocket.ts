@@ -2,7 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { joinChatRoomState, newChatRoomState, newMessageState } from 'store';
+import { joinChatRoomState, leaveChatRoomState, newChatRoomState, newMessageState } from 'store';
 import { ChatDataType, ChatRoomInfoType } from 'types/chat';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
@@ -45,6 +45,8 @@ export function useHandleSocket() {
   const resetNewChatRoom = useResetRecoilState(newChatRoomState);
   const joinChatRoom = useRecoilValue(joinChatRoomState);
   const resetJoinChatRoom = useResetRecoilState(joinChatRoomState);
+  const leaveChatRoom = useRecoilValue(leaveChatRoomState);
+  const resetLeaveChatRoom = useResetRecoilState(leaveChatRoomState);
 
   const {
     connectHandler,
@@ -82,6 +84,14 @@ export function useHandleSocket() {
     sockets.chatSocket.emit('join_room', joinChatRoom);
     resetJoinChatRoom();
   }, [joinChatRoom]);
+
+  useEffect(() => {
+    if (leaveChatRoom.id.length === 0) return;
+    if (sockets.chatSocket === null) return;
+
+    sockets.chatSocket.emit('leave_room', leaveChatRoom);
+    resetLeaveChatRoom();
+  }, [leaveChatRoom]);
 
   useEffect(() => {
     if (!sockets.chatSocket) {
