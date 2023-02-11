@@ -1,6 +1,6 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 
-import { EditIcon } from 'assets';
+import { EditIcon, SaveIcon } from 'assets';
 import { Dropdown } from 'common';
 
 import {
@@ -19,7 +19,16 @@ interface Props {
 }
 
 export const ChatInfoModalHeader = ({ roomTitle, isCurrentUserOperator, isPrivate }: Props) => {
+  const [isEditMode, setIsEditMode] = useState(false);
   const isPrivateString = isPrivate ? '비공개' : '공개';
+  const dropdownElement = [
+    { key: '공개', value: false },
+    { key: '비공개', value: true },
+  ];
+
+  function handleToggleEditMode() {
+    setIsEditMode(prevState => !prevState);
+  }
 
   function handleChangePrivate() {
     // TODO: isPrivate 토글해서 post 또는 patch로 서버에 요청 보내기
@@ -33,24 +42,17 @@ export const ChatInfoModalHeader = ({ roomTitle, isCurrentUserOperator, isPrivat
   return (
     <header className={chatModalHeaderStyle}>
       <div className={chatModalTitleWrapperStyle}>
-        <h4>#{roomTitle}</h4>
+        {isEditMode ? <input type="text" placeholder={roomTitle} /> : <h4>#{roomTitle}</h4>}
         {isCurrentUserOperator && (
-          <button type="button">
-            <EditIcon />
+          <button type="button" onClick={handleToggleEditMode}>
+            {isEditMode ? <SaveIcon /> : <EditIcon />}
           </button>
         )}
       </div>
       <div className={chatVisibilityWrapperStyle}>
         <span className={chatVisibilityLeftSpanStyle}>이 방은</span>
         {isCurrentUserOperator ? (
-          <Dropdown
-            currentKey={isPrivateString}
-            elements={[
-              { key: '공개', value: false },
-              { key: '비공개', value: true },
-            ]}
-            onChange={handleChangePrivate}
-          />
+          <Dropdown currentKey={isPrivateString} elements={dropdownElement} onChange={handleChangePrivate} />
         ) : (
           <span>{isPrivateString}</span>
         )}
