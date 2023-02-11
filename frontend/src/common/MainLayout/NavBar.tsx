@@ -20,7 +20,7 @@ export const NavBar = () => {
     <header className={headerStyle}>
       <div className={headerLeftSectionStyle}>
         <button type="button" onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
-          <img src="/icon.png" alt="title pochita icon" />
+          <img src="/icon.png" alt="title pochita icon" height={40} />
           <h1>Pochitandence</h1>
         </button>
         <button

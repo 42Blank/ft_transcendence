@@ -31,7 +31,7 @@ export const ChatElement = ({ user, message, timestamp, isMine }: Props) => {
   return (
     <li className={chatElementWrapper(false)}>
       <div className={chatProfileWrapper}>
-        <img src={avatar} alt={`${nickname}-profile`} />
+        <img src={avatar} alt={`${nickname}-profile`} width={50} height={50} />
         <span>{nickname}</span>
       </div>
       <div className={chatBodyWrapper}>
