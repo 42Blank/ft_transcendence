@@ -8,20 +8,12 @@ export const dropdownWrapperStyle = css`
   flex-direction: column;
 `;
 
-export const dropdownTopValueStyle = css`
+export const dropdownTopValueStyle = (isShown: boolean) => css`
   display: flex;
   flex-direction: row;
   align-items: center;
   border: 1px solid black; // TODO: 색상 상수화
   padding: 3px 5px;
-`;
-
-export const dropdownToggleIconStyle = (isShown: boolean) => css`
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   & > svg {
     ${isShown && 'transform: rotate(0.5turn);'}

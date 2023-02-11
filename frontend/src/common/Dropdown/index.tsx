@@ -4,7 +4,6 @@ import { useState } from 'react';
 import {
   dropdownListElementStyle,
   dropdownListStyle,
-  dropdownToggleIconStyle,
   dropdownTopValueStyle,
   dropdownWrapperStyle,
 } from './Dropdown.styles';
@@ -29,12 +28,10 @@ export const Dropdown = ({ currentKey, elements, onChange }: Props) => {
 
   return (
     <div className={dropdownWrapperStyle}>
-      <div className={dropdownTopValueStyle}>
+      <button type="button" onClick={handleClickToggle} className={dropdownTopValueStyle(isDropdownShown)}>
         <span>{currentKey}</span>
-        <button type="button" onClick={handleClickToggle} className={dropdownToggleIconStyle(isDropdownShown)}>
-          <ArrowDownIcon />
-        </button>
-      </div>
+        <ArrowDownIcon />
+      </button>
       {isDropdownShown && (
         <ul className={dropdownListStyle(isDropdownShown)}>
           {elements.map(({ key, value }, index) => (
