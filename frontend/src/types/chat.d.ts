@@ -22,6 +22,11 @@ export interface NewChatRoomType {
   password?: string;
 }
 
+export interface JoinChatRoomType {
+  roomID: string;
+  password?: string;
+}
+
 export interface ChatDataType {
   chatUser: Pick<ChatUserInfoType, 'user' | 'isOperator'>; // 헐 쩐다
   message: string;
