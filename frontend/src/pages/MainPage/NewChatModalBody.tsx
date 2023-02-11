@@ -1,6 +1,8 @@
 import { FormEvent, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Dropdown } from 'common';
+import { ROUTE } from 'common/constants';
 
 import {
   formSectionButtonWrapper,
@@ -17,6 +19,8 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
   const [isPrivate, setIsPrivate] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const nav = useNavigate();
+
   const dropdownElement = [
     { key: '공개', value: false },
     { key: '비공개', value: true },
@@ -28,9 +32,9 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    console.log(nameRef.current.value);
-    if (passwordRef && passwordRef.current) console.log(passwordRef.current.value);
+    // TODO: 서버에 채팅방 만들고 제출하는 로직 추가
     onClickClose();
+    nav(`${ROUTE.CHAT}/123`); // TODO: 채팅방 uuid 서버로부터 답장받아야 함
   }
 
   return (
