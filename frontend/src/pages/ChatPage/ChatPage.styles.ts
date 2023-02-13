@@ -16,6 +16,18 @@ export const chatPageTitleStyle = css`
   background-color: white; // TODO: 상수화
   padding: 20px;
   border-bottom: 1px solid black; // TODO: 상수화
+`;
+
+export const chatPageTitleLeftSectionStyle = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
 
   & > span {
     font-size: 20px; // TODO: 상수화

@@ -14,7 +14,7 @@ export class ChatUserService {
     private readonly chatRoomRepository: ChatRoomRepository,
   ) {}
 
-  public joinChatRoom(chatRoomId: string, socketId: string, userId: number): void {
+  public joinChatRoom(chatRoomId: string, socketId: string, userId: number, password?: string): void {
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
 
     if (!chatRoom) {
@@ -23,6 +23,10 @@ export class ChatUserService {
 
     if (Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.id === userId)) {
       throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoomId}`);
+    }
+
+    if (chatRoom.isPrivate && chatRoom.password !== password) {
+      throw new NotAcceptableException(`Password is incorrect`);
     }
 
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
