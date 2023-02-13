@@ -1,18 +1,22 @@
 import { css } from '@emotion/css';
 
-export const chatRoomLinkStyle = css`
-  color: black; // TODO: color 상수화
-  text-decoration: none;
-  user-select: none;
-`;
-
 export const chatRoomElementStyle = css`
+  position: relative;
+  user-select: none;
   display: flex;
   flex-direction: column;
   border: 1px solid black; // TODO: border color 상수화
   border-radius: 5px;
   overflow: hidden;
   height: 180px;
+
+  & > svg {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+  }
 
   & > h3 {
     font-weight: 600;
