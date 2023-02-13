@@ -119,16 +119,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   public async handleConnection(client: SocketWithUser): Promise<void> {
-    const isConnected = await this.connectionHandleService.handleConnection(client);
+    const isUserConnected = await this.connectionHandleService.handleConnection(client);
 
-    if (isConnected) {
+    if (isUserConnected) {
       this.emitChatRooms();
     }
   }
 
   public handleDisconnect(client: SocketWithUser): void {
-    this.chatUserService.leaveAllChatRooms(client.id);
-    this.connectionHandleService.handleDisconnect(client);
-    this.emitChatRooms();
+    const isUserDisconnected = this.connectionHandleService.handleDisconnect(client);
+
+    if (isUserDisconnected) {
+      this.chatUserService.leaveAllChatRooms(client.id);
+      this.emitChatRooms();
+    }
   }
 }
