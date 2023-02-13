@@ -21,24 +21,27 @@ interface Props {
 }
 
 export const ChatInfoModalHeader = ({ currentChatRoom, isCurrentUserOperator }: Props) => {
-  const { id: chatRoomId, roomTitle, isPrivate, password } = currentChatRoom;
+  const { id: chatRoomId, roomTitle } = currentChatRoom;
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>(currentChatRoom.isPrivate);
   const roomTitleRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const setUpdateChatRoom = useSetRecoilState(updateChatRoomState);
-  const isPrivateString = isPrivate ? '비공개' : '공개';
   const dropdownElement = [
     { key: '공개', value: false },
     { key: '비공개', value: true },
   ];
 
   function handleToggleEditMode() {
-    if (isEditMode) setUpdateChatRoom({ id: chatRoomId, roomTitle: roomTitleRef.current.value, isPrivate, password });
+    if (isEditMode) setUpdateChatRoom({ id: chatRoomId, roomTitle: roomTitleRef.current.value, isPrivate });
     setIsEditMode(prevState => !prevState);
   }
 
   function handleChangePrivate(value: number | boolean) {
-    setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: value as boolean, password });
+    if (!value) {
+      setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: false });
+      setIsPrivate(false);
+    } else setIsPrivate(true);
   }
 
   function handleSubmitPassword(e: FormEvent) {
@@ -59,9 +62,13 @@ export const ChatInfoModalHeader = ({ currentChatRoom, isCurrentUserOperator }: 
       <div className={chatVisibilityWrapperStyle}>
         <span className={chatVisibilityLeftSpanStyle}>이 방은</span>
         {isCurrentUserOperator ? (
-          <Dropdown currentKey={isPrivateString} elements={dropdownElement} onChange={handleChangePrivate} />
+          <Dropdown
+            currentKey={isPrivate ? '비공개' : '공개'}
+            elements={dropdownElement}
+            onChange={handleChangePrivate}
+          />
         ) : (
-          <span>{isPrivateString}</span>
+          <span>{isPrivate ? '비공개' : '공개'}</span>
         )}
         <span className={chatVisibilityRightSpanStyle}>입니다.</span>
       </div>
