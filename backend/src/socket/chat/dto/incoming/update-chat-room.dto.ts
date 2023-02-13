@@ -6,7 +6,7 @@ export class UpdateChatRoomDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ example: 'a0fa5607-90a7-42da-aeb5-0dfa75b62721' })
-  chatRoomId: string;
+  id: string;
 
   @IsString()
   @IsOptional()

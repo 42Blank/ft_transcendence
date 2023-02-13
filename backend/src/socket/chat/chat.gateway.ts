@@ -54,7 +54,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: UpdateChatRoomDto,
   ): void {
-    this.chatRoomService.updateChatRoom(client.id, data.chatRoomId, data);
+    this.chatRoomService.updateChatRoom(client.id, data.id, data);
     this.logger.verbose(`${client.user.nickname} updateRoom: ${JSON.stringify(data)}`);
 
     this.emitChatRooms();
