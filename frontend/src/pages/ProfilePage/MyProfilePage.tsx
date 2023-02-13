@@ -7,7 +7,7 @@ import { ProfileCard } from './ProfileCard';
 export const MyProfilePage = () => {
   const [isVisible, setVisible] = useState<Boolean>(false);
 
-  const profile = useGetCurrentUser();
+  const { data: profile } = useGetCurrentUser();
 
   if (!profile) return <span>error</span>;
   return (

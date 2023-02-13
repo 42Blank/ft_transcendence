@@ -8,7 +8,7 @@ import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
 export const UserMenu = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
-  const currentUser = useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
   const nav = useNavigate();
   const logout = useLogout();
 

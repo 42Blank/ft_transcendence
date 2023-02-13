@@ -20,7 +20,9 @@ import {
 } from './ChatPage.styles';
 
 export const ChatPage = () => {
-  const { id: currentUserID } = useGetCurrentUser();
+  const {
+    data: { id: currentUserID },
+  } = useGetCurrentUser();
   const currentChatData = useRecoilValue(currentChatDataState);
   const currentChatRoom = useGetCurrentChatRoom();
   const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);

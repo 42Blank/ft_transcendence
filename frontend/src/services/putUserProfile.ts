@@ -15,3 +15,5 @@ export function putUserProfile({ nickname }: newProfile): Promise<void> {
     },
   );
 }
+// Edit use reactQuery
+// Update Current user state
