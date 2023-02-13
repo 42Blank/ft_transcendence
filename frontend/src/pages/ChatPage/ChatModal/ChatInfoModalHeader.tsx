@@ -46,6 +46,7 @@ export const ChatInfoModalHeader = ({ currentChatRoom, isCurrentUserOperator }: 
 
   function handleSubmitPassword(e: FormEvent) {
     e.preventDefault();
+    if (!passwordRef?.current?.value || passwordRef.current.value.length === 0) return;
     setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: true, password: passwordRef.current.value });
   }
 
