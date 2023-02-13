@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class UpdateChatRoomDto {
   @IsString()
@@ -11,16 +11,17 @@ export class UpdateChatRoomDto {
   @IsString()
   @IsOptional()
   @ApiPropertyOptional({ example: 'name' })
-  roomTitle: string;
+  roomTitle?: string;
 
   @IsBoolean()
   @IsOptional()
   @Type(() => Boolean)
   @ApiProperty({ example: false })
-  isPrivate: boolean;
+  isPrivate?: boolean;
 
   @IsString()
-  @IsOptional()
-  @ApiPropertyOptional({ example: 'asdf' })
+  @ValidateIf(o => o.isPrivate ?? false)
+  @IsNotEmpty()
+  @ApiProperty({ example: 'asdf' })
   password?: string;
 }
