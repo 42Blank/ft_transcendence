@@ -65,11 +65,7 @@ export const ChatPage = () => {
       </main>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
-          <ChatInfoModalHeader
-            roomTitle={currentChatRoom.roomTitle}
-            isCurrentUserOperator={isOperator}
-            isPrivate={currentChatRoom.isPrivate}
-          />
+          <ChatInfoModalHeader currentChatRoom={currentChatRoom} isCurrentUserOperator={isOperator} />
           <ChatInfoModalBody users={currentChatRoom.users} isCurrentUserOperator={isOperator} />
           <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
             닫기

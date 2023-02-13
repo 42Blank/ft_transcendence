@@ -1,7 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import { EditIcon, SaveIcon } from 'assets';
 import { Dropdown } from 'common';
+import { updateChatRoomState } from 'store';
+import { ChatRoomInfoType } from 'types/chat';
 
 import {
   chatModalHeaderStyle,
@@ -13,13 +16,16 @@ import {
 } from './ChatInfoModalHeader.styles';
 
 interface Props {
-  roomTitle: string;
+  currentChatRoom: ChatRoomInfoType;
   isCurrentUserOperator: boolean;
-  isPrivate: boolean;
 }
 
-export const ChatInfoModalHeader = ({ roomTitle, isCurrentUserOperator, isPrivate }: Props) => {
+export const ChatInfoModalHeader = ({ currentChatRoom, isCurrentUserOperator }: Props) => {
+  const { id: chatRoomId, roomTitle, isPrivate, password } = currentChatRoom;
   const [isEditMode, setIsEditMode] = useState(false);
+  const roomTitleRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const setUpdateChatRoom = useSetRecoilState(updateChatRoomState);
   const isPrivateString = isPrivate ? '비공개' : '공개';
   const dropdownElement = [
     { key: '공개', value: false },
@@ -27,22 +33,23 @@ export const ChatInfoModalHeader = ({ roomTitle, isCurrentUserOperator, isPrivat
   ];
 
   function handleToggleEditMode() {
+    if (isEditMode) setUpdateChatRoom({ id: chatRoomId, roomTitle: roomTitleRef.current.value, isPrivate, password });
     setIsEditMode(prevState => !prevState);
   }
 
-  function handleChangePrivate() {
-    // TODO: isPrivate 토글해서 post 또는 patch로 서버에 요청 보내기
+  function handleChangePrivate(value: number | boolean) {
+    setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: value as boolean, password });
   }
 
   function handleSubmitPassword(e: FormEvent) {
     e.preventDefault();
-    // TODO: password 제출하는 요청 보내기
+    setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: true, password: passwordRef.current.value });
   }
 
   return (
     <header className={chatModalHeaderStyle}>
       <div className={chatModalTitleWrapperStyle}>
-        {isEditMode ? <input type="text" placeholder={roomTitle} /> : <h4>#{roomTitle}</h4>}
+        {isEditMode ? <input type="text" ref={roomTitleRef} placeholder={roomTitle} /> : <h4>#{roomTitle}</h4>}
         {isCurrentUserOperator && (
           <button type="button" onClick={handleToggleEditMode}>
             {isEditMode ? <SaveIcon /> : <EditIcon />}
@@ -60,10 +67,8 @@ export const ChatInfoModalHeader = ({ roomTitle, isCurrentUserOperator, isPrivat
       </div>
       {isPrivate && isCurrentUserOperator && (
         <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
-          <label htmlFor="password-name">
-            비밀번호
-            <input type="text" id="password-name" />
-          </label>
+          <label htmlFor="password-name">비밀번호</label>
+          <input ref={passwordRef} type="text" id="password-name" />
           <button type="submit">
             <span>수정</span>
           </button>
