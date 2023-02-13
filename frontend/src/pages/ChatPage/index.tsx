@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { useGetCurrentChatRoom, useGetCurrentUser } from 'hooks';
 import { Modal } from 'common';
@@ -23,6 +23,7 @@ import {
 export const ChatPage = () => {
   const { id: currentUserID } = useGetCurrentUser();
   const currentChatData = useRecoilValue(currentChatDataState);
+  const resetCurrentChatData = useResetRecoilState(currentChatDataState);
   const currentChatRoom = useGetCurrentChatRoom();
   const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);
   const [isModalShown, setIsModalShown] = useState(false);
@@ -39,6 +40,7 @@ export const ChatPage = () => {
   useEffect(() => {
     return () => {
       setLeaveChatRoom({ id: currentChatRoom.id });
+      resetCurrentChatData();
     };
   }, []);
 
