@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import { getCurrentUserInfo } from 'services';
-import { UserInfoType } from 'types/user';
+import { useGetCurrentUser } from 'hooks';
+import { useState } from 'react';
 import { EditModal } from './EditModal';
 
 import { ProfileCard } from './ProfileCard';
@@ -8,16 +7,10 @@ import { ProfileCard } from './ProfileCard';
 import './tmp.css';
 
 export const ProfilePage = () => {
-  const [profile, setProfile] = useState<UserInfoType>();
-
-  useEffect(() => {
-    getCurrentUserInfo().then((res: void | UserInfoType) => {
-      if (!res) throw Error();
-      setProfile(res);
-    });
-  }, []);
-
   const [isVisible, setVisible] = useState<Boolean>(false);
+
+  const profile = useGetCurrentUser();
+  console.log(profile);
 
   if (!profile) return <span>error</span>;
   return (

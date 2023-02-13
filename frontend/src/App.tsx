@@ -13,7 +13,7 @@ export const App = () => {
         <Route path={ROUTE.GAME} element={<GameListPage />} />
         <Route path={ROUTE.PROFILE} element={<ProfilePage />} />
         <Route path={`${ROUTE.GAME}/:id`} element={<GamePage />} />
-        <Route path={`${ROUTE.PROFILE}/:id`} element={<div>프로필</div>} />
+        <Route path={`${ROUTE.PROFILE}/:id`} element={<ProfilePage />} />
       </Route>
       <Route path={ROUTE.ROOT} element={<LoginLayout />}>
         <Route path={ROUTE.LOGIN} element={<LoginPage />} />
