@@ -31,6 +31,7 @@
     "@nestjs/swagger": "^6.2.1",
     "@nestjs/typeorm": "^9.0.1",
     "@nestjs/websockets": "^9.3.7",
+    "@socket.io/admin-ui": "^0.5.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cookie-parser": "^1.4.6",
@@ -45,8 +46,10 @@
     "rxjs": "^7.2.0",
     "socket.io": "^4.6.0",
     "swagger-ui-express": "^4.6.0",
+    "tough-cookie": "^4.1.2",
     "typeorm": "^0.3.12",
-    "typeorm-naming-strategies": "^4.1.0"
+    "typeorm-naming-strategies": "^4.1.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -60,6 +63,8 @@
     "@types/passport-jwt": "^3.0.8",
     "@types/socket.io": "^3.0.2",
     "@types/supertest": "^2.0.11",
+    "@types/tough-cookie": "^4.0.2",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",

@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('user')
-export class User extends BaseEntity {
+export class User {
   @ApiProperty({ example: 1, description: '유저 고유번호' })
   @PrimaryGeneratedColumn()
   id!: number;

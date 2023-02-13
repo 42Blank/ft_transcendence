@@ -1,15 +1,40 @@
-import { RoomElement } from 'common';
+import { useState } from 'react';
 
-import { gameListWrapperStyle } from './GameListPage.styles';
+import { PlusIcon } from 'assets';
+import { Modal } from 'common';
+import { GameRoomElement } from './GameRoomElement';
+
+import {
+  gameListWrapperStyle,
+  gameRoomIconStyle,
+  newGameModalHeaderStyle,
+  newGameModalWrapperStyle,
+} from './GameListPage.styles';
 
 export const GameListPage = () => {
+  const [isModalShown, setIsModalShown] = useState(false);
+
+  function handleClickButton() {
+    setIsModalShown(true);
+  }
+
+  function handleClickClose() {
+    setIsModalShown(false);
+  }
+
   return (
     <main className={gameListWrapperStyle}>
-      <RoomElement />
-      <RoomElement />
-      <RoomElement />
-      <RoomElement />
-      <RoomElement />
+      <GameRoomElement />
+      <button type="button" onClick={handleClickButton} className={gameRoomIconStyle}>
+        <PlusIcon />
+      </button>
+      {isModalShown && (
+        <Modal onClickClose={handleClickClose} className={newGameModalWrapperStyle}>
+          <header className={newGameModalHeaderStyle}>
+            <h4>새 게임</h4>
+          </header>
+        </Modal>
+      )}
     </main>
   );
 };

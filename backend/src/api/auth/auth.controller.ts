@@ -1,9 +1,9 @@
 import { Controller, Delete, Get, Param, ParseIntPipe, Res, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Response } from 'express';
-import { FtProfile, ReqFtProfile } from '../../common/guard/ft-auth';
-import { FtAuthGuard } from '../../common/guard/ft-auth/ft-auth.guard';
-import { JwtAuthGuard } from '../../common/guard/jwt-auth';
+import { FtProfile, ReqFtProfile } from '../../common/auth/ft-auth';
+import { FtAuthGuard } from '../../common/auth/ft-auth/ft-auth.guard';
+import { JwtAuthGuard } from '../../common/auth/jwt-auth';
 import { LoginService } from './service/login.service';
 
 @ApiTags('Auth')
@@ -49,6 +49,6 @@ export class AuthController {
   @ApiOkResponse({ description: 'jwt' })
   @ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
   async getJwt(@Param('id', ParseIntPipe) id: number): Promise<string> {
-    return await this.loginService.getJwt(id);
+    return await this.loginService.createJwt(id);
   }
 }

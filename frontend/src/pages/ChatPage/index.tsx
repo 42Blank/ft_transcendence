@@ -1,107 +1,81 @@
-import { useRecoilValue } from 'recoil';
-// import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { currentChatDataState, userState } from 'store';
+import { useGetCurrentChatRoom, useGetCurrentUser } from 'hooks';
+import { Modal } from 'common';
+import { HamburgerIcon } from 'assets';
+import { checkIsUserOperator } from 'utils';
+import { currentChatDataState, leaveChatRoomState } from 'store';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
+import { ChatInfoModalHeader, ChatInfoModalBody } from './ChatModal';
 
-import { chatPageListWrapperStyle, chatPageTitleStyle, chatPageWrapperStyle } from './ChatPage.styles';
-
-// const DUMMY_CHAT = [
-//   {
-//     nickname: 'ycha',
-//     avatar: 'https://cdn.intra.42.fr/users/6038c103da3bb9180a072f8154e6b428/ycha.jpg',
-//     message: '이방 뭐임',
-//     timestamp: '1970-01-01T00:00:00.000Z',
-//   },
-//   {
-//     nickname: 'jiychoi',
-//     avatar: 'https://cdn.intra.42.fr/users/b9c44cf9ae13ffec04381638c0a2f204/jiychoi.jpg',
-//     message: 'ㅋㅋ',
-//     timestamp: '1970-01-01T00:01:00.000Z',
-//   },
-//   {
-//     nickname: 'asdasdadasdasdads',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-//   {
-//     nickname: 'san',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-//   {
-//     nickname: 'san',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-//   {
-//     nickname: 'san',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-//   {
-//     nickname: 'san',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-//   {
-//     nickname: 'san',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-//   {
-//     nickname: 'san',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-//   {
-//     nickname: 'san',
-//     avatar: 'https://san.chosun.com/news/photo/202205/15750_66157_37.jpg',
-//     message:
-//       'ㅋㅎㅋㅎㅋㅎㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅎㅋㅎ엄청긴채팅ㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅋㅎㅎㅋㅎㅋㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋㅎㅋ',
-//     timestamp: '1970-01-01T00:02:00.000Z',
-//   },
-// ];
+import {
+  chatPageListWrapperStyle,
+  chatPageMenuButtonStyle,
+  chatPageModalStyle,
+  chatPageTitleStyle,
+  chatPageWrapperStyle,
+  closeButtonStyle,
+} from './ChatPage.styles';
 
 export const ChatPage = () => {
-  // const { id } = useParams();
-  const userInfo = useRecoilValue(userState);
+  const { id: currentUserID } = useGetCurrentUser();
   const currentChatData = useRecoilValue(currentChatDataState);
+  const currentChatRoom = useGetCurrentChatRoom();
+  const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);
+  const [isModalShown, setIsModalShown] = useState(false);
+  const isOperator = checkIsUserOperator(currentChatRoom.users, currentUserID);
+
+  function handleOpenModal() {
+    setIsModalShown(true);
+  }
+
+  function handleCloseModal() {
+    setIsModalShown(false);
+  }
+
+  useEffect(() => {
+    return () => {
+      setLeaveChatRoom({ id: currentChatRoom.id });
+    };
+  }, []);
 
   return (
-    <main className={chatPageWrapperStyle}>
-      <header className={chatPageTitleStyle}>
-        <span>ycha 바보</span>
-        <button type="button">V</button> {/* TODO: svg로 변경 */}
-      </header>
-      <ul className={chatPageListWrapperStyle}>
-        {currentChatData.map(({ nickname, avatar, message, timestamp }, index) => (
-          <ChatElement
-            key={`${index}-${nickname}`}
-            nickname={nickname}
-            avatar={avatar}
-            message={message}
-            timestamp={timestamp}
-            isMine={userInfo.nickname === nickname}
+    <>
+      <main className={chatPageWrapperStyle}>
+        <header className={chatPageTitleStyle}>
+          <span>{currentChatRoom.roomTitle ?? ''}</span>
+          <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
+            <HamburgerIcon />
+          </button>
+        </header>
+        <ul className={chatPageListWrapperStyle}>
+          {currentChatData.map(({ chatUser, message, timestamp }, index) => (
+            <ChatElement
+              key={`${index}-${chatUser.user.nickname}`}
+              chatUser={chatUser}
+              message={message}
+              timestamp={timestamp}
+              isMine={currentUserID === chatUser.user.id}
+            />
+          ))}
+        </ul>
+        <ChatInput />
+      </main>
+      {isModalShown && (
+        <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
+          <ChatInfoModalHeader
+            roomTitle={currentChatRoom.roomTitle}
+            isCurrentUserOperator={isOperator}
+            isPrivate={currentChatRoom.isPrivate}
           />
-        ))}
-      </ul>
-      <ChatInput />
-    </main>
+          <ChatInfoModalBody users={currentChatRoom.users} isCurrentUserOperator={isOperator} />
+          <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
+            닫기
+          </button>
+        </Modal>
+      )}
+    </>
   );
 };

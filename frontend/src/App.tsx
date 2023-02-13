@@ -1,20 +1,21 @@
+import { LoginLayout, MainLayout } from 'common';
+import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, ChatListPage, GamePage } from 'pages';
 import { Route, Routes } from 'react-router-dom';
 
 import { LoginLayout, MainLayout } from 'common';
 import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, MainPage, ProfilePage } from 'pages';
 import { ROUTE } from 'common/constants';
-import { useCheckLogin } from 'hooks';
 
 export const App = () => {
-  useCheckLogin();
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<MainLayout />}>
-        <Route path={ROUTE.CHAT} element={<MainPage />} />
+        <Route path={ROUTE.CHAT} element={<ChatListPage />} />
         <Route path={`${ROUTE.CHAT}/:id`} element={<ChatPage />} />
         <Route path={ROUTE.GAME} element={<GameListPage />} />
-        <Route path={`${ROUTE.GAME}/:id`} element={<div>hihi</div>} />
         <Route path={ROUTE.PROFILE} element={<ProfilePage />} />
+        <Route path={`${ROUTE.GAME}/:id`} element={<GamePage />} />
+        <Route path={`${ROUTE.PROFILE}/:id`} element={<div>프로필</div>} />
       </Route>
       <Route path={ROUTE.ROOT} element={<LoginLayout />}>
         <Route path={ROUTE.LOGIN} element={<LoginPage />} />

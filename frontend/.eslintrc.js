@@ -36,6 +36,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'prettier/prettier': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off', // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
@@ -44,6 +45,7 @@ module.exports = {
     'react/function-component-definition': ['warn', { namedComponents: 'arrow-function' }],
     'react/react-in-jsx-scope': 'off',
     'react/no-array-index-key': 'off',
+    'react/jsx-no-bind': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'no-alert': 'off',
     'lines-between-class-members': 'off',
