@@ -16,7 +16,13 @@ export class SocketJwtAuthService {
   ) {}
 
   async verify(socket: Socket): Promise<boolean> {
-    const tokenCookie = socket.handshake.headers.cookie
+    const cookie = socket.handshake.headers.cookie;
+
+    if (!cookie) {
+      throw new UnauthorizedException('No cookie provided');
+    }
+
+    const tokenCookie = cookie
       .split(';')
       .map(v => v.trim())
       .find(v => v.startsWith('access_token='));
