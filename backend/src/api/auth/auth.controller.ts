@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, ParseIntPipe, Patch, Res, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Query, Res, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FtProfile, ReqFtProfile } from '../../common/auth/ft-auth';
@@ -45,16 +45,20 @@ export class AuthController {
     response.clearCookie('access_token', cookieOption);
   }
 
-  @Patch('debug/login/as/:id')
-  @ApiCookieAuth()
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: '다른사람으로 로그인하기 (개발용입니다.)' })
+  @Get('debug/login/random')
+  @ApiOperation({ summary: '랜덤하게 로그인하기 (개발용입니다.)' })
   @ApiOkResponse({ description: '로그인 성공' })
   async getJwt(
-    @Param('id', ParseIntPipe) id: number, //
+    @Query('name') name: string, //
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    const jwt = await this.loginService.createJwt(id);
+    const id = String(Math.floor(Math.random() * 10000));
+
+    const jwt = await this.loginService.login({
+      id: `Z${id}`,
+      username: `P${name ?? `ochita${id}`}`,
+      image_url: 'https://beebom.com/wp-content/uploads/2022/10/Cute-Weakened-form-of-Pochita.jpg?w=640',
+    });
     const cookieOption = this.loginService.getCookieOption();
 
     response.cookie('access_token', jwt, cookieOption);
