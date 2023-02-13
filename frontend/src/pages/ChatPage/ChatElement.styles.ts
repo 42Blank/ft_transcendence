@@ -4,12 +4,11 @@ export const chatElementWrapper = (isMine: boolean) =>
   css`
     padding: 10px;
     width: calc(100% - 20px);
-    flex: 1;
+    height: fit-content;
     display: flex;
     flex-direction: row;
     justify-content: ${isMine ? 'flex-end' : 'flex-start'};
-    align-items: flex-start;
-    margin-top: 5px;
+    align-items: center;
   `;
 
 export const chatProfileWrapper = css`
@@ -55,7 +54,6 @@ export const chatProfileWrapper = css`
 
 export const chatBodyWrapper = css`
   max-width: calc(100% - 90px);
-  height: 80%;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
