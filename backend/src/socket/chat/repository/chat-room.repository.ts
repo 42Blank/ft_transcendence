@@ -33,7 +33,10 @@ export class ChatRoomRepository {
     return this.chatRooms.get(chatRoomId);
   }
 
-  public updateChatRoom(chatRoomId: string, data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>): void {
+  public updateChatRoom(
+    chatRoomId: string,
+    data: Partial<Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>>,
+  ): void {
     const chatRoom = this.getChatRoom(chatRoomId);
     chatRoom.roomTitle = data.roomTitle ?? chatRoom.roomTitle;
     chatRoom.isPrivate = data.isPrivate ?? chatRoom.isPrivate;
