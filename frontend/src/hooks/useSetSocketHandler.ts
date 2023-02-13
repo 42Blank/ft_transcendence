@@ -18,7 +18,7 @@ export function useSetSocketHandler() {
   function disconnectHandler() {}
 
   function getCurrentChatHandler(data: ChatDataType) {
-    setCurrentChatData(prev => [...prev, data]);
+    setCurrentChatData(prev => [data, ...prev]);
   }
   function getAllChatRoomHandler(data: ChatRoomInfoType[]) {
     setChatRoomList(data);

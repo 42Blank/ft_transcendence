@@ -34,6 +34,8 @@ export const chatPageMenuButtonStyle = css`
 
 export const chatPageListWrapperStyle = css`
   flex: 1;
+  display: flex;
+  flex-direction: column-reverse;
   overflow-x: hidden;
   overflow-y: scroll;
 `;

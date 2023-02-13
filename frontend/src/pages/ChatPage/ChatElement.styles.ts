@@ -3,12 +3,13 @@ import { css } from '@emotion/css';
 export const chatElementWrapper = (isMine: boolean) =>
   css`
     padding: 10px;
-    overflow: hidden;
     width: calc(100% - 20px);
+    flex: 1;
     display: flex;
     flex-direction: row;
     justify-content: ${isMine ? 'flex-end' : 'flex-start'};
     align-items: flex-start;
+    margin-top: 5px;
   `;
 
 export const chatProfileWrapper = css`
@@ -18,6 +19,8 @@ export const chatProfileWrapper = css`
   flex-direction: column;
   align-items: center;
   margin-right: 20px;
+  color: black; // TODO: 상수화
+  text-decoration: none;
 
   & > img {
     width: 50px;
@@ -42,7 +45,7 @@ export const chatProfileWrapper = css`
   & > span {
     margin-top: 3px;
     width: 70px;
-    line-height: 15px;
+    line-height: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -52,7 +55,7 @@ export const chatProfileWrapper = css`
 
 export const chatBodyWrapper = css`
   max-width: calc(100% - 90px);
-  height: 100%;
+  height: 80%;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -74,7 +77,7 @@ export const chatMessageWrapper = css`
   padding: 10px;
   height: fit-content;
   flex: 1;
-  margin-top: 10px;
+
 
   & > span: {
     // TODO: style
