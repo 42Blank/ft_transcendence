@@ -3,6 +3,7 @@ import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, ChatListPage, Gam
 import { Route, Routes } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
+import { ErrorPage } from 'pages/ErrorPage';
 
 export const App = () => {
   return (
@@ -19,6 +20,9 @@ export const App = () => {
         <Route path={ROUTE.LOGIN} element={<LoginPage />} />
         <Route path={ROUTE.LOGIN_CHECK} element={<LoginCallbackPage />} />
         <Route path={ROUTE.REGISTER} element={<div>회원가입합쉬다~~</div>} />
+      </Route>
+      <Route>
+        <Route path={ROUTE.ERROR} element={<ErrorPage />} />
       </Route>
     </Routes>
   );

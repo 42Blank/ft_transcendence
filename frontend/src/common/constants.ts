@@ -6,6 +6,7 @@ export const ROUTE = {
   LOGIN: '/login',
   LOGIN_CHECK: '/login/callback',
   REGISTER: '/login/new',
+  ERROR: '/error',
 } as const;
 
 export const API = {
