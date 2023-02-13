@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Socket } from 'socket.io';
 import { parse } from 'tough-cookie';
 import { Repository } from 'typeorm';
-import { JwtPayload } from '../../../common/auth/jwt-auth';
-import { User } from '../../../common/database/entities/user.entity';
+import { User } from '../../database/entities/user.entity';
+import { JwtPayload } from '../jwt-auth';
 
 @Injectable()
 export class SocketJwtAuthService {

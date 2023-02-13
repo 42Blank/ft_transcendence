@@ -9,6 +9,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
+import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
 import { ChatMessageDto } from './dto/incoming/chat-message.dto';
@@ -18,7 +19,6 @@ import { LeaveChatRoomDto } from './dto/incoming/leave-chat-room.dto';
 import { UpdateChatRoomDto } from './dto/incoming/update-chat-room.dto';
 import { ChatRoomService } from './service/chat-room.service';
 import { ChatUserService } from './service/chat-user.service';
-import { SocketWithUser } from './types/SocketWithUser';
 
 @UseFilters(new WsExceptionFilter())
 @WebSocketGateway({
