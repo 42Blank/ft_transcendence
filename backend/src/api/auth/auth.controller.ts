@@ -49,14 +49,12 @@ export class AuthController {
   @ApiOperation({ summary: '랜덤하게 로그인하기 (개발용입니다.)' })
   @ApiOkResponse({ description: '로그인 성공' })
   async getJwt(
-    @Query('name') name: string, //
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: Response, //
+    @Query('name') name: string,
   ): Promise<void> {
-    const id = String(Math.floor(Math.random() * 10000));
-
     const jwt = await this.loginService.login({
-      id: `Z${id}`,
-      username: `P${name ?? `ochita${id}`}`,
+      id: `Z${String(Math.floor(Math.random() * 10000))}`,
+      username: `P${name}`,
       image_url: 'https://beebom.com/wp-content/uploads/2022/10/Cute-Weakened-form-of-Pochita.jpg?w=640',
     });
     const cookieOption = this.loginService.getCookieOption();
