@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, ParseIntPipe, Res, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseIntPipe, Patch, Res, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FtProfile, ReqFtProfile } from '../../common/auth/ft-auth';
@@ -27,9 +27,10 @@ export class AuthController {
     @ReqFtProfile() ftProfile: FtProfile,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    const cookie = await this.loginService.login(ftProfile);
+    const jwt = await this.loginService.login(ftProfile);
+    const cookieOption = this.loginService.getCookieOption();
 
-    response.cookie(cookie.name, cookie.value, cookie.option);
+    response.cookie('access_token', jwt, cookieOption);
   }
 
   @Delete('signout')
@@ -39,16 +40,23 @@ export class AuthController {
   @ApiOkResponse({ description: '로그아웃 성공' })
   @ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
   signout(@Res({ passthrough: true }) response: Response): void {
-    response.clearCookie('access_token', this.loginService.getCookieOption());
+    const cookieOption = this.loginService.getCookieOption();
+
+    response.clearCookie('access_token', cookieOption);
   }
 
-  @Get('debug/jwt/:id')
+  @Patch('debug/login/as/:id')
   @ApiCookieAuth()
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'jwt 훔쳐오기' })
-  @ApiOkResponse({ description: 'jwt' })
-  @ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
-  async getJwt(@Param('id', ParseIntPipe) id: number): Promise<string> {
-    return await this.loginService.createJwt(id);
+  @ApiOperation({ summary: '다른사람으로 로그인하기 (개발용입니다.)' })
+  @ApiOkResponse({ description: '로그인 성공' })
+  async getJwt(
+    @Param('id', ParseIntPipe) id: number, //
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<void> {
+    const jwt = await this.loginService.createJwt(id);
+    const cookieOption = this.loginService.getCookieOption();
+
+    response.cookie('access_token', jwt, cookieOption);
   }
 }
