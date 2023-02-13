@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-import { SocketJwtAuthService } from './auth';
+import { SocketJwtAuthService } from '../../common/auth/socket-jwt-auth';
 
 @Injectable()
 export class ConnectionHandleService implements OnGatewayConnection, OnGatewayDisconnect {
