@@ -28,7 +28,7 @@ export const ChatElement = ({ chatUser, message, timestamp, isMine }: Props) => 
         <div className={chatBodyWrapper}>
           <span className={chatTimestampWrapper(true)}>{new Date(timestamp).toLocaleTimeString()}</span>
           <div className={chatMessageWrapper}>
-            <span>{message}</span>
+            <p>{message}</p>
           </div>
         </div>
       </li>
@@ -43,7 +43,7 @@ export const ChatElement = ({ chatUser, message, timestamp, isMine }: Props) => 
       </Link>
       <div className={chatBodyWrapper}>
         <div className={chatMessageWrapper}>
-          <span>{message}</span>
+          <p>{message}</p>
         </div>
         <span className={chatTimestampWrapper(false)}>{new Date(timestamp).toLocaleTimeString()}</span>
       </div>

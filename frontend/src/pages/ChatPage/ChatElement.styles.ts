@@ -77,9 +77,9 @@ export const chatMessageWrapper = css`
   padding: 10px;
   height: fit-content;
   flex: 1;
+  overflow: hidden;
 
-
-  & > span: {
-    // TODO: style
+  & > p {
+   word-break: break-all;
   },
 `;
