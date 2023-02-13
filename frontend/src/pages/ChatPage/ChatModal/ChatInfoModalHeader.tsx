@@ -75,7 +75,7 @@ export const ChatInfoModalHeader = ({ currentChatRoom, isCurrentUserOperator }: 
       {isPrivate && isCurrentUserOperator && (
         <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
           <label htmlFor="password-name">비밀번호</label>
-          <input ref={passwordRef} type="text" id="password-name" />
+          <input ref={passwordRef} type="text" id="password-name" required />
           <button type="submit">
             <span>수정</span>
           </button>

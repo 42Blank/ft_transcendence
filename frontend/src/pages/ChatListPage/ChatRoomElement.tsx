@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { joinChatRoomState } from 'store';
@@ -28,6 +28,11 @@ export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
     else setJoinChatRoom({ id: roomID });
   }
 
+  function handleSubmitPasswordAndJoin(e: FormEvent) {
+    e.preventDefault();
+    setJoinChatRoom({ id: roomID, password: passwordRef.current.value });
+  }
+
   function handleClickCancelButton() {
     setIsPasswordMode(false);
   }
@@ -53,8 +58,8 @@ export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
     <div className={chatRoomElementStyle}>
       <LockIcon />
       <h3>{roomTitle}</h3>
-      <form className={chatRoomFormSectionStyle}>
-        <input type="password" ref={passwordRef} />
+      <form className={chatRoomFormSectionStyle} onSubmit={handleSubmitPasswordAndJoin}>
+        <input type="password" ref={passwordRef} required />
         <div className={chatRoomFormButtonSectionStyle}>
           <button type="button" onClick={handleClickCancelButton}>
             <span>취소</span>
