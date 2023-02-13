@@ -28,7 +28,7 @@ export interface JoinChatRoomType {
 }
 
 export interface UpdateChatRoomType {
-  chatRoomId: string;
+  id: string;
   roomTitle: string;
   isPrivate: boolean;
   password?: string;
