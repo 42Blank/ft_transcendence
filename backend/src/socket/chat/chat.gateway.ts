@@ -9,6 +9,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
+import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
 import { ChatMessageDto } from './dto/incoming/chat-message.dto';
@@ -18,7 +19,6 @@ import { LeaveChatRoomDto } from './dto/incoming/leave-chat-room.dto';
 import { UpdateChatRoomDto } from './dto/incoming/update-chat-room.dto';
 import { ChatRoomService } from './service/chat-room.service';
 import { ChatUserService } from './service/chat-user.service';
-import { SocketWithUser } from './types/SocketWithUser';
 
 @UseFilters(new WsExceptionFilter())
 @WebSocketGateway({
@@ -54,7 +54,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: UpdateChatRoomDto,
   ): void {
-    this.chatRoomService.updateChatRoom(client.id, data.chatRoomId, data);
+    this.chatRoomService.updateChatRoom(client.id, data.id, data);
     this.logger.verbose(`${client.user.nickname} updateRoom: ${JSON.stringify(data)}`);
 
     this.emitChatRooms();
@@ -65,7 +65,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: JoinChatRoomDto,
   ): void {
-    this.chatUserService.joinChatRoom(data.id, client.id, client.user.id);
+    this.chatUserService.joinChatRoom(data.id, client.id, client.user.id, data.password);
 
     this.logger.verbose(`${client.user.nickname} joinRoom: ${JSON.stringify(data)}`);
 
@@ -119,16 +119,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   public async handleConnection(client: SocketWithUser): Promise<void> {
-    const isConnected = await this.connectionHandleService.handleConnection(client);
+    const isUserConnected = await this.connectionHandleService.handleConnection(client);
 
-    if (isConnected) {
+    if (isUserConnected) {
       this.emitChatRooms();
     }
   }
 
   public handleDisconnect(client: SocketWithUser): void {
-    this.chatUserService.leaveAllChatRooms(client.id);
-    this.connectionHandleService.handleDisconnect(client);
-    this.emitChatRooms();
+    const isUserDisconnected = this.connectionHandleService.handleDisconnect(client);
+
+    if (isUserDisconnected) {
+      this.chatUserService.leaveAllChatRooms(client.id);
+      this.emitChatRooms();
+    }
   }
 }

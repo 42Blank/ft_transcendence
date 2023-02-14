@@ -10,3 +10,4 @@ export { ReactComponent as VerifiedIcon } from './verifiedIcon.svg';
 export { ReactComponent as SaveIcon } from './saveIcon.svg';
 export { ReactComponent as PlusIcon } from './plusIcon.svg';
 export { ReactComponent as CrownIcon } from './crownIcon.svg';
+export { ReactComponent as LockIcon } from './lockIcon.svg';

@@ -31,7 +31,7 @@ export class ChatRoomService {
   public updateChatRoom(
     socketId: string,
     chatRoomId: string,
-    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+    data: Partial<Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>>,
   ): void {
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
 

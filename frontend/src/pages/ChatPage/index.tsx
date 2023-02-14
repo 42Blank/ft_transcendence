@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { useGetCurrentChatRoom, useGetCurrentUser } from 'hooks';
 import { Modal } from 'common';
-import { HamburgerIcon } from 'assets';
+import { HamburgerIcon, LockIcon } from 'assets';
 import { checkIsUserOperator } from 'utils';
 import { currentChatDataState, leaveChatRoomState } from 'store';
 import { ChatElement } from './ChatElement';
@@ -14,6 +14,7 @@ import {
   chatPageListWrapperStyle,
   chatPageMenuButtonStyle,
   chatPageModalStyle,
+  chatPageTitleLeftSectionStyle,
   chatPageTitleStyle,
   chatPageWrapperStyle,
   closeButtonStyle,
@@ -24,6 +25,7 @@ export const ChatPage = () => {
     data: { id: currentUserID },
   } = useGetCurrentUser();
   const currentChatData = useRecoilValue(currentChatDataState);
+  const resetCurrentChatData = useResetRecoilState(currentChatDataState);
   const currentChatRoom = useGetCurrentChatRoom();
   const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);
   const [isModalShown, setIsModalShown] = useState(false);
@@ -40,6 +42,7 @@ export const ChatPage = () => {
   useEffect(() => {
     return () => {
       setLeaveChatRoom({ id: currentChatRoom.id });
+      resetCurrentChatData();
     };
   }, []);
 
@@ -47,7 +50,10 @@ export const ChatPage = () => {
     <>
       <main className={chatPageWrapperStyle}>
         <header className={chatPageTitleStyle}>
-          <span>{currentChatRoom.roomTitle ?? ''}</span>
+          <div className={chatPageTitleLeftSectionStyle}>
+            {currentChatRoom.isPrivate && <LockIcon />}
+            <span>{currentChatRoom.roomTitle ?? ''}</span>
+          </div>
           <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
             <HamburgerIcon />
           </button>
@@ -67,11 +73,7 @@ export const ChatPage = () => {
       </main>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
-          <ChatInfoModalHeader
-            roomTitle={currentChatRoom.roomTitle}
-            isCurrentUserOperator={isOperator}
-            isPrivate={currentChatRoom.isPrivate}
-          />
+          <ChatInfoModalHeader currentChatRoom={currentChatRoom} isCurrentUserOperator={isOperator} />
           <ChatInfoModalBody users={currentChatRoom.users} isCurrentUserOperator={isOperator} />
           <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
             닫기

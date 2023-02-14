@@ -8,12 +8,6 @@ import { FtProfile } from '../../../common/auth/ft-auth';
 import { JwtPayload } from '../../../common/auth/jwt-auth';
 import { User } from '../../../common/database/entities/user.entity';
 
-type Cookie = {
-  name: string;
-  value: string;
-  option: CookieOptions;
-};
-
 @Injectable()
 export class LoginService {
   constructor(
@@ -23,7 +17,7 @@ export class LoginService {
     private readonly configService: ConfigService,
   ) {}
 
-  async login(ftProfile: FtProfile): Promise<Cookie> {
+  async login(ftProfile: FtProfile): Promise<string> {
     let user = await this.userRepository.findOne({
       where: { intraId: ftProfile.id },
     });
@@ -36,11 +30,7 @@ export class LoginService {
       });
     }
 
-    return {
-      name: 'access_token',
-      value: await this.createJwt(user.id),
-      option: this.getCookieOption(),
-    };
+    return await this.createJwt(user.id);
   }
 
   getCookieOption(): CookieOptions {
