@@ -1,12 +1,12 @@
 import { putUserProfile } from 'services';
-import { useRef, Dispatch, SetStateAction } from 'react';
+import { useRef } from 'react';
 import { useGetCurrentUser } from 'hooks';
 
 type PropType = {
-  setVisible: Dispatch<SetStateAction<Boolean>>;
+  onClickClose: () => void;
 };
 
-export const EditForm = ({ setVisible }: PropType) => {
+export const EditForm = ({ onClickClose }: PropType) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { refetch } = useGetCurrentUser();
@@ -15,7 +15,7 @@ export const EditForm = ({ setVisible }: PropType) => {
     putUserProfile({ nickname: inputRef.current.value }).then(() => {
       refetch();
     });
-    setVisible(false);
+    onClickClose();
   }
 
   return (
