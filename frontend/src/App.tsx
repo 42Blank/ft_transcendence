@@ -1,4 +1,4 @@
-import { LoginLayout, MainLayout } from 'common';
+import { LoginLayout, MainLayout, RootComponent } from 'common';
 import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, ChatListPage, GamePage } from 'pages';
 import { Route, Routes } from 'react-router-dom';
 
@@ -8,12 +8,14 @@ export const App = () => {
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<MainLayout />}>
-        <Route path={ROUTE.CHAT} element={<ChatListPage />} />
-        <Route path={`${ROUTE.CHAT}/:id`} element={<ChatPage />} />
-        <Route path={ROUTE.GAME} element={<GameListPage />} />
-        <Route path={`${ROUTE.GAME}/:id`} element={<GamePage />} />
-        <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
-        <Route path={`${ROUTE.PROFILE}/:id`} element={<div>프로필</div>} />
+        <Route path={ROUTE.ROOT} element={<RootComponent />}>
+          <Route path={ROUTE.CHAT} element={<ChatListPage />} />
+          <Route path={`${ROUTE.CHAT}/:id`} element={<ChatPage />} />
+          <Route path={ROUTE.GAME} element={<GameListPage />} />
+          <Route path={`${ROUTE.GAME}/:id`} element={<GamePage />} />
+          <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
+          <Route path={`${ROUTE.PROFILE}/:id`} element={<div>프로필</div>} />
+        </Route>
       </Route>
       <Route path={ROUTE.ROOT} element={<LoginLayout />}>
         <Route path={ROUTE.LOGIN} element={<LoginPage />} />
