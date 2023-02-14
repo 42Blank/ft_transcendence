@@ -10,7 +10,7 @@ export const friendsListStyle = (isOpen: boolean) => css`
 
   ${isOpen &&
   `
-    margin-left: -300px;
+    margin-left: -251px;
   `}
 
   & > ul {
