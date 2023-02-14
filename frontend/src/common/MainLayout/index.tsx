@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
@@ -10,6 +10,7 @@ import { mainLayoutStyle } from './MainLayout.styles';
 
 export const MainLayout = () => {
   useHandleSocket(); // TODO: 레이아웃 컴포넌트에서 의존성 줄이기?
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { pathname } = useLocation();
   const nav = useNavigate();
 
@@ -19,9 +20,9 @@ export const MainLayout = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar setIsSidebarOpen={setIsSidebarOpen} />
       <div className={mainLayoutStyle}>
-        <FriendsList />
+        <FriendsList isOpen={isSidebarOpen} />
         <Outlet />
       </div>
     </>

@@ -52,9 +52,13 @@ const DUMMY_FRIENDS: UserInfoType[] = [
   },
 ];
 
-export const FriendsList = () => {
+interface Props {
+  isOpen: boolean;
+}
+
+export const FriendsList = ({ isOpen }: Props) => {
   return (
-    <aside className={friendsListStyle}>
+    <aside className={friendsListStyle(isOpen)}>
       <h2 className={friendsListTitleStyle}>친구 목록</h2>
       <ul>
         {DUMMY_FRIENDS.map(userInfo => (

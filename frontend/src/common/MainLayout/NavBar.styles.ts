@@ -19,6 +19,17 @@ export const headerLeftSectionStyle = css({
   height: '100%',
 });
 
+export const headerHamburgerButtonStyle = css({
+  width: 30,
+  height: 30,
+  marginRight: 10,
+
+  svg: {
+    width: 20,
+    height: 20,
+  },
+});
+
 export const headerIconButtonStyle = css({
   display: 'flex',
   flexDirection: 'row',
