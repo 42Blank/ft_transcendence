@@ -10,7 +10,7 @@ import { mainLayoutStyle } from './MainLayout.styles';
 
 export const MainLayout = () => {
   useHandleSocket(); // TODO: 레이아웃 컴포넌트에서 의존성 줄이기?
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { pathname } = useLocation();
   const nav = useNavigate();
 

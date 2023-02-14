@@ -8,7 +8,7 @@ export const friendsListStyle = (isOpen: boolean) => css`
   border-right: 1px solid black; // TODO: border color
   transition: margin 0.2s ease-in;
 
-  ${isOpen &&
+  ${!isOpen &&
   `
     margin-left: -251px;
   `}
