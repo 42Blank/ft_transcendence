@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Friend } from './friend.entity';
+import { MatchHistory } from './match-history.entity';
+import { UserAchievement } from './user-achievement.entity';
 
 @Entity('user')
 export class User {
@@ -45,6 +47,24 @@ export class User {
     nullable: true,
   })
   recvFriendUsers?: Friend[];
+
+  @OneToMany(() => UserAchievement, userAchievement => userAchievement.user, {
+    createForeignKeyConstraints: false,
+    nullable: true,
+  })
+  achievements?: UserAchievement[];
+
+  @OneToMany(() => MatchHistory, matchHistory => matchHistory.winner, {
+    createForeignKeyConstraints: false,
+    nullable: true,
+  })
+  winMatchHistory?: MatchHistory[];
+
+  @OneToMany(() => MatchHistory, matchHistory => matchHistory.loser, {
+    createForeignKeyConstraints: false,
+    nullable: true,
+  })
+  loseMatchHistory?: MatchHistory[];
 }
 
 // user 1 : 왓차
