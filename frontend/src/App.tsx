@@ -1,9 +1,18 @@
-import { LoginLayout, MainLayout } from 'common';
-import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, ChatListPage, GamePage, ProfilePage } from 'pages';
 import { Route, Routes } from 'react-router-dom';
 
+import { LoginLayout, MainLayout } from 'common';
+import {
+  ChatPage,
+  GameListPage,
+  LoginCallbackPage,
+  LoginPage,
+  ChatListPage,
+  GamePage,
+  ProfilePage,
+  ErrorPage,
+} from 'pages';
+
 import { ROUTE } from 'common/constants';
-import { ErrorPage } from 'pages/ErrorPage';
 
 export const App = () => {
   return (
@@ -21,9 +30,7 @@ export const App = () => {
         <Route path={ROUTE.LOGIN_CHECK} element={<LoginCallbackPage />} />
         <Route path={ROUTE.REGISTER} element={<div>회원가입합쉬다~~</div>} />
       </Route>
-      <Route>
-        <Route path={ROUTE.ERROR} element={<ErrorPage />} />
-      </Route>
+      <Route path={ROUTE.ERROR} element={<ErrorPage />} />
     </Routes>
   );
 };

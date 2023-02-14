@@ -11,7 +11,7 @@ export const EditForm = ({ setVisible }: PropType) => {
 
   const { refetch } = useGetCurrentUser();
 
-  function submitProfile() {
+  function handleSubmitProfile() {
     putUserProfile({ nickname: inputRef.current.value }).then(() => {
       refetch();
     });
@@ -24,7 +24,7 @@ export const EditForm = ({ setVisible }: PropType) => {
       <br />
       <input type="text" id="nickname" placeholder="new nickname" ref={inputRef} required />
       <br />
-      <button type="button" onClick={submitProfile}>
+      <button type="button" onClick={handleSubmitProfile}>
         submit
       </button>
     </div>

@@ -1,8 +1,8 @@
-import { useGetCurrentUser } from 'hooks';
 import { useState } from 'react';
-import { EditModal } from './EditModal';
 
+import { useGetCurrentUser } from 'hooks';
 import { ProfileCard } from './ProfileCard';
+import { EditModal } from './EditModal';
 
 export const MyProfilePage = () => {
   const [isVisible, setVisible] = useState<Boolean>(false);
