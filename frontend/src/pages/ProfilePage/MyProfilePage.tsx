@@ -13,15 +13,7 @@ export const MyProfilePage = () => {
   return (
     <main>
       <h1>Profile Page</h1>
-      <ProfileCard
-        id={profile.id}
-        intraId={profile.intraId}
-        nickname={profile.nickname}
-        point={profile.point}
-        createdAt={profile.createdAt}
-        updatedAt={profile.updatedAt}
-        avatar={profile.avatar}
-      />
+      <ProfileCard prop={profile} />
       <button type="button" onClick={() => setVisible(true)}>
         Edit Profile
       </button>
