@@ -6,7 +6,7 @@ type PropType = {
   onClickClose: () => void;
 };
 
-export const EditForm = ({ onClickClose }: PropType) => {
+export const EditNickModal = ({ onClickClose }: PropType) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { refetch } = useGetCurrentUser();
@@ -20,7 +20,7 @@ export const EditForm = ({ onClickClose }: PropType) => {
 
   return (
     <div>
-      <label htmlFor="nickname">Edit profile</label>
+      <label htmlFor="nickname">Edit Nickname</label>
       <br />
       <input type="text" id="nickname" placeholder="new nickname" ref={inputRef} required />
       <br />
