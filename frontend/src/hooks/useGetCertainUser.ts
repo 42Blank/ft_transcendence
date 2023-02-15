@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 
-import { ROUTE } from 'common/constants';
 import { getCertainUserInfo } from 'services';
 import { UserInfoType } from 'types/user';
 
@@ -16,15 +16,15 @@ const INIT_DATA: UserInfoType = {
 };
 
 export function useGetCertainUser() {
+  const handleError = useErrorHandler();
   const id = Number(useParams().id);
-  const nav = useNavigate();
   const { data = INIT_DATA } = useQuery([`User${id}`], () => getCertainUserInfo({ id }), {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60 * 12,
     cacheTime: 1000 * 60 * 60 * 12, // TODO: 적절한 시간으로 수정
     retry: 0,
-    onError: () => {
-      nav(ROUTE.ERROR);
+    onError: e => {
+      handleError(e);
     },
   });
 
