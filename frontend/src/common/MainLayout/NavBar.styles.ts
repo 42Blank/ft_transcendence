@@ -60,3 +60,9 @@ export const headerMainButtonStyle = (isSelected: boolean) =>
       backgroundColor: 'lightgray', // TODO: 나중에 색상 변경
     },
   });
+
+export const logoImageStyle = css({
+  width: 140,
+  height: 40,
+  marginLeft: 5,
+});
