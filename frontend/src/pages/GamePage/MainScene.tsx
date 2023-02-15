@@ -6,9 +6,9 @@ export class MainScene extends Phaser.Scene {
   private paddle2: Phaser.Physics.Arcade.Image;
 
   private score1: number;
-  private score1label: Phaser.GameObjects.Text;
+  private scoreLabel1: Phaser.GameObjects.Text;
   private score2: number;
-  private score2label: Phaser.GameObjects.Text;
+  private scoreLabel2: Phaser.GameObjects.Text;
 
   private key: Phaser.Types.Input.Keyboard.CursorKeys;
   /**
@@ -36,9 +36,9 @@ export class MainScene extends Phaser.Scene {
     this.paddle2.setImmovable(true);
 
     this.score1 = 0;
-    this.score1label = this.add.text(200, 125, '0', { fontSize: '32px', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
+    this.scoreLabel1 = this.add.text(200, 125, '0', { fontSize: '32px', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
     this.score2 = 0;
-    this.score2label = this.add.text(600, 125, '0', { fontSize: '32px', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
+    this.scoreLabel2 = this.add.text(600, 125, '0', { fontSize: '32px', fontFamily: 'Arial' }).setOrigin(0.5, 0.5);
     this.physics.add.collider(this.ball, this.paddle1, null, null, this);
     this.physics.add.collider(this.ball, this.paddle2, null, null, this);
 
@@ -58,7 +58,7 @@ export class MainScene extends Phaser.Scene {
 
     if (this.ball.x < 10) {
       this.score2 += 1;
-      this.score2label.text = this.score2.toString();
+      this.scoreLabel2.text = this.score2.toString();
       this.ball.setVisible(false);
       this.ball.setPosition(400, 300);
       this.ball.setVelocity(0, 0);
@@ -68,7 +68,7 @@ export class MainScene extends Phaser.Scene {
       });
     } else if (this.ball.x > 790) {
       this.score1 += 1;
-      this.score1label.text = this.score1.toString();
+      this.scoreLabel1.text = this.score1.toString();
       this.ball.setVisible(false);
       this.ball.setPosition(400, 300);
       this.ball.setVelocity(0, 0);
