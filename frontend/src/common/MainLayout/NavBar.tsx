@@ -11,6 +11,7 @@ import {
   headerLeftSectionStyle,
   headerMainButtonStyle,
   headerStyle,
+  logoImageStyle,
 } from './NavBar.styles';
 
 interface Props {
@@ -38,8 +39,7 @@ export const NavBar = ({ setIsSidebarOpen }: Props) => {
           <HamburgerIcon />
         </button>
         <button type="button" onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
-          <img src="/icon.png" alt="title pochita icon" height={40} />
-          <h1>Pochitandence</h1>
+          <img src="/logo.png" alt="pochitandence logo" width={140} height={40} className={logoImageStyle} />
         </button>
         <button
           type="button"
