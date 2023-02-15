@@ -1,6 +1,6 @@
 import { putUserProfile } from 'services';
 import { useRef } from 'react';
-import { useGetCurrentUser } from 'hooks';
+import { useGetCertainUser, useGetCurrentUser } from 'hooks';
 
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 
@@ -14,11 +14,13 @@ export const EditAvatarModal = ({ onClickClose }: PropType) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const { refetch } = useGetCurrentUser();
+  const { refetch } = useGetCertainUser();
+  const { refetch: refetch2 } = useGetCurrentUser();
 
   function handleSubmitProfile() {
     putUserProfile({ avatar: inputRef.current.value }).then(() => {
       refetch();
+      refetch2();
     });
     onClickClose();
   }
