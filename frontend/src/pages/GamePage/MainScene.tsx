@@ -73,7 +73,7 @@ export class MainScene extends Phaser.Scene {
       this.ball.setPosition(400, 300);
       this.ball.setVelocity(0, 0);
       this.time.delayedCall(1500, () => {
-        this.ball.setVelocity(200, 200);
+        this.ball.setVelocity(-200, -200);
         this.ball.setVisible(true);
       });
     }
