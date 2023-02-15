@@ -9,7 +9,7 @@ export const LoginLayout = () => {
     <>
       <header className={loginHeaderStyle}>
         <img
-          src={isSamurai ? 'samurai.png' : 'csm.png'}
+          src={isSamurai ? '/samurai.png' : '/csm.png'}
           alt={isSamurai ? 'samurai-sword' : 'chainsaw-man'}
           width={600}
           height={350}
