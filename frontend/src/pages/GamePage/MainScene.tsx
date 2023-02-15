@@ -59,11 +59,23 @@ export class MainScene extends Phaser.Scene {
     if (this.ball.x < 10) {
       this.score2 += 1;
       this.score2label.text = this.score2.toString();
+      this.ball.setVisible(false);
       this.ball.setPosition(400, 300);
+      this.ball.setVelocity(0, 0);
+      this.time.delayedCall(1500, () => {
+        this.ball.setVelocity(200, 200);
+        this.ball.setVisible(true);
+      });
     } else if (this.ball.x > 790) {
       this.score1 += 1;
       this.score1label.text = this.score1.toString();
+      this.ball.setVisible(false);
       this.ball.setPosition(400, 300);
+      this.ball.setVelocity(0, 0);
+      this.time.delayedCall(1500, () => {
+        this.ball.setVelocity(200, 200);
+        this.ball.setVisible(true);
+      });
     }
   }
 }
