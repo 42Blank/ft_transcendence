@@ -1,14 +1,14 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserProfileRequestDto {
+  @IsString()
   @IsOptional()
-  @IsNotEmpty()
   @ApiPropertyOptional({ example: 'jasong' })
   nickname?: string;
 
+  @IsString()
   @IsOptional()
-  @IsNotEmpty()
   @ApiPropertyOptional({ example: 'https://picsum.photos/200' })
   avatar?: string;
 }

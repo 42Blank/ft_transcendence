@@ -9,7 +9,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard, ReqUser } from '../../common/auth/jwt-auth';
 import { User } from '../../common/database/entities/user.entity';
-import { UpdateUserProfileRequestDto } from './dto/update-user-profile-request.dto';
+import { UpdateUserProfileRequestDto } from './dto/request/update-user-profile.dto';
 import { FindUserService } from './service/find-user.service';
 import { UpdateProfileService } from './service/update-profile.service';
 
