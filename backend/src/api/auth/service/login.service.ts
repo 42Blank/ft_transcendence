@@ -1,57 +1,59 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CookieOptions } from 'express';
 import { Repository } from 'typeorm';
-import { FtProfile } from '../../../common/auth/ft-auth';
-import { JwtPayload } from '../../../common/auth/jwt-auth';
+import { FtProfile, UserJwtPayload } from '../../../common/auth/types';
+
 import { User } from '../../../common/database/entities/user.entity';
+import { RegisterRequestDto } from '../dto/request/register.dto';
 
 @Injectable()
 export class LoginService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>, //
-    private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
   ) {}
 
-  async login(ftProfile: FtProfile): Promise<string> {
-    let user = await this.userRepository.findOne({
+  async login(ftProfile: FtProfile): Promise<UserJwtPayload> {
+    const user = await this.userRepository.findOne({
       where: { intraId: ftProfile.id },
     });
 
     if (!user) {
-      user = await this.userRepository.save({
-        intraId: ftProfile.id,
-        nickname: ftProfile.username,
-        avatar: ftProfile.image_url,
-      });
+      throw new ForbiddenException('등록되지 않은 유저입니다.');
     }
 
-    return await this.createJwt(user.id);
-  }
-
-  getCookieOption(): CookieOptions {
-    const oneHour = 60 * 60 * 1000;
-    const maxAge = 7 * 24 * oneHour; // 7days
-
-    return this.configService.get('PROFILE') === 'production' //
-      ? { secure: true, sameSite: 'none', maxAge }
-      : { maxAge };
-  }
-
-  async createJwt(userId: number): Promise<string> {
-    const user = await this.userRepository.findOneOrFail({
-      where: { id: userId },
-    });
-
-    const payload: JwtPayload = {
+    return {
       id: user.id,
       intraId: user.intraId,
     };
+  }
 
-    return this.jwtService.sign(payload);
+  async register(ftProfile: FtProfile, registerDto: RegisterRequestDto): Promise<UserJwtPayload> {
+    const alreadyRegisteredUser = await this.userRepository.findOne({
+      where: { intraId: ftProfile.id },
+    });
+
+    if (alreadyRegisteredUser) {
+      throw new ForbiddenException('이미 등록된 유저입니다.');
+    }
+
+    const alreadyUsedNickname = await this.userRepository.findOne({
+      where: { nickname: registerDto.nickname },
+    });
+
+    if (alreadyUsedNickname) {
+      throw new BadRequestException(`${registerDto.nickname} 는 이미 사용중인 닉네임입니다.`);
+    }
+
+    const user = await this.userRepository.save({
+      intraId: ftProfile.id,
+      nickname: registerDto.nickname,
+      avatar: registerDto.avatar,
+    });
+
+    return {
+      id: user.id,
+      intraId: user.intraId,
+    };
   }
 }
