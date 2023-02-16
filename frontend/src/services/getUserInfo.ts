@@ -3,12 +3,12 @@ import axios from 'axios';
 import { API } from 'common/constants';
 import { UserInfoType } from 'types/user';
 
-type PropType = {
-  id: number;
-};
+interface Props {
+  id: string;
+}
 
-export function getUserInfo({ id }: PropType): Promise<void | UserInfoType> {
-  return !isNaN(id)
+export function getUserInfo({ id }: Props): Promise<void | UserInfoType> {
+  return id
     ? axios
         .get(`${process.env.REACT_APP_SERVER}${API.USER}/${id}`, {
           withCredentials: true,

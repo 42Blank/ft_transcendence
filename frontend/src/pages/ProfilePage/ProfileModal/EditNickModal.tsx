@@ -2,20 +2,21 @@ import { putUserProfile } from 'services';
 import { useRef } from 'react';
 import { useGetCertainUser, useGetCurrentUser } from 'hooks';
 
-type PropType = {
+interface Props {
   onClickClose: () => void;
-};
+}
 
-export const EditNickModal = ({ onClickClose }: PropType) => {
+export const EditNickModal = ({ onClickClose }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { refetch } = useGetCertainUser();
-  const { refetch: refetch2 } = useGetCurrentUser();
+  const { refetch: getUserRefetch } = useGetCertainUser();
+  const { refetch: getCurrentUserRefetch } = useGetCurrentUser();
 
   function handleSubmitProfile() {
+    if (!inputRef.current.value) return;
     putUserProfile({ nickname: inputRef.current.value }).then(() => {
-      refetch();
-      refetch2();
+      getUserRefetch();
+      getCurrentUserRefetch();
     });
     onClickClose();
   }

@@ -6,28 +6,30 @@ import { tmpAvatarStyle } from './tmpAvatarStyle';
 
 import pochi from './pochitaSample.png';
 
-type PropType = {
+interface Props {
   onClickClose: () => void;
-};
+}
 
-export const EditAvatarModal = ({ onClickClose }: PropType) => {
+export const EditAvatarModal = ({ onClickClose }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const { refetch } = useGetCertainUser();
-  const { refetch: refetch2 } = useGetCurrentUser();
+  const { refetch: getUserRefetch } = useGetCertainUser();
+  const { refetch: getCurrentUserRefetch } = useGetCurrentUser();
 
   function handleSubmitProfile() {
+    if (!inputRef.current.value) return;
     putUserProfile({ avatar: inputRef.current.value }).then(() => {
-      refetch();
-      refetch2();
+      getUserRefetch();
+      getCurrentUserRefetch();
     });
     onClickClose();
   }
 
   function handleClickImage() {
     putUserProfile({ avatar: imageRef.current.src }).then(() => {
-      refetch();
+      getUserRefetch();
+      getCurrentUserRefetch();
     });
     onClickClose();
   }

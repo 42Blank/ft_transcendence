@@ -9,7 +9,7 @@ import { EditNickModal, EditAvatarModal } from './ProfileModal';
 export const ProfilePage = () => {
   const [isNickModalShown, setNickModalShown] = useState<Boolean>(false);
   const [isAvatarModalShown, setAvatarModalShown] = useState<Boolean>(false);
-  const { data: profile, isMine } = useGetCertainUser();
+  const { data: profile, id } = useGetCertainUser();
 
   function handleOpenNickModal() {
     setNickModalShown(true);
@@ -33,7 +33,7 @@ export const ProfilePage = () => {
       <main>
         <h1>Profile Page</h1>
         <ProfileCard prop={profile} />
-        {isMine && (
+        {!id && (
           <>
             <button type="button" onClick={handleOpenNickModal}>
               Edit Nickname

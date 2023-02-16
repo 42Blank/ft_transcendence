@@ -17,7 +17,7 @@ const INIT_DATA: UserInfoType = {
 
 export function useGetCertainUser() {
   const handleError = useErrorHandler();
-  const id = Number(useParams().id);
+  const { id } = useParams();
   const { data = INIT_DATA, refetch } = useQuery([`User${id}`], () => getUserInfo({ id }), {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60 * 12,
@@ -27,7 +27,6 @@ export function useGetCertainUser() {
       handleError(e);
     },
   });
-  const isMine = isNaN(id);
 
-  return { data, isMine, refetch };
+  return { data, id, refetch };
 }
