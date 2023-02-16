@@ -6,8 +6,7 @@ import { getFtCallbackCode } from 'services';
 import { getLogin } from '../../services/getLogin';
 import { postRegister } from '../../services/postRegister';
 import { sleep } from '../../utils';
-import { getErrorMessage } from '../../utils/error';
-import { isFtError } from '../../utils/error/isFtError';
+import { getErrorMessage, isFtError } from '../../utils/error';
 import { loginCallbackLogoImageStyle, loginCallbackWrapperStyle } from './LoginCallbackPage.styles';
 
 // TODO: refactor me!! - by ycha
