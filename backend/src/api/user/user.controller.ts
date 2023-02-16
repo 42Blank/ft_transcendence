@@ -31,6 +31,9 @@ export class UserController {
     return await this.findUserService.findAll();
   }
 
+  /**
+   * @deprecated
+   */
   @Get('me')
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiOkResponse({ description: '내 정보', type: User })

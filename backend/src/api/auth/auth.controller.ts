@@ -4,7 +4,8 @@ import { Response } from 'express';
 import { ReqFtProfile } from '../../common/auth/ft-auth';
 import { FtAuthGuard } from '../../common/auth/ft-auth/ft-auth.guard';
 import { FtJwtAuthGuard, ReqJwtFtProfile } from '../../common/auth/jwt-auth';
-import { FtProfile } from '../../common/auth/types';
+import { FtProfile, UserJwtPayload } from '../../common/auth/types';
+import { User } from '../../common/database/entities/user.entity';
 import { RegisterRequestDto } from './dto/request/register.dto';
 import { FtProfileDto } from './dto/response/ft-profile.dto';
 import { CookieService } from './service/cookie.service';
@@ -37,7 +38,7 @@ export class AuthController {
     @ReqFtProfile() ftProfile: FtProfile,
     @Res({ passthrough: true }) response: Response,
   ): Promise<FtProfileDto> {
-    const jwt = this.cookieService.createJwt(ftProfile);
+    const jwt = this.cookieService.createJwt<FtProfile>(ftProfile);
     const cookieOption = this.cookieService.getCookieOption();
 
     response.cookie('ft_profile', jwt, cookieOption);
@@ -59,7 +60,7 @@ export class AuthController {
       username: `Pochita${randomId}`,
       image_url: 'https://beebom.com/wp-content/uploads/2022/10/Cute-Weakened-form-of-Pochita.jpg?w=640',
     };
-    const jwt = this.cookieService.createJwt(ftProfile);
+    const jwt = this.cookieService.createJwt<FtProfile>(ftProfile);
     const cookieOption = this.cookieService.getCookieOption();
 
     response.cookie('ft_profile', jwt, cookieOption);
@@ -69,33 +70,43 @@ export class AuthController {
   @UseGuards(FtJwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({ summary: '로그인 하기 (42인증 후에 진행해주세요)' })
-  @ApiOkResponse({ description: '로그인 성공' })
+  @ApiOkResponse({ description: '로그인 성공', type: User })
   async login(
     @ReqJwtFtProfile() ftProfile: FtProfile, //
     @Res({ passthrough: true }) response: Response,
-  ): Promise<void> {
-    const jwtPayload = await this.loginService.login(ftProfile);
-    const jwt = this.cookieService.createJwt(jwtPayload);
+  ): Promise<User> {
+    const user = await this.loginService.login(ftProfile);
+    const jwt = this.cookieService.createJwt<UserJwtPayload>({
+      id: user.id,
+      intraId: user.intraId,
+    });
     const cookieOption = this.cookieService.getCookieOption();
 
     response.cookie('access_token', jwt, cookieOption);
+
+    return user;
   }
 
   @Post('register')
   @UseGuards(FtJwtAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({ summary: '회원가입 하기 (42인증 후에 진행해주세요)' })
-  @ApiOkResponse({ description: '회원가입 성공' })
+  @ApiOkResponse({ description: '회원가입 성공', type: User })
   async register(
     @ReqJwtFtProfile() ftProfile: FtProfile, //
     @Body() registerDto: RegisterRequestDto,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<void> {
-    const jwtPayload = await this.loginService.register(ftProfile, registerDto);
-    const jwt = this.cookieService.createJwt(jwtPayload);
+  ): Promise<User> {
+    const user = await this.loginService.register(ftProfile, registerDto);
+    const jwt = this.cookieService.createJwt<UserJwtPayload>({
+      id: user.id,
+      intraId: user.intraId,
+    });
     const cookieOption = this.cookieService.getCookieOption();
 
     response.cookie('access_token', jwt, cookieOption);
+
+    return user;
   }
 
   @Delete('signout')

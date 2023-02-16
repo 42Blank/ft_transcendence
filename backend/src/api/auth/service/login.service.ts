@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FtProfile, UserJwtPayload } from '../../../common/auth/types';
+import { FtProfile } from '../../../common/auth/types';
 
 import { User } from '../../../common/database/entities/user.entity';
 import { RegisterRequestDto } from '../dto/request/register.dto';
@@ -13,7 +13,7 @@ export class LoginService {
     private readonly userRepository: Repository<User>, //
   ) {}
 
-  async login(ftProfile: FtProfile): Promise<UserJwtPayload> {
+  async login(ftProfile: FtProfile): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { intraId: ftProfile.id },
     });
@@ -22,13 +22,10 @@ export class LoginService {
       throw new ForbiddenException('등록되지 않은 유저입니다.');
     }
 
-    return {
-      id: user.id,
-      intraId: user.intraId,
-    };
+    return user;
   }
 
-  async register(ftProfile: FtProfile, registerDto: RegisterRequestDto): Promise<UserJwtPayload> {
+  async register(ftProfile: FtProfile, registerDto: RegisterRequestDto): Promise<User> {
     const alreadyRegisteredUser = await this.userRepository.findOne({
       where: { intraId: ftProfile.id },
     });
@@ -51,9 +48,6 @@ export class LoginService {
       avatar: registerDto.avatar,
     });
 
-    return {
-      id: user.id,
-      intraId: user.intraId,
-    };
+    return user;
   }
 }
