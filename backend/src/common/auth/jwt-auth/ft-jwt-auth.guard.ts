@@ -15,7 +15,9 @@ export class FtJwtAuthGuard extends AuthGuard('ft-jwt-auth') {
     try {
       return super.handleRequest(err, user, info, context, status);
     } catch (e: unknown) {
-      throw new UnauthorizedException(`${(e as Error).message} : 42 인증을 했는지 확인해주세요`);
+      throw new UnauthorizedException(
+        `42프로필 확인에 실패했습니다. 42 인증을 했는지 확인해주세요. \n(${(e as Error).message})`,
+      );
     }
   }
 }

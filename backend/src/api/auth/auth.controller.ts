@@ -52,8 +52,8 @@ export class AuthController {
 
   @Get('ft/random')
   @ApiOperation({ summary: '42 랜덤하게 로그인하기 (개발용입니다.)' })
-  @ApiOkResponse({ description: '로그인 성공' })
-  async getJwt(@Res({ passthrough: true }) response: Response): Promise<void> {
+  @ApiOkResponse({ description: '로그인 성공', type: FtProfileDto })
+  async getJwt(@Res({ passthrough: true }) response: Response): Promise<FtProfileDto> {
     const randomId = String(Math.floor(Math.random() * 10000));
     const ftProfile = {
       id: `Z${randomId}`,
@@ -64,6 +64,8 @@ export class AuthController {
     const cookieOption = this.cookieService.getCookieOption();
 
     response.cookie('ft_profile', jwt, cookieOption);
+
+    return ftProfile;
   }
 
   @Get('login')

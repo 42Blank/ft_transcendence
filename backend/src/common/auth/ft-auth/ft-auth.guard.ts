@@ -15,7 +15,7 @@ export class FtAuthGuard extends AuthGuard('42') {
     try {
       return super.handleRequest(err, user, info, context, status);
     } catch (e: unknown) {
-      throw new BadRequestException((e as Error).message);
+      throw new BadRequestException(`42인증에 실패했습니다. 다시 시도해주세요. \n(${(e as Error).message})`);
     }
   }
 }

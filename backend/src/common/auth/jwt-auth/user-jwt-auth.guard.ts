@@ -15,7 +15,9 @@ export class UserJwtAuthGuard extends AuthGuard('user-jwt-auth') {
     try {
       return super.handleRequest(err, user, info, context, status);
     } catch (e: unknown) {
-      throw new UnauthorizedException(`${(e as Error).message} : 로그인을 했는지 확인해주세요`);
+      throw new UnauthorizedException(
+        `유저 인증에 실패했습니다. 로그인을 했는지 확인해주세요. \n(${(e as Error).message})`,
+      );
     }
   }
 }
