@@ -7,7 +7,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { JwtAuthGuard, ReqUser } from '../../common/auth/jwt-auth';
+import { ReqUser, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 import { User } from '../../common/database/entities/user.entity';
 import { UpdateUserProfileRequestDto } from './dto/request/update-user-profile.dto';
 import { FindUserService } from './service/find-user.service';
@@ -16,7 +16,7 @@ import { UpdateProfileService } from './service/update-profile.service';
 @ApiTags('User')
 @Controller('users')
 @ApiCookieAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(UserJwtAuthGuard)
 @ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
 export class UserController {
   constructor(

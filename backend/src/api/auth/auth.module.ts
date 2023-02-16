@@ -6,6 +6,7 @@ import { User } from '../../common/database/entities/user.entity';
 import { AuthController } from './auth.controller';
 import { FtAuthModule } from './ft-auth/ft-auth.module';
 import { JwtAuthModule } from './jwt-auth/jwt-auth.module';
+import { CookieService } from './service/cookie.service';
 import { LoginService } from './service/login.service';
 
 @Module({
@@ -22,7 +23,7 @@ import { LoginService } from './service/login.service';
     }),
     TypeOrmModule.forFeature([User]),
   ],
-  providers: [LoginService],
+  providers: [CookieService, LoginService],
   controllers: [AuthController],
 })
 export class AuthModule {}
