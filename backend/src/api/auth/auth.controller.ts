@@ -32,17 +32,21 @@ export class AuthController {
   @Get('ft/callback')
   @UseGuards(FtAuthGuard)
   @ApiOperation({ summary: '42 로그인 콜백' })
-  @ApiOkResponse({ description: '로그인 성공' })
+  @ApiOkResponse({ description: '로그인 성공', type: FtProfileDto })
   async ftCallback(
     @ReqFtProfile() ftProfile: FtProfile,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<void> {
-    console.log('ftProfile', ftProfile);
-
+  ): Promise<FtProfileDto> {
     const jwt = this.cookieService.createJwt(ftProfile);
     const cookieOption = this.cookieService.getCookieOption();
 
     response.cookie('ft_profile', jwt, cookieOption);
+
+    return {
+      id: ftProfile.id,
+      username: ftProfile.username,
+      image_url: ftProfile.image_url,
+    };
   }
 
   @Get('ft/random')
@@ -59,21 +63,6 @@ export class AuthController {
     const cookieOption = this.cookieService.getCookieOption();
 
     response.cookie('ft_profile', jwt, cookieOption);
-  }
-
-  @Get('ft/profile')
-  @UseGuards(FtJwtAuthGuard)
-  @ApiCookieAuth()
-  @ApiOperation({ summary: '42 프로필 확인 (42인증 후에 진행해주세요)' })
-  @ApiOkResponse({ description: '42 프로필', type: FtProfileDto })
-  profile(
-    @ReqJwtFtProfile() ftProfile: FtProfile, //
-  ): FtProfileDto {
-    return {
-      id: ftProfile.id,
-      username: ftProfile.username,
-      image_url: ftProfile.image_url,
-    };
   }
 
   @Get('login')
