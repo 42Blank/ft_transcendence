@@ -5,7 +5,7 @@ import { Socket } from 'socket.io';
 import { parse } from 'tough-cookie';
 import { Repository } from 'typeorm';
 import { User } from '../../database/entities/user.entity';
-import { JwtPayload } from '../jwt-auth';
+import { UserJwtPayload } from '../types';
 
 @Injectable()
 export class SocketJwtAuthService {
@@ -15,7 +15,7 @@ export class SocketJwtAuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async verify(socket: Socket): Promise<boolean> {
+  async verify(socket: Socket & { user?: UserJwtPayload }): Promise<boolean> {
     const cookie = socket.handshake.headers.cookie;
 
     if (!cookie) {
@@ -33,7 +33,7 @@ export class SocketJwtAuthService {
 
     const token = parse(tokenCookie).value;
     try {
-      const payload = this.jwtService.verify<JwtPayload>(token);
+      const payload = this.jwtService.verify<UserJwtPayload>(token);
 
       if (!payload.id || !payload.intraId) {
         throw new UnauthorizedException('Invalid token');
@@ -45,7 +45,7 @@ export class SocketJwtAuthService {
         throw new UnauthorizedException('User not found');
       }
 
-      (socket as Socket & { user: JwtPayload }).user = user;
+      socket.user = user;
     } catch (e) {
       throw new UnauthorizedException((e as Error).message);
     }

@@ -4,7 +4,7 @@ import { FtProfile } from '../types';
 /**
  * @description Request에 담긴 FortyTwoProfile를 가져온다.
  */
-export const ReqFtProfile = createParamDecorator((data, ctx: ExecutionContext): FtProfile => {
+export const ReqJwtFtProfile = createParamDecorator((data, ctx: ExecutionContext): FtProfile => {
   const req = ctx.switchToHttp().getRequest();
   return req.user;
 });

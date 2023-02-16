@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 type EveryThing = string | number | boolean | null | undefined | Record<string, unknown>;
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class UserJwtAuthGuard extends AuthGuard('user-jwt-auth') {
   handleRequest<TUser>(
     err: EveryThing,
     user: EveryThing,
@@ -15,7 +15,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     try {
       return super.handleRequest(err, user, info, context, status);
     } catch (e: unknown) {
-      throw new UnauthorizedException((e as Error).message);
+      throw new UnauthorizedException(`${(e as Error).message} : 로그인을 했는지 확인해주세요`);
     }
   }
 }
