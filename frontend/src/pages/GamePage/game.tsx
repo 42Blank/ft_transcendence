@@ -12,7 +12,7 @@ const game: GameInstance = {
   physics: { default: 'arcade', arcade: { gravity: { y: 0 } } },
 };
 
-const GameExample = () => {
+const GamePong = () => {
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   // Call `setInitialize` when you want to initialize your game! :)
   const [initialize] = useState(true);
@@ -20,4 +20,4 @@ const GameExample = () => {
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
 };
 
-export default GameExample;
+export default GamePong;
