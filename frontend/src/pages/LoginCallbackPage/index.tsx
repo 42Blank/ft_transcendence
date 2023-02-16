@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
 import { getFtCallbackCode } from 'services';
+import { loginCallbackLogoImageStyle, loginCallbackWrapperStyle } from './LoginCallbackPage.styles';
 
 export const LoginCallbackPage = () => {
   const [param] = useSearchParams();
@@ -20,8 +21,9 @@ export const LoginCallbackPage = () => {
   }, [param, nav]);
 
   return (
-    <div>
+    <main className={loginCallbackWrapperStyle}>
+      <img src="/logo.png" alt="pochitandence logo" width={280} height={80} className={loginCallbackLogoImageStyle} />
       <span>로그인 중...</span>
-    </div>
+    </main>
   );
 };
