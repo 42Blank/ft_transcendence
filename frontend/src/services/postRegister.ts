@@ -1,20 +1,22 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
+import { UserInfoType } from '../types/user';
 import { FtError, isAxiosFtErrorResponse } from '../utils/error';
 
 // TODO: refactor me!! - by ycha
-interface FtProfile {
-  id: string;
-  username: string;
-  image_url: string;
-}
-
-export async function getFtCallbackCode(code: string): Promise<FtProfile> {
+export async function postRegister(nickname: string, avatar: string): Promise<UserInfoType> {
   return axios
-    .get<FtProfile>(`${process.env.REACT_APP_SERVER}${API.FT_AUTH_CALLBACK}?code=${code}`, {
-      withCredentials: true,
-    })
+    .post<UserInfoType>(
+      `${process.env.REACT_APP_SERVER}${API.REGISTER}`,
+      {
+        nickname,
+        avatar,
+      },
+      {
+        withCredentials: true,
+      },
+    )
     .then(({ data }) => data)
     .catch((error: unknown) => {
       if (isAxiosFtErrorResponse(error)) {
