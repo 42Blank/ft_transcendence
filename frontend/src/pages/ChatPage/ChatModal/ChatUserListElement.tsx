@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { BanIcon, FightIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
+import { BanIcon, CrownIcon, FightIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ROUTE } from 'common/constants';
 import { ChatUserInfoType } from 'types/chat';
 
@@ -29,6 +29,7 @@ export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) 
           height={50}
           className={chatUserElementImageStyle}
         />
+        {isOperator && <CrownIcon />}
         <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       </Link>
       {isCurrentUserOperator && (

@@ -11,3 +11,6 @@ export { ReactComponent as SaveIcon } from './saveIcon.svg';
 export { ReactComponent as PlusIcon } from './plusIcon.svg';
 export { ReactComponent as CrownIcon } from './crownIcon.svg';
 export { ReactComponent as LockIcon } from './lockIcon.svg';
+export { ReactComponent as WarningIcon } from './warningIcon.svg';
+export { ReactComponent as FtLogoIcon } from './42.svg';
+export { ReactComponent as GithubIcon } from './github.svg';

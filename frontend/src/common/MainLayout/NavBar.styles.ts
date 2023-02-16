@@ -19,6 +19,17 @@ export const headerLeftSectionStyle = css({
   height: '100%',
 });
 
+export const headerHamburgerButtonStyle = css({
+  width: 30,
+  height: 30,
+  marginRight: 10,
+
+  svg: {
+    width: 20,
+    height: 20,
+  },
+});
+
 export const headerIconButtonStyle = css({
   display: 'flex',
   flexDirection: 'row',
@@ -49,3 +60,9 @@ export const headerMainButtonStyle = (isSelected: boolean) =>
       backgroundColor: 'lightgray', // TODO: 나중에 색상 변경
     },
   });
+
+export const logoImageStyle = css({
+  width: 140,
+  height: 40,
+  marginLeft: 5,
+});
