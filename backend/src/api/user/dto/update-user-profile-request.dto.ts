@@ -6,4 +6,9 @@ export class UpdateUserProfileRequestDto {
   @IsNotEmpty()
   @ApiPropertyOptional({ example: 'jasong' })
   nickname?: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @ApiPropertyOptional({ example: 'https://picsum.photos/200' })
+  avatar?: string;
 }
