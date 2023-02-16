@@ -7,6 +7,7 @@ import { getLogin } from '../../services/getLogin';
 import { postRegister } from '../../services/postRegister';
 import { sleep } from '../../utils';
 import { getErrorMessage } from '../../utils/error';
+import { isFtError } from '../../utils/error/isFtError';
 import { loginCallbackLogoImageStyle, loginCallbackWrapperStyle } from './LoginCallbackPage.styles';
 
 // TODO: refactor me!! - by ycha
@@ -24,7 +25,8 @@ export const LoginCallbackPage = () => {
     (async () => {
       let ftProfile: { username: string; image_url: string };
 
-      setLoadingMessage(`42인증 시도`);
+      setLoadingMessage(`42인증 시도...`);
+      await sleep(1500);
       try {
         ftProfile = await getFtCallbackCode(code);
         setLoadingMessage(`42인증 완료 : ${JSON.stringify(ftProfile, null, 2)}`);
@@ -34,7 +36,24 @@ export const LoginCallbackPage = () => {
       }
       await sleep(3000);
 
-      setLoadingMessage(`회원가입 시도`);
+      setLoadingMessage(`로그인 1차 시도...`);
+      await sleep(1500);
+      try {
+        const user = await getLogin();
+        // TODO: user 정보를 전역 상태로 관리하도록 리팩토링 - by ycha
+        setLoadingMessage(`로그인 1차 성공 : ${JSON.stringify(user, null, 2)})`);
+      } catch (e: unknown) {
+        const errorMessage = getErrorMessage(e);
+        if (isFtError(e) && e.statusCode === 403) {
+          setLoadingMessage(`로그인 1차 실패 (회원가입 필요) : ${errorMessage}`);
+        } else {
+          setLoadingMessage(`로그인 1차 실패 : ${errorMessage}`);
+        }
+      }
+      await sleep(3000);
+
+      setLoadingMessage(`회원가입 시도...`);
+      await sleep(1500);
       try {
         const user = await postRegister(ftProfile.username, ftProfile.image_url);
         setLoadingMessage(`회원가입 성공 : ${JSON.stringify(user, null, 2)}`);
@@ -43,13 +62,14 @@ export const LoginCallbackPage = () => {
       }
       await sleep(3000);
 
-      setLoadingMessage(`로그인 시도`);
+      setLoadingMessage(`로그인 2차 시도...`);
+      await sleep(1500);
       try {
         const user = await getLogin();
         // TODO: user 정보를 전역 상태로 관리하도록 리팩토링 - by ycha
-        setLoadingMessage(`로그인 성공 : ${JSON.stringify(user, null, 2)})`);
+        setLoadingMessage(`로그인 2차 성공 : ${JSON.stringify(user, null, 2)})`);
       } catch (e: unknown) {
-        setLoadingMessage(`로그인 실패 : ${getErrorMessage(e)}`);
+        setLoadingMessage(`로그인 2차 실패 : ${getErrorMessage(e)}`);
         return;
       }
 
