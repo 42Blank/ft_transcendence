@@ -15,7 +15,7 @@ export class FindUserService {
   }
 
   async findOneByIdOrFail(id: number): Promise<User> {
-    const user = this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { id },
     });
 
