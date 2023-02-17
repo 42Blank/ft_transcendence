@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
-import { FtError, isAxiosFtErrorResponse } from '../utils/error';
+import { throwAxiosFtError } from '../utils/error/throwAxiosFtError';
 
 // TODO: refactor me!! - by ycha
 interface FtProfile {
@@ -16,11 +16,5 @@ export async function getFtCallbackCode(code: string): Promise<FtProfile> {
       withCredentials: true,
     })
     .then(({ data }) => data)
-    .catch((error: unknown) => {
-      if (isAxiosFtErrorResponse(error)) {
-        throw new FtError(error.response.data);
-      }
-
-      throw error;
-    });
+    .catch(throwAxiosFtError);
 }
