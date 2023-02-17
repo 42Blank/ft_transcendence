@@ -1,12 +1,11 @@
-import axios from 'axios';
-
 import { API } from 'common/constants';
+import { axiosPut } from './axiosWrapper';
 
-interface Props {
+interface BodyObjType {
   nickname?: string;
   avatar?: string;
 }
 
-export function putUserProfile({ nickname, avatar }: Props): Promise<void> {
-  return axios.put(`${process.env.REACT_APP_SERVER}${API.USER}`, { nickname, avatar });
+export function putUserProfile(nickname?: string, avatar?: string): Promise<void> {
+  return axiosPut<BodyObjType>(API.USER, { nickname, avatar });
 }
