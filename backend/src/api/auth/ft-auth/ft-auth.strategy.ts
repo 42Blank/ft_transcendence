@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { FtProfile } from '../../../common/auth/types';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const FortyTwoPassport = require('passport-42');
@@ -24,8 +25,12 @@ export class FtAuthStrategy extends PassportStrategy(FortyTwoPassport.Strategy) 
     accessToken: string,
     refreshToken: string,
     profile: Record<string, string>,
-    done: (err: unknown, data: Record<string, string>) => void,
+    done: (err: unknown, data: FtProfile) => void,
   ): Promise<void> {
-    done(null, profile);
+    done(null, {
+      id: profile.id,
+      username: profile.username,
+      image_url: profile.image_url,
+    });
   }
 }
