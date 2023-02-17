@@ -1,4 +1,3 @@
-export { FtError } from './ftError';
-export { getErrorMessage } from './getErrorMessage';
-export { isAxiosFtErrorResponse } from './isAxiosFtErrorResponse';
-export { isFtError } from './isFtError';
+export { ApiError } from './ApiError';
+export { isApiError } from './isApiError';
+export { throwApiError } from './throwApiError';

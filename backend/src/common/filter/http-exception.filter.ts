@@ -46,6 +46,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
   }
 
   private responseError(response: Response, exception: Error) {
-    return response.status((exception as HttpException).getStatus()).json((exception as HttpException).getResponse());
+    return response.status((exception as HttpException).getStatus()).json({ message: exception.message });
   }
 }
