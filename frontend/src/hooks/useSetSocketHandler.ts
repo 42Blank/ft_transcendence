@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { ChatDataType, ChatRoomInfoType } from 'types/chat';
 import { chatRoomListState, currentChatDataState } from 'store';
 import { ROUTE } from 'common/constants';
+import { currentGamePongState } from 'store/currentGamePongState';
 
 export function useSetSocketHandler() {
   const setCurrentChatData = useSetRecoilState(currentChatDataState);
+  const setCurrentGamePong = useSetRecoilState(currentGamePongState);
   const setChatRoomList = useSetRecoilState(chatRoomListState);
   const nav = useNavigate();
 
@@ -26,6 +28,10 @@ export function useSetSocketHandler() {
   function joinChatRoomHandler(id: string) {
     nav(`${ROUTE.CHAT}/${id}`);
   }
+
+  function gamePongHandler(data: ChatDataType) {
+    setCurrentGamePong(prev => [data, ...prev]);
+  }
   return {
     connectHandler,
     exceptionHandler,
@@ -33,5 +39,6 @@ export function useSetSocketHandler() {
     getCurrentChatHandler,
     getAllChatRoomHandler,
     joinChatRoomHandler,
+    gamePongHandler,
   };
 }

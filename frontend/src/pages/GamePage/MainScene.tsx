@@ -1,7 +1,10 @@
+import { sockets } from 'hooks/useHandleSocket';
 import Phaser from 'phaser';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
+  private pingHandler: (message: string) => void;
+
   private ball: Phaser.Physics.Arcade.Image;
   private paddleLeft: Phaser.Physics.Arcade.Image;
   private paddleRight: Phaser.Physics.Arcade.Image;
@@ -21,6 +24,12 @@ export class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: 'MainScene', active: true });
   }
+
+  setHandlers(pingHandler: (message: string) => void) {
+    sockets.gameSocket.on('pong', this.getPongMessage);
+    this.pingHandler = pingHandler;
+  }
+
   preload() {
     this.load.image('ball', '/ball.png');
     this.load.image('peddal', '/paddle.png');
@@ -61,10 +70,19 @@ export class MainScene extends Phaser.Scene {
     this.ball.setVisible(true);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getPongMessage(data: { message: string }) {
+    console.log('getPongMessage', data);
+  }
+
   update(time: number, delta: number) {
+    // console.log('MSG from Server: ' + this.))
     if (this.paddleLeft && this.paddleRight && this.key) {
-      if (this.key.up.isDown) this.paddleRight.y -= 10;
-      else if (this.key.down.isDown) this.paddleRight.y += 10;
+      if (this.key.up.isDown) {
+        this.paddleRight.y -= 10;
+        // this.pingHandler('PONG PONG');
+        sockets.gameSocket.emit('ping', { message: 'pONG POGN' });
+      } else if (this.key.down.isDown) this.paddleRight.y += 10;
       if (this.key.shift.isDown) this.paddleLeft.y -= 10;
       else if (this.key.space.isDown) this.paddleLeft.y += 10;
     }

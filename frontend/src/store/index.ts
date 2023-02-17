@@ -5,3 +5,5 @@ export { newChatRoomState } from './newChatRoomState';
 export { joinChatRoomState } from './joinChatRoomState';
 export { updateChatRoomState } from './updateChatRoomState';
 export { leaveChatRoomState } from './leaveChatRoomState';
+export { newGamePingMessageState } from './newGamePingMessageState';
+export { currentGamePongState } from './currentGamePongState';

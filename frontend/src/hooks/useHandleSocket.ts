@@ -2,14 +2,22 @@ import { io, Socket } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { joinChatRoomState, leaveChatRoomState, newChatRoomState, newMessageState, updateChatRoomState } from 'store';
-import { ChatDataType, ChatRoomInfoType } from 'types/chat';
+import {
+  joinChatRoomState,
+  leaveChatRoomState,
+  newChatRoomState,
+  newGamePingMessageState,
+  newMessageState,
+  updateChatRoomState,
+} from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
 export const sockets: {
   chatSocket: Socket | null;
+  gameSocket: Socket | null;
 } = {
   chatSocket: null,
+  gameSocket: null,
 };
 
 function createSocket(
@@ -18,9 +26,6 @@ function createSocket(
     connectHandler: () => void;
     exceptionHandler: (data: Error) => void;
     disconnectHandler: (reason: string) => void;
-    getCurrentChatHandler: (data: ChatDataType) => void;
-    getAllChatRoomHandler: (data: ChatRoomInfoType[]) => void;
-    joinChatRoomHandler: (id: string) => void;
   },
 ) {
   const socket = io(`${process.env.REACT_APP_SERVER as string}/${namespace}`, {
@@ -31,9 +36,6 @@ function createSocket(
     socket.on('connect', handler.connectHandler);
     socket.on('disconnect', handler.disconnectHandler);
     socket.on('exception', handler.exceptionHandler);
-    socket.on('chat_message', handler.getCurrentChatHandler);
-    socket.on('update_chat_room', handler.getAllChatRoomHandler);
-    socket.on('join_room', handler.joinChatRoomHandler);
   }
 
   return socket;
@@ -50,6 +52,8 @@ export function useHandleSocket() {
   const updateChatRoom = useRecoilValue(updateChatRoomState);
   const resetUpdateChatRoom = useResetRecoilState(updateChatRoomState);
 
+  const [newGamePingMessage, setNewGamePingMessage] = useRecoilState(newGamePingMessageState);
+
   const {
     connectHandler,
     exceptionHandler,
@@ -57,6 +61,7 @@ export function useHandleSocket() {
     getCurrentChatHandler,
     getAllChatRoomHandler,
     joinChatRoomHandler,
+    gamePongHandler,
   } = useSetSocketHandler();
 
   useEffect(() => {
@@ -103,16 +108,36 @@ export function useHandleSocket() {
     resetUpdateChatRoom();
   }, [updateChatRoom]);
 
+  /* game */
+  useEffect(() => {
+    if (newMessage.length === 0) return;
+    if (sockets.gameSocket === null) return;
+
+    sockets.gameSocket.emit('ping', {
+      message: newMessage,
+    });
+
+    setNewGamePingMessage('');
+  }, [newGamePingMessage]);
+
   useEffect(() => {
     if (!sockets.chatSocket) {
       sockets.chatSocket = createSocket('chat', {
         connectHandler,
         exceptionHandler,
         disconnectHandler,
-        getCurrentChatHandler,
-        getAllChatRoomHandler,
-        joinChatRoomHandler,
       });
+      sockets.chatSocket.on('chat_message', getCurrentChatHandler);
+      sockets.chatSocket.on('update_chat_room', getAllChatRoomHandler);
+      sockets.chatSocket.on('join_room', joinChatRoomHandler);
+    }
+    if (!sockets.gameSocket) {
+      sockets.gameSocket = createSocket('game', {
+        connectHandler,
+        exceptionHandler,
+        disconnectHandler,
+      });
+      sockets.gameSocket.on('pong', gamePongHandler);
     }
   }, []);
 }
