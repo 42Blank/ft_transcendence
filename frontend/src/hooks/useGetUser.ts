@@ -18,19 +18,23 @@ const INIT_DATA: UserInfoType = {
 export function useGetUser(userId?: string) {
   const { pathname } = useLocation();
   const nav = useNavigate();
-  const { data = INIT_DATA, refetch } = useQuery([`User${userId ?? 'me'}`], () => getUserInfo({ userId }), {
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60 * 12,
-    cacheTime: 1000 * 60 * 60 * 12, // TODO: 적절한 시간으로 수정
-    retry: 0,
-    useErrorBoundary: !!userId,
-    onSuccess: () => {
-      if (!userId && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
+  const { data = INIT_DATA, refetch } = useQuery(
+    [userId ? `user-${userId}` : 'user-me'],
+    () => getUserInfo({ userId }),
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 60 * 12,
+      cacheTime: 1000 * 60 * 60 * 12, // TODO: 적절한 시간으로 수정
+      retry: 0,
+      useErrorBoundary: !!userId,
+      onSuccess: () => {
+        if (!userId && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
+      },
+      onError: () => {
+        if (!userId) nav(ROUTE.LOGIN);
+      },
     },
-    onError: () => {
-      if (!userId) nav(ROUTE.LOGIN);
-    },
-  });
+  );
 
   return { data, userId, refetch };
 }
