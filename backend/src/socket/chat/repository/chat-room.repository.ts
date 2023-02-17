@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { ChatRoom } from '../model/chat-room';
+import { ChatRoom, ChatUserDetail } from '../model/chat-room';
 
 @Injectable()
 export class ChatRoomRepository {
@@ -43,14 +43,41 @@ export class ChatRoomRepository {
     chatRoom.password = data.password ?? chatRoom.password;
   }
 
-  public addSocketToChatRoom(chatRoomId: string, socketId: string, userId: number, isOperator = false): void {
+  public addSocketToChatRoom(chatRoomId: string, socketId: string, userId: number, isHost = false): void {
     const chatRoom = this.getChatRoom(chatRoomId);
 
     chatRoom.sockets.set(socketId, {
       id: userId,
-      isOperator,
+      role: isHost ? 'host' : 'user',
       isMutted: false,
-      muteTime: 0,
+    });
+  }
+
+  public updateChatUserDetail(
+    chatRoomId: string,
+    socketId: string,
+    data: Partial<Pick<ChatUserDetail, 'role' | 'isMutted'>>,
+  ): void {
+    const chatRoom = this.getChatRoom(chatRoomId);
+    const chatUserDetail = chatRoom.sockets.get(socketId);
+
+    chatUserDetail.role = data.role ?? chatUserDetail.role;
+    chatUserDetail.isMutted = data.isMutted ?? chatUserDetail.isMutted;
+  }
+
+  public banUser(chatRoomId: string, userId: number): void {
+    const chatRoom = this.getChatRoom(chatRoomId);
+
+    chatRoom.bannedUsers.add({
+      id: userId,
+    });
+  }
+
+  public unbanUser(chatRoomId: string, userId: number): void {
+    const chatRoom = this.getChatRoom(chatRoomId);
+
+    chatRoom.bannedUsers.delete({
+      id: userId,
     });
   }
 

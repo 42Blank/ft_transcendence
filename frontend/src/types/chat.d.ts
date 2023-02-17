@@ -2,7 +2,7 @@ import { UserInfoType } from './user';
 
 interface ChatUserInfoType {
   user: UserInfoType;
-  isOperator: boolean;
+  role: 'host' | 'operator' | 'user';
   isMuted?: boolean;
   muteTime?: number;
 }
@@ -39,7 +39,7 @@ export interface LeaveChatRoomType {
 }
 
 export interface ChatDataType {
-  chatUser: Pick<ChatUserInfoType, 'user' | 'isOperator'>; // 헐 쩐다
+  chatUser: Pick<ChatUserInfoType, 'user' | 'role'>; // 헐 쩐다
   message: string;
   timestamp: string;
 } // TODO: 바뀔 수도 있음, 백엔드와 상의 필요
