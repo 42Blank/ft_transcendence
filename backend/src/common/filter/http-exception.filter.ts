@@ -35,7 +35,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       return this.responseError(response, exception);
     }
 
-    this.logger.error('HttpException', exception);
+    this.logger.error(`HttpException ${exception.name} ${exception.stack}`);
 
     const error = new InternalServerErrorException(`Unknown Error : ${this.getErrorMessage(exception)}`);
     return this.responseError(response, error);
