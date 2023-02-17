@@ -14,3 +14,11 @@ export async function axiosPost<bodyObjType, resType>(href: string, reqData: bod
     .then(({ data }) => data)
     .catch(throwApiError);
 }
+
+export async function axiosPut<bodyObjType>(href: string, reqData: bodyObjType): Promise<void> {
+  return axios.put(`${process.env.REACT_APP_SERVER}${href}`, reqData);
+}
+
+export async function axiosDelete<bodyObjType>(href: string, reqData?: bodyObjType): Promise<void> {
+  return axios.put(`${process.env.REACT_APP_SERVER}${href}`, reqData);
+}
