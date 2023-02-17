@@ -1,7 +1,7 @@
 import { UserInfoType } from 'types/user';
 
-export const ProfileCard = ({ prop }: { prop: UserInfoType }) => {
-  const { nickname, point, avatar } = prop;
+export const ProfileCard = ({ user }: { user: UserInfoType }) => {
+  const { nickname, point, avatar } = user;
   return (
     <div>
       <img src={avatar} alt="avatar" />

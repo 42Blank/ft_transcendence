@@ -4,8 +4,6 @@ import { useGetCertainUser, useGetCurrentUser } from 'hooks';
 
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 
-import pochi from './pochitaSample.png';
-
 interface Props {
   onClickClose: () => void;
 }
@@ -48,7 +46,7 @@ export const EditAvatarModal = ({ onClickClose }: Props) => {
       <li>
         <p>Sample Avatar</p>
         <button type="button" onClick={handleClickImage}>
-          <img className={tmpAvatarStyle} src={pochi} alt="pochi" ref={imageRef} />
+          <img className={tmpAvatarStyle} src="/pochita_sample.png" alt="pochi" ref={imageRef} />
         </button>
       </li>
     </>

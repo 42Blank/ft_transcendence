@@ -16,5 +16,3 @@ export function putUserProfile({ nickname, avatar }: Props): Promise<void> {
     },
   );
 }
-// Edit use reactQuery
-// Update Current user state

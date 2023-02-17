@@ -32,7 +32,7 @@ export const ProfilePage = () => {
     <>
       <main>
         <h1>Profile Page</h1>
-        <ProfileCard prop={profile} />
+        <ProfileCard user={profile} />
         {!id && (
           <>
             <button type="button" onClick={handleOpenNickModal}>
