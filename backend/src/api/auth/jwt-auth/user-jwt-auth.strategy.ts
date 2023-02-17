@@ -5,11 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Repository } from 'typeorm';
-import { JwtPayload } from '../../../common/auth/jwt-auth';
+import { UserJwtPayload } from '../../../common/auth/types';
 import { User } from '../../../common/database/entities/user.entity';
 
 @Injectable()
-export class JwtAuthStrategy extends PassportStrategy(Strategy) {
+export class UserJwtAuthStrategy extends PassportStrategy(Strategy, 'user-jwt-auth') {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>, //
@@ -22,9 +22,9 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload, done: (err: unknown, data: User) => void): Promise<void> {
+  async validate(payload: UserJwtPayload, done: (err: unknown, data: User) => void): Promise<void> {
     if (!payload.id || !payload.intraId) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid JwtPyaload token');
     }
 
     const user = await this.userRepository.findOne({ where: { id: payload.id, intraId: payload.intraId } });

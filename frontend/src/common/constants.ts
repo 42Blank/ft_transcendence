@@ -12,6 +12,9 @@ export const API = {
   // Login
   FT_AUTH: '/auth/ft',
   FT_AUTH_CALLBACK: '/auth/ft/callback',
+  FT_AUTH_RANDOM: '/auth/ft/random',
+  LOGIN: '/auth/login',
+  REGISTER: '/auth/register',
   SIGN_OUT: '/auth/signout',
 
   // User
