@@ -1,7 +1,9 @@
 import { AxiosError, isAxiosError } from 'axios';
 import { ApiError } from './ApiError';
 
-function isAxiosFtErrorResponse(error: unknown): error is AxiosError<string> {
+function isAxiosApiError(error: unknown): error is AxiosError<{
+  message: string;
+}> {
   if (!isAxiosError(error)) {
     return false;
   }
@@ -11,7 +13,7 @@ function isAxiosFtErrorResponse(error: unknown): error is AxiosError<string> {
   }
 
   const { data } = error.response;
-  if (!data || typeof data !== 'string') {
+  if (!data || !data.message || typeof data.message !== 'string') {
     return false;
   }
 
@@ -19,8 +21,8 @@ function isAxiosFtErrorResponse(error: unknown): error is AxiosError<string> {
 }
 
 export function throwApiError(error: unknown): never {
-  if (isAxiosFtErrorResponse(error)) {
-    throw new ApiError(+error.code, error.response.data);
+  if (isAxiosApiError(error)) {
+    throw new ApiError(+error.code, error.response.data.message);
   }
 
   throw error;
