@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
+import { throwApiError } from 'utils/error';
 import { UserInfoType } from '../types/user';
-import { throwApiError } from '../utils/error';
 
 // TODO: refactor me!! - by ycha
 export async function postRegister(nickname: string, avatar: string): Promise<UserInfoType> {

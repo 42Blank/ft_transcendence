@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { API } from 'common/constants';
 import { UserInfoType } from 'types/user';
-import { throwApiError } from '../utils/error';
+import { throwApiError } from 'utils/error';
 
 interface Props {
   userId?: string;

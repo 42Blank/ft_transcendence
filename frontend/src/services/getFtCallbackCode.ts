@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
-import { throwApiError } from '../utils/error/throwApiError';
+import { throwApiError } from 'utils/error/throwApiError';
 
 // TODO: refactor me!! - by ycha
 interface FtProfile {

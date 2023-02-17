@@ -3,10 +3,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
 import { getFtCallbackCode } from 'services';
-import { getLogin } from '../../services/getLogin';
-import { postRegister } from '../../services/postRegister';
-import { sleep } from '../../utils';
-import { isApiError } from '../../utils/error';
+import { getLogin } from 'services/getLogin';
+import { postRegister } from 'services/postRegister';
+import { sleep } from 'utils';
+import { isApiError } from 'utils/error';
 import { loginCallbackLogoImageStyle, loginCallbackWrapperStyle } from './LoginCallbackPage.styles';
 
 export const getErrorMessage = (error: unknown) => {
