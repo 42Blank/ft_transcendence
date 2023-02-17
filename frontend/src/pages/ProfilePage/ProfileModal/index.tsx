@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { useGetUser } from 'hooks';
 import { putUserProfile } from 'services';
@@ -14,8 +13,7 @@ export const EditProfile = ({ onClickClose }: Props) => {
   const inputAvatarRef = useRef<HTMLInputElement>(null);
   const inputNickRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const { userId } = useParams();
-  const { data, refetch: getUserRefetch } = useGetUser(userId);
+  const { data, refetch: getUserRefetch } = useGetUser();
 
   function handleSubmitProfile() {
     inputAvatarRef.current.value &&
