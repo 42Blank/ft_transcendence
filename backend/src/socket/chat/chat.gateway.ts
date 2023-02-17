@@ -16,8 +16,10 @@ import { ChatMessageDto } from './dto/incoming/chat-message.dto';
 import { CreateChatRoomDto } from './dto/incoming/create-chat-room.dto';
 import { JoinChatRoomDto } from './dto/incoming/join-chat-room.dto';
 import { LeaveChatRoomDto } from './dto/incoming/leave-chat-room.dto';
+import { OperateTargetDto } from './dto/incoming/operate-target.dto';
 import { UpdateChatRoomDto } from './dto/incoming/update-chat-room.dto';
 import { ChatRoomService } from './service/chat-room.service';
+import { ChatUserOperateService } from './service/chat-user-operate.service';
 import { ChatUserService } from './service/chat-user.service';
 
 @UseFilters(new WsExceptionFilter())
@@ -31,6 +33,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly connectionHandleService: ConnectionHandleService,
     private readonly chatRoomService: ChatRoomService,
     private readonly chatUserService: ChatUserService,
+    private readonly chatUserOperateService: ChatUserOperateService,
   ) {}
 
   @WebSocketServer()
@@ -92,13 +95,104 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: ChatMessageDto,
   ): Promise<void> {
     const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
-    const chatData = await this.chatUserService.getChatData(client.id, data.message, data.timestamp);
+    const chatData = await this.chatUserService.createChatData(client.id, data.message, data.timestamp);
 
     this.logger.verbose(`${client.user.nickname} chatMessage: ${JSON.stringify(data)}`);
 
     Array.from(chatRoom.sockets.keys()).forEach(socketId => {
       this.io.to(socketId).emit('chat_message', chatData);
     });
+  }
+
+  @SubscribeMessage('give_operator')
+  public async giveOperator(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: OperateTargetDto,
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    this.chatUserOperateService.giveOperatorRole(chatRoom.id, client.user.id, data.userId);
+
+    this.logger.verbose(`${client.user.nickname} giveOperator: ${JSON.stringify(data)}`);
+
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('take_operator')
+  public async takeOperator(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: OperateTargetDto,
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    this.chatUserOperateService.takeOperatorRole(chatRoom.id, client.user.id, data.userId);
+
+    this.logger.verbose(`${client.user.nickname} takeOperator: ${JSON.stringify(data)}`);
+
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('mute_user')
+  public async muteUser(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: OperateTargetDto,
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    this.chatUserOperateService.muteUser(chatRoom.id, client.user.id, data.userId);
+
+    this.logger.verbose(`${client.user.nickname} muteUser: ${JSON.stringify(data)}`);
+
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('unmute_user')
+  public async unmuteUser(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: OperateTargetDto,
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    this.chatUserOperateService.unmuteUser(chatRoom.id, client.user.id, data.userId);
+
+    this.logger.verbose(`${client.user.nickname} unmuteUser: ${JSON.stringify(data)}`);
+
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('kick_user')
+  public async kickUser(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: OperateTargetDto,
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    this.chatUserOperateService.kickUser(chatRoom.id, client.user.id, data.userId);
+
+    this.logger.verbose(`${client.user.nickname} kickUser: ${JSON.stringify(data)}`);
+
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('ban_user')
+  public async banUser(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: OperateTargetDto,
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    this.chatUserOperateService.banUser(chatRoom.id, client.user.id, data.userId);
+
+    this.logger.verbose(`${client.user.nickname} banUser: ${JSON.stringify(data)}`);
+
+    this.emitChatRooms();
+  }
+
+  @SubscribeMessage('unban_user')
+  public async unbanUser(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: OperateTargetDto,
+  ): Promise<void> {
+    const chatRoom = this.chatUserService.getJoinedChatRoom(client.id);
+    this.chatUserOperateService.unbanUser(chatRoom.id, client.user.id, data.userId);
+
+    this.logger.verbose(`${client.user.nickname} unbanUser: ${JSON.stringify(data)}`);
+
+    this.emitChatRooms();
   }
 
   public async emitJoinRoom(client: SocketWithUser, chatRoomId: string): Promise<void> {
