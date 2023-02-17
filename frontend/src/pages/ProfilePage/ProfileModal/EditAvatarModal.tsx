@@ -1,6 +1,8 @@
-import { putUserProfile } from 'services';
 import { useRef } from 'react';
-import { useGetCertainUser, useGetCurrentUser } from 'hooks';
+import { useParams } from 'react-router-dom';
+
+import { useGetUser } from 'hooks';
+import { putUserProfile } from 'services';
 
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 
@@ -11,15 +13,14 @@ interface Props {
 export const EditAvatarModal = ({ onClickClose }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const { userId } = useParams();
 
-  const { refetch: getUserRefetch } = useGetCertainUser();
-  const { refetch: getCurrentUserRefetch } = useGetCurrentUser();
+  const { refetch: getUserRefetch } = useGetUser(userId);
 
   function handleSubmitProfile() {
     if (!inputRef.current.value) return;
     putUserProfile({ avatar: inputRef.current.value }).then(() => {
       getUserRefetch();
-      getCurrentUserRefetch();
     });
     onClickClose();
   }
@@ -27,7 +28,6 @@ export const EditAvatarModal = ({ onClickClose }: Props) => {
   function handleClickImage() {
     putUserProfile({ avatar: imageRef.current.src }).then(() => {
       getUserRefetch();
-      getCurrentUserRefetch();
     });
     onClickClose();
   }

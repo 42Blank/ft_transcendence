@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Modal } from 'common';
-import { useGetCertainUser } from 'hooks';
+import { useGetUser } from 'hooks';
 
 import { ProfileCard } from './ProfileCard';
 import { EditNickModal, EditAvatarModal } from './ProfileModal';
@@ -9,7 +10,8 @@ import { EditNickModal, EditAvatarModal } from './ProfileModal';
 export const ProfilePage = () => {
   const [isNickModalShown, setNickModalShown] = useState<Boolean>(false);
   const [isAvatarModalShown, setAvatarModalShown] = useState<Boolean>(false);
-  const { data: profile, id } = useGetCertainUser();
+  const { id } = useParams();
+  const { data: profile, userId } = useGetUser(id);
 
   function handleOpenNickModal() {
     setNickModalShown(true);
@@ -33,7 +35,7 @@ export const ProfilePage = () => {
       <main>
         <h1>Profile Page</h1>
         <ProfileCard user={profile} />
-        {!id && (
+        {!userId && (
           <>
             <button type="button" onClick={handleOpenNickModal}>
               Edit Nickname

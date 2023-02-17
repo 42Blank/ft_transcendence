@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { useGetCurrentChatRoom, useGetCurrentUser } from 'hooks';
+import { useGetCurrentChatRoom, useGetUser } from 'hooks';
 import { Modal } from 'common';
 import { HamburgerIcon, LockIcon } from 'assets';
 import { checkIsUserOperator } from 'utils';
@@ -22,14 +22,14 @@ import {
 
 export const ChatPage = () => {
   const {
-    data: { id: currentUserID },
-  } = useGetCurrentUser();
+    data: { id },
+  } = useGetUser();
   const currentChatData = useRecoilValue(currentChatDataState);
   const resetCurrentChatData = useResetRecoilState(currentChatDataState);
   const currentChatRoom = useGetCurrentChatRoom();
   const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);
   const [isModalShown, setIsModalShown] = useState(false);
-  const isOperator = checkIsUserOperator(currentChatRoom.users, currentUserID);
+  const isOperator = checkIsUserOperator(currentChatRoom.users, id);
 
   function handleOpenModal() {
     setIsModalShown(true);
@@ -65,7 +65,7 @@ export const ChatPage = () => {
               chatUser={chatUser}
               message={message}
               timestamp={timestamp}
-              isMine={currentUserID === chatUser.user.id}
+              isMine={id === chatUser.user.id}
             />
           ))}
         </ul>

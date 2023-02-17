@@ -1,9 +1,9 @@
-import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
-import { ROUTE } from 'common/constants';
-import { getCurrentUserInfo } from 'services';
+import { getUserInfo } from 'services';
 import { UserInfoType } from 'types/user';
+import { ROUTE } from 'common/constants';
 
 const INIT_DATA: UserInfoType = {
   id: -1,
@@ -15,21 +15,22 @@ const INIT_DATA: UserInfoType = {
   updatedAt: '1970-01-01T00:00:00.000Z',
 };
 
-export function useGetCurrentUser() {
+export function useGetUser(userId?: string) {
   const { pathname } = useLocation();
   const nav = useNavigate();
-  const { data = INIT_DATA, refetch } = useQuery(['currentUser'], getCurrentUserInfo, {
+  const { data = INIT_DATA, refetch } = useQuery([`User${userId ?? 'me'}`], () => getUserInfo({ userId }), {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60 * 12,
     cacheTime: 1000 * 60 * 60 * 12, // TODO: 적절한 시간으로 수정
     retry: 0,
+    useErrorBoundary: !!userId,
     onSuccess: () => {
-      if (pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
+      if (!userId && pathname === ROUTE.LOGIN) nav(ROUTE.CHAT);
     },
     onError: () => {
-      nav(ROUTE.LOGIN);
+      if (!userId) nav(ROUTE.LOGIN);
     },
   });
 
-  return { data, refetch };
+  return { data, userId, refetch };
 }

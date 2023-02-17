@@ -1,6 +1,7 @@
 import { putUserProfile } from 'services';
 import { useRef } from 'react';
-import { useGetCertainUser, useGetCurrentUser } from 'hooks';
+import { useGetUser } from 'hooks';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   onClickClose: () => void;
@@ -8,15 +9,14 @@ interface Props {
 
 export const EditNickModal = ({ onClickClose }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { userId } = useParams();
 
-  const { refetch: getUserRefetch } = useGetCertainUser();
-  const { refetch: getCurrentUserRefetch } = useGetCurrentUser();
+  const { refetch: getUserRefetch } = useGetUser(userId);
 
   function handleSubmitProfile() {
     if (!inputRef.current.value) return;
     putUserProfile({ nickname: inputRef.current.value }).then(() => {
       getUserRefetch();
-      getCurrentUserRefetch();
     });
     onClickClose();
   }
