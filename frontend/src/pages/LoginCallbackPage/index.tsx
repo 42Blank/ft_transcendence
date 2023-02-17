@@ -6,8 +6,12 @@ import { getFtCallbackCode } from 'services';
 import { getLogin } from '../../services/getLogin';
 import { postRegister } from '../../services/postRegister';
 import { sleep } from '../../utils';
-import { getErrorMessage, isFtError } from '../../utils/error';
+import { isApiError } from '../../utils/error';
 import { loginCallbackLogoImageStyle, loginCallbackWrapperStyle } from './LoginCallbackPage.styles';
+
+export const getErrorMessage = (error: unknown) => {
+  return (error as Error).message;
+};
 
 // TODO: refactor me!! - by ycha
 export const LoginCallbackPage = () => {
@@ -43,7 +47,7 @@ export const LoginCallbackPage = () => {
         setLoadingMessage(`로그인 1차 성공 : ${JSON.stringify(user, null, 2)})`);
       } catch (e: unknown) {
         const errorMessage = getErrorMessage(e);
-        if (isFtError(e) && e.statusCode === 403) {
+        if (isApiError(e) && e.statusCode === 403) {
           setLoadingMessage(`로그인 1차 실패 (회원가입 필요) : ${errorMessage}`);
         } else {
           setLoadingMessage(`로그인 1차 실패 : ${errorMessage}`);

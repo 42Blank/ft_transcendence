@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { API } from 'common/constants';
 import { UserInfoType } from '../types/user';
-import { throwAxiosFtError } from '../utils/error/throwAxiosFtError';
+import { throwApiError } from '../utils/error/throwApiError';
 
 // TODO: refactor me!! - by ycha
 export async function getLogin(): Promise<UserInfoType> {
@@ -11,5 +11,5 @@ export async function getLogin(): Promise<UserInfoType> {
       withCredentials: true,
     })
     .then(({ data }) => data)
-    .catch(throwAxiosFtError);
+    .catch(throwApiError);
 }
