@@ -8,19 +8,11 @@ interface Props {
 }
 
 export function getUserInfo({ id }: Props): Promise<void | UserInfoType> {
-  return id
-    ? axios
-        .get(`${process.env.REACT_APP_SERVER}${API.USER}/${id}`, {
-          withCredentials: true,
-        })
-        .then(res => {
-          return res.data;
-        })
-    : axios
-        .get(`${process.env.REACT_APP_SERVER}${API.USER_ME}`, {
-          withCredentials: true,
-        })
-        .then(res => {
-          return res.data;
-        });
+  return axios
+    .get(`${process.env.REACT_APP_SERVER}${id ? `${API.USER}/${id}` : API.USER_ME}`, {
+      withCredentials: true,
+    })
+    .then(res => {
+      return res.data;
+    });
 }
