@@ -4,7 +4,7 @@ import { API } from 'common/constants';
 import { UserInfoType } from 'types/user';
 
 interface Props {
-  id: string;
+  id?: string;
 }
 
 export function getUserInfo({ id }: Props): Promise<void | UserInfoType> {
