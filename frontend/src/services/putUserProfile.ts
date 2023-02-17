@@ -8,11 +8,5 @@ interface Props {
 }
 
 export function putUserProfile({ nickname, avatar }: Props): Promise<void> {
-  return axios.put(
-    `${process.env.REACT_APP_SERVER}${API.USER}`,
-    { nickname, avatar },
-    {
-      withCredentials: true,
-    },
-  );
+  return axios.put(`${process.env.REACT_APP_SERVER}${API.USER}`, { nickname, avatar });
 }

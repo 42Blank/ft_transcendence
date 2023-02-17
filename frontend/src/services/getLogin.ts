@@ -1,15 +1,13 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
-import { UserInfoType } from '../types/user';
-import { throwAxiosFtError } from '../utils/error/throwAxiosFtError';
+import { UserInfoType } from 'types/user';
+import { throwError } from 'utils';
 
 // TODO: refactor me!! - by ycha
 export async function getLogin(): Promise<UserInfoType> {
   return axios
-    .get<UserInfoType>(`${process.env.REACT_APP_SERVER}${API.LOGIN}`, {
-      withCredentials: true,
-    })
+    .get<UserInfoType>(`${process.env.REACT_APP_SERVER}${API.LOGIN}`)
     .then(({ data }) => data)
-    .catch(throwAxiosFtError);
+    .catch(throwError);
 }
