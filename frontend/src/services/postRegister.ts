@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
+import { throwApiError } from 'utils/error';
 import { UserInfoType } from '../types/user';
-import { throwAxiosFtError } from '../utils/error/throwAxiosFtError';
 
 // TODO: refactor me!! - by ycha
 export async function postRegister(nickname: string, avatar: string): Promise<UserInfoType> {
@@ -18,5 +18,5 @@ export async function postRegister(nickname: string, avatar: string): Promise<Us
       },
     )
     .then(({ data }) => data)
-    .catch(throwAxiosFtError);
+    .catch(throwApiError);
 }

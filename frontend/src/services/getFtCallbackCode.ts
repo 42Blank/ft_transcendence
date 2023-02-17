@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { API } from 'common/constants';
-import { throwAxiosFtError } from '../utils/error/throwAxiosFtError';
+import { throwApiError } from 'utils/error/throwApiError';
 
 // TODO: refactor me!! - by ycha
 interface FtProfile {
@@ -16,5 +16,5 @@ export async function getFtCallbackCode(code: string): Promise<FtProfile> {
       withCredentials: true,
     })
     .then(({ data }) => data)
-    .catch(throwAxiosFtError);
+    .catch(throwApiError);
 }

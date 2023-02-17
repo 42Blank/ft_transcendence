@@ -1,6 +1,7 @@
-import { LoginLayout, MainLayout, RootComponent } from 'common';
-import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, ChatListPage, GamePage } from 'pages';
 import { Route, Routes } from 'react-router-dom';
+
+import { LoginLayout, MainLayout, RootComponent } from 'common';
+import { ChatPage, GameListPage, LoginCallbackPage, LoginPage, ChatListPage, GamePage, ProfilePage } from 'pages';
 
 import { ROUTE } from 'common/constants';
 
@@ -13,8 +14,8 @@ export const App = () => {
           <Route path={`${ROUTE.CHAT}/:id`} element={<ChatPage />} />
           <Route path={ROUTE.GAME} element={<GameListPage />} />
           <Route path={`${ROUTE.GAME}/:id`} element={<GamePage />} />
-          <Route path={ROUTE.PROFILE} element={<div>프로필</div>} />
-          <Route path={`${ROUTE.PROFILE}/:id`} element={<div>프로필</div>} />
+          <Route path={ROUTE.PROFILE} element={<ProfilePage />} />
+          <Route path={`${ROUTE.PROFILE}/:id`} element={<ProfilePage />} />
         </Route>
       </Route>
       <Route path={ROUTE.ROOT} element={<LoginLayout />}>
