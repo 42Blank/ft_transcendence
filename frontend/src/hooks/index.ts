@@ -1,4 +1,4 @@
 export { useHandleSocket } from './useHandleSocket';
-export { useGetCurrentUser } from './useGetCurrentUser';
+export { useGetUser } from './useGetUser';
 export { useGetCurrentChatRoom } from './useGetCurrentChatRoom';
 export { useLogout } from './useLogout';
