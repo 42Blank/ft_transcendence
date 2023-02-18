@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Friend, FriendStatus } from '../../../common/database/entities/friend.entity';
@@ -20,22 +20,5 @@ export class FindFriendService {
       relations: ['recvFriendRequestUser'],
     });
     return friends.map(friend => friend.recvFriendRequestUser);
-  }
-
-  async findFriendById(senderId: number, friendId: number): Promise<Friend> {
-    const friend = await this.friendRepository.findOne({
-      where: { sendFriendRequestUserId: senderId, recvFriendRequestUserId: friendId },
-    });
-    return friend;
-  }
-
-  async findFriendByIdOrFail(senderId: number, friendId: number): Promise<Friend> {
-    const friend = await this.friendRepository.findOne({
-      where: { sendFriendRequestUserId: senderId, recvFriendRequestUserId: friendId },
-    });
-    if (!friend) {
-      throw new NotFoundException(`Friend with id ${friendId} not found`);
-    }
-    return friend;
   }
 }

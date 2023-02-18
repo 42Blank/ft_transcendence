@@ -26,6 +26,13 @@ export class FriendController {
     return await this.findFriendService.findAllFriendsbyStatus(id, FriendStatus.FRIEND);
   }
 
+  @Get('block')
+  @ApiOperation({ summary: '차단 목록 가져오기' })
+  @ApiOkResponse({ description: '내 차단 목록', type: User, isArray: true })
+  async blockUsers(@ReqUser() { id }: User): Promise<User[]> {
+    return await this.findFriendService.findAllFriendsbyStatus(id, FriendStatus.BLOCK);
+  }
+
   @Post()
   @ApiOperation({ summary: '친구 추가 (친구 / 차단)' })
   @ApiOkResponse({ description: '친구 추가 성공', type: FriendRequestDto })
@@ -38,12 +45,5 @@ export class FriendController {
   @ApiOkResponse({ description: '친구 삭제 성공', type: DeleteFriendRequestDto })
   async deleteFriend(@ReqUser() { id }: User, @Body() recvDto: DeleteFriendRequestDto): Promise<void> {
     return await this.deleteFriendService.deletebyId(id, recvDto);
-  }
-
-  @Get('block')
-  @ApiOperation({ summary: '차단 목록 가져오기' })
-  @ApiOkResponse({ description: '내 차단 목록', type: User, isArray: true })
-  async blockUsers(@ReqUser() { id }: User): Promise<User[]> {
-    return await this.findFriendService.findAllFriendsbyStatus(id, FriendStatus.BLOCK);
   }
 }
