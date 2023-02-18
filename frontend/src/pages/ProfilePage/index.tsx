@@ -6,6 +6,7 @@ import { useGetUser } from 'hooks';
 
 import { ProfileCard } from './ProfileCard';
 import { EditProfile } from './EditProfile';
+import { ManageFriends } from './ManageFriends';
 
 export const ProfilePage = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
@@ -31,6 +32,7 @@ export const ProfilePage = () => {
             Edit Profile
           </button>
         )}
+        {userId && <ManageFriends user={profile} />}
       </main>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
