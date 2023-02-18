@@ -6,12 +6,10 @@ import {
   joinChatRoomState,
   leaveChatRoomState,
   newChatRoomState,
-  newGamePingMessageState,
   newMessageState,
   updateChatRoomState,
   joinGameRoomState,
   newGameRoomState,
-  updateGameRoomState,
   leaveGameRoomState,
 } from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
@@ -56,9 +54,6 @@ export function useHandleSocket() {
   const updateChatRoom = useRecoilValue(updateChatRoomState);
   const resetUpdateChatRoom = useResetRecoilState(updateChatRoomState);
 
-  /* Pong Test */
-  const [newGamePingMessage, setNewGamePingMessage] = useRecoilState(newGamePingMessageState);
-
   /* Game Room */
   const newGameRoom = useRecoilValue(newGameRoomState);
   const resetNewGameRoom = useResetRecoilState(newGameRoomState);
@@ -66,8 +61,6 @@ export function useHandleSocket() {
   const resetJoinGameRoom = useResetRecoilState(joinGameRoomState);
   const leaveGameRoom = useRecoilValue(leaveGameRoomState);
   const resetLeaveGameRoom = useResetRecoilState(leaveGameRoomState);
-  const updateGameRoom = useRecoilValue(updateGameRoomState);
-  const resetUpdateGameRoom = useResetRecoilState(updateGameRoomState);
 
   const {
     connectHandler,
@@ -77,8 +70,6 @@ export function useHandleSocket() {
     getAllChatRoomHandler,
     joinChatRoomHandler,
     // Game
-    gamePongHandler,
-    getAllGameRoomHandler,
     joinGameRoomHandler,
   } = useSetSocketHandler();
 
@@ -151,26 +142,7 @@ export function useHandleSocket() {
     resetJoinGameRoom();
   }, [joinGameRoom]);
 
-  useEffect(() => {
-    if (updateGameRoom.id.length === 0) return;
-    if (sockets.gameSocket === null) return;
-
-    sockets.gameSocket.emit('update_room', updateGameRoom);
-    resetUpdateGameRoom();
-  }, [updateGameRoom]);
-
   /* ----------------- Game ----------------- */
-  useEffect(() => {
-    if (newMessage.length === 0) return;
-    if (sockets.gameSocket === null) return;
-
-    sockets.gameSocket.emit('ping', {
-      message: newMessage,
-    });
-
-    setNewGamePingMessage('');
-  }, [newGamePingMessage]);
-
   useEffect(() => {
     if (!sockets.chatSocket) {
       sockets.chatSocket = createSocket('chat', {
@@ -188,9 +160,6 @@ export function useHandleSocket() {
         exceptionHandler,
         disconnectHandler,
       });
-      sockets.gameSocket.on('pong', gamePongHandler);
-
-      sockets.gameSocket.on('update_game_room', getAllGameRoomHandler);
       sockets.gameSocket.on('join_room', joinGameRoomHandler);
     }
   }, []);

@@ -80,8 +80,6 @@ export class MainScene extends Phaser.Scene {
     if (this.paddleLeft && this.paddleRight && this.key) {
       if (this.key.up.isDown) {
         this.paddleRight.y -= 10;
-        // this.pingHandler('PONG PONG');
-        sockets.gameSocket.emit('ping', { message: 'pONG POGN' });
       } else if (this.key.down.isDown) this.paddleRight.y += 10;
       if (this.key.shift.isDown) this.paddleLeft.y -= 10;
       else if (this.key.space.isDown) this.paddleLeft.y += 10;
