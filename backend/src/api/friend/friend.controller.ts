@@ -6,16 +6,18 @@ import { UserJwtAuthGuard } from 'common/auth/jwt-auth';
 import { ApiCookieAuth } from '@nestjs/swagger';
 import { FindFriendService } from './service/find-friend.service';
 import { AddFriendService } from './service/add-friend.service';
-import { CreateFriendRequestDto } from './dto/request/create-friend.dto';
+import { recvFriendRequestDto } from './dto/request/recv-friend.dto';
+import { DeleteFriendService } from './service/delete-friend.service';
+import { Friend } from 'common/database/entities/friend.entity';
 
 @ApiTags('Friend')
 @Controller('friend')
-@ApiCookieAuth()
 @UseGuards(UserJwtAuthGuard)
 export class FriendController {
   constructor(
     private readonly findFriendService: FindFriendService,
     private readonly addFriendService: AddFriendService,
+    private readonly deleteFriendService: DeleteFriendService,
   ) {}
 
   @Get()
@@ -27,10 +29,21 @@ export class FriendController {
 
   @Post()
   @ApiOperation({ summary: '친구 추가 (친구 / 차단)' })
+  @ApiOkResponse({ description: '친구 추가 성공', type: recvFriendRequestDto })
   async addFriend(
     @ReqUser() { id } : User,
-    @Body() createFriendRequestDto: CreateFriendRequestDto
-    ): Promise<void> {
-    return await this.addFriendService.addFriendByFriendId(id, createFriendRequestDto);
-  }
+    @Body() recvDto: recvFriendRequestDto
+    ): Promise<recvFriendRequestDto> {
+      return await this.addFriendService.addFriendByFriendId(id, recvDto);
+    }
+
+  @Delete()
+  @ApiOperation({ summary: '친구 삭제 (친구 / 차단)' })
+  @ApiOkResponse({ description: '친구 삭제 성공', type: recvFriendRequestDto })
+  async deleteFriend(
+    @ReqUser() { id } : User,
+    @Body() recvDto: recvFriendRequestDto
+    ): Promise<recvFriendRequestDto> {
+      return await this.deleteFriendService.deleteFriendByFriendId(id, recvDto);
+    }
 }
