@@ -15,7 +15,6 @@ import { ConnectionHandleService } from '../connection-handle';
 import { ChatMessageDto } from './dto/incoming/chat-message.dto';
 import { CreateChatRoomDto } from './dto/incoming/create-chat-room.dto';
 import { JoinChatRoomDto } from './dto/incoming/join-chat-room.dto';
-import { LeaveChatRoomDto } from './dto/incoming/leave-chat-room.dto';
 import { OperateTargetDto } from './dto/incoming/operate-target.dto';
 import { UpdateChatRoomDto } from './dto/incoming/update-chat-room.dto';
 import { ChatRoomService } from './service/chat-room.service';
@@ -79,13 +78,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('leave_room')
   public leaveRoom(
     @ConnectedSocket() client: SocketWithUser, //
-    @MessageBody() data: LeaveChatRoomDto,
   ): void {
-    this.chatUserService.leaveChatRoom(data.id, client.id);
+    this.chatUserService.leaveAllChatRooms(client.id);
 
-    this.logger.verbose(`${client.user.nickname} leaveRoom: ${JSON.stringify(data)}`);
+    this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
 
-    // this.emitLeaveRoom(client, data.chatRoomId);
     this.emitChatRooms();
   }
 
