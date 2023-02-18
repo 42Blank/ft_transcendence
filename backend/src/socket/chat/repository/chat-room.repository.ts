@@ -46,6 +46,21 @@ export class ChatRoomRepository {
   public removeSocketFromChatRoom(chatRoomId: string, socketId: string): void {
     const chatRoom = this.getChatRoom(chatRoomId);
 
+    if (!chatRoom.sockets.has(socketId)) {
+      return;
+    }
+
+    if (chatRoom.sockets.get(socketId).role === 'host') {
+      const nextHost = Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.role === 'operator');
+
+      if (nextHost) {
+        nextHost.role = 'host';
+      } else {
+        const randomHost = Array.from(chatRoom.sockets.values())[0];
+        randomHost.role = 'host';
+      }
+    }
+
     chatRoom.sockets.delete(socketId);
 
     if (chatRoom.sockets.size === 0) {
