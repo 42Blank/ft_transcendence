@@ -1,15 +1,14 @@
-import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 
-import { ChatDataType, ChatRoomInfoType } from 'types/chat';
-import { chatRoomListState, currentChatDataState, gameRoomListState } from 'store';
 import { ROUTE } from 'common/constants';
-import { currentGamePongState } from 'store/currentGamePongState';
+import { chatRoomListState, currentChatDataState, gameRoomListState } from 'store';
+import { ChatDataType, ChatRoomInfoType } from 'types/chat';
+
 import { GameRoomInfoType } from 'types/game';
 
 export function useSetSocketHandler() {
   const setCurrentChatData = useSetRecoilState(currentChatDataState);
-  const setCurrentGamePong = useSetRecoilState(currentGamePongState);
   const setChatRoomList = useSetRecoilState(chatRoomListState);
   const setGameRoomList = useSetRecoilState(gameRoomListState);
   const nav = useNavigate();
@@ -32,9 +31,6 @@ export function useSetSocketHandler() {
   }
 
   /* Game */
-  function gamePongHandler(data: ChatDataType) {
-    setCurrentGamePong(prev => [data, ...prev]);
-  }
   function getAllGameRoomHandler(data: GameRoomInfoType[]) {
     setGameRoomList(data);
   }
@@ -49,7 +45,6 @@ export function useSetSocketHandler() {
     getCurrentChatHandler,
     getAllChatRoomHandler,
     joinChatRoomHandler,
-    gamePongHandler,
     getAllGameRoomHandler,
     joinGameRoomHandler,
   };
