@@ -34,7 +34,11 @@ export class ChatUserService {
     }
 
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
-    this.chatRoomRepository.addSocketToChatRoom(chatRoomId, socketId, userId);
+    chatRoom.sockets.set(socketId, {
+      id: userId,
+      role: 'user',
+      isMutted: false,
+    });
   }
 
   public leaveChatRoom(chatRoomId: string, socketId: string): void {

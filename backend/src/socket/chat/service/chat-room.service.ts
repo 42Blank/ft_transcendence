@@ -23,7 +23,11 @@ export class ChatRoomService {
 
     const chatRoom = this.chatRoomRepository.createChatRoom(data);
 
-    this.chatRoomRepository.addSocketToChatRoom(chatRoom.id, socketId, userId, true);
+    chatRoom.sockets.set(socketId, {
+      id: userId,
+      role: 'host',
+      isMutted: false,
+    });
 
     return chatRoom;
   }
@@ -43,7 +47,9 @@ export class ChatRoomService {
       throw new ForbiddenException('You are not in this chat room');
     }
 
-    this.chatRoomRepository.updateChatRoom(chatRoomId, data);
+    chatRoom.roomTitle = data.roomTitle ?? chatRoom.roomTitle;
+    chatRoom.isPrivate = data.isPrivate ?? chatRoom.isPrivate;
+    chatRoom.password = data.password ?? chatRoom.password;
   }
 
   public async getChatRooms(): Promise<ChatRoomDto[]> {
