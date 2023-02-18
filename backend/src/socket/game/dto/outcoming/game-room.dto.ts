@@ -1,6 +1,7 @@
+import { User } from '../../../../common/database/entities/user.entity';
+
 type Player = {
-  socketId: string;
-  userId: number;
+  user: User;
   ready: boolean;
 };
 
@@ -9,11 +10,10 @@ type Score = {
   challenger: number;
 };
 
-export interface GameRoom {
+export type GameRoomDto = {
   id: string;
   state: 'waiting' | 'playing' | 'finished';
   score: Score;
   host: Player;
   challenger?: Player;
-  spectatorSocketIds: Set<string>;
-}
+};
