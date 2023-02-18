@@ -4,23 +4,24 @@ import { Repository } from 'typeorm';
 import { Friend } from '../../../common/database/entities/friend.entity';
 import { User } from '../../../common/database/entities/user.entity';
 import { NotFoundException } from '@nestjs/common';
+import { FriendStatus } from '../../../common/database/entities/friend.entity';
 
 @Injectable()
 export class FindFriendService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
     @InjectRepository(Friend)
     private readonly friendRepository: Repository<Friend>,
   ) {}
 
-  async findAllFriendsByUserId(senderId: number): Promise<User[]> {
+  async findAllFriendsBySenderId(senderId: number): Promise<User[]> {
     const friends = await this.friendRepository.find({
-      where: { sendFriendRequestUserId: senderId },
+      where: {
+        sendFriendRequestUserId: senderId,
+        status: FriendStatus.FRIEND,
+      },
+      relations: ['recvFriendRequestUser'],
     });
-    const friendIds = friends.map(friend => friend.recvFriendRequestUserId && friend.status === 'FRIEND' ? friend.recvFriendRequestUserId : null);
-
-    return this.userRepository.findByIds(friendIds);
+    return friends.map((friend) => friend.recvFriendRequestUser);
   }
 
   async findFriendById(senderId: number, friendId: number): Promise<Friend> {
