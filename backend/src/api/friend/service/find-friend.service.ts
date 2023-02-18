@@ -1,10 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Friend } from '../../../common/database/entities/friend.entity';
+import { Friend, FriendStatus } from '../../../common/database/entities/friend.entity';
 import { User } from '../../../common/database/entities/user.entity';
-import { NotFoundException } from '@nestjs/common';
-import { FriendStatus } from '../../../common/database/entities/friend.entity';
 
 @Injectable()
 export class FindFriendService {
@@ -21,7 +19,7 @@ export class FindFriendService {
       },
       relations: ['recvFriendRequestUser'],
     });
-    return friends.map((friend) => friend.recvFriendRequestUser);
+    return friends.map(friend => friend.recvFriendRequestUser);
   }
 
   async findFriendById(senderId: number, friendId: number): Promise<Friend> {
