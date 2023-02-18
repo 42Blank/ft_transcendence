@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { User } from './user.entity';
 
 enum FriendStatus {
@@ -8,6 +8,7 @@ enum FriendStatus {
 }
 
 @Entity('friend')
+@Unique(['sendFriendRequestUserId', 'recvFriendRequestUserId'])
 export class Friend {
   @ApiProperty({ example: 1, description: '친구 요청 고유번호' })
   @PrimaryGeneratedColumn()
