@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { UserInfoType } from 'types/user';
 
 const DUMMY_FRIENDLIST: UserInfoType[] = [
