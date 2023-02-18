@@ -9,6 +9,8 @@ import {
   newGamePingMessageState,
   newMessageState,
   updateChatRoomState,
+  joinGameRoomState,
+  newGameRoomState,
 } from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
@@ -52,7 +54,18 @@ export function useHandleSocket() {
   const updateChatRoom = useRecoilValue(updateChatRoomState);
   const resetUpdateChatRoom = useResetRecoilState(updateChatRoomState);
 
+  /* Pong Test */
   const [newGamePingMessage, setNewGamePingMessage] = useRecoilState(newGamePingMessageState);
+
+  /* Game Room */
+  const newGameRoom = useRecoilValue(newGameRoomState);
+  const resetNewGameRoom = useResetRecoilState(newGameRoomState);
+  const joinGameRoom = useRecoilValue(joinGameRoomState);
+  const resetJoinGameRoom = useResetRecoilState(joinGameRoomState);
+  // const leaveGameRoom = useRecoilValue(leaveGameRoomState);
+  // const resetLeaveGameRoom = useResetRecoilState(leaveGameRoomState);
+  // const updateGameRoom = useRecoilValue(updateGameRoomState);
+  // const resetUpdateGameRoom = useResetRecoilState(updateGameRoomState);
 
   const {
     connectHandler,
@@ -61,6 +74,7 @@ export function useHandleSocket() {
     getCurrentChatHandler,
     getAllChatRoomHandler,
     joinChatRoomHandler,
+    // Game
     gamePongHandler,
   } = useSetSocketHandler();
 
@@ -108,7 +122,40 @@ export function useHandleSocket() {
     resetUpdateChatRoom();
   }, [updateChatRoom]);
 
-  /* game */
+  /* ----------------- Game Room List ----------------- */
+  useEffect(() => {
+    if (newGameRoom.roomTitle.length === 0) return;
+    if (sockets.gameSocket === null) return;
+
+    sockets.gameSocket.emit('create_room', newGameRoom);
+    resetNewGameRoom();
+  }, [newGameRoom]);
+
+  /*  useEffect(() => {
+    if (leaveChatRoom.id.length === 0) return;
+    if (sockets.chatSocket === null) return;
+
+    sockets.chatSocket.emit('leave_room', leaveChatRoom);
+    resetLeaveChatRoom();
+  }, [leaveChatRoom]); */
+
+  useEffect(() => {
+    if (joinGameRoom.id.length === 0) return;
+    if (sockets.gameSocket === null) return;
+
+    sockets.gameSocket.emit('join_room', joinGameRoom);
+    resetJoinGameRoom();
+  }, [joinGameRoom]);
+
+  /*  useEffect(() => {
+    if (updateChatRoom.id.length === 0) return;
+    if (sockets.chatSocket === null) return;
+
+    sockets.chatSocket.emit('update_room', updateChatRoom);
+    resetUpdateChatRoom();
+  }, [updateChatRoom]); */
+
+  /* ----------------- Game ----------------- */
   useEffect(() => {
     if (newMessage.length === 0) return;
     if (sockets.gameSocket === null) return;
@@ -138,6 +185,9 @@ export function useHandleSocket() {
         disconnectHandler,
       });
       sockets.gameSocket.on('pong', gamePongHandler);
+
+      sockets.gameSocket.on('update_chat_room', getAllChatRoomHandler);
+      sockets.gameSocket.on('join_room', joinChatRoomHandler);
     }
   }, []);
 }

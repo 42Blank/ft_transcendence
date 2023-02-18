@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { joinGameRoomState } from 'store';
+import { GameRoomInfoType } from 'types/game';
 
 import {
   gameRoomElementStyle,
@@ -8,11 +10,21 @@ import {
   gameRoomVsSpanStyle,
 } from './GameRoomElement.styles';
 
-export const GameRoomElement = () => {
+interface Props {
+  gameRoomInfo: GameRoomInfoType;
+}
+
+export const GameRoomElement = ({ gameRoomInfo }: Props) => {
+  const { id: roomID, host, challenger } = gameRoomInfo;
+  const setJoinGameRoom = useSetRecoilState(joinGameRoomState);
+
+  function handleClickJoinButton() {
+    setJoinGameRoom({ id: roomID });
+  }
+
   return (
-    <Link to="./123" className={gameRoomLinkStyle}>
+    <button type="button" onClick={handleClickJoinButton} className={gameRoomLinkStyle}>
       <div className={gameRoomElementStyle}>
-        <h3>초보만</h3>
         <div className={gameRoomVsSectionStyle}>
           <div className={gameRoomUserWrapperStyle}>
             <img
@@ -21,7 +33,7 @@ export const GameRoomElement = () => {
               height={70}
               alt="profile1"
             />
-            <span>ycha</span>
+            <span>{host.user.nickname}</span>
           </div>
           <span className={gameRoomVsSpanStyle}>vs</span>
           <div className={gameRoomUserWrapperStyle}>
@@ -31,10 +43,12 @@ export const GameRoomElement = () => {
               height={70}
               alt="profile1"
             />
-            <span>jiychoi</span>
+            <span>{challenger.user.nickname}</span>
           </div>
         </div>
       </div>
-    </Link>
+    </button>
+    // <Link to="./123" className={gameRoomLinkStyle}>
+    // </Link>
   );
 };
