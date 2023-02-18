@@ -35,7 +35,7 @@ export const EditProfile = ({ onClickClose }: Props) => {
 
   return (
     <>
-      <li>
+      <div>
         <label>Edit Profile</label>
         <br />
         <label htmlFor="nickname">Edit Nickname</label>
@@ -62,13 +62,13 @@ export const EditProfile = ({ onClickClose }: Props) => {
         <button type="button" onClick={handleSubmitProfile}>
           submit
         </button>
-      </li>
-      <li>
+      </div>
+      <div>
         <p>Sample Avatar</p>
         <button type="button" onClick={handleClickImage}>
           <img className={tmpAvatarStyle} src="/pochita_sample.png" alt="pochi" ref={imageRef} />
         </button>
-      </li>
+      </div>
     </>
   );
 };

@@ -5,7 +5,7 @@ import { Modal } from 'common';
 import { useGetUser } from 'hooks';
 
 import { ProfileCard } from './ProfileCard';
-import { EditProfile } from './ProfileModal';
+import { EditProfile } from './EditProfile';
 
 export const ProfilePage = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
