@@ -19,14 +19,14 @@ export const EditAvatarModal = ({ onClickClose }: Props) => {
 
   function handleSubmitProfile() {
     if (!inputRef.current.value) return;
-    putUserProfile({ avatar: inputRef.current.value }).then(() => {
+    putUserProfile(null, inputRef.current.value).then(() => {
       getUserRefetch();
     });
     onClickClose();
   }
 
   function handleClickImage() {
-    putUserProfile({ avatar: imageRef.current.src }).then(() => {
+    putUserProfile(null, imageRef.current.src).then(() => {
       getUserRefetch();
     });
     onClickClose();

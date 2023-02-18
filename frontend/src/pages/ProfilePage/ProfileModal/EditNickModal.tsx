@@ -15,7 +15,7 @@ export const EditNickModal = ({ onClickClose }: Props) => {
 
   function handleSubmitProfile() {
     if (!inputRef.current.value) return;
-    putUserProfile({ nickname: inputRef.current.value }).then(() => {
+    putUserProfile(inputRef.current.value).then(() => {
       getUserRefetch();
     });
     onClickClose();
