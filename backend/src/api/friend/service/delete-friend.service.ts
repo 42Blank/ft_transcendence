@@ -15,10 +15,6 @@ export class DeleteFriendService {
 
   async deleteFriendByFriendId(userid: number, recvDto: recvFriendRequestDto): Promise<recvFriendRequestDto> {
     const friend = await this.findFriendService.findFriendByIdOrFail(userid, recvDto.recvFriendRequestUserId);
-
-    if (!friend) {
-      throw new BadRequestException (`친구/차단(이)가 아닙니다.`);
-    }
     await this.friendRepository.remove(friend);   
     return recvDto;
   }
