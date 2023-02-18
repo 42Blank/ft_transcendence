@@ -19,6 +19,6 @@ export async function axiosPut<bodyObjType>(href: string, reqData: bodyObjType):
   return axios.put(`${process.env.REACT_APP_SERVER}${href}`, reqData);
 }
 
-export async function axiosDelete<bodyObjType>(href: string, reqData?: bodyObjType): Promise<void> {
-  return axios.put(`${process.env.REACT_APP_SERVER}${href}`, reqData);
+export async function axiosDelete(href: string): Promise<void> {
+  return axios.delete(`${process.env.REACT_APP_SERVER}${href}`);
 }
