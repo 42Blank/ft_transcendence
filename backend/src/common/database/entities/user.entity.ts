@@ -19,7 +19,7 @@ export class User {
   nickname: string;
 
   @ApiProperty({ example: 'https://picsum.photos/200', description: '유저 아바타 이미지 url' })
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column({ type: 'varchar', length: 500, nullable: false })
   avatar: string;
 
   @ApiProperty({ example: 0, description: '유저 포인트' })
