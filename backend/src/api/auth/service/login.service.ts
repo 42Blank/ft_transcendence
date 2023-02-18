@@ -25,6 +25,14 @@ export class LoginService {
     return user;
   }
 
+  async isRegistered(ftProfile: FtProfile): Promise<boolean> {
+    const user = await this.userRepository.findOne({
+      where: { intraId: ftProfile.id },
+    });
+
+    return !!user;
+  }
+
   async register(ftProfile: FtProfile, registerDto: RegisterRequestDto): Promise<User> {
     const alreadyRegisteredUser = await this.userRepository.findOne({
       where: { intraId: ftProfile.id },
