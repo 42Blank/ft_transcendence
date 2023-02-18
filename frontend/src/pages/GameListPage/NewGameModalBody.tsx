@@ -23,7 +23,6 @@ export const NewGameModalBody = ({ onClickClose }: Props) => {
     setNewGameRoom({
       created: true,
     });
-    console.log('Click New Game Button\n');
     onClickClose();
   }
 
