@@ -41,6 +41,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.emitJoinRoom(client, gameRoom.id);
   }
 
+  @SubscribeMessage('leave_room')
+  public leaveRoom(
+    @ConnectedSocket() client: SocketWithUser, //
+  ): void {
+    this.gameRoomService.leaveAllGameRooms(client.id);
+
+    this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
+
+    this.emitGameRooms();
+  }
+
   @SubscribeMessage('ping')
   public async ping(
     @ConnectedSocket() client: SocketWithUser, //
