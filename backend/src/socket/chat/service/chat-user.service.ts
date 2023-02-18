@@ -51,7 +51,7 @@ export class ChatUserService {
     });
 
     if (!chatRoom) {
-      throw new NotAcceptableException(`Socket ${socketId} is not in any chat room`);
+      throw new NotAcceptableException(`Socket ${socketId} is in no chat room`);
     }
 
     return chatRoom;
