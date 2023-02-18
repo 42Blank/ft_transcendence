@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) => {
-  const { user, isOperator, isMuted } = chatUser;
+  const { user, role, isMuted } = chatUser;
   return (
     <li className={chatUserElementWrapperStyle}>
       <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle}>
@@ -29,7 +29,7 @@ export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) 
           height={50}
           className={chatUserElementImageStyle}
         />
-        {isOperator && <CrownIcon />}
+        {(role === 'operator' || role === 'host') && <CrownIcon />}
         <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       </Link>
       {isCurrentUserOperator && (
@@ -41,7 +41,7 @@ export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) 
             {isMuted ? <UnmuteIcon /> : <MuteIcon />}
           </button>
           <button type="button" className={chatUserButtonStyle}>
-            {isOperator ? <VerifiedIcon /> : <VerifyIcon />}
+            {role === 'operator' || role === 'host' ? <VerifiedIcon /> : <VerifyIcon />}
           </button>
         </>
       )}

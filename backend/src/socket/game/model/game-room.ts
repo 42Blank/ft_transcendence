@@ -1,16 +1,19 @@
-type PlayerDetail = {
+type Player = {
   socketId: string;
   userId: number;
   ready: boolean;
 };
 
-type SpectatorDetail = {
-  socketId: number;
+type Score = {
+  host: number;
+  challenger: number;
 };
 
-export type GameRoom = {
+export interface GameRoom {
   id: string;
-  state: 'Waiting' | 'NotReady' | 'Playing' | 'Finished';
-  players: PlayerDetail[];
-  spectators: SpectatorDetail[];
-};
+  state: 'waiting' | 'playing';
+  score: Score;
+  host: Player;
+  challenger?: Player;
+  spectatorSocketIds: Set<string>;
+}

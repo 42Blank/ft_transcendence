@@ -1,8 +1,9 @@
-type ChatUserDetail = {
+export type ChatUserRole = 'host' | 'operator' | 'user';
+
+export type ChatUserDetail = {
   id: number;
-  isOperator: boolean;
+  role: ChatUserRole;
   isMutted: boolean;
-  muteTime: number;
 };
 
 export type ChatRoom = {

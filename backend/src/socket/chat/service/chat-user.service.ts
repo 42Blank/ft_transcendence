@@ -29,24 +29,16 @@ export class ChatUserService {
       throw new NotAcceptableException(`Password is incorrect`);
     }
 
+    if (chatRoom.bannedUsers.has({ id: userId })) {
+      throw new NotAcceptableException(`User ${userId} is banned in chat room ${chatRoomId}`);
+    }
+
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
-    this.chatRoomRepository.addSocketToChatRoom(chatRoomId, socketId, userId);
-  }
-
-  public leaveChatRoom(chatRoomId: string, socketId: string): void {
-    const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
-
-    if (!chatRoom) {
-      // throw new NotAcceptableException(`Chat room ${chatRoomId} not found`);
-      return;
-    }
-
-    if (!chatRoom.sockets.has(socketId)) {
-      // throw new NotAcceptableException(`Socket ${socketId} is not in chat room ${chatRoomId}`);
-      return;
-    }
-
-    this.chatRoomRepository.removeSocketFromChatRoom(chatRoomId, socketId);
+    chatRoom.sockets.set(socketId, {
+      id: userId,
+      role: 'user',
+      isMutted: false,
+    });
   }
 
   public leaveAllChatRooms(socketId: string): void {
@@ -65,14 +57,26 @@ export class ChatUserService {
     return chatRoom;
   }
 
-  public async getChatData(socketId: string, message: string, timestamp: string): Promise<ChatDataDto> {
+  public async createChatData(socketId: string, message: string, timestamp: string): Promise<ChatDataDto> {
     const chatRoom = this.getJoinedChatRoom(socketId);
     const chatUser = chatRoom.sockets.get(socketId);
+
+    if (!chatUser) {
+      throw new NotAcceptableException(`Socket ${socketId} is not in chat room ${chatRoom.id}`);
+    }
+
+    if (chatRoom.bannedUsers.has({ id: chatUser.id })) {
+      throw new NotAcceptableException(`User ${chatUser.id} is banned in chat room ${chatRoom.id}`);
+    }
+
+    if (chatUser.isMutted) {
+      throw new NotAcceptableException(`User ${chatUser.id} is muted in chat room ${chatRoom.id}`);
+    }
 
     return {
       chatUser: {
         user: await this.userRepository.findOneBy({ id: chatUser.id }),
-        isOperator: chatUser.isOperator,
+        role: chatUser.role,
       },
       message,
       timestamp,
