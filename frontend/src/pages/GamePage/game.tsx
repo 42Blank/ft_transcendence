@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import { GameInstance, IonPhaser } from '@ion-phaser/react';
 import Phaser from 'phaser';
-import { IonPhaser, GameInstance } from '@ion-phaser/react';
+import { useRef, useState } from 'react';
 
-import { sockets } from 'hooks/useHandleSocket';
 import { MainScene } from './MainScene';
 
 const mainScene = new MainScene();
