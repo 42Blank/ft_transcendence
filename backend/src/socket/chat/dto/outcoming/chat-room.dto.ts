@@ -1,10 +1,10 @@
 import { User } from '../../../../common/database/entities/user.entity';
+import { ChatUserRole } from '../../model/chat-room';
 
 type ChatUserDetail = {
   user: User;
-  isOperator: boolean;
+  role: ChatUserRole;
   isMutted: boolean;
-  muteTime: number;
 };
 
 export type ChatRoomDto = {

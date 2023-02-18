@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { User } from './user.entity';
 
 export enum FriendStatus { // 이거 export 해도 되는건지?
@@ -8,6 +8,7 @@ export enum FriendStatus { // 이거 export 해도 되는건지?
 }
 
 @Entity('friend')
+@Unique(['sendFriendRequestUserId', 'recvFriendRequestUserId'])
 export class Friend {
   @ApiProperty({ example: 1, description: '친구 요청 고유번호' })
   @PrimaryGeneratedColumn()

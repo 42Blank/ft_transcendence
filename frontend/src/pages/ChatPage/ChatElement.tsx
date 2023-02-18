@@ -13,7 +13,7 @@ import {
 } from './ChatElement.styles';
 
 interface Props {
-  chatUser: Pick<ChatUserInfoType, 'user' | 'isOperator'>;
+  chatUser: Pick<ChatUserInfoType, 'user' | 'role'>;
   message: string;
   timestamp: string; // TODO: 임시, 변경될 수 있음
   isMine: boolean;
@@ -39,7 +39,7 @@ export const ChatElement = ({ chatUser, message, timestamp, isMine }: Props) => 
       <Link to={`${ROUTE.PROFILE}/${id}`} className={chatProfileWrapper}>
         <img src={avatar} alt={`${nickname}-profile`} width={50} height={50} />
         <span>{nickname}</span>
-        {chatUser.isOperator && <CrownIcon />}
+        {(chatUser.role === 'operator' || chatUser.role === 'host') && <CrownIcon />}
       </Link>
       <div className={chatBodyWrapper}>
         <div className={chatMessageWrapper}>
