@@ -72,7 +72,7 @@ export class MainScene extends Phaser.Scene {
 
   // eslint-disable-next-line class-methods-use-this
   getPongMessage(data: { message: string }) {
-    console.log('getPongMessage', data);
+    // console.log('getPongMessage', data);
   }
 
   update(time: number, delta: number) {
