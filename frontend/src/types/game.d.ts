@@ -24,5 +24,13 @@ export interface JoinGameRoomType {
 }
 
 export interface NewGameRoomType {
-  roomTitle: string;
+  created: boolean;
+}
+
+export interface UpdateGameRoomType {
+  id: string;
+}
+
+export interface LeaveGameRoomType {
+  id: string;
 }

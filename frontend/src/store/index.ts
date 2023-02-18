@@ -11,3 +11,5 @@ export { currentGamePongState } from './currentGamePongState';
 export { gameRoomListState } from './gameRoomListState';
 export { joinGameRoomState } from './joinGameRoomState';
 export { newGameRoomState } from './newGameRoomState';
+export { updateGameRoomState } from './updateGameRoomState';
+export { leaveGameRoomState } from './leaveGameRoomState';
