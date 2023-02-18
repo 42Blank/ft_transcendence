@@ -11,7 +11,7 @@ type Score = {
 
 export interface GameRoom {
   id: string;
-  state: 'waiting' | 'playing' | 'finished';
+  state: 'waiting' | 'playing';
   score: Score;
   host: Player;
   challenger?: Player;

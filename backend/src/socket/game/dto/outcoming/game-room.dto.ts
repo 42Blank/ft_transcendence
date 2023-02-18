@@ -1,4 +1,5 @@
 import { User } from '../../../../common/database/entities/user.entity';
+import { GameRoom } from '../../model/game-room';
 
 type Player = {
   user: User;
@@ -12,7 +13,7 @@ type Score = {
 
 export type GameRoomDto = {
   id: string;
-  state: 'waiting' | 'playing' | 'finished';
+  state: GameRoom['state'];
   score: Score;
   host: Player;
   challenger?: Player;

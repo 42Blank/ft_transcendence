@@ -71,17 +71,20 @@ export class GameRoomRepository {
   public removeSocketFromGameRoom(gameRoomId: string, socketId: string): void {
     const gameRoom = this.getGameRoom(gameRoomId);
 
-    if (gameRoom.host.socketId === socketId) {
-      gameRoom.state = 'finished';
-      gameRoom.score.host = -42;
+    if (gameRoom.host.socketId !== socketId && gameRoom.challenger?.socketId !== socketId) {
+      gameRoom.spectatorSocketIds.delete(socketId);
+      return;
     }
 
-    if (gameRoom.challenger?.socketId === socketId) {
-      gameRoom.state = 'finished';
+    if (gameRoom.host.socketId === socketId) {
+      gameRoom.score.host = -42;
+    } else {
       gameRoom.score.challenger = -42;
     }
 
-    gameRoom.spectatorSocketIds.delete(socketId);
+    // save to MatchHistory
+
+    this.removeGameRoom(gameRoomId);
   }
 
   public removeSocketFromAllGameRooms(socketId: string): void {
