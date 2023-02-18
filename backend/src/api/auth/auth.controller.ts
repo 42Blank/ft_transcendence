@@ -40,6 +40,7 @@ export class AuthController {
   ): Promise<FtProfileDto> {
     const jwt = this.cookieService.createJwt<FtProfile>(ftProfile);
     const cookieOption = this.cookieService.getCookieOption();
+    const isRegistered = await this.loginService.isRegistered(ftProfile);
 
     response.cookie('ft_profile', jwt, cookieOption);
 
@@ -47,6 +48,7 @@ export class AuthController {
       id: ftProfile.id,
       username: ftProfile.username,
       image_url: ftProfile.image_url,
+      isRegistered,
     };
   }
 
@@ -65,7 +67,7 @@ export class AuthController {
 
     response.cookie('ft_profile', jwt, cookieOption);
 
-    return ftProfile;
+    return { ...ftProfile, isRegistered: false };
   }
 
   @Get('login')

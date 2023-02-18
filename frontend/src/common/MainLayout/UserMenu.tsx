@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { useGetCurrentUser, useLogout } from 'hooks';
+import { useGetUser, useLogout } from 'hooks';
 
 import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
 export const UserMenu = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
-  const currentUser = useGetCurrentUser();
+  const { data: currentUser } = useGetUser();
   const nav = useNavigate();
   const logout = useLogout();
 

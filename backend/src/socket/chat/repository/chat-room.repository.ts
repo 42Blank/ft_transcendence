@@ -6,7 +6,11 @@ import { ChatRoom } from '../model/chat-room';
 export class ChatRoomRepository {
   private readonly chatRooms: Map<string, ChatRoom> = new Map();
 
-  public createChatRoom(data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>): ChatRoom {
+  public createChatRoom(
+    socketId: string,
+    userId: number,
+    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+  ): ChatRoom {
     const chatRoom: ChatRoom = {
       id: uuidv4(),
       roomTitle: data.roomTitle,
@@ -15,6 +19,12 @@ export class ChatRoomRepository {
       sockets: new Map(),
       bannedUsers: new Set(),
     };
+
+    chatRoom.sockets.set(socketId, {
+      id: userId,
+      role: 'host',
+      isMutted: false,
+    });
 
     this.chatRooms.set(chatRoom.id, chatRoom);
 
@@ -33,29 +43,23 @@ export class ChatRoomRepository {
     return this.chatRooms.get(chatRoomId);
   }
 
-  public updateChatRoom(
-    chatRoomId: string,
-    data: Partial<Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>>,
-  ): void {
-    const chatRoom = this.getChatRoom(chatRoomId);
-    chatRoom.roomTitle = data.roomTitle ?? chatRoom.roomTitle;
-    chatRoom.isPrivate = data.isPrivate ?? chatRoom.isPrivate;
-    chatRoom.password = data.password ?? chatRoom.password;
-  }
-
-  public addSocketToChatRoom(chatRoomId: string, socketId: string, userId: number, isOperator = false): void {
-    const chatRoom = this.getChatRoom(chatRoomId);
-
-    chatRoom.sockets.set(socketId, {
-      id: userId,
-      isOperator,
-      isMutted: false,
-      muteTime: 0,
-    });
-  }
-
   public removeSocketFromChatRoom(chatRoomId: string, socketId: string): void {
     const chatRoom = this.getChatRoom(chatRoomId);
+
+    if (!chatRoom.sockets.has(socketId)) {
+      return;
+    }
+
+    if (chatRoom.sockets.get(socketId).role === 'host') {
+      const nextHost = Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.role === 'operator');
+
+      if (nextHost) {
+        nextHost.role = 'host';
+      } else {
+        const randomHost = Array.from(chatRoom.sockets.values())[0];
+        randomHost.role = 'host';
+      }
+    }
 
     chatRoom.sockets.delete(socketId);
 

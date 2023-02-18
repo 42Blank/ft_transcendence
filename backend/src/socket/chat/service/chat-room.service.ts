@@ -21,11 +21,7 @@ export class ChatRoomService {
   ): ChatRoom {
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
 
-    const chatRoom = this.chatRoomRepository.createChatRoom(data);
-
-    this.chatRoomRepository.addSocketToChatRoom(chatRoom.id, socketId, userId, true);
-
-    return chatRoom;
+    return this.chatRoomRepository.createChatRoom(socketId, userId, data);
   }
 
   public updateChatRoom(
@@ -43,7 +39,9 @@ export class ChatRoomService {
       throw new ForbiddenException('You are not in this chat room');
     }
 
-    this.chatRoomRepository.updateChatRoom(chatRoomId, data);
+    chatRoom.roomTitle = data.roomTitle ?? chatRoom.roomTitle;
+    chatRoom.isPrivate = data.isPrivate ?? chatRoom.isPrivate;
+    chatRoom.password = data.password ?? chatRoom.password;
   }
 
   public async getChatRooms(): Promise<ChatRoomDto[]> {
@@ -61,8 +59,7 @@ export class ChatRoomService {
         Array.from(chatRoom.sockets.values()).map(async chatUser => ({
           user: await this.userRepository.findOneBy({ id: chatUser.id }),
           isMutted: chatUser.isMutted,
-          isOperator: chatUser.isOperator,
-          muteTime: chatUser.muteTime,
+          role: chatUser.role,
         })),
       ),
       bannedUsers: await Promise.all(

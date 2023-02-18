@@ -12,4 +12,7 @@ export class FtProfileDto {
     description: '인트라 프로필 이미지',
   })
   image_url: string;
+
+  @ApiProperty({ example: 'false', description: '등록된 유저인지 유무' })
+  isRegistered: boolean;
 }
