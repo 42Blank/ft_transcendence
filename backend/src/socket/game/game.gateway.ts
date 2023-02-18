@@ -12,7 +12,9 @@ import { Server } from 'socket.io';
 import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
+import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
 import { GameRoomService } from './service/game-room.service';
+import { GameUserService } from './service/game-user.service';
 
 @UseFilters(new WsExceptionFilter())
 @WebSocketGateway({
@@ -24,6 +26,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly connectionHandleService: ConnectionHandleService,
     private readonly gameRoomService: GameRoomService,
+    private readonly gameUserService: GameUserService,
   ) {}
 
   @WebSocketServer()
@@ -41,25 +44,28 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.emitJoinRoom(client, gameRoom.id);
   }
 
+  @SubscribeMessage('join_room')
+  public joinRoom(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: JoinGameRoomDto,
+  ): void {
+    this.gameUserService.joinGameRoom(client.id, client.user.id, data.id);
+
+    this.logger.verbose(`${client.user.nickname} joinRoom: ${JSON.stringify(data)}`);
+
+    this.emitGameRooms();
+    this.emitJoinRoom(client, data.id);
+  }
+
   @SubscribeMessage('leave_room')
   public leaveRoom(
     @ConnectedSocket() client: SocketWithUser, //
   ): void {
-    this.gameRoomService.leaveAllGameRooms(client.id);
+    this.gameUserService.leaveAllGameRooms(client.id);
 
     this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
 
     this.emitGameRooms();
-  }
-
-  @SubscribeMessage('ping')
-  public async ping(
-    @ConnectedSocket() client: SocketWithUser, //
-    @MessageBody() data: { message: string },
-  ): Promise<void> {
-    client.emit('pong', {
-      message: data.message,
-    });
   }
 
   public async emitJoinRoom(client: SocketWithUser, gameRoomId: string): Promise<void> {
@@ -91,7 +97,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const isUserDisconnected = this.connectionHandleService.handleDisconnect(client);
 
     if (isUserDisconnected) {
-      this.gameRoomService.leaveAllGameRooms(client.id);
+      this.gameUserService.leaveAllGameRooms(client.id);
       this.emitGameRooms();
     }
   }
