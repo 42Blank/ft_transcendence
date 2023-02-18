@@ -18,6 +18,8 @@ const GamePong = () => {
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   const [initialize] = useState(true);
 
+  mainScene.initHandlers();
+
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
 };
 

@@ -38,7 +38,7 @@ export class MainScene extends Phaser.Scene {
     super({ key: 'MainScene', active: true });
   }
 
-  setHandlers() {
+  initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
   }
 
