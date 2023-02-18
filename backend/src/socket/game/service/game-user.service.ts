@@ -23,7 +23,7 @@ export class GameUserService {
     });
 
     if (!gameRoom) {
-      throw new NotAcceptableException(`Socket ${socketId} is not in any game room`);
+      throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
     }
 
     return gameRoom;
@@ -31,8 +31,6 @@ export class GameUserService {
 
   public createGameData(gameRoom: GameRoom, socketId: string, data: UpdatePositionDto): GameDataDto {
     const gameDataDto: GameDataDto = {};
-
-    console.log('gameRoom', data);
 
     if (gameRoom.state !== 'playing' || !gameRoom.challenger) {
       throw new NotAcceptableException(`Game room ${gameRoom.id} is not in playing state`);
