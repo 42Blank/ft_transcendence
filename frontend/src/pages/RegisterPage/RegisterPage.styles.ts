@@ -13,7 +13,7 @@ export const registerPageWrapperStyle = css({
 export const registerPageLogoImageStyle = css({
   width: 280,
   height: 80,
-  marginBottom: 30,
+  marginBottom: 15,
 });
 
 export const registerPageFormStyle = css({

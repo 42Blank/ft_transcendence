@@ -1,4 +1,8 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { ROUTE } from 'common/constants';
+import { postRegister } from 'services';
 
 import {
   registerPageButtonWrapperStyle,
@@ -12,13 +16,22 @@ import {
 export const RegisterPage = () => {
   const nicknameRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  // const [isValidated, setIsValidated] = useState<boolean>(false);  // TODO: 닉네임 중복체크
+  const nav = useNavigate();
 
   function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
     setImageUrl(URL.createObjectURL(e.currentTarget.files[0]));
   }
 
-  function handleSubmitForm(e: FormEvent) {
+  async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
+    if (!nicknameRef.current || !nicknameRef.current.value || nicknameRef.current.value.length === 0) return;
+    await postRegister(nicknameRef.current.value, 'https://bit.ly/3YMBEvR');
+    nav(ROUTE.CHAT);
+  }
+
+  function handleClickCancel() {
+    nav(ROUTE.LOGIN);
   }
 
   return (
@@ -38,7 +51,7 @@ export const RegisterPage = () => {
           </button>
         </div>
         <div className={registerPageButtonWrapperStyle}>
-          <button type="button">
+          <button type="button" onClick={handleClickCancel}>
             <span>취소</span>
           </button>
           <button type="submit">
