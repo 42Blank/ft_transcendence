@@ -10,8 +10,8 @@ interface Props {
 }
 
 interface ProfileObj {
-  nickname: string;
-  avatar: string;
+  nickname?: string;
+  avatar?: string;
 }
 
 export const EditProfile = ({ onClickClose }: Props) => {
@@ -21,9 +21,10 @@ export const EditProfile = ({ onClickClose }: Props) => {
   const { data, refetch: getUserRefetch } = useGetUser();
 
   function handleSubmitProfile() {
-    const profileObj: ProfileObj = { nickname: null, avatar: null };
-    if (inputAvatarRef.current.value) profileObj.nickname = inputAvatarRef.current.value;
-    if (inputNickRef.current.value) profileObj.avatar = inputNickRef.current.value;
+    const profileObj: ProfileObj = {};
+    if (!inputAvatarRef.current.value && !inputNickRef.current.value) return;
+    if (inputNickRef.current.value) profileObj.nickname = inputNickRef.current.value;
+    if (inputAvatarRef.current.value) profileObj.avatar = inputAvatarRef.current.value;
     putUserProfile(profileObj).then(() => {
       getUserRefetch();
     });
