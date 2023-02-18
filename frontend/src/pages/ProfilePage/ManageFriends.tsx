@@ -13,7 +13,7 @@ const DUMMY_FRIENDLIST: UserInfoType[] = [
   },
 ];
 
-const DUMMY_BlOCKLIST: UserInfoType[] = [
+const DUMMY_BLOCKLIST: UserInfoType[] = [
   {
     id: 3,
     intraId: '',
@@ -25,16 +25,37 @@ const DUMMY_BlOCKLIST: UserInfoType[] = [
   },
 ];
 
+type UserState = 'Friend' | 'No' | 'Block';
+
 export const ManageFriends = ({ user }: { user: UserInfoType }) => {
+  const classifyFriend = (): UserState => {
+    if (DUMMY_FRIENDLIST.includes(user)) return 'Friend';
+    if (DUMMY_BLOCKLIST.includes(user)) return 'Block';
+    return 'No';
+  };
+  const isFriend: UserState = classifyFriend();
   return (
     <div>
-      <button type="button"> Unfriend</button>
-      <br />
-      <button type="button">Add Friend</button>
-      <br />
-      <button type="button">Block</button>
-      <br />
-      <button type="button">Unblock</button>
+      {isFriend === 'Friend' && (
+        <>
+          <button type="button"> Unfriend</button>
+          <br />
+        </>
+      )}
+      {isFriend === 'No' && (
+        <>
+          <button type="button">Add Friend</button>
+          <br />
+          <button type="button">Block</button>
+          <br />
+        </>
+      )}
+      {isFriend === 'Block' && (
+        <>
+          <button type="button">Unblock</button>
+          <br />
+        </>
+      )}
     </div>
   );
 };
