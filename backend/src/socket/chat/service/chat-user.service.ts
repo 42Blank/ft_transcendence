@@ -34,39 +34,11 @@ export class ChatUserService {
     }
 
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
-    this.chatRoomRepository.addSocketToChatRoom(chatRoomId, socketId, userId);
-  }
-
-  public leaveChatRoom(chatRoomId: string, socketId: string): void {
-    const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
-
-    if (!chatRoom) {
-      // throw new NotAcceptableException(`Chat room ${chatRoomId} not found`);
-      return;
-    }
-
-    if (!chatRoom.sockets.has(socketId)) {
-      // throw new NotAcceptableException(`Socket ${socketId} is not in chat room ${chatRoomId}`);
-      return;
-    }
-
-    if (chatRoom.sockets.size === 1) {
-      this.chatRoomRepository.removeChatRoom(chatRoomId);
-      return;
-    }
-
-    if (chatRoom.sockets.get(socketId).role === 'host') {
-      const nextHost = Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.role === 'operator');
-
-      if (nextHost) {
-        nextHost.role = 'host';
-      } else {
-        const randomHost = Array.from(chatRoom.sockets.values())[0];
-        randomHost.role = 'host';
-      }
-    }
-
-    this.chatRoomRepository.removeSocketFromChatRoom(chatRoomId, socketId);
+    chatRoom.sockets.set(socketId, {
+      id: userId,
+      role: 'user',
+      isMutted: false,
+    });
   }
 
   public leaveAllChatRooms(socketId: string): void {
