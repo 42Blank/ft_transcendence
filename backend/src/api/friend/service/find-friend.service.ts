@@ -11,11 +11,11 @@ export class FindFriendService {
     private readonly friendRepository: Repository<Friend>,
   ) {}
 
-  async findAllFriendsBySenderId(senderId: number): Promise<User[]> {
+  async findAllFriendsbyStatus(senderId: number, status: FriendStatus): Promise<User[]> {
     const friends = await this.friendRepository.find({
       where: {
         sendFriendRequestUserId: senderId,
-        status: FriendStatus.FRIEND,
+        status: status,
       },
       relations: ['recvFriendRequestUser'],
     });

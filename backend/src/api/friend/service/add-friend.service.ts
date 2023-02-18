@@ -18,9 +18,7 @@ export class AddFriendService {
     if (userid === recvFriendRequestDto.recvFriendRequestUserId) {
       throw new BadRequestException(`자기 자신을 친구로 추가할 수 없습니다.`);
     }
-    if (
-      (await this.userRepository.findOne({ where: { id: recvFriendRequestDto.recvFriendRequestUserId } })) === undefined
-    ) {
+    if ((await this.userRepository.findOne({ where: { id: recvFriendRequestDto.recvFriendRequestUserId } })) === null) {
       throw new BadRequestException(`존재하지 않는 사용자입니다.`);
     }
     if (
@@ -29,7 +27,7 @@ export class AddFriendService {
           sendFriendRequestUserId: userid,
           recvFriendRequestUserId: recvFriendRequestDto.recvFriendRequestUserId,
         },
-      })) !== undefined
+      })) !== null
     ) {
       throw new BadRequestException(`이미 친구 요청을 보냈습니다.`);
     }
