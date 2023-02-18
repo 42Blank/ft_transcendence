@@ -27,10 +27,6 @@ export interface NewGameRoomType {
   created: boolean;
 }
 
-export interface UpdateGameRoomType {
-  id: string;
-}
-
 export interface LeaveGameRoomType {
   id: string;
 }
