@@ -21,15 +21,7 @@ export class ChatRoomService {
   ): ChatRoom {
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
 
-    const chatRoom = this.chatRoomRepository.createChatRoom(data);
-
-    chatRoom.sockets.set(socketId, {
-      id: userId,
-      role: 'host',
-      isMutted: false,
-    });
-
-    return chatRoom;
+    return this.chatRoomRepository.createChatRoom(socketId, userId, data);
   }
 
   public updateChatRoom(

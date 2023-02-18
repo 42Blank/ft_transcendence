@@ -6,7 +6,11 @@ import { ChatRoom } from '../model/chat-room';
 export class ChatRoomRepository {
   private readonly chatRooms: Map<string, ChatRoom> = new Map();
 
-  public createChatRoom(data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>): ChatRoom {
+  public createChatRoom(
+    socketId: string,
+    userId: number,
+    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+  ): ChatRoom {
     const chatRoom: ChatRoom = {
       id: uuidv4(),
       roomTitle: data.roomTitle,
@@ -15,6 +19,12 @@ export class ChatRoomRepository {
       sockets: new Map(),
       bannedUsers: new Set(),
     };
+
+    chatRoom.sockets.set(socketId, {
+      id: userId,
+      role: 'host',
+      isMutted: false,
+    });
 
     this.chatRooms.set(chatRoom.id, chatRoom);
 
