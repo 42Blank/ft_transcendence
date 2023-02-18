@@ -13,6 +13,7 @@ import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
+import { UpdatePositionDto } from './dto/incoming/update-position.dto';
 import { GameRoomService } from './service/game-room.service';
 import { GameUserService } from './service/game-user.service';
 
@@ -66,6 +67,21 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
 
     this.emitGameRooms();
+  }
+
+  @SubscribeMessage('update_position')
+  public async emitChatData(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: UpdatePositionDto,
+  ): Promise<void> {
+    const gameRoom = this.gameUserService.getJoinedGameRoom(client.id);
+    const gameData = this.gameUserService.createGameData(gameRoom, client.id, data);
+
+    this.logger.verbose(`${client.user.nickname} UpdatePosition: ${JSON.stringify(data)}`);
+
+    [gameRoom.host.socketId, gameRoom.challenger.socketId, ...gameRoom.spectatorSocketIds].forEach(socketId => {
+      this.io.to(socketId).emit('game_data', gameData);
+    });
   }
 
   public async emitJoinRoom(client: SocketWithUser, gameRoomId: string): Promise<void> {
