@@ -38,6 +38,9 @@ export function useSetSocketHandler() {
   function getAllGameRoomHandler(data: GameRoomInfoType[]) {
     setGameRoomList(data);
   }
+  function joinGameRoomHandler(id: string) {
+    nav(`${ROUTE.GAME}/${id}`);
+  }
 
   return {
     connectHandler,
@@ -48,5 +51,6 @@ export function useSetSocketHandler() {
     joinChatRoomHandler,
     gamePongHandler,
     getAllGameRoomHandler,
+    joinGameRoomHandler,
   };
 }

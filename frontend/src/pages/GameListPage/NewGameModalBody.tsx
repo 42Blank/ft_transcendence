@@ -1,4 +1,6 @@
 import { FormEvent } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { newGameRoomState } from 'store';
 
 import {
   formSectionButtonWrapper,
@@ -12,12 +14,16 @@ interface Props {
 }
 
 export const NewGameModalBody = ({ onClickClose }: Props) => {
-  // const setNewGameRoom = useSetRecoilState(newGameRoomState);
+  const setNewGameRoom = useSetRecoilState(newGameRoomState);
   // const nameRef = useRef<HTMLInputElement>(null);
 
   function handleOnClick(e: FormEvent) {
+    // roomTitle 필요없어서 처내야함.
     e.preventDefault();
-    // setNewGameRoom();
+    setNewGameRoom({
+      created: true,
+    });
+    console.log('Click New Game Button\n');
     onClickClose();
   }
 

@@ -25,7 +25,6 @@ export const GameListPage = () => {
   function handleClickClose() {
     setIsModalShown(false);
   }
-
   return (
     <main className={gameListWrapperStyle}>
       {gameRoomList.map((data, index) => (
