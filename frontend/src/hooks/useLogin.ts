@@ -17,7 +17,6 @@ export function useLogin() {
     retry: 0,
     useErrorBoundary: false,
     onSuccess: (data: FtProfileType) => {
-      console.log(data);
       if (!data.isRegistered) nav(ROUTE.REGISTER);
       setIsRegistered(true);
     },
@@ -34,7 +33,6 @@ export function useLogin() {
     enabled: isRegistered,
     useErrorBoundary: false,
     onSuccess: () => {
-      console.log('댄저러스');
       nav(ROUTE.CHAT); // 일단해봄
     },
     onError: () => {
