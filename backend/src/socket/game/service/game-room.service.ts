@@ -20,10 +20,6 @@ export class GameRoomService {
     return this.gameRoomRepository.createGameRoom(socketId, userId);
   }
 
-  public leaveAllGameRooms(socketId: string): void {
-    this.gameRoomRepository.removeSocketFromAllGameRooms(socketId);
-  }
-
   public async getGameRooms(): Promise<GameRoomDto[]> {
     const gameRooms = this.gameRoomRepository.getGameRooms();
 
