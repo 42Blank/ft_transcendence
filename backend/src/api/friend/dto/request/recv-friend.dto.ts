@@ -3,7 +3,7 @@ import { IsNotEmpty, IsInt, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { FriendStatus } from '../../../../common/database/entities/friend.entity';
 
-export class CreateFriendRequestDto {
+export class recvFriendRequestDto {
   @IsInt()
   @IsNotEmpty()
   @ApiProperty({example: '1', description: '친구 요청 받은 유저 고유번호'})
