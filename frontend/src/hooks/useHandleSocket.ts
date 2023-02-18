@@ -71,6 +71,7 @@ export function useHandleSocket() {
     joinChatRoomHandler,
     // Game
     joinGameRoomHandler,
+    getAllGameRoomHandler,
   } = useSetSocketHandler();
 
   useEffect(() => {
@@ -161,6 +162,7 @@ export function useHandleSocket() {
         disconnectHandler,
       });
       sockets.gameSocket.on('join_room', joinGameRoomHandler);
+      sockets.gameSocket.on('update_game_room', getAllGameRoomHandler);
     }
   }, []);
 }

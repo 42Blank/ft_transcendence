@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import Phaser from 'phaser';
 import { IonPhaser, GameInstance } from '@ion-phaser/react';
 
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentGamePongState, newGamePingMessageState } from 'store';
+import { useRecoilValue } from 'recoil';
+import { currentGamePongState } from 'store';
 
 import { MainScene } from './MainScene';
 
@@ -21,10 +21,8 @@ const GamePong = () => {
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   // Call `setInitialize` when you want to initialize your game! :)
   const [initialize] = useState(true);
-  const setNewMessage = useSetRecoilState(newGamePingMessageState);
   const setGetMessage = useRecoilValue(currentGamePongState);
 
-  mainScene.setHandlers((message: string) => setNewMessage(message));
   mainScene.setHandlers(() => setGetMessage);
 
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
