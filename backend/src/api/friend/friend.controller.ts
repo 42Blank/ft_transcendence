@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ReqUser, UserJwtAuthGuard } from 'common/auth/jwt-auth';
+import { FriendStatus } from 'common/database/entities/friend.entity';
 import { User } from 'common/database/entities/user.entity';
 import { DeleteFriendRequestDto } from './dto/request/delete-friend-request.dto';
 import { FriendRequestDto } from './dto/request/friend-request.dto';
@@ -22,7 +23,7 @@ export class FriendController {
   @ApiOperation({ summary: '친구 목록 가져오기' })
   @ApiOkResponse({ description: '내 친구 목록', type: User, isArray: true })
   async all(@ReqUser() { id }: User): Promise<User[]> {
-    return await this.findFriendService.findAllFriendsBySenderId(id);
+    return await this.findFriendService.findAllFriendsbyStatus(id, FriendStatus.FRIEND);
   }
 
   @Post()
@@ -37,5 +38,12 @@ export class FriendController {
   @ApiOkResponse({ description: '친구 삭제 성공', type: DeleteFriendRequestDto })
   async deleteFriend(@ReqUser() { id }: User, @Body() recvDto: DeleteFriendRequestDto): Promise<void> {
     return await this.deleteFriendService.deletebyId(id, recvDto);
+  }
+
+  @Get('block')
+  @ApiOperation({ summary: '차단 목록 가져오기' })
+  @ApiOkResponse({ description: '내 차단 목록', type: User, isArray: true })
+  async blockUsers(@ReqUser() { id }: User): Promise<User[]> {
+    return await this.findFriendService.findAllFriendsbyStatus(id, FriendStatus.BLOCK);
   }
 }
