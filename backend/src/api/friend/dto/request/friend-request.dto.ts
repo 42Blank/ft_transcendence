@@ -1,4 +1,3 @@
-// Is this useless?
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsNotEmpty } from 'class-validator';
 import { FriendStatus } from '../../../../common/database/entities/friend.entity';
