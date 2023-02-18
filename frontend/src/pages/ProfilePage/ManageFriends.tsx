@@ -33,10 +33,8 @@ export const ManageFriends = ({ user }: { user: UserInfoType }) => {
     if (DUMMY_BLOCKLIST.includes(user)) return 'Block';
     return 'No';
   }
-  const { data } = useGetUser('2');
-  const { data: data2 } = useGetUser('3');
-  DUMMY_FRIENDLIST.push(data);
-  DUMMY_BLOCKLIST.push(data2);
+  DUMMY_FRIENDLIST.push(useGetUser('2').data);
+  DUMMY_BLOCKLIST.push(useGetUser('3').data);
   const isFriend: UserState = classifyFriend();
   return (
     <div>
