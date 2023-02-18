@@ -7,3 +7,10 @@ export interface UserInfoType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface FtProfileType {
+  id: string;
+  username: string;
+  image_url: string;
+  isRegistered?: boolean;
+}
