@@ -23,6 +23,13 @@ export class FindFriendService {
     return this.userRepository.findByIds(friendIds);
   }
 
+  async findFriendById(senderId: number, friendId: number): Promise<Friend> {
+    const friend = await this.friendRepository.findOne({
+      where: { sendFriendRequestUserId: senderId, recvFriendRequestUserId: friendId },
+    });
+    return friend;
+  }
+
   async findFriendByIdOrFail(senderId: number, friendId: number): Promise<Friend> {
     const friend = await this.friendRepository.findOne({
       where: { sendFriendRequestUserId: senderId, recvFriendRequestUserId: friendId },
