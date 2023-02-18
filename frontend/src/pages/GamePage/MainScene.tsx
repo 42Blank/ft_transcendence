@@ -1,10 +1,8 @@
-import { sockets } from 'hooks/useHandleSocket';
 import Phaser from 'phaser';
+import { Socket } from 'socket.io-client';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
-  private pingHandler: (message: string) => void;
-
   private ball: Phaser.Physics.Arcade.Image;
   private paddleLeft: Phaser.Physics.Arcade.Image;
   private paddleRight: Phaser.Physics.Arcade.Image;
@@ -23,11 +21,6 @@ export class MainScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'MainScene', active: true });
-  }
-
-  setHandlers(pingHandler: (message: string) => void) {
-    sockets.gameSocket.on('pong', this.getPongMessage);
-    this.pingHandler = pingHandler;
   }
 
   preload() {
@@ -76,14 +69,15 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number) {
-    // console.log('MSG from Server: ' + this.))
-    if (this.paddleLeft && this.paddleRight && this.key) {
-      if (this.key.up.isDown) {
-        this.paddleRight.y -= 10;
-      } else if (this.key.down.isDown) this.paddleRight.y += 10;
-      if (this.key.shift.isDown) this.paddleLeft.y -= 10;
-      else if (this.key.space.isDown) this.paddleLeft.y += 10;
-    }
+    if (!this.paddleLeft || !this.paddleRight || !this.key) return;
+
+    if (this.key.up.isDown) this.paddleRight.y -= 10;
+    else if (this.key.down.isDown) this.paddleRight.y += 10;
+
+    if (this.key.shift.isDown) this.paddleLeft.y -= 10;
+    else if (this.key.space.isDown) this.paddleLeft.y += 10;
+
+    console.log(this.paddleRight.y);
     /* Paddle 임시 충돌 판정 코드 */
     this.paddleLeft.y = Phaser.Math.Clamp(this.paddleLeft.y, 50, 550);
     this.paddleRight.y = Phaser.Math.Clamp(this.paddleRight.y, 50, 550);
