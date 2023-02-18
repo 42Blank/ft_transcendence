@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, ParseIntPipe, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from 'common/database/entities/user.entity';
 import { ReqUser } from 'common/auth/jwt-auth';
-import { Friend } from 'common/database/entities/friend.entity';
+import { UserJwtAuthGuard } from 'common/auth/jwt-auth';
+import { ApiCookieAuth } from '@nestjs/swagger';
 import { FindFriendService } from './service/find-friend.service';
+import { AddFriendService } from './service/add-friend.service';
+import { CreateFriendRequestDto } from './dto/request/create-friend.dto';
 
 @ApiTags('Friend')
 @Controller('friend')
+@ApiCookieAuth()
+@UseGuards(UserJwtAuthGuard)
 export class FriendController {
   constructor(
     private readonly findFriendService: FindFriendService,
+    private readonly addFriendService: AddFriendService,
   ) {}
 
   @Get()
@@ -19,13 +25,12 @@ export class FriendController {
     return await this.findFriendService.findAllFriendsByUserId(id);
   }
 
-  // @Post()
-  // @ApiOperation({ summary: '친구 추가' })
-  // async addFriend() {
-
-  // }
-
-  // @Delete()
-  // deleteFriend() {
-  // }
+  @Post()
+  @ApiOperation({ summary: '친구 추가 (친구 / 차단)' })
+  async addFriend(
+    @ReqUser() { id } : User,
+    @Body() createFriendRequestDto: CreateFriendRequestDto
+    ): Promise<void> {
+    return await this.addFriendService.addFriendByFriendId(id, createFriendRequestDto);
+  }
 }
