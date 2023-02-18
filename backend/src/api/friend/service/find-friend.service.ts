@@ -21,4 +21,10 @@ export class FindFriendService {
 
     return this.userRepository.findByIds(friendIds);
   }
+
+  async findFriendByIdOrFail(friendId: number): Promise<Friend> {
+    return this.friendRepository.findOneOrFail({
+      where: { id: friendId },
+    });
+  }
 }
