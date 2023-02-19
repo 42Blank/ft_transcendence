@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const GameRoomElement = ({ gameRoomInfo }: Props) => {
-  const { id: roomID, host /* challenger */ } = gameRoomInfo;
+  const { id: roomID, host, challenger } = gameRoomInfo;
   const setJoinGameRoom = useSetRecoilState(joinGameRoomState);
 
   function handleClickJoinButton() {
@@ -43,7 +43,7 @@ export const GameRoomElement = ({ gameRoomInfo }: Props) => {
               height={70}
               alt="profile1"
             />
-            <span>도전자</span>
+            <span>{challenger && challenger.user.nickname}</span>
           </div>
         </div>
       </div>
