@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import { GameInstance, IonPhaser } from '@ion-phaser/react';
 import Phaser from 'phaser';
-import { IonPhaser, GameInstance } from '@ion-phaser/react';
+import { useRef, useState } from 'react';
 
-import { sockets } from 'hooks/useHandleSocket';
 import { MainScene } from './MainScene';
 
 const mainScene = new MainScene();
@@ -18,6 +17,8 @@ const game: GameInstance = {
 const GamePong = () => {
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   const [initialize] = useState(true);
+
+  mainScene.initHandlers();
 
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
 };
