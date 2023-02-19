@@ -1,6 +1,7 @@
-import { GameInstance, IonPhaser } from '@ion-phaser/react';
-import Phaser from 'phaser';
 import { useRef, useState } from 'react';
+
+import Phaser from 'phaser';
+import { GameInstance, IonPhaser } from '@ion-phaser/react';
 
 import { MainScene } from './MainScene';
 
