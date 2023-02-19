@@ -1,6 +1,6 @@
 import { UserInfoType } from './user';
 
-type PlayerDetail = {
+type Player = {
   user: UserInfoType;
   ready: boolean;
 };
@@ -13,8 +13,8 @@ type Score = {
 export interface GameRoomInfoType {
   id: string;
   state: 'waiting' | 'playing' | 'finished';
-  host: PlayerDetail;
-  challenger?: PlayerDetail;
+  host: Player;
+  challenger?: Player;
   spectatorSocketIds: Set<string>;
   score: Score;
 }
