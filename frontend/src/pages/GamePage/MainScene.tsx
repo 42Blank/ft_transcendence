@@ -82,11 +82,6 @@ export class MainScene extends Phaser.Scene {
     this.ball.setVisible(true);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getPongMessage(data: { message: string }) {
-    // console.log('getPongMessage', data);
-  }
-
   update(time: number, delta: number) {
     // save paddle position
     const oldPaddleLeftY = this.paddleLeft.y;
