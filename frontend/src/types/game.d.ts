@@ -19,6 +19,21 @@ export interface GameRoomInfoType {
   score: Score;
 }
 
+export type GameData = {
+  host?: {
+    y: number;
+  };
+  challenger?: {
+    y: number;
+  };
+  ball?: {
+    x: number;
+    y: number;
+    velocityX: number;
+    velocityY: number;
+  };
+};
+
 export interface JoinGameRoomType {
   id: string;
 }

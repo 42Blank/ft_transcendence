@@ -1,20 +1,7 @@
 import Phaser from 'phaser';
-import { sockets } from '../../hooks/useHandleSocket';
+import { GameData } from 'types/game';
 
-export type GameData = {
-  host?: {
-    y: number;
-  };
-  challenger?: {
-    y: number;
-  };
-  ball?: {
-    x: number;
-    y: number;
-    velocityX: number;
-    velocityY: number;
-  };
-};
+import { sockets } from '../../hooks/useHandleSocket';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
