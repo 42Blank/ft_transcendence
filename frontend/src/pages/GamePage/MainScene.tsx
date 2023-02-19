@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { GameData } from 'types/game';
 
-import { sockets } from '../../hooks/useHandleSocket';
+import { sockets } from 'hooks';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
