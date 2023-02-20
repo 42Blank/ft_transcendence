@@ -72,7 +72,7 @@ export class MainScene extends Phaser.Scene {
 
   checkScoreRedirect() {
     if (this.scoreLeft > 4 || this.scoreRight > 4) {
-      window.location.href = `https://localhost:3000/game`;
+      window.location.href = `${process.env.REACT_APP_FRONTEND_URL}/game`;
     }
   }
 
