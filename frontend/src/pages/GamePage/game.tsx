@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Phaser from 'phaser';
 import { GameInstance, IonPhaser } from '@ion-phaser/react';
@@ -27,6 +28,7 @@ const GamePong = () => {
 
   mainScene.initHandlers();
   mainScene.hostCheckHandlers(isHost);
+  mainScene.naviHandlers(useNavigate());
 
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
 };
