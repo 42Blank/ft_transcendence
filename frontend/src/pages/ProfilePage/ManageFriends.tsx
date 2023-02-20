@@ -18,16 +18,16 @@ export const ManageFriends = ({ user }: { user: UserInfoType }) => {
     return 'No';
   }
 
-  const isFriend: UserState = classifyFriend();
+  const friendState: UserState = classifyFriend();
   return (
     <div>
-      {isFriend === 'Friend' && (
+      {friendState === 'Friend' && (
         <>
           <button type="button"> Unfriend</button>
           <br />
         </>
       )}
-      {isFriend === 'No' && (
+      {friendState === 'No' && (
         <>
           <button type="button">Add Friend</button>
           <br />
@@ -35,7 +35,7 @@ export const ManageFriends = ({ user }: { user: UserInfoType }) => {
           <br />
         </>
       )}
-      {isFriend === 'Block' && (
+      {friendState === 'Block' && (
         <>
           <button type="button">Unblock</button>
           <br />
