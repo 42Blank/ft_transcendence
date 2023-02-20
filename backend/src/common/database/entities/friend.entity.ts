@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { User } from './user.entity';
 
-enum FriendStatus {
+export enum FriendStatus {
   FRIEND = 'FRIEND',
   BLOCK = 'BLOCK',
 }

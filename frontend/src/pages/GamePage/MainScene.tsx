@@ -1,10 +1,11 @@
-import { sockets } from 'hooks/useHandleSocket';
 import Phaser from 'phaser';
+import { GameData } from 'types/game';
+
+import { sockets } from 'hooks';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
-  private pingHandler: (message: string) => void;
-
+  private isHost: Boolean;
   private ball: Phaser.Physics.Arcade.Image;
   private paddleLeft: Phaser.Physics.Arcade.Image;
   private paddleRight: Phaser.Physics.Arcade.Image;
@@ -25,9 +26,12 @@ export class MainScene extends Phaser.Scene {
     super({ key: 'MainScene', active: true });
   }
 
-  setHandlers(pingHandler: (message: string) => void) {
-    sockets.gameSocket.on('pong', this.getPongMessage);
-    this.pingHandler = pingHandler;
+  initHandlers() {
+    sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
+  }
+
+  hostCheckHandlers(isHostInput: boolean) {
+    this.isHost = isHostInput;
   }
 
   preload() {
@@ -70,20 +74,21 @@ export class MainScene extends Phaser.Scene {
     this.ball.setVisible(true);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getPongMessage(data: { message: string }) {
-    // console.log('getPongMessage', data);
-  }
-
   update(time: number, delta: number) {
-    // console.log('MSG from Server: ' + this.))
-    if (this.paddleLeft && this.paddleRight && this.key) {
-      if (this.key.up.isDown) {
-        this.paddleRight.y -= 10;
-      } else if (this.key.down.isDown) this.paddleRight.y += 10;
-      if (this.key.shift.isDown) this.paddleLeft.y -= 10;
-      else if (this.key.space.isDown) this.paddleLeft.y += 10;
+    // save paddle position
+    const oldPaddleLeftY = this.paddleLeft.y;
+    const oldPaddleRightY = this.paddleRight.y;
+
+    if (!this.paddleLeft || !this.paddleRight || !this.key) return;
+
+    if (this.isHost) {
+      if (this.key.up.isDown) this.paddleLeft.y -= 10;
+      else if (this.key.down.isDown) this.paddleLeft.y += 10;
+    } else if (!this.isHost) {
+      if (this.key.up.isDown) this.paddleRight.y -= 10;
+      else if (this.key.down.isDown) this.paddleRight.y += 10;
     }
+
     /* Paddle 임시 충돌 판정 코드 */
     this.paddleLeft.y = Phaser.Math.Clamp(this.paddleLeft.y, 50, 550);
     this.paddleRight.y = Phaser.Math.Clamp(this.paddleRight.y, 50, 550);
@@ -98,6 +103,45 @@ export class MainScene extends Phaser.Scene {
       this.scoreLabelLeft.text = this.scoreLeft.toString();
 
       this.initBall();
+    }
+
+    if (this.isHost) {
+      // send paddle position (host)
+      if (this.key.up.isDown || this.key.down.isDown) {
+        sockets.gameSocket.emit('update_position', {
+          paddleY: this.paddleLeft.y, //
+          ball: {
+            x: this.ball.x,
+            y: this.ball.y,
+            velocityX: this.ball.body.velocity.x,
+            velocityY: this.ball.body.velocity.y,
+          },
+        });
+      }
+    } else if (!this.isHost) {
+      // send paddle position (challenger)
+      if (this.key.up.isDown || this.key.down.isDown) {
+        sockets.gameSocket.emit('update_position', {
+          paddleY: this.paddleRight.y, //
+        });
+      }
+    }
+
+    // restore paddle position
+    this.paddleLeft.y = oldPaddleLeftY;
+    this.paddleRight.y = oldPaddleRightY;
+  }
+
+  gameDataHandler(data: GameData) {
+    if (data.host) this.paddleLeft.y = data.host.y;
+    if (data.challenger) this.paddleRight.y = data.challenger.y;
+
+    // temperary check if player is challenger
+    if (!this.key.up.isDown && !this.key.down.isDown) {
+      if (data.ball) {
+        this.ball.setPosition(data.ball.x, data.ball.y);
+        this.ball.setVelocity(data.ball.velocityX, data.ball.velocityY);
+      }
     }
   }
 }
