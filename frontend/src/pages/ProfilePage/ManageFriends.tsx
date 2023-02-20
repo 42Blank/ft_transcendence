@@ -26,8 +26,8 @@ export const ManageFriends = ({ user }: { user: UserInfoType }) => {
     deleteFriend(user.id);
   }
 
-  function handleClickFriendOrBlock(userID: number, state: 'FRIEND' | 'BLOCK') {
-    postFriendOrBlock({ recvFriendRequestUserId: userID, state });
+  function handleClickFriendOrBlock(userID: number, status: 'FRIEND' | 'BLOCK') {
+    postFriendOrBlock({ recvFriendRequestUserId: userID, status });
   }
 
   return (

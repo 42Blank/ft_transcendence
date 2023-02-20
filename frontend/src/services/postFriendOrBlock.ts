@@ -4,13 +4,13 @@ import { API } from 'common/constants';
 
 interface Props {
   recvFriendRequestUserId: number;
-  state: 'FRIEND' | 'BLOCK';
+  status: 'FRIEND' | 'BLOCK';
 }
 
-export function postFriendOrBlock({ recvFriendRequestUserId, state }: Props): Promise<void> {
+export function postFriendOrBlock({ recvFriendRequestUserId, status }: Props): Promise<void> {
   return axios.post(
     `${process.env.REACT_APP_SERVER}${API.FRIEND}`,
-    { recvFriendRequestUserId, state },
+    { recvFriendRequestUserId, status },
     {
       withCredentials: true,
     },
