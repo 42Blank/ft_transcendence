@@ -1,4 +1,5 @@
 // import { useGetUser } from 'hooks';
+import { useGetUserList } from 'hooks';
 import { UserInfoType } from 'types/user';
 
 // const DUMMY_FRIENDLIST: UserInfoType[] = [
@@ -36,15 +37,14 @@ export const ManageFriends = ({ user }: { user: UserInfoType }) => {
   //   DUMMY_FRIENDLIST.push(useGetUser('2').data);
   //   DUMMY_BLOCKLIST.push(useGetUser('3').data);
 
-  function classifyFriend(): UserState {
-    if (DUMMY_FRIENDLIST.includes(user)) return 'Friend';
-    if (DUMMY_BLOCKLIST.includes(user)) return 'Block';
+  function classifyFriend(friendList: UserInfoType[], blockList: UserInfoType[]): UserState {
+    if (friendList.includes(user)) return 'Friend';
+    if (blockList.includes(user)) return 'Block';
     return 'No';
   }
 
-  const friendList: UserInfoType[] =
-
-  const isFriend: UserState = classifyFriend();
+  const { friendList, blockList } = useGetUserList();
+  const isFriend: UserState = classifyFriend(friendList, blockList);
   return (
     <div>
       {isFriend === 'Friend' && (

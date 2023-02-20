@@ -16,5 +16,6 @@ export function useGetUserList() {
     retry: 0,
     useErrorBoundary: true,
   });
+  console.log(friendList, blockList);
   return { friendList, blockList };
 }
