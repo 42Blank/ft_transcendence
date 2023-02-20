@@ -6,6 +6,7 @@ import { sockets } from 'hooks';
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
   private isHost: Boolean;
+
   private ball: Phaser.Physics.Arcade.Image;
   private paddleLeft: Phaser.Physics.Arcade.Image;
   private paddleRight: Phaser.Physics.Arcade.Image;
@@ -16,11 +17,6 @@ export class MainScene extends Phaser.Scene {
   private scoreLabelRight: Phaser.GameObjects.Text;
 
   private key: Phaser.Types.Input.Keyboard.CursorKeys;
-
-  /**
-   * CursorKeys: 지정된 일부 키보드 값만 받을 수 있음
-   * - Up, Down, Right, Left, Shift, SpaceBar
-   * */
 
   constructor() {
     super({ key: 'MainScene', active: true });
