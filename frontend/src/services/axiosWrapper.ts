@@ -1,24 +1,39 @@
 import axios from 'axios';
 import { throwApiError } from 'utils/error';
 
-export async function axiosGet<Type>(uri: string): Promise<Type> {
-  return axios
-    .get<Type>(`${process.env.REACT_APP_SERVER}${uri}`)
+const axiosInstance = axios.create({
+  baseURL: process.env.REACT_APP_SERVER,
+  withCredentials: true,
+  // transformResponse: ({ data }) => data,
+  timeout: 1000,
+}); // url, method, data 는 가져다 사용할 때 정의
+
+export async function axiosGet<ResType>(uri: string, params?: URLSearchParams | string): Promise<ResType> {
+  return axiosInstance
+    .get<ResType>(uri, {
+      params,
+    })
     .then(({ data }) => data)
     .catch(throwApiError);
 }
 
-export async function axiosPost<bodyObjType, resType>(uri: string, reqData: bodyObjType): Promise<resType> {
-  return axios
-    .post<resType>(`${process.env.REACT_APP_SERVER}${uri}`, reqData)
+export async function axiosPost<BodyObjType, ResType = void>(uri: string, reqData?: BodyObjType): Promise<ResType> {
+  return axiosInstance
+    .post<ResType>(uri, reqData)
     .then(({ data }) => data)
     .catch(throwApiError);
 }
 
-export async function axiosPut<bodyObjType>(uri: string, reqData: bodyObjType): Promise<void> {
-  return axios.put(`${process.env.REACT_APP_SERVER}${uri}`, reqData);
+export async function axiosPut<BodyObjType, ResType = void>(uri: string, reqData?: BodyObjType): Promise<ResType> {
+  return axiosInstance
+    .put<ResType>(uri, reqData)
+    .then(({ data }) => data)
+    .catch(throwApiError);
 }
 
-export async function axiosDelete(uri: string): Promise<void> {
-  return axios.delete(`${process.env.REACT_APP_SERVER}${uri}`);
+export async function axiosDelete<BodyObjType, ResType = void>(uri: string, reqData?: BodyObjType): Promise<ResType> {
+  return axiosInstance
+    .delete<ResType>(uri, reqData)
+    .then(({ data }) => data)
+    .catch(throwApiError);
 }
