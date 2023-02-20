@@ -1,14 +1,14 @@
+import { useState } from 'react';
+
+import { Modal } from 'common';
+
+import { AchievementType } from 'types/achievement';
 import { tmpAvatarStyle } from './tmpAvatarStyle';
+import { AchievementPopup } from './AchievementPopup';
+import { tmpPopupStyle } from './tmpPopupStyle';
 
 interface Props {
   userId: number;
-}
-
-interface AchievementType {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
 }
 
 const DUMMY_ACHIEVEMENT = [
@@ -29,8 +29,14 @@ const DUMMY_ACHIEVEMENT = [
 ];
 
 export const Achievement = ({ userId }: Props) => {
-  function handleTest(value: AchievementType) {
-    return <div>{value.description}</div>;
+  const [isPopupShown, setPopupShown] = useState<Boolean>(false);
+
+  function handleOpenPopup() {
+    setPopupShown(true);
+  }
+
+  function handleClosePopup() {
+    setPopupShown(false);
   }
 
   return (
@@ -42,11 +48,16 @@ export const Achievement = ({ userId }: Props) => {
             className={tmpAvatarStyle}
             src={value.image}
             alt="pochi"
-            onMouseOver={() => handleTest(value)}
-            onFocus={() => handleTest(value)}
+            onMouseOver={handleOpenPopup}
+            onFocus={handleOpenPopup}
           />
           <span>name: {value.name}</span>
           <span>description: {value.description}</span>
+          {isPopupShown && (
+            <Modal onClickClose={handleClosePopup} className={tmpPopupStyle}>
+              <AchievementPopup achieve={value} />
+            </Modal>
+          )}
         </div>
       ))}
     </main>
