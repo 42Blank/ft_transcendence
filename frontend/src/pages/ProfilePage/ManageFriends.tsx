@@ -1,4 +1,6 @@
 import { useGetUserList } from 'hooks';
+import { deleteFriend } from 'services/deleteFriend';
+import { postFriendOrBlock } from 'services/postFriendOrBlock';
 import { UserInfoType } from 'types/user';
 
 type UserState = 'Friend' | 'No' | 'Block';
@@ -19,25 +21,42 @@ export const ManageFriends = ({ user }: { user: UserInfoType }) => {
   }
 
   const friendState: UserState = classifyFriend();
+
+  function handleClickUnfriendOrBlock() {
+    deleteFriend(user.id);
+  }
+
+  function handleClickFriendOrBlock(userID: number, state: 'FRIEND' | 'BLOCK') {
+    postFriendOrBlock({ recvFriendRequestUserId: userID, state });
+  }
+
   return (
     <div>
       {friendState === 'Friend' && (
         <>
-          <button type="button"> Unfriend</button>
+          <button type="button" onClick={handleClickUnfriendOrBlock}>
+            Unfriend
+          </button>
           <br />
         </>
       )}
       {friendState === 'No' && (
         <>
-          <button type="button">Add Friend</button>
+          <button type="button" onClick={() => handleClickFriendOrBlock(user.id, 'FRIEND')}>
+            Add Friend
+          </button>
           <br />
-          <button type="button">Block</button>
+          <button type="button" onClick={() => handleClickFriendOrBlock(user.id, 'BLOCK')}>
+            Block
+          </button>
           <br />
         </>
       )}
       {friendState === 'Block' && (
         <>
-          <button type="button">Unblock</button>
+          <button type="button" onClick={handleClickUnfriendOrBlock}>
+            Unblock
+          </button>
           <br />
         </>
       )}
