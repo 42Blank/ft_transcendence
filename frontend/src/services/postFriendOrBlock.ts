@@ -1,18 +1,11 @@
-import axios from 'axios';
-
 import { API } from 'common/constants';
+import { axiosPost } from './axiosWrapper';
 
-interface Props {
+interface Params {
   recvFriendRequestUserId: number;
   status: 'FRIEND' | 'BLOCK';
 }
 
-export function postFriendOrBlock({ recvFriendRequestUserId, status }: Props): Promise<void> {
-  return axios.post(
-    `${process.env.REACT_APP_SERVER}${API.FRIEND}`,
-    { recvFriendRequestUserId, status },
-    {
-      withCredentials: true,
-    },
-  );
+export function postFriendOrBlock({ recvFriendRequestUserId, status }: Params): Promise<void> {
+  return axiosPost<Params>(API.FRIEND, { recvFriendRequestUserId, status });
 }
