@@ -4,13 +4,9 @@ import { API } from 'common/constants';
 import { UserInfoType } from 'types/user';
 import { throwApiError } from 'utils/error';
 
-interface Props {
-  userId?: string;
-}
-
-export async function getUserInfo({ userId }: Props): Promise<UserInfoType> {
+export async function getFriendList(): Promise<UserInfoType[]> {
   return axios
-    .get<UserInfoType>(`${process.env.REACT_APP_SERVER}${userId ? `${API.USER}/${userId}` : API.USER_ME}`, {
+    .get<UserInfoType[]>(`${process.env.REACT_APP_SERVER}${API.FRIEND}`, {
       withCredentials: true,
     })
     .then(({ data }) => data)
