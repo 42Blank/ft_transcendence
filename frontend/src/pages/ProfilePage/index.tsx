@@ -11,7 +11,7 @@ import { ManageFriends } from './ManageFriends';
 export const ProfilePage = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
   const { id } = useParams();
-  const { data: profile, userId } = useGetUser(id);
+  const { data: profile } = useGetUser(id);
 
   function handleOpenModal() {
     setModalShown(true);
@@ -27,12 +27,12 @@ export const ProfilePage = () => {
       <main>
         <h1>Profile Page</h1>
         <ProfileCard user={profile} />
-        {!userId && (
+        {!id && (
           <button type="button" onClick={handleOpenModal}>
             Edit Profile
           </button>
         )}
-        {userId && <ManageFriends user={profile} />}
+        {id && <ManageFriends user={profile} />}
       </main>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
