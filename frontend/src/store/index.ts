@@ -1,7 +1,12 @@
 export { chatRoomListState } from './chatRoomListState';
 export { currentChatDataState } from './currentChatDataState';
-export { newMessageState } from './newMessageState';
-export { newChatRoomState } from './newChatRoomState';
+// export { currentGamePongState } from './currentGamePongState';
+export { gameRoomListState } from './gameRoomListState';
 export { joinChatRoomState } from './joinChatRoomState';
-export { updateChatRoomState } from './updateChatRoomState';
+export { joinGameRoomState } from './joinGameRoomState';
 export { leaveChatRoomState } from './leaveChatRoomState';
+export { leaveGameRoomState } from './leaveGameRoomState';
+export { newChatRoomState } from './newChatRoomState';
+export { newGameRoomState } from './newGameRoomState';
+export { newMessageState } from './newMessageState';
+export { updateChatRoomState } from './updateChatRoomState';

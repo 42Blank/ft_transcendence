@@ -1,13 +1,16 @@
-import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 
-import { ChatDataType, ChatRoomInfoType } from 'types/chat';
-import { chatRoomListState, currentChatDataState } from 'store';
 import { ROUTE } from 'common/constants';
+import { chatRoomListState, currentChatDataState, gameRoomListState } from 'store';
+import { ChatDataType, ChatRoomInfoType } from 'types/chat';
+
+import { GameRoomInfoType } from 'types/game';
 
 export function useSetSocketHandler() {
   const setCurrentChatData = useSetRecoilState(currentChatDataState);
   const setChatRoomList = useSetRecoilState(chatRoomListState);
+  const setGameRoomList = useSetRecoilState(gameRoomListState);
   const nav = useNavigate();
 
   function connectHandler() {}
@@ -26,6 +29,15 @@ export function useSetSocketHandler() {
   function joinChatRoomHandler(id: string) {
     nav(`${ROUTE.CHAT}/${id}`);
   }
+
+  /* Game */
+  function getAllGameRoomHandler(data: GameRoomInfoType[]) {
+    setGameRoomList(data);
+  }
+  function joinGameRoomHandler(id: string) {
+    nav(`${ROUTE.GAME}/${id}`);
+  }
+
   return {
     connectHandler,
     exceptionHandler,
@@ -33,5 +45,7 @@ export function useSetSocketHandler() {
     getCurrentChatHandler,
     getAllChatRoomHandler,
     joinChatRoomHandler,
+    getAllGameRoomHandler,
+    joinGameRoomHandler,
   };
 }

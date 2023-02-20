@@ -5,28 +5,21 @@ import { Modal } from 'common';
 import { useGetUser } from 'hooks';
 
 import { ProfileCard } from './ProfileCard';
-import { EditNickModal, EditAvatarModal } from './ProfileModal';
+import { EditProfile } from './EditProfile';
+import { ManageFriends } from './ManageFriends';
 
 export const ProfilePage = () => {
-  const [isNickModalShown, setNickModalShown] = useState<Boolean>(false);
-  const [isAvatarModalShown, setAvatarModalShown] = useState<Boolean>(false);
+  const [isModalShown, setModalShown] = useState<Boolean>(false);
   const { id } = useParams();
-  const { data: profile, userId } = useGetUser(id);
+  const { data: profile } = useGetUser(id);
+  const { data: myProfile } = useGetUser();
 
-  function handleOpenNickModal() {
-    setNickModalShown(true);
+  function handleOpenModal() {
+    setModalShown(true);
   }
 
-  function handleCloseNickModal() {
-    setNickModalShown(false);
-  }
-
-  function handleOpenAvatarModal() {
-    setAvatarModalShown(true);
-  }
-
-  function handleCloseAvatarModal() {
-    setAvatarModalShown(false);
+  function handleCloseModal() {
+    setModalShown(false);
   }
 
   if (!profile) return <span>error</span>;
@@ -35,25 +28,16 @@ export const ProfilePage = () => {
       <main>
         <h1>Profile Page</h1>
         <ProfileCard user={profile} />
-        {!userId && (
-          <>
-            <button type="button" onClick={handleOpenNickModal}>
-              Edit Nickname
-            </button>
-            <button type="button" onClick={handleOpenAvatarModal}>
-              Edit Avatar
-            </button>
-          </>
+        {(!id || profile.id === myProfile.id) && (
+          <button type="button" onClick={handleOpenModal}>
+            Edit Profile
+          </button>
         )}
+        {!(!id || profile.id === myProfile.id) && <ManageFriends user={profile} />}
       </main>
-      {isNickModalShown && (
-        <Modal onClickClose={handleCloseNickModal}>
-          <EditNickModal onClickClose={handleCloseNickModal} />
-        </Modal>
-      )}
-      {isAvatarModalShown && (
-        <Modal onClickClose={handleCloseAvatarModal}>
-          <EditAvatarModal onClickClose={handleCloseAvatarModal} />
+      {isModalShown && (
+        <Modal onClickClose={handleCloseModal}>
+          <EditProfile onClickClose={handleCloseModal} />
         </Modal>
       )}
     </>

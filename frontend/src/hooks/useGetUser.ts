@@ -36,5 +36,5 @@ export function useGetUser(userId?: string) {
     },
   );
 
-  return { data, userId, refetch };
+  return { data, refetch };
 }
