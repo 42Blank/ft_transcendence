@@ -1,4 +1,4 @@
-import { useGetUserList } from 'hooks';
+import { useGetFriendList, useGetBlockList } from 'hooks';
 import { deleteFriend } from 'services/deleteFriend';
 import { postFriendOrBlock } from 'services/postFriendOrBlock';
 import { UserInfoType } from 'types/user';
@@ -6,7 +6,8 @@ import { UserInfoType } from 'types/user';
 type UserState = 'Friend' | 'No' | 'Block';
 
 export const ManageFriends = ({ user }: { user: UserInfoType }) => {
-  const { friendList, blockList, refetchFriendList, refetchBlockList } = useGetUserList();
+  const { friendList, refetch: refetchFriendList } = useGetFriendList();
+  const { blockList, refetch: refetchBlockList } = useGetBlockList();
 
   function checkFriend(userList: UserInfoType): Boolean {
     return user.id === userList.id;
