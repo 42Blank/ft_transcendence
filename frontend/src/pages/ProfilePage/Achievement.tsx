@@ -5,7 +5,6 @@ import { Modal } from 'common';
 import { AchievementType } from 'types/achievement';
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 import { AchievementPopup } from './AchievementPopup';
-import { tmpPopupStyle } from './tmpPopupStyle';
 
 interface Props {
   userId: number;
@@ -54,7 +53,7 @@ export const Achievement = ({ userId }: Props) => {
           <span>name: {value.name}</span>
           <span>description: {value.description}</span>
           {isPopupShown && (
-            <Modal onClickClose={handleClosePopup} className={tmpPopupStyle}>
+            <Modal onClickClose={handleClosePopup}>
               <AchievementPopup achieve={value} />
             </Modal>
           )}

@@ -3,4 +3,5 @@ export interface AchievementType {
   name: string;
   description: string;
   image: string;
+  achievedAt: string;
 }

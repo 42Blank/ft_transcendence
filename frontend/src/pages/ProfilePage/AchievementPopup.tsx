@@ -5,5 +5,10 @@ interface Props {
 }
 
 export const AchievementPopup = ({ achieve }: Props) => {
-  return <div>achieve : {achieve.description}</div>;
+  return (
+    <div>
+      <p>achieve : {achieve.description}</p>
+      <p>achievedAt : {achieve.achievedAt}</p>
+    </div>
+  );
 };
