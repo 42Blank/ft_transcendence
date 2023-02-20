@@ -26,7 +26,7 @@ export const RegisterPage = () => {
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
     if (!nicknameRef.current || !nicknameRef.current.value || nicknameRef.current.value.length === 0) return;
-    await postRegister(nicknameRef.current.value, 'https://bit.ly/3YMBEvR');
+    await postRegister({ nickname: nicknameRef.current.value, avatar: 'https://bit.ly/3YMBEvR' });
     nav(ROUTE.CHAT);
   }
 
