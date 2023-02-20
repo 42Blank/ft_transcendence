@@ -8,7 +8,7 @@ interface Props {
   userId?: string;
 }
 
-export function getUserInfo({ userId }: Props): Promise<UserInfoType> {
+export async function getUserInfo({ userId }: Props): Promise<UserInfoType> {
   return axios
     .get<UserInfoType>(`${process.env.REACT_APP_SERVER}${userId ? `${API.USER}/${userId}` : API.USER_ME}`, {
       withCredentials: true,
