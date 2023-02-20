@@ -100,11 +100,13 @@ export class MainScene extends Phaser.Scene {
       this.scoreLabelRight.text = this.scoreRight.toString();
 
       this.initBall();
+      this.checkScoreRedirect();
     } else if (this.ball.x > 790) {
       this.scoreLeft += 1;
       this.scoreLabelLeft.text = this.scoreLeft.toString();
 
       this.initBall();
+      this.checkScoreRedirect();
     }
 
     if (this.isHost) {
