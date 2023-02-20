@@ -70,6 +70,12 @@ export class MainScene extends Phaser.Scene {
     this.ball.setVisible(true);
   }
 
+  checkScoreRedirect() {
+    if (this.scoreLeft > 4 || this.scoreRight > 4) {
+      window.location.href = `https://localhost:3000/game`;
+    }
+  }
+
   update(time: number, delta: number) {
     // save paddle position
     const oldPaddleLeftY = this.paddleLeft.y;
