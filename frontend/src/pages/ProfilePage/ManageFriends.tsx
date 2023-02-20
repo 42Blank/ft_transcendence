@@ -1,47 +1,20 @@
-// import { useGetUser } from 'hooks';
 import { useGetUserList } from 'hooks';
 import { UserInfoType } from 'types/user';
-
-// const DUMMY_FRIENDLIST: UserInfoType[] = [
-//   {
-//     id: -1,
-//     intraId: '',
-//     nickname: '',
-//     avatar: '',
-//     point: 0,
-//     createdAt: '1970-01-01T00:00:00.000Z',
-//     updatedAt: '1970-01-01T00:00:00.000Z',
-//   },
-// ];
-
-// const DUMMY_BLOCKLIST: UserInfoType[] = [
-//   {
-//     id: -1,
-//     intraId: '',
-//     nickname: '',
-//     avatar: '',
-//     point: 0,
-//     createdAt: '1970-01-01T00:00:00.000Z',
-//     updatedAt: '1970-01-01T00:00:00.000Z',
-//   },
-// ];
 
 type UserState = 'Friend' | 'No' | 'Block';
 
 export const ManageFriends = ({ user }: { user: UserInfoType }) => {
-  //   function classifyFriend(): UserState {
-  //     if (DUMMY_FRIENDLIST.includes(user)) return 'Friend';
-  //     if (DUMMY_BLOCKLIST.includes(user)) return 'Block';
-  //     return 'No';
-  //   }
-  //   DUMMY_FRIENDLIST.push(useGetUser('2').data);
-  //   DUMMY_BLOCKLIST.push(useGetUser('3').data);
-
   const { friendList, blockList } = useGetUserList();
 
+  function checkFriend(userList: UserInfoType): Boolean {
+    return user.id === userList.id;
+  }
+
   function classifyFriend(): UserState {
-    if (friendList.includes(user)) return 'Friend';
-    if (blockList.includes(user)) return 'Block';
+    if (friendList.some(checkFriend)) {
+      return 'Friend';
+    }
+    if (blockList.some(checkFriend)) return 'Block';
     return 'No';
   }
 
