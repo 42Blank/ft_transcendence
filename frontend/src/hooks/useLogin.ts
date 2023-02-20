@@ -27,8 +27,8 @@ export function useLogin() {
 
   useQuery(['user-me'], getLogin, {
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60 * 12,
-    cacheTime: 1000 * 60 * 60 * 12, // TODO: 적절한 시간으로 수정
+    staleTime: 1000 * 60,
+    cacheTime: 1000 * 60, // TODO: 적절한 시간으로 수정
     retry: 0,
     enabled: isRegistered,
     useErrorBoundary: false,

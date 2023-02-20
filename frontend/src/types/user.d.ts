@@ -12,5 +12,5 @@ export interface FtProfileType {
   id: string;
   username: string;
   image_url: string;
-  isRegistered?: boolean;
+  isRegistered: boolean;
 }
