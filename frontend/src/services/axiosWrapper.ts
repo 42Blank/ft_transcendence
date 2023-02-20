@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_SERVER,
   withCredentials: true,
   // transformResponse: ({ data }) => data,
-  timeout: 1000,
+  timeout: 10000,
 }); // url, method, data 는 가져다 사용할 때 정의
 
 export async function axiosGet<ResType>(uri: string, params?: URLSearchParams | string): Promise<ResType> {

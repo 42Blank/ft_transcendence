@@ -10,7 +10,7 @@ export function useLogin() {
   const [param] = useSearchParams();
   const nav = useNavigate();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  useQuery(['ft-auth'], () => getFtCallbackCode(param.get('code')), {
+  useQuery(['ft-auth'], () => getFtCallbackCode(param), {
     refetchOnWindowFocus: false,
     staleTime: 0,
     cacheTime: 0,
