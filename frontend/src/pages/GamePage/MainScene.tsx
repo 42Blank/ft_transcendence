@@ -2,10 +2,12 @@ import Phaser from 'phaser';
 import { GameData } from 'types/game';
 
 import { sockets } from 'hooks';
+import { NavigateFunction } from 'react-router-dom';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
   private isHost: Boolean;
+  private navigate: NavigateFunction;
 
   private ball: Phaser.Physics.Arcade.Image;
   private paddleLeft: Phaser.Physics.Arcade.Image;
@@ -24,6 +26,10 @@ export class MainScene extends Phaser.Scene {
 
   initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
+  }
+
+  naviHandlers(navi: NavigateFunction) {
+    this.navigate = navi;
   }
 
   hostCheckHandlers(isHostInput: boolean) {
@@ -70,9 +76,23 @@ export class MainScene extends Phaser.Scene {
     this.ball.setVisible(true);
   }
 
-  checkScoreRedirect() {
-    if (this.scoreLeft > 4 || this.scoreRight > 4) {
-      window.location.href = `${process.env.REACT_APP_FRONTEND_URL}/game`;
+  checkScore() {
+    const maxScore = 5;
+
+    if (this.ball.x >= 10 && this.ball.x <= 790) return;
+
+    if (this.ball.x < 10) {
+      this.scoreRight += 1;
+      this.scoreLabelRight.text = this.scoreRight.toString();
+    } else if (this.ball.x > 790) {
+      this.scoreLeft += 1;
+      this.scoreLabelLeft.text = this.scoreLeft.toString();
+    }
+
+    this.initBall();
+    if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
+      // window.location.href = `${process.env.REACT_APP_FRONTEND_URL}/game`;
+      this.navigate('/game');
     }
   }
 
@@ -95,19 +115,7 @@ export class MainScene extends Phaser.Scene {
     this.paddleLeft.y = Phaser.Math.Clamp(this.paddleLeft.y, 50, 550);
     this.paddleRight.y = Phaser.Math.Clamp(this.paddleRight.y, 50, 550);
 
-    if (this.ball.x < 10) {
-      this.scoreRight += 1;
-      this.scoreLabelRight.text = this.scoreRight.toString();
-
-      this.initBall();
-      this.checkScoreRedirect();
-    } else if (this.ball.x > 790) {
-      this.scoreLeft += 1;
-      this.scoreLabelLeft.text = this.scoreLeft.toString();
-
-      this.initBall();
-      this.checkScoreRedirect();
-    }
+    this.checkScore();
 
     if (this.isHost) {
       // send paddle position (host)
