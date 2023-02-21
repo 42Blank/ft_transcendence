@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { Tooltip } from 'common';
 
 import { AchievementType } from 'types/achievement';
+import { AchievementTooltip } from './AchievementTooltip';
+
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 import { tmpAchievementStyle } from './tmpAchievement.style';
-import { AchievementTooltip } from './AchievementTooltip';
 import { tmpAchievementTooltipStyle } from './tmpAchievementTooltip.style';
 
 interface Props {
