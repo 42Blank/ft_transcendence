@@ -4,10 +4,10 @@ interface Props {
   achieve: AchievementType;
 }
 
-export const AchievementPopup = ({ achieve }: Props) => {
+export const AchievementTooltip = ({ achieve }: Props) => {
   return (
     <div>
-      <p>achieve : {achieve.description}</p>
+      <p>description : {achieve.description}</p>
       <p>achievedAt : {achieve.achievedAt}</p>
     </div>
   );

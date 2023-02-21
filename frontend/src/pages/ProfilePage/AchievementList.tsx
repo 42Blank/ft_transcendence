@@ -25,7 +25,8 @@ const DUMMY_ACHIEVEMENT = [
 export const AchievementList = ({ userId }: Props) => {
   return (
     <main>
-      <h1>Achievement List: {`${userId}`}</h1>
+      <h1>Achievement</h1>
+      <h2> debug: ID : {userId}</h2>
       {DUMMY_ACHIEVEMENT.map((value: AchievementType) => (
         <Achievement key={value.id} achieve={value} />
       ))}
