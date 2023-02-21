@@ -52,5 +52,6 @@ module.exports = {
     'linebreak-style': 'off',
     'no-useless-return': 'off',
     'prefer-template': 'warn',
+    'react/require-default-props': 'off',
   },
 };
