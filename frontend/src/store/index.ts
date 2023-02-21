@@ -1,13 +1,21 @@
 export { chatRoomListState } from './chatRoomListState';
 export { currentChatDataState } from './currentChatDataState';
+export { newMessageState } from './newMessageState';
+export { onlineUserListState } from './onlineUserListState';
+
+// chat
+export { newChatRoomState } from './newChatRoomState';
+export { joinChatRoomState } from './joinChatRoomState';
+export { leaveChatRoomState } from './leaveChatRoomState';
+export { updateChatRoomState } from './updateChatRoomState';
+
+// chat - role & privilege
+export { giveOperatorState } from './giveOperatorState';
+export { takeOperatorState } from './takeOperatorState';
+
+// game
 // export { currentGamePongState } from './currentGamePongState';
 export { gameRoomListState } from './gameRoomListState';
-export { joinChatRoomState } from './joinChatRoomState';
-export { joinGameRoomState } from './joinGameRoomState';
-export { leaveChatRoomState } from './leaveChatRoomState';
-export { leaveGameRoomState } from './leaveGameRoomState';
-export { onlineUserListState } from './onlineUserListState';
-export { newChatRoomState } from './newChatRoomState';
 export { newGameRoomState } from './newGameRoomState';
-export { newMessageState } from './newMessageState';
-export { updateChatRoomState } from './updateChatRoomState';
+export { joinGameRoomState } from './joinGameRoomState';
+export { leaveGameRoomState } from './leaveGameRoomState';
