@@ -1,8 +1,9 @@
-import { UserInfoType } from 'types/user';
+import { useState } from 'react';
 
+import { UserInfoType } from 'types/user';
 import { FriendsListElement } from './FriendsListElement';
 
-import { friendsListStyle, friendsListTitleStyle } from './FriendsList.styles';
+import { friendsListStyle, friendsListTabButtonStyle, friendsListTabWrapperStyle } from './FriendsList.styles';
 
 const DUMMY_FRIENDS: UserInfoType[] = [
   {
@@ -57,9 +58,29 @@ interface Props {
 }
 
 export const FriendsList = ({ isOpen }: Props) => {
+  const [isFriendTab, setIsFriendTab] = useState(true);
+
+  function handleClickFriendsListButton() {
+    setIsFriendTab(true);
+  }
+  function handleClickAllUserListButton() {
+    setIsFriendTab(false);
+  }
+
   return (
     <aside className={friendsListStyle(isOpen)}>
-      <h2 className={friendsListTitleStyle}>친구 목록</h2>
+      <div className={friendsListTabWrapperStyle}>
+        <button type="button" className={friendsListTabButtonStyle(isFriendTab)} onClick={handleClickFriendsListButton}>
+          <span>친구 목록</span>
+        </button>
+        <button
+          type="button"
+          className={friendsListTabButtonStyle(!isFriendTab)}
+          onClick={handleClickAllUserListButton}
+        >
+          <span>전체 유저 목록</span>
+        </button>
+      </div>
       <ul>
         {DUMMY_FRIENDS.map(userInfo => (
           <FriendsListElement userInfo={userInfo} key={`friend-${userInfo.id}`} />
