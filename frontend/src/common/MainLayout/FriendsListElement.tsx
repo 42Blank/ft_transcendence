@@ -9,9 +9,9 @@ interface Props {
 }
 
 export const FriendsListElement = ({ userInfo }: Props) => {
-  const { id, intraId, nickname, avatar } = userInfo;
+  const { id, intraId, nickname, avatar, isOnline } = userInfo;
   return (
-    <li className={friendsListElementStyle}>
+    <li className={friendsListElementStyle(isOnline)}>
       <Link to={`${ROUTE.PROFILE}/${id}`}>
         <img src={avatar} alt={`${intraId}-profile`} width={50} height={50} className={friendsListImageStyle} />
         <span className={friendsListNameStyle}>{nickname}</span>
