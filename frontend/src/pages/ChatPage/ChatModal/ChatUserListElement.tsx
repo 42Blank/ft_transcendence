@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { BanIcon, CrownIcon, FightIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ROUTE } from 'common/constants';
-import { ChatUserInfoType } from 'types/chat';
+import { ChatUserInfoType, ChatUserRole } from 'types/chat';
 
 import {
   chatUserButtonStyle,
@@ -14,10 +14,10 @@ import {
 
 interface Props {
   chatUser: ChatUserInfoType;
-  isCurrentUserOperator: boolean;
+  currentUserRole: ChatUserRole;
 }
 
-export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) => {
+export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
   const { user, role, isMuted } = chatUser;
   return (
     <li className={chatUserElementWrapperStyle}>
@@ -32,14 +32,18 @@ export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) 
         {(role === 'operator' || role === 'host') && <CrownIcon />}
         <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       </Link>
-      {isCurrentUserOperator && (
+      {currentUserRole !== 'user' && (
         <>
-          <button type="button" className={chatUserButtonStyle}>
-            <BanIcon />
-          </button>
-          <button type="button" className={chatUserButtonStyle}>
-            {isMuted ? <UnmuteIcon /> : <MuteIcon />}
-          </button>
+          {role !== 'host' && (
+            <>
+              <button type="button" className={chatUserButtonStyle}>
+                <BanIcon />
+              </button>
+              <button type="button" className={chatUserButtonStyle}>
+                {isMuted ? <UnmuteIcon /> : <MuteIcon />}
+              </button>
+            </>
+          )}
           <button type="button" className={chatUserButtonStyle}>
             {role === 'operator' || role === 'host' ? <VerifiedIcon /> : <VerifyIcon />}
           </button>
