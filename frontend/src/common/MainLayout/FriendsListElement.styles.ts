@@ -22,7 +22,7 @@ export const friendsListElementStyle = (isOnline: boolean) =>
     '::after': {
       content: `""`,
       position: 'absolute',
-      // display: isOnline ? 'block' : 'none',
+      display: isOnline ? 'block' : 'none',
       bottom: 5,
       left: 45,
       width: 12,
