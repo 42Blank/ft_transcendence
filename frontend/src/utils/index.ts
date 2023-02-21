@@ -1,2 +1,2 @@
 export { checkIsUserOperator } from './checkIsUserOperator';
-export { sleep } from './sleep';
+export { delayPromise } from './delayPromise';

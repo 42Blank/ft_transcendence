@@ -1,20 +1,7 @@
-import axios from 'axios';
-
 import { API } from 'common/constants';
-import { throwApiError } from 'utils/error/throwApiError';
+import { FtProfileType } from 'types/user';
+import { axiosGet } from './axiosWrapper';
 
-// TODO: refactor me!! - by ycha
-interface FtProfile {
-  id: string;
-  username: string;
-  image_url: string;
-}
-
-export async function getFtCallbackCode(code: string): Promise<FtProfile> {
-  return axios
-    .get<FtProfile>(`${process.env.REACT_APP_SERVER}${API.FT_AUTH_CALLBACK}?code=${code}`, {
-      withCredentials: true,
-    })
-    .then(({ data }) => data)
-    .catch(throwApiError);
+export async function getFtCallbackCode(params: URLSearchParams): Promise<FtProfileType> {
+  return axiosGet<FtProfileType>(API.FT_AUTH_CALLBACK, params);
 }

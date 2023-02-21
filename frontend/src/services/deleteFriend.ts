@@ -1,10 +1,10 @@
-import axios from 'axios';
-
 import { API } from 'common/constants';
+import { axiosDelete } from './axiosWrapper';
+
+interface BodyObjType {
+  recvFriendRequestUserId: number;
+}
 
 export function deleteFriend(recvFriendRequestUserId: number): Promise<void> {
-  return axios.delete(`${process.env.REACT_APP_SERVER}${API.FRIEND}`, {
-    data: { recvFriendRequestUserId },
-    withCredentials: true,
-  });
+  return axiosDelete<BodyObjType>(API.FRIEND, { recvFriendRequestUserId });
 }
