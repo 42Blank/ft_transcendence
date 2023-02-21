@@ -3,6 +3,7 @@ import { GameData } from 'types/game';
 
 import { sockets } from 'hooks';
 import { NavigateFunction } from 'react-router-dom';
+import { ROUTE } from 'common/constants';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
@@ -60,7 +61,7 @@ export class MainScene extends Phaser.Scene {
     }
     this.initBall();
     if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
-      this.navigate('/game');
+      this.navigate(ROUTE.RESULT);
     }
   }
 

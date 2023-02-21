@@ -18,8 +18,8 @@ export const GamePage = () => {
     <div>
       <GamePong />
       {/* 게임 설명 예시 */}
-      <div>• BALL WILL SERVE AUTOMATICALLY</div>
-      <div>• AVOID MISSING BALL FOR HIGH SCORE</div>
+      <span>• BALL WILL SERVE AUTOMATICALLY</span>
+      <span>• AVOID MISSING BALL FOR HIGH SCORE</span>
     </div>
   );
 };

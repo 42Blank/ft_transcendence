@@ -12,7 +12,7 @@ export const GameResultPage = () => {
   return (
     <div>
       <h1>Result Page</h1>
-      <h4>Player VS Player</h4>
+      <h4>🏅Player VS Player</h4>
       <h4>5 VS 3</h4>
       <button type="button" onClick={handleClickLinkButton}>
         <span>게임 메뉴로 돌아가기</span>
