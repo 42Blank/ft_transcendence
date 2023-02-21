@@ -2,10 +2,13 @@ import Phaser from 'phaser';
 import { GameData } from 'types/game';
 
 import { sockets } from 'hooks';
+import { NavigateFunction } from 'react-router-dom';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
   private isHost: Boolean;
+  private navigate: NavigateFunction;
+
   private ball: Phaser.Physics.Arcade.Image;
   private paddleLeft: Phaser.Physics.Arcade.Image;
   private paddleRight: Phaser.Physics.Arcade.Image;
@@ -17,11 +20,6 @@ export class MainScene extends Phaser.Scene {
 
   private key: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  /**
-   * CursorKeys: 지정된 일부 키보드 값만 받을 수 있음
-   * - Up, Down, Right, Left, Shift, SpaceBar
-   * */
-
   constructor() {
     super({ key: 'MainScene', active: true });
   }
@@ -30,8 +28,40 @@ export class MainScene extends Phaser.Scene {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
   }
 
+  naviHandlers(navi: NavigateFunction) {
+    this.navigate = navi;
+  }
+
   hostCheckHandlers(isHostInput: boolean) {
     this.isHost = isHostInput;
+  }
+
+  initBall() {
+    this.ball.setVisible(false);
+    this.ball.setPosition(400, 300);
+    this.ball.setVelocity(0, 0);
+    this.time.delayedCall(1500, () => {
+      this.ball.setVelocity(200, 200);
+    });
+    this.ball.setVisible(true);
+  }
+
+  checkScore() {
+    const maxScore = 5;
+
+    if (this.ball.x >= 10 && this.ball.x <= 790) return;
+
+    if (this.ball.x < 10) {
+      this.scoreRight += 1;
+      this.scoreLabelRight.text = this.scoreRight.toString();
+    } else if (this.ball.x > 790) {
+      this.scoreLeft += 1;
+      this.scoreLabelLeft.text = this.scoreLeft.toString();
+    }
+    this.initBall();
+    if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
+      this.navigate('/game');
+    }
   }
 
   preload() {
@@ -47,6 +77,7 @@ export class MainScene extends Phaser.Scene {
 
     this.paddleLeft = this.physics.add.image(100, 300, 'peddal');
     this.paddleLeft.setImmovable(true);
+
     this.paddleRight = this.physics.add.image(700, 300, 'peddal');
     this.paddleRight.setImmovable(true);
 
@@ -62,16 +93,6 @@ export class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.ball, this.paddleRight, null, null, this);
 
     this.key = this.input.keyboard.createCursorKeys();
-  }
-
-  initBall() {
-    this.ball.setVisible(false);
-    this.ball.setPosition(400, 300);
-    this.ball.setVelocity(0, 0);
-    this.time.delayedCall(1500, () => {
-      this.ball.setVelocity(200, 200);
-    });
-    this.ball.setVisible(true);
   }
 
   update(time: number, delta: number) {
@@ -93,17 +114,7 @@ export class MainScene extends Phaser.Scene {
     this.paddleLeft.y = Phaser.Math.Clamp(this.paddleLeft.y, 50, 550);
     this.paddleRight.y = Phaser.Math.Clamp(this.paddleRight.y, 50, 550);
 
-    if (this.ball.x < 10) {
-      this.scoreRight += 1;
-      this.scoreLabelRight.text = this.scoreRight.toString();
-
-      this.initBall();
-    } else if (this.ball.x > 790) {
-      this.scoreLeft += 1;
-      this.scoreLabelLeft.text = this.scoreLeft.toString();
-
-      this.initBall();
-    }
+    this.checkScore();
 
     if (this.isHost) {
       // send paddle position (host)
