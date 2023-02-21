@@ -33,7 +33,7 @@ export async function axiosPut<BodyObjType, ResType = void>(uri: string, reqData
 
 export async function axiosDelete<BodyObjType, ResType = void>(uri: string, reqData?: BodyObjType): Promise<ResType> {
   return axiosInstance
-    .delete<ResType>(uri, reqData)
+    .delete<ResType>(uri, { data: reqData })
     .then(({ data }) => data)
     .catch(throwApiError);
 }
