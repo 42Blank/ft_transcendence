@@ -1,6 +1,5 @@
-import axios from 'axios';
-
 import { API } from 'common/constants';
+import { axiosPost } from './axiosWrapper';
 
 interface Params {
   recvFriendRequestUserId: number;
@@ -8,11 +7,5 @@ interface Params {
 }
 
 export function postFriendOrBlock({ recvFriendRequestUserId, status }: Params): Promise<void> {
-  return axios.post(
-    `${process.env.REACT_APP_SERVER}${API.FRIEND}`,
-    { recvFriendRequestUserId, status },
-    {
-      withCredentials: true,
-    },
-  );
+  return axiosPost<Params>(API.FRIEND, { recvFriendRequestUserId, status });
 }
