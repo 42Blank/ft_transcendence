@@ -4,7 +4,7 @@ import { tooltipWrapper } from './Tooltip.styles';
 
 interface Props {
   children: ReactNode;
-  className: string;
+  className?: string;
 }
 
 export const Tooltip = ({ children, className }: Props) => {
