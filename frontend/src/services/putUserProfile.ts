@@ -2,12 +2,12 @@ import axios from 'axios';
 
 import { API } from 'common/constants';
 
-interface Props {
+interface Params {
   nickname?: string;
   avatar?: string;
 }
 
-export function putUserProfile({ nickname, avatar }: Props): Promise<void> {
+export function putUserProfile({ nickname, avatar }: Params): Promise<void> {
   return axios.put(
     `${process.env.REACT_APP_SERVER}${API.USER}`,
     { nickname, avatar },
