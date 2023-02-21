@@ -6,6 +6,7 @@ export { joinChatRoomState } from './joinChatRoomState';
 export { joinGameRoomState } from './joinGameRoomState';
 export { leaveChatRoomState } from './leaveChatRoomState';
 export { leaveGameRoomState } from './leaveGameRoomState';
+export { onlineUserListState } from './onlineUserListState';
 export { newChatRoomState } from './newChatRoomState';
 export { newGameRoomState } from './newGameRoomState';
 export { newMessageState } from './newMessageState';
