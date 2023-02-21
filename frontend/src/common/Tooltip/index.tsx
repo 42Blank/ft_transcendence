@@ -1,13 +1,12 @@
+import { ReactNode } from 'react';
+
 import { tooltipWrapper } from './Tooltip.styles';
 
 interface Props {
-  text: string;
+  children: ReactNode;
+  className: string;
 }
 
-export const Tooltip = ({ text }: Props) => {
-  return (
-    <div className={tooltipWrapper}>
-      <span>{text}</span>
-    </div>
-  );
+export const Tooltip = ({ children, className }: Props) => {
+  return <div className={`${tooltipWrapper} ${className}`}>{children}</div>;
 }; // position: relative 인 부모와 함께 사용

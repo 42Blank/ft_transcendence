@@ -5,7 +5,8 @@ import { Tooltip } from 'common';
 import { AchievementType } from 'types/achievement';
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 import { tmpAchievementStyle } from './tmpAchievement.style';
-// import { AchievementTooltip } from './AchievementTooltip';
+import { AchievementTooltip } from './AchievementTooltip';
+import { tmpAchievementTooltipStyle } from './tmpAchievementTooltip.style';
 
 interface Props {
   achieve: AchievementType;
@@ -35,12 +36,11 @@ export const Achievement = ({ achieve }: Props) => {
           onBlur={handleCloseTooltip}
         />
         <span>name: {achieve.name}</span>
-        {/* {isTooltipShown && (
-          <Modal onClickClose={handleCloseTooltip} className={tmpTooltipStyle}>
+        {isTooltipShown && (
+          <Tooltip className={tmpAchievementTooltipStyle}>
             <AchievementTooltip achieve={achieve} />
-          </Modal>
-        )} */}
-        {isTooltipShown && <Tooltip text={achieve.description} />}
+          </Tooltip>
+        )}
       </div>
     </main>
   );
