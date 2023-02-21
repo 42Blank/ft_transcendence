@@ -46,4 +46,5 @@ export const friendsListNameStyle = css`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 18px;
 `;

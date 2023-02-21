@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const FriendsList = ({ isOpen }: Props) => {
-  const { userList } = useGetAllUserList();
+  const { userList, onlineUserList } = useGetAllUserList();
   const { friendList } = useGetFriendList();
   const [isFriendTab, setIsFriendTab] = useState(true);
 
@@ -37,7 +37,11 @@ export const FriendsList = ({ isOpen }: Props) => {
       </div>
       <ul>
         {(isFriendTab ? friendList : userList).map(userInfo => (
-          <FriendsListElement userInfo={userInfo} key={`friend-${userInfo.id}`} />
+          <FriendsListElement
+            userInfo={userInfo}
+            isOnline={onlineUserList.includes(userInfo.id)}
+            key={`friend-${userInfo.id}`}
+          />
         ))}
       </ul>
     </aside>

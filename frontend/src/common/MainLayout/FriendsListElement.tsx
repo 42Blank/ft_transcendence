@@ -6,10 +6,11 @@ import { friendsListElementStyle, friendsListImageStyle, friendsListNameStyle } 
 
 interface Props {
   userInfo: UserInfoType;
+  isOnline: boolean;
 }
 
-export const FriendsListElement = ({ userInfo }: Props) => {
-  const { id, intraId, nickname, avatar, isOnline } = userInfo;
+export const FriendsListElement = ({ userInfo, isOnline }: Props) => {
+  const { id, intraId, nickname, avatar } = userInfo;
   return (
     <li className={friendsListElementStyle(isOnline)}>
       <Link to={`${ROUTE.PROFILE}/${id}`}>
