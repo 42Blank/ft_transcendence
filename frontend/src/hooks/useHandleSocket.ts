@@ -16,10 +16,12 @@ import { useSetSocketHandler } from './useSetSocketHandler';
 
 export const sockets: {
   chatSocket: Socket | null;
+  onlineSocket: Socket | null;
   gameSocket: Socket | null;
 } = {
   chatSocket: null,
   gameSocket: null,
+  onlineSocket: null,
 };
 
 function createSocket(
@@ -28,7 +30,6 @@ function createSocket(
     connectHandler: () => void;
     exceptionHandler: (data: Error) => void;
     disconnectHandler: (reason: string) => void;
-    getOnlineUserListHandler: (data: number[]) => void;
   },
 ) {
   const socket = io(`${process.env.REACT_APP_SERVER as string}/${namespace}`, {
@@ -39,7 +40,6 @@ function createSocket(
     socket.on('connect', handler.connectHandler);
     socket.on('disconnect', handler.disconnectHandler);
     socket.on('exception', handler.exceptionHandler);
-    socket.on('update_online_user', handler.getOnlineUserListHandler);
   }
 
   return socket;
@@ -154,7 +154,6 @@ export function useHandleSocket() {
         connectHandler,
         exceptionHandler,
         disconnectHandler,
-        getOnlineUserListHandler,
       });
       sockets.chatSocket.on('chat_message', getCurrentChatHandler);
       sockets.chatSocket.on('update_chat_room', getAllChatRoomHandler);
@@ -165,10 +164,17 @@ export function useHandleSocket() {
         connectHandler,
         exceptionHandler,
         disconnectHandler,
-        getOnlineUserListHandler,
       });
       sockets.gameSocket.on('join_room', joinGameRoomHandler);
       sockets.gameSocket.on('update_game_room', getAllGameRoomHandler);
+    }
+    if (!sockets.onlineSocket) {
+      sockets.onlineSocket = createSocket('online', {
+        connectHandler,
+        exceptionHandler,
+        disconnectHandler,
+      });
+      sockets.onlineSocket.on('update_online_user', getOnlineUserListHandler);
     }
   }, []);
 }

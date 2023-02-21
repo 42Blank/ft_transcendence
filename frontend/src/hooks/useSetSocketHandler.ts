@@ -22,7 +22,6 @@ export function useSetSocketHandler() {
   function disconnectHandler() {}
 
   function getOnlineUserListHandler(data: number[]) {
-    console.log(data);
     setOnlineUserList(data);
   }
 
