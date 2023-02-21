@@ -3,5 +3,5 @@ import { UserInfoType } from 'types/user';
 import { axiosGet } from './axiosWrapper';
 
 export function getBlockList(): Promise<UserInfoType[]> {
-  return axiosGet<UserInfoType[]>(API.FRIEND + API.BLOCK);
+  return axiosGet<UserInfoType[]>(API.BLOCK);
 }
