@@ -198,5 +198,11 @@ export function useHandleSocket() {
       });
       sockets.onlineSocket.on('update_online_user', getOnlineUserListHandler);
     }
+
+    return () => {
+      sockets.chatSocket.close();
+      sockets.gameSocket.close();
+      sockets.onlineSocket.close();
+    };
   }, []);
 }
