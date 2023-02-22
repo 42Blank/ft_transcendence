@@ -7,7 +7,7 @@ import { useGetUser } from 'hooks';
 import { ProfileCard } from './ProfileCard';
 import { EditProfile } from './EditProfile';
 import { ManageFriends } from './ManageFriends';
-import { MatchHistory } from './MatchHistory';
+import { MatchHistoryList } from './MatchHistoryList';
 import { AchievementList } from './AchievementList';
 
 export const ProfilePage = () => {
@@ -36,7 +36,7 @@ export const ProfilePage = () => {
           </button>
         )}
         {!(!id || profile.id === myProfile.id) && <ManageFriends user={profile} />}
-        <MatchHistory userId={profile.id} />
+        <MatchHistoryList userId={profile.id} />
         <AchievementList userId={profile.id} />
       </main>
       {isModalShown && (

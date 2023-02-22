@@ -1,11 +1,10 @@
-import { AchievementType } from 'types/profile';
-import { Achievement } from './Achievement';
+import { MatchHistoryType } from 'types/profile';
 
 interface Props {
   userId: number;
 }
 
-const DUMMY_ACHIEVEMENT = [
+const DUMMY_MATCH_HISTORY = [
   {
     id: 1,
     name: 'First Blood',
@@ -14,7 +13,7 @@ const DUMMY_ACHIEVEMENT = [
     achievedAt: '1970-01-01T00:00:00.000Z',
   },
   {
-    id: 3,
+    id: 2,
     name: 'Killing Spree',
     description: 'Winning 3 games in a streak',
     image: '/pochita_sample.png',
@@ -22,13 +21,13 @@ const DUMMY_ACHIEVEMENT = [
   },
 ];
 
-export const AchievementList = ({ userId }: Props) => {
+export const MatchHistoryList = ({ userId }: Props) => {
   return (
     <main>
-      <h1>Achievement</h1>
+      <h1>Match History List</h1>
       <h2> debug: ID : {userId}</h2>
-      {DUMMY_ACHIEVEMENT.map((value: AchievementType) => (
-        <Achievement key={value.id} achieve={value} />
+      {DUMMY_MATCH_HISTORY.map((value: MatchHistoryType) => (
+        <div key={value.id}>{value.id}</div>
       ))}
     </main>
   );
