@@ -8,6 +8,7 @@ import { ProfileCard } from './ProfileCard';
 import { EditProfile } from './EditProfile';
 import { ManageFriends } from './ManageFriends';
 import { MatchHistory } from './MatchHistory';
+import { AchievementList } from './AchievementList';
 
 export const ProfilePage = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
@@ -36,6 +37,7 @@ export const ProfilePage = () => {
         )}
         {!(!id || profile.id === myProfile.id) && <ManageFriends user={profile} />}
         <MatchHistory userId={profile.id} />
+        <AchievementList userId={profile.id} />
       </main>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>

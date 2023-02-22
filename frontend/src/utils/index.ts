@@ -1,2 +1,2 @@
-export { checkIsUserOperator } from './checkIsUserOperator';
-export { sleep } from './sleep';
+export { checkUserRole } from './checkUserRole';
+export { delayPromise } from './delayPromise';

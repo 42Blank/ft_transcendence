@@ -4,7 +4,7 @@ import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { useGetCurrentChatRoom, useGetUser } from 'hooks';
 import { Modal } from 'common';
 import { HamburgerIcon, LockIcon } from 'assets';
-import { checkIsUserOperator } from 'utils';
+import { checkUserRole } from 'utils';
 import { currentChatDataState, leaveChatRoomState } from 'store';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
@@ -29,7 +29,7 @@ export const ChatPage = () => {
   const currentChatRoom = useGetCurrentChatRoom();
   const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);
   const [isModalShown, setIsModalShown] = useState(false);
-  const isOperator = checkIsUserOperator(currentChatRoom.users, id);
+  const currentUserRole = checkUserRole(currentChatRoom.users, id);
 
   function handleOpenModal() {
     setIsModalShown(true);
@@ -73,8 +73,8 @@ export const ChatPage = () => {
       </main>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
-          <ChatInfoModalHeader currentChatRoom={currentChatRoom} isCurrentUserOperator={isOperator} />
-          <ChatInfoModalBody users={currentChatRoom.users} isCurrentUserOperator={isOperator} />
+          <ChatInfoModalHeader currentChatRoom={currentChatRoom} currentUserRole={currentUserRole} />
+          <ChatInfoModalBody users={currentChatRoom.users} currentUserRole={currentUserRole} />
           <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
             닫기
           </button>

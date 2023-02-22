@@ -2,7 +2,7 @@ import { UserInfoType } from './user';
 
 interface ChatUserInfoType {
   user: UserInfoType;
-  role: 'host' | 'operator' | 'user';
+  role: ChatUserRole;
   isMuted?: boolean;
   muteTime?: number;
 }
@@ -43,3 +43,5 @@ export interface ChatDataType {
   message: string;
   timestamp: string;
 } // TODO: 바뀔 수도 있음, 백엔드와 상의 필요
+
+export type ChatUserRole = 'host' | 'operator' | 'user';
