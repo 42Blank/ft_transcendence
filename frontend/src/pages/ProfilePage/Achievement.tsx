@@ -30,6 +30,8 @@ export const Achievement = ({ achieve }: Props) => {
         <img
           className={tmpAvatarStyle}
           src={achieve.image}
+          width={100}
+          height={100}
           alt="pochi"
           onMouseOver={handleOpenTooltip}
           onFocus={handleOpenTooltip}

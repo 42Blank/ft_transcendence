@@ -70,7 +70,14 @@ export const EditProfileModal = ({ onClickClose }: Props) => {
       <div>
         <p>Sample Avatar</p>
         <button type="button" onClick={handleClickImage}>
-          <img className={tmpAvatarStyle} src="/pochita_sample.png" alt="pochi" ref={imageRef} />
+          <img
+            className={tmpAvatarStyle}
+            src="/pochita_sample.png"
+            width={100}
+            height={100}
+            alt="pochi"
+            ref={imageRef}
+          />
         </button>
       </div>
     </>
