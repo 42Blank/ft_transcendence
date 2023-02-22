@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { useGetAllUserList, useGetFriendList } from 'hooks';
+import { onlineUserListState } from 'store';
 import { FriendsListElement } from './FriendsListElement';
 
 import { friendsListStyle, friendsListTabButtonStyle, friendsListTabWrapperStyle } from './FriendsList.styles';
@@ -10,7 +12,8 @@ interface Props {
 }
 
 export const FriendsList = ({ isOpen }: Props) => {
-  const { userList, onlineUserList } = useGetAllUserList();
+  const { userList } = useGetAllUserList();
+  const onlineUserList = useRecoilValue(onlineUserListState);
   const { friendList } = useGetFriendList();
   const [isFriendTab, setIsFriendTab] = useState(true);
 
