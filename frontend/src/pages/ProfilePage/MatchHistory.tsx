@@ -11,11 +11,11 @@ export const MatchHistory = ({ history }: Props) => {
     <div>
       <div className={tmpMatchHistoryWinnerStyle}>
         <img className={tmpAvatarStyle} src={history.winner.avatar} alt="winnerAvatar" />
-        <span>{history.winner.nickname}</span>
+        <span>Win : {history.winner.nickname}</span>
       </div>
       <div className={tmpMatchHistoryLoserStyle}>
-        <img className={tmpAvatarStyle} src={history.loser.avatar} alt="winnerAvatar" />
-        <span>{history.loser.nickname}</span>
+        <img className={tmpAvatarStyle} src={history.loser.avatar} alt="loserAvatar" />
+        <span>Lose : {history.loser.nickname}</span>
       </div>
       <div className="date">Match Time: {history.createdAt}</div>
     </div>
