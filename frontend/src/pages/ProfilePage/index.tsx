@@ -9,6 +9,7 @@ import { EditProfile } from './EditProfile';
 import { ManageFriends } from './ManageFriends';
 import { MatchHistoryList } from './MatchHistoryList';
 import { AchievementList } from './AchievementList';
+import { TwoFactorAuth } from './TwoFactorAuth';
 
 export const ProfilePage = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
@@ -31,9 +32,12 @@ export const ProfilePage = () => {
         <h1>Profile Page</h1>
         <ProfileCard user={profile} />
         {!id || profile.id === myProfile.id ? (
-          <button type="button" onClick={handleOpenModal}>
-            Edit Profile
-          </button>
+          <>
+            <button type="button" onClick={handleOpenModal}>
+              Edit Profile
+            </button>
+            <TwoFactorAuth />
+          </>
         ) : (
           <ManageFriends user={profile} />
         )}
