@@ -54,12 +54,12 @@ export const chatUserNicknameSpanStyle = css`
 
 export const chatUserButtonStyle = css`
   position: relative;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
 
   & > svg {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
   }
 
   &:not(:last-child) {

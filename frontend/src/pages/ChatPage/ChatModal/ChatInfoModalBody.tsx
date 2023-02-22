@@ -1,11 +1,11 @@
-import { ChatUserInfoType, ChatUserRole } from 'types/chat';
+import { ChatUserInfoType, ChatUserRoleType } from 'types/chat';
 import { ChatUserListElement } from './ChatUserListElement';
 
 import { chatInfoModalBodyStyle } from './ChatInfoModalBody.styles';
 
 interface Props {
   users: ChatUserInfoType[];
-  currentUserRole: ChatUserRole; // TODO: 헷갈릴 여지 있는 변수명?
+  currentUserRole: ChatUserRoleType; // TODO: 헷갈릴 여지 있는 변수명?
 }
 
 export const ChatInfoModalBody = ({ users, currentUserRole }: Props) => {

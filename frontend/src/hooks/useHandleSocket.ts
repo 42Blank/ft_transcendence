@@ -7,12 +7,11 @@ import {
   leaveChatRoomState,
   newChatRoomState,
   newMessageState,
+  userOperationState,
   updateChatRoomState,
   joinGameRoomState,
   newGameRoomState,
   leaveGameRoomState,
-  giveOperatorState,
-  takeOperatorState,
 } from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
@@ -57,10 +56,8 @@ export function useHandleSocket() {
   const resetLeaveChatRoom = useResetRecoilState(leaveChatRoomState);
   const updateChatRoom = useRecoilValue(updateChatRoomState);
   const resetUpdateChatRoom = useResetRecoilState(updateChatRoomState);
-  const giveOperatorId = useRecoilValue(giveOperatorState);
-  const resetGiveOperatorId = useResetRecoilState(giveOperatorState);
-  const takeOperatorId = useRecoilValue(takeOperatorState);
-  const resetTakeOperatorId = useResetRecoilState(takeOperatorState);
+  const userOperation = useRecoilValue(userOperationState);
+  const resetUserOperation = useResetRecoilState(userOperationState);
 
   /* Game Room */
   const newGameRoom = useRecoilValue(newGameRoomState);
@@ -129,20 +126,14 @@ export function useHandleSocket() {
   }, [updateChatRoom]);
 
   useEffect(() => {
-    if (giveOperatorId < 0) return;
+    if (userOperation.userId < 0) return;
     if (sockets.chatSocket === null) return;
 
-    sockets.chatSocket.emit('give_operator', { userId: giveOperatorId });
-    resetGiveOperatorId();
-  }, [giveOperatorId]);
-
-  useEffect(() => {
-    if (takeOperatorId < 0) return;
-    if (sockets.chatSocket === null) return;
-
-    sockets.chatSocket.emit('take_operator', { userId: takeOperatorId });
-    resetTakeOperatorId();
-  }, [takeOperatorId]);
+    const { userId, operation } = userOperation;
+    const eventName = operation === 'give_operator' || operation === 'take_operator' ? operation : `${operation}_user`;
+    sockets.chatSocket.emit(eventName, { userId });
+    resetUserOperation();
+  }, [userOperation]);
 
   /* ----------------- Game Room List ----------------- */
   useEffect(() => {
