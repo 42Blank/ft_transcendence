@@ -1,3 +1,5 @@
+import { UserInfoType } from 'types/user';
+
 export interface AchievementType {
   id: number;
   name: string;
@@ -8,8 +10,7 @@ export interface AchievementType {
 
 export interface MatchHistoryType {
   id: number;
-  name: string;
-  description: string;
-  image: string;
-  achievedAt: string;
+  winner: UserInfoType;
+  loser: UserInfoType;
+  createdAt: string; // TODO: replace to Date type ?
 }
