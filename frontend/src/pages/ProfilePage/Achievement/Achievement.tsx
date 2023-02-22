@@ -5,7 +5,7 @@ import { Tooltip } from 'common';
 import { AchievementType } from 'types/profile';
 import { AchievementTooltip } from './AchievementTooltip';
 
-import { tmpAvatarStyle } from './tmpAvatarStyle';
+import { tmpAvatarStyle } from '../tmpAvatarStyle';
 import { tmpAchievementStyle } from './tmpAchievement.style';
 import { tmpAchievementTooltipStyle } from './tmpAchievementTooltip.style';
 

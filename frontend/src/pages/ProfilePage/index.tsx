@@ -4,8 +4,8 @@ import { useGetUser } from 'hooks';
 
 import { ProfileCard } from './ProfileCard';
 import { ManageFriends } from './ManageFriends';
-import { MatchHistoryList } from './MatchHistoryList';
-import { AchievementList } from './AchievementList';
+import { MatchHistoryList } from './MatchHistory';
+import { AchievementList } from './Achievement';
 import { TwoFactorAuth } from './TwoFactorAuth';
 import { EditProfile } from './EditProfile';
 

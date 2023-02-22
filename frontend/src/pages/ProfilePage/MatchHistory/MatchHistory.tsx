@@ -1,5 +1,6 @@
 import { MatchHistoryType } from 'types/profile';
-import { tmpAvatarStyle } from './tmpAvatarStyle';
+
+import { tmpAvatarStyle } from '../tmpAvatarStyle';
 import { tmpMatchHistoryLoserStyle, tmpMatchHistoryWinnerStyle } from './tmpMatchHistory.style';
 
 interface Props {
