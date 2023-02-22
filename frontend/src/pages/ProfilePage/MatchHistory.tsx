@@ -7,9 +7,9 @@ interface Props {
 export const MatchHistory = ({ history }: Props) => {
   return (
     <div key={history.id}>
-      <p>Winner: {`${history.winner.nickname}`}</p>
-      <p>Loser: {`${history.loser.nickname}`}</p>
-      <p>Match time: {history.createdAt}</p>
+      <div className="Winner">winner</div>
+      <div className="loser">loser</div>
+      <div className="date">date</div>
     </div>
   );
 };
