@@ -11,15 +11,19 @@ import {
   joinGameRoomState,
   newGameRoomState,
   leaveGameRoomState,
+  giveOperatorState,
+  takeOperatorState,
 } from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
 export const sockets: {
   chatSocket: Socket | null;
+  onlineSocket: Socket | null;
   gameSocket: Socket | null;
 } = {
   chatSocket: null,
   gameSocket: null,
+  onlineSocket: null,
 };
 
 function createSocket(
@@ -53,6 +57,10 @@ export function useHandleSocket() {
   const resetLeaveChatRoom = useResetRecoilState(leaveChatRoomState);
   const updateChatRoom = useRecoilValue(updateChatRoomState);
   const resetUpdateChatRoom = useResetRecoilState(updateChatRoomState);
+  const giveOperatorId = useRecoilValue(giveOperatorState);
+  const resetGiveOperatorId = useResetRecoilState(giveOperatorState);
+  const takeOperatorId = useRecoilValue(takeOperatorState);
+  const resetTakeOperatorId = useResetRecoilState(takeOperatorState);
 
   /* Game Room */
   const newGameRoom = useRecoilValue(newGameRoomState);
@@ -66,6 +74,8 @@ export function useHandleSocket() {
     connectHandler,
     exceptionHandler,
     disconnectHandler,
+    getOnlineUserListHandler,
+    // Chat
     getCurrentChatHandler,
     getAllChatRoomHandler,
     joinChatRoomHandler,
@@ -118,6 +128,22 @@ export function useHandleSocket() {
     resetUpdateChatRoom();
   }, [updateChatRoom]);
 
+  useEffect(() => {
+    if (giveOperatorId < 0) return;
+    if (sockets.chatSocket === null) return;
+
+    sockets.chatSocket.emit('give_operator', giveOperatorId);
+    resetGiveOperatorId();
+  }, [giveOperatorId]);
+
+  useEffect(() => {
+    if (takeOperatorId < 0) return;
+    if (sockets.chatSocket === null) return;
+
+    sockets.chatSocket.emit('take_operator', takeOperatorId);
+    resetTakeOperatorId();
+  }, [takeOperatorId]);
+
   /* ----------------- Game Room List ----------------- */
   useEffect(() => {
     if (newGameRoom.created === false) return;
@@ -163,6 +189,14 @@ export function useHandleSocket() {
       });
       sockets.gameSocket.on('join_room', joinGameRoomHandler);
       sockets.gameSocket.on('update_game_room', getAllGameRoomHandler);
+    }
+    if (!sockets.onlineSocket) {
+      sockets.onlineSocket = createSocket('online', {
+        connectHandler,
+        exceptionHandler,
+        disconnectHandler,
+      });
+      sockets.onlineSocket.on('update_online_user', getOnlineUserListHandler);
     }
   }, []);
 }
