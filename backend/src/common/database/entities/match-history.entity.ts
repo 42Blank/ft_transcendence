@@ -30,7 +30,7 @@ export class MatchHistory {
   @JoinColumn({ name: 'loser_id', referencedColumnName: 'id' })
   loser: User;
 
-  @ApiProperty({ example: new Date(), description: '친구된 시간' })
+  @ApiProperty({ example: new Date(), description: '경기 시간' })
   @CreateDateColumn()
   createdAt: Date;
 }
