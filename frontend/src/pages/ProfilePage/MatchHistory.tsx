@@ -17,7 +17,7 @@ export const MatchHistory = ({ history }: Props) => {
         <img className={tmpAvatarStyle} src={history.loser.avatar} alt="winnerAvatar" />
         <span>{history.loser.nickname}</span>
       </div>
-      <div className="date">{history.createdAt}</div>
+      <div className="date">Match Time: {history.createdAt}</div>
     </div>
   );
 };
