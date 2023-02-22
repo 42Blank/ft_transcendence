@@ -107,8 +107,8 @@ export class ChatUserOperateService {
   }
 
   private validateOperable(fromUser: ChatUserDetail, toUser: ChatUserDetail): void {
-    if (fromUser.role !== 'operator') {
-      throw new NotAcceptableException(`User ${fromUser.id} is not operator`);
+    if (fromUser.role === 'user') {
+      throw new NotAcceptableException(`User ${fromUser.id} is neither operator nor host`);
     }
 
     if (toUser.role === 'host') {

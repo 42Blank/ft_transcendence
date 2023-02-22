@@ -132,7 +132,7 @@ export function useHandleSocket() {
     if (giveOperatorId < 0) return;
     if (sockets.chatSocket === null) return;
 
-    sockets.chatSocket.emit('give_operator', giveOperatorId);
+    sockets.chatSocket.emit('give_operator', { userId: giveOperatorId });
     resetGiveOperatorId();
   }, [giveOperatorId]);
 
@@ -140,7 +140,7 @@ export function useHandleSocket() {
     if (takeOperatorId < 0) return;
     if (sockets.chatSocket === null) return;
 
-    sockets.chatSocket.emit('take_operator', takeOperatorId);
+    sockets.chatSocket.emit('take_operator', { userId: takeOperatorId });
     resetTakeOperatorId();
   }, [takeOperatorId]);
 
