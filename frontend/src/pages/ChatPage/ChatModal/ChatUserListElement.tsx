@@ -40,7 +40,6 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
 
   function handleClickToggleMuteButton() {
     if (currentUserRole === 'user' || role === 'host') return;
-    console.log(isMuted);
     setOperation({ userId: user.id, operation: isMuted ? 'unmute' : 'mute' });
   }
 
