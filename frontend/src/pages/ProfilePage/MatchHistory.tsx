@@ -1,5 +1,6 @@
 import { MatchHistoryType } from 'types/profile';
 import { tmpAvatarStyle } from './tmpAvatarStyle';
+import { tmpMatchHistoryLoserStyle, tmpMatchHistoryStyle, tmpMatchHistoryWinnerStyle } from './tmpMatchHistory.style';
 
 interface Props {
   history: MatchHistoryType;
@@ -7,12 +8,12 @@ interface Props {
 
 export const MatchHistory = ({ history }: Props) => {
   return (
-    <div key={history.id}>
-      <div className="Winner">
+    <div className={tmpMatchHistoryStyle}>
+      <div className={tmpMatchHistoryWinnerStyle}>
         <img className={tmpAvatarStyle} src={history.winner.avatar} alt="winnerAvatar" />
         <span>{history.winner.nickname}</span>
       </div>
-      <div className="loser">
+      <div className={tmpMatchHistoryLoserStyle}>
         <img className={tmpAvatarStyle} src={history.loser.avatar} alt="winnerAvatar" />
         <span>{history.loser.nickname}</span>
       </div>
