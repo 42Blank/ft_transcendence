@@ -4,7 +4,7 @@ import { User } from './user.entity';
 
 @Entity('match_history')
 export class MatchHistory {
-  @ApiProperty({ example: 1, description: '친구 요청 고유번호' })
+  @ApiProperty({ example: 1, description: '경기 고유번호' })
   @PrimaryGeneratedColumn()
   id: number;
 
