@@ -35,11 +35,12 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
 
   function handleClickKickButton() {
     if (currentUserRole === 'user' || role === 'host') return;
-    setOperation({ userId: user.id, operation: 'ban' });
+    setOperation({ userId: user.id, operation: 'kick' });
   }
 
   function handleClickToggleMuteButton() {
     if (currentUserRole === 'user' || role === 'host') return;
+    console.log(isMuted);
     setOperation({ userId: user.id, operation: isMuted ? 'unmute' : 'mute' });
   }
 

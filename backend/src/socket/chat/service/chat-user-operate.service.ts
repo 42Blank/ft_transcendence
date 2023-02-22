@@ -30,7 +30,7 @@ export class ChatUserOperateService {
 
     this.validateOperable(fromUser, toUser);
 
-    toUser.isMutted = true;
+    toUser.isMuted = true;
   }
 
   public unmuteUser(chatRoomId: string, fromUserId: number, toUserId: number): void {
@@ -39,7 +39,7 @@ export class ChatUserOperateService {
 
     this.validateOperable(fromUser, toUser);
 
-    toUser.isMutted = false;
+    toUser.isMuted = false;
   }
 
   public kickUser(chatRoomId: string, fromUserId: number, toUserId: number): void {
