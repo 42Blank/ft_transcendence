@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { joinChatRoomState } from 'store';
 import { LockIcon } from 'assets';
+import { useGetUser } from 'hooks';
 import { ChatRoomInfoType } from 'types/chat';
 
 import {
@@ -18,18 +19,23 @@ interface Props {
 }
 
 export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
-  const { roomTitle, id: roomID, users, isPrivate } = chatRoomInfo;
+  const { roomTitle, id: roomID, users, bannedUsers, isPrivate } = chatRoomInfo;
+  const {
+    data: { id: currentUserId },
+  } = useGetUser();
   const [isPasswordMode, setIsPasswordMode] = useState<boolean>(false);
   const passwordRef = useRef<HTMLInputElement>(null);
   const setJoinChatRoom = useSetRecoilState(joinChatRoomState);
 
   function handleClickJoinButton() {
     if (isPrivate) setIsPasswordMode(true);
+    else if (bannedUsers.some(user => user.id === currentUserId)) alert('차단된 채팅방입니다!');
     else setJoinChatRoom({ id: roomID });
   }
 
   function handleSubmitPasswordAndJoin(e: FormEvent) {
     e.preventDefault();
+    if (bannedUsers.some(user => user.id === currentUserId)) alert('차단된 채팅방입니다!');
     setJoinChatRoom({ id: roomID, password: passwordRef.current.value });
   }
 

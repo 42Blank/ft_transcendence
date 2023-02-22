@@ -4,7 +4,7 @@ import { ChatUserRole } from '../../model/chat-room';
 type ChatUserDetail = {
   user: User;
   role: ChatUserRole;
-  isMutted: boolean;
+  isMuted: boolean;
 };
 
 export type ChatRoomDto = {

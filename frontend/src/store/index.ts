@@ -10,8 +10,7 @@ export { leaveChatRoomState } from './leaveChatRoomState';
 export { updateChatRoomState } from './updateChatRoomState';
 
 // chat - role & privilege
-export { giveOperatorState } from './giveOperatorState';
-export { takeOperatorState } from './takeOperatorState';
+export { userOperationState } from './userOperationState';
 
 // game
 // export { currentGamePongState } from './currentGamePongState';
