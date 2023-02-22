@@ -30,12 +30,13 @@ export const ProfilePage = () => {
       <main>
         <h1>Profile Page</h1>
         <ProfileCard user={profile} />
-        {(!id || profile.id === myProfile.id) && (
+        {!id || profile.id === myProfile.id ? (
           <button type="button" onClick={handleOpenModal}>
             Edit Profile
           </button>
+        ) : (
+          <ManageFriends user={profile} />
         )}
-        {!(!id || profile.id === myProfile.id) && <ManageFriends user={profile} />}
         <MatchHistoryList userId={profile.id} />
         <AchievementList userId={profile.id} />
       </main>
