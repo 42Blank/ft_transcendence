@@ -1,78 +1,32 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 
-import { useGetUser } from 'hooks';
-import { putUserProfile } from 'services';
+import { Modal } from 'common';
 
-import { tmpAvatarStyle } from './tmpAvatarStyle';
+import { EditProfileModal } from './EditProfileModal';
 
-interface Props {
-  onClickClose: () => void;
-}
+export const EditProfile = () => {
+  const [isModalShown, setModalShown] = useState<Boolean>(false);
 
-interface ProfileObj {
-  nickname?: string;
-  avatar?: string;
-}
-
-export const EditProfile = ({ onClickClose }: Props) => {
-  const inputAvatarRef = useRef<HTMLInputElement>(null);
-  const inputNickRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const { data, refetch: getUserRefetch } = useGetUser();
-
-  function handleSubmitProfile() {
-    const profileObj: ProfileObj = {};
-    if (!inputAvatarRef.current.value && !inputNickRef.current.value) return;
-    if (inputNickRef.current.value) profileObj.nickname = inputNickRef.current.value;
-    if (inputAvatarRef.current.value) profileObj.avatar = inputAvatarRef.current.value;
-    putUserProfile(profileObj).then(() => {
-      getUserRefetch();
-    });
-    onClickClose();
+  function handleOpenModal() {
+    setModalShown(true);
   }
 
-  function handleClickImage() {
-    putUserProfile({ avatar: imageRef.current.src }).then(() => {
-      inputAvatarRef.current.value = imageRef.current.src;
-    });
+  function handleCloseModal() {
+    setModalShown(false);
   }
 
   return (
     <>
       <div>
-        <label>Edit Profile</label>
-        <br />
-        <label htmlFor="nickname">Edit Nickname</label>
-        <input
-          type="text"
-          id="nickname"
-          defaultValue={data.nickname}
-          placeholder="new nickname"
-          ref={inputNickRef}
-          required
-        />
-        <br />
-        <br />
-        <label htmlFor="avatar">Edit Avatar</label>
-        <input
-          type="text"
-          id="avatar"
-          defaultValue={data.avatar}
-          placeholder="new Avatar URL"
-          ref={inputAvatarRef}
-          required
-        />
-        <br />
-        <button type="button" onClick={handleSubmitProfile}>
-          submit
+        <button type="button" onClick={handleOpenModal}>
+          Edit Profile
         </button>
       </div>
-      <div>
-        <p>Sample Avatar</p>
-        <button type="button" onClick={handleClickImage}>
-          <img className={tmpAvatarStyle} src="/pochita_sample.png" alt="pochi" ref={imageRef} />
-        </button>
-      </div>
+      {isModalShown && (
+        <Modal onClickClose={handleCloseModal}>
+          <EditProfileModal onClickClose={handleCloseModal} />
+        </Modal>
+      )}
     </>
   );
 };
