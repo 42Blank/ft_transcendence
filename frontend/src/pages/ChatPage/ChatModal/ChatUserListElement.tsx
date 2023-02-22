@@ -1,8 +1,10 @@
+import { useSetRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 
 import { BanIcon, CrownIcon, FightIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ROUTE } from 'common/constants';
-import { ChatUserInfoType } from 'types/chat';
+import { giveOperatorState, takeOperatorState } from 'store';
+import { ChatUserInfoType, ChatUserRole } from 'types/chat';
 
 import {
   chatUserButtonStyle,
@@ -14,11 +16,20 @@ import {
 
 interface Props {
   chatUser: ChatUserInfoType;
-  isCurrentUserOperator: boolean;
+  currentUserRole: ChatUserRole;
 }
 
-export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) => {
+export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
   const { user, role, isMuted } = chatUser;
+  const setGiveOperatorId = useSetRecoilState(giveOperatorState);
+  const setTakeOperatorId = useSetRecoilState(takeOperatorState);
+
+  function handleClickGiveOrTakeButton() {
+    if (currentUserRole === 'user' || (currentUserRole === 'operator' && role === 'host')) return;
+    if (role === 'user') setGiveOperatorId(user.id);
+    else if (role === 'operator') setTakeOperatorId(user.id);
+  }
+
   return (
     <li className={chatUserElementWrapperStyle}>
       <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle}>
@@ -32,15 +43,19 @@ export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) 
         {(role === 'operator' || role === 'host') && <CrownIcon />}
         <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       </Link>
-      {isCurrentUserOperator && (
+      {currentUserRole !== 'user' && (
         <>
-          <button type="button" className={chatUserButtonStyle}>
-            <BanIcon />
-          </button>
-          <button type="button" className={chatUserButtonStyle}>
-            {isMuted ? <UnmuteIcon /> : <MuteIcon />}
-          </button>
-          <button type="button" className={chatUserButtonStyle}>
+          {role !== 'host' && (
+            <>
+              <button type="button" className={chatUserButtonStyle}>
+                <BanIcon />
+              </button>
+              <button type="button" className={chatUserButtonStyle}>
+                {isMuted ? <UnmuteIcon /> : <MuteIcon />}
+              </button>
+            </>
+          )}
+          <button type="button" onClick={handleClickGiveOrTakeButton} className={chatUserButtonStyle}>
             {role === 'operator' || role === 'host' ? <VerifiedIcon /> : <VerifyIcon />}
           </button>
         </>

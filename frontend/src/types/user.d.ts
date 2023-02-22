@@ -6,4 +6,12 @@ export interface UserInfoType {
   point: number;
   createdAt: string;
   updatedAt: string;
+  isOnline?: boolean;
+}
+
+export interface FtProfileType {
+  id: string;
+  username: string;
+  image_url: string;
+  isRegistered: boolean;
 }

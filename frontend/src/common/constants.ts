@@ -20,4 +20,8 @@ export const API = {
   // User
   USER: '/users',
   USER_ME: '/users/me',
+
+  // Friend/Block
+  FRIEND: '/friend',
+  BLOCK: '/friend/block',
 } as const;
