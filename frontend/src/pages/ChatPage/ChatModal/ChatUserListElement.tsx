@@ -45,7 +45,7 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
 
   return (
     <li className={chatUserElementWrapperStyle}>
-      <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle}>
+      <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle(role)}>
         <img
           src={user.avatar}
           alt={`${user.nickname}-avatar`}
@@ -53,7 +53,7 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
           height={50}
           className={chatUserElementImageStyle}
         />
-        {(role === 'operator' || role === 'host') && <CrownIcon />}
+        {role !== 'user' && <CrownIcon />}
         <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       </Link>
       {currentUserRole !== 'user' && (

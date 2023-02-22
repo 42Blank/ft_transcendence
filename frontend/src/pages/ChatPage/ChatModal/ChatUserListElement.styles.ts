@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { ChatUserRoleType } from 'types/chat';
 
 export const chatUserElementWrapperStyle = css`
   width: calc(100% - 20px);
@@ -8,41 +9,43 @@ export const chatUserElementWrapperStyle = css`
   padding: 10px;
 `;
 
-export const chatUserLinkWrapperStyle = css`
-  flex: 1;
-  height: 100%;
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  align-items: center;
-  overflow: hidden;
-  color: black; // TODO: 상수화
-  text-decoration: none;
+export const chatUserLinkWrapperStyle = (userRole: ChatUserRoleType) =>
+  css({
+    flex: 1,
+    height: '100%',
+    display: 'flex',
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    overflow: 'hidden',
+    color: 'black',
+    textDecoration: 'none',
 
-  &:hover {
-    cursor: pointer;
-  }
+    ':hover': {
+      cursor: 'pointer',
+    },
 
-  & > svg {
-    position: absolute;
-    left: 30px;
-    top: 28px;
-    width: 20px;
-    height: 20px;
-    background-color: black; // TODO: 상수화
-    border: 1px solid black; // TODO: 상수화
-    fill: white; // TODO: 상수화
-    border-radius: 20px;
-  }
-`;
+    svg: {
+      position: 'absolute',
+      left: 33,
+      top: 30,
+      width: 20,
+      height: 20,
+      backgroundColor: userRole === 'host' ? 'magenta' : 'skyblue', // TODO: 상수화
+      border: '1px solid white', // TODO: 상수화
+      fill: 'white', // TODO: 상수화
+      borderRadius: 15,
+    },
+  });
 
-export const chatUserElementImageStyle = css`
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 25px;
-  margin-right: 10px;
-`;
+export const chatUserElementImageStyle = css({
+  width: 50,
+  height: 50,
+  objectFit: 'cover',
+  borderRadius: 25,
+  marginRight: 10,
+  border: '1px solid black',
+});
 
 export const chatUserNicknameSpanStyle = css`
   flex: 1;
