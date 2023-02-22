@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Tooltip } from 'common';
 
-import { AchievementType } from 'types/achievement';
+import { AchievementType } from 'types/profile';
 import { AchievementTooltip } from './AchievementTooltip';
 
 import { tmpAvatarStyle } from './tmpAvatarStyle';

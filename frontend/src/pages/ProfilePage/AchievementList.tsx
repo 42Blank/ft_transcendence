@@ -1,4 +1,4 @@
-import { AchievementType } from 'types/achievement';
+import { AchievementType } from 'types/profile';
 import { Achievement } from './Achievement';
 
 interface Props {
