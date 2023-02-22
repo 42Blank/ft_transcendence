@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { Modal } from 'common';
 
-import { EditProfileModal } from './EditProfileModal';
-
 export const TwoFactorAuth = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
 
@@ -24,7 +22,7 @@ export const TwoFactorAuth = () => {
       </div>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
-          <EditProfileModal onClickClose={handleCloseModal} />
+          <div>test</div>
         </Modal>
       )}
     </>

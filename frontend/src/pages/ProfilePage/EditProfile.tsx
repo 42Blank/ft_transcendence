@@ -1,10 +1,16 @@
 import { useState } from 'react';
 
 import { Modal } from 'common';
+import { UserInfoType } from 'types/user';
 
 import { EditProfileModal } from './EditProfileModal';
 
-export const EditProfile = () => {
+interface Props {
+  user: UserInfoType;
+  refetch: () => void;
+}
+
+export const EditProfile = ({ user, refetch }: Props) => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
 
   function handleOpenModal() {
@@ -24,7 +30,7 @@ export const EditProfile = () => {
       </div>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
-          <EditProfileModal onClickClose={handleCloseModal} />
+          <EditProfileModal onClickClose={handleCloseModal} user={user} refetch={refetch} />
         </Modal>
       )}
     </>

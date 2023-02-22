@@ -11,7 +11,7 @@ import { EditProfile } from './EditProfile';
 
 export const ProfilePage = () => {
   const { id } = useParams();
-  const { data: profile } = useGetUser(id);
+  const { data: profile, refetch } = useGetUser(id);
   const { data: myProfile } = useGetUser();
 
   if (!profile) return <span>error</span>;
@@ -21,7 +21,7 @@ export const ProfilePage = () => {
       <ProfileCard user={profile} />
       {!id || profile.id === myProfile.id ? (
         <>
-          <EditProfile />
+          <EditProfile user={profile} refetch={refetch} />
           <TwoFactorAuth />
         </>
       ) : (

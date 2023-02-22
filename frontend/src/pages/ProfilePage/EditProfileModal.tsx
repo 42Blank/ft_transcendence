@@ -1,12 +1,14 @@
 import { useRef } from 'react';
 
-import { useGetUser } from 'hooks';
 import { putUserProfile } from 'services';
+import { UserInfoType } from 'types/user';
 
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 
 interface Props {
   onClickClose: () => void;
+  user: UserInfoType;
+  refetch: () => void;
 }
 
 interface ProfileObj {
@@ -14,11 +16,10 @@ interface ProfileObj {
   avatar?: string;
 }
 
-export const EditProfileModal = ({ onClickClose }: Props) => {
+export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) => {
   const inputAvatarRef = useRef<HTMLInputElement>(null);
   const inputNickRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const { data, refetch: getUserRefetch } = useGetUser();
 
   function handleSubmitProfile() {
     const profileObj: ProfileObj = {};
@@ -26,7 +27,7 @@ export const EditProfileModal = ({ onClickClose }: Props) => {
     if (inputNickRef.current.value) profileObj.nickname = inputNickRef.current.value;
     if (inputAvatarRef.current.value) profileObj.avatar = inputAvatarRef.current.value;
     putUserProfile(profileObj).then(() => {
-      getUserRefetch();
+      refetch();
     });
     onClickClose();
   }
