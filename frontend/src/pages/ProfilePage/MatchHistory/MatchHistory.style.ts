@@ -2,11 +2,15 @@ import { css } from '@emotion/css';
 
 export const matchHistoryContainerStyle = css({
   display: 'grid',
-  paddingBottom: '0.5rem',
+  padding: '0.5rem',
   gridTemplateAreas: `
   'winner loser'
   'time time'`,
   gridTemplateColumns: '1fr 1fr',
+  '& .time': {
+    gridArea: 'time',
+  },
+  borderBottom: '1px solid black',
 });
 
 export const matchHistoryBoxStyle = css({
@@ -15,9 +19,12 @@ export const matchHistoryBoxStyle = css({
   gridTemplateAreas: `
   'img win'
   'name name'`,
-  textAlign: 'center',
   '& .win-lose': {
+    textAlign: 'center',
     marginTop: '50px',
+  },
+  '& .nick': {
+    marginLeft: '0.3rem',
   },
 });
 

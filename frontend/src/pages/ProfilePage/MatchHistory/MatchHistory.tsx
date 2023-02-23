@@ -12,14 +12,14 @@ export const MatchHistory = ({ history }: Props) => {
       <div className={matchHistoryBoxStyle}>
         <img className={matchAvatarStyle} src={history.winner.avatar} width={100} height={100} alt="winnerAvatar" />
         <span className="win-lose">WIN</span>
-        <span>{history.winner.nickname}</span>
+        <span className="nick">{history.winner.nickname}</span>
       </div>
       <div className={matchHistoryBoxStyle}>
         <img className={matchAvatarStyle} src={history.loser.avatar} width={100} height={100} alt="loserAvatar" />
         <span className="win-lose">LOSE</span>
-        <span>{history.loser.nickname}</span>
+        <span className="nick">{history.loser.nickname}</span>
       </div>
-      <div className="date">Match Time: {history.createdAt}</div>
+      <div className="time">Match Time: {history.createdAt}</div>
     </div>
   );
 };
