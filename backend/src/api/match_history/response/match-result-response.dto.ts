@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsInt, IsNotEmpty } from 'class-validator';
 import { User } from 'common/database/entities/user.entity';
 
-export class MatchHistoryRequestDto {
+export class MatchHistoryResponseDto {
   @IsNotEmpty()
   @IsInt()
   @ApiProperty({ example: '1', description: '매치 고유 id' })
