@@ -3,6 +3,7 @@ import { Achievement } from './Achievement';
 
 interface Props {
   userId: number;
+  className?: string;
 }
 
 const DUMMY_ACHIEVEMENT = [
@@ -22,9 +23,9 @@ const DUMMY_ACHIEVEMENT = [
   },
 ];
 
-export const AchievementList = ({ userId }: Props) => {
+export const AchievementList = ({ userId, className }: Props) => {
   return (
-    <main>
+    <main className={className}>
       <h1>Achievement</h1>
       <h2> debug: ID : {userId}</h2>
       {DUMMY_ACHIEVEMENT.map((value: AchievementType) => (

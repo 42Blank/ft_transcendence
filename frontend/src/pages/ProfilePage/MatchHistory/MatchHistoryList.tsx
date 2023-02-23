@@ -4,9 +4,10 @@ import { MatchHistory } from './MatchHistory';
 
 interface Props {
   userId: number;
+  className?: string;
 }
 
-export const MatchHistoryList = ({ userId }: Props) => {
+export const MatchHistoryList = ({ userId, className }: Props) => {
   // DUMMY INITIALIZE ***
   const user1 = useGetUser('1').data;
   const user2 = useGetUser('2').data;
@@ -27,7 +28,7 @@ export const MatchHistoryList = ({ userId }: Props) => {
   ];
   // ***
   return (
-    <main>
+    <main className={className}>
       <h1>Match History List</h1>
       <h2> debug: ID : {userId}</h2>
       {DUMMY_MATCH_HISTORY.map((value: MatchHistoryType) => (
