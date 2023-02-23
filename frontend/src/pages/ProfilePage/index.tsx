@@ -20,14 +20,14 @@ export const ProfilePage = () => {
   return (
     <main className={profileContainerStyle}>
       <div className={cardStyle}>
-        <ProfileCard className="card" user={profile} />
+        <ProfileCard user={profile} />
         {!id || profile.id === myProfile.id ? (
           <>
-            <EditProfile className="edit" user={profile} refetch={refetch} />
-            <TwoFactorAuth className="2fa" />
+            <EditProfile user={profile} refetch={refetch} />
+            <TwoFactorAuth />
           </>
         ) : (
-          <ManageFriends className="friend" user={profile} />
+          <ManageFriends user={profile} />
         )}
       </div>
       <MatchHistoryList className={histStyle} userId={profile.id} />

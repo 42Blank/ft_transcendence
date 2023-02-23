@@ -10,11 +10,7 @@ const DUMMY_2FA: TwoFactorAuthType = {
   isChecked: false,
 };
 
-interface Props {
-  className?: string;
-}
-
-export const TwoFactorAuth = ({ className }: Props) => {
+export const TwoFactorAuth = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
 
   function handleOpenModal() {
@@ -27,7 +23,7 @@ export const TwoFactorAuth = ({ className }: Props) => {
 
   return (
     <>
-      <div className={className}>
+      <div>
         <button type="button" onClick={handleOpenModal}>
           Two-Factor Authentication
         </button>

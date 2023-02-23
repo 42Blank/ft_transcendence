@@ -9,7 +9,6 @@ export const profileContainerStyle = css({
   'hist achv'
   'hist achv'`,
   gridTemplateColumns: '1fr 1fr',
-  gridTemplateRows: '1fr 1fr 1fr',
 });
 
 export const cardStyle = css({

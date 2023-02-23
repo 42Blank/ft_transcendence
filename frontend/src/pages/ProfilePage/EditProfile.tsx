@@ -8,10 +8,9 @@ import { EditProfileModal } from './EditProfileModal';
 interface Props {
   user: UserInfoType;
   refetch: () => void;
-  className?: string;
 }
 
-export const EditProfile = ({ user, refetch, className }: Props) => {
+export const EditProfile = ({ user, refetch }: Props) => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
 
   function handleOpenModal() {
@@ -24,7 +23,7 @@ export const EditProfile = ({ user, refetch, className }: Props) => {
 
   return (
     <>
-      <div className={className}>
+      <div>
         <button type="button" onClick={handleOpenModal}>
           Edit Profile
         </button>
