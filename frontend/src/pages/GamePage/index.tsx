@@ -11,7 +11,7 @@ import { GameResultModalBody } from './GameResultModalBody';
 import { newGameModalHeaderStyle } from './GameResultModalBody.styles';
 
 export const GamePage = () => {
-  const [isModalShown, setIsModalShown] = useState(true);
+  const [isModalShown, setIsModalShown] = useState(false);
   const currentGameRoom = useGetCurrentGameRoom();
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
 
