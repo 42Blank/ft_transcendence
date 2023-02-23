@@ -4,6 +4,7 @@ import { Modal } from 'common';
 import { UserInfoType } from 'types/user';
 
 import { EditProfileModal } from './EditProfileModal';
+import { editProfileButtonStyle } from './ProfileCard.style';
 
 interface Props {
   user: UserInfoType;
@@ -23,7 +24,7 @@ export const EditProfile = ({ user, refetch }: Props) => {
 
   return (
     <>
-      <div>
+      <div className={editProfileButtonStyle}>
         <button type="button" onClick={handleOpenModal}>
           Edit Profile
         </button>

@@ -33,6 +33,11 @@ export const profileCardAvatarStyle = css({
   margin: '5%',
 });
 
-export const editProfileButtonStyle = css({});
+export const editProfileButtonStyle = css({
+  display: 'inline-flex',
+  padding: '10px',
+});
 
-export const TwoFactorAuthStyle = css({});
+export const twoFactorAuthStyle = css({
+  display: 'inline-flex',
+});
