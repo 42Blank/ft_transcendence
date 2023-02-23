@@ -9,10 +9,21 @@ export const matchHistoryContainerStyle = css({
   gridTemplateColumns: '1fr 1fr',
 });
 
-export const matchHistoryWinnerStyle = css({
+export const matchHistoryBoxStyle = css({
   border: '1px solid black',
+  display: 'grid',
+  gridTemplateAreas: `
+  'img win'
+  'name name'`,
+  textAlign: 'center',
+  '& .win-lose': {
+    marginTop: '50px',
+  },
 });
 
-export const matchHistoryLoserStyle = css({
-  border: '1px solid black',
+export const matchAvatarStyle = css({
+  height: '100px',
+  width: '100px',
+  borderRadius: '50%',
+  margin: '0.3rem',
 });
