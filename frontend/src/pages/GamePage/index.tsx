@@ -5,8 +5,8 @@ import { useGetCurrentGameRoom } from 'hooks';
 import { useSetRecoilState } from 'recoil';
 import { leaveGameRoomState } from 'store';
 import GamePong from './game';
-
 import { GameResultModalBody } from './GameResultModalBody';
+
 import { newGameModalHeaderStyle } from './GameResultModalBody.styles';
 
 export const GamePage = () => {
