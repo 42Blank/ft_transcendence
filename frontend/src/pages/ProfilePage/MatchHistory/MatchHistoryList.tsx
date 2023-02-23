@@ -28,12 +28,12 @@ export const MatchHistoryList = ({ userId, className }: Props) => {
   ];
   // ***
   return (
-    <main className={className}>
+    <div className={className}>
       <h1>Match History List</h1>
       <h2> debug: ID : {userId}</h2>
       {DUMMY_MATCH_HISTORY.map((value: MatchHistoryType) => (
         <MatchHistory key={value.id} history={value} />
       ))}
-    </main>
+    </div>
   );
 };

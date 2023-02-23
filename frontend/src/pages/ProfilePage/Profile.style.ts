@@ -5,7 +5,9 @@ export const profileContainerStyle = css({
   padding: '0.5rem',
   width: '100vw',
   height: '100vh',
-  gridTemplateAreas: ['card card', 'hist achv'],
+  gridTemplateAreas: `
+  'card card'
+  'hist achv'`,
 });
 
 export const cardStyle = css({
