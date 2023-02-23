@@ -3,7 +3,7 @@ import { GameData } from 'types/game';
 
 import { sockets } from 'hooks';
 import { NavigateFunction } from 'react-router-dom';
-import { ROUTE } from 'common/constants';
+// import { ROUTE } from 'common/constants';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
@@ -61,7 +61,9 @@ export class MainScene extends Phaser.Scene {
     }
     this.initBall();
     if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
-      this.navigate(ROUTE.RESULT);
+      this.events.emit('gameFinished');
+      this.ball.setVelocity(0, 0);
+      // this.navigate(ROUTE.RESULT);
     }
   }
 
@@ -71,10 +73,12 @@ export class MainScene extends Phaser.Scene {
   }
 
   create() {
+    this.events = new Phaser.Events.EventEmitter();
+
     this.ball = this.physics.add.image(400, 300, 'ball');
     this.ball.setCollideWorldBounds(true);
     this.ball.setBounce(1);
-    this.ball.setVelocity(200, 200);
+    this.ball.setVelocity(0, 0);
 
     this.paddleLeft = this.physics.add.image(100, 300, 'peddal');
     this.paddleLeft.setImmovable(true);
@@ -94,6 +98,8 @@ export class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.ball, this.paddleRight, null, null, this);
 
     this.key = this.input.keyboard.createCursorKeys();
+
+    this.initBall();
   }
 
   update(time: number, delta: number) {

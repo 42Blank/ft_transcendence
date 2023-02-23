@@ -10,7 +10,7 @@ import { GameResultModalBody } from './GameResultModalBody';
 import { newGameModalHeaderStyle } from './GameResultModalBody.styles';
 
 export const GamePage = () => {
-  const [isModalShown] = useState(true);
+  const [isModalShown, setIsModalShown] = useState(false);
   const currentGameRoom = useGetCurrentGameRoom();
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
 
@@ -19,6 +19,10 @@ export const GamePage = () => {
       setLeaveGameRoom({ id: currentGameRoom.id });
     };
   }, []);
+
+  useEffect(() => {
+    if (currentGameRoom.state === 'finished') setIsModalShown(true);
+  }, [currentGameRoom]);
 
   // function handleClickButton() {
   //  setIsModalShown(true);
