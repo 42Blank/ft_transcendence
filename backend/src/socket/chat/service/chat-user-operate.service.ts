@@ -30,7 +30,7 @@ export class ChatUserOperateService {
 
     this.validateOperable(fromUser, toUser);
 
-    toUser.isMutted = true;
+    toUser.isMuted = true;
   }
 
   public unmuteUser(chatRoomId: string, fromUserId: number, toUserId: number): void {
@@ -39,7 +39,7 @@ export class ChatUserOperateService {
 
     this.validateOperable(fromUser, toUser);
 
-    toUser.isMutted = false;
+    toUser.isMuted = false;
   }
 
   public kickUser(chatRoomId: string, fromUserId: number, toUserId: number): void {
@@ -107,8 +107,8 @@ export class ChatUserOperateService {
   }
 
   private validateOperable(fromUser: ChatUserDetail, toUser: ChatUserDetail): void {
-    if (fromUser.role !== 'operator') {
-      throw new NotAcceptableException(`User ${fromUser.id} is not operator`);
+    if (fromUser.role === 'user') {
+      throw new NotAcceptableException(`User ${fromUser.id} is neither operator nor host`);
     }
 
     if (toUser.role === 'host') {
