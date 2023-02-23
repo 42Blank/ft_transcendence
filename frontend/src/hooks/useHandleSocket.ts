@@ -7,6 +7,7 @@ import {
   leaveChatRoomState,
   newChatRoomState,
   newMessageState,
+  userOperationState,
   updateChatRoomState,
   joinGameRoomState,
   newGameRoomState,
@@ -16,10 +17,12 @@ import { useSetSocketHandler } from './useSetSocketHandler';
 
 export const sockets: {
   chatSocket: Socket | null;
+  onlineSocket: Socket | null;
   gameSocket: Socket | null;
 } = {
   chatSocket: null,
   gameSocket: null,
+  onlineSocket: null,
 };
 
 function createSocket(
@@ -53,6 +56,8 @@ export function useHandleSocket() {
   const resetLeaveChatRoom = useResetRecoilState(leaveChatRoomState);
   const updateChatRoom = useRecoilValue(updateChatRoomState);
   const resetUpdateChatRoom = useResetRecoilState(updateChatRoomState);
+  const userOperation = useRecoilValue(userOperationState);
+  const resetUserOperation = useResetRecoilState(userOperationState);
 
   /* Game Room */
   const newGameRoom = useRecoilValue(newGameRoomState);
@@ -66,6 +71,8 @@ export function useHandleSocket() {
     connectHandler,
     exceptionHandler,
     disconnectHandler,
+    getOnlineUserListHandler,
+    // Chat
     getCurrentChatHandler,
     getAllChatRoomHandler,
     joinChatRoomHandler,
@@ -118,6 +125,16 @@ export function useHandleSocket() {
     resetUpdateChatRoom();
   }, [updateChatRoom]);
 
+  useEffect(() => {
+    if (userOperation.userId < 0) return;
+    if (sockets.chatSocket === null) return;
+
+    const { userId, operation } = userOperation;
+    const eventName = operation === 'give_operator' || operation === 'take_operator' ? operation : `${operation}_user`;
+    sockets.chatSocket.emit(eventName, { userId });
+    resetUserOperation();
+  }, [userOperation]);
+
   /* ----------------- Game Room List ----------------- */
   useEffect(() => {
     if (newGameRoom.created === false) return;
@@ -164,5 +181,19 @@ export function useHandleSocket() {
       sockets.gameSocket.on('join_room', joinGameRoomHandler);
       sockets.gameSocket.on('update_game_room', getAllGameRoomHandler);
     }
+    if (!sockets.onlineSocket) {
+      sockets.onlineSocket = createSocket('online', {
+        connectHandler,
+        exceptionHandler,
+        disconnectHandler,
+      });
+      sockets.onlineSocket.on('update_online_user', getOnlineUserListHandler);
+    }
+
+    return () => {
+      sockets.chatSocket.close();
+      sockets.gameSocket.close();
+      sockets.onlineSocket.close();
+    };
   }, []);
 }

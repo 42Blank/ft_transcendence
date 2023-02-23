@@ -14,7 +14,7 @@ export const gameListWrapperStyle = css`
 `;
 
 export const gameRoomIconStyle = css`
-  position: absolute;
+  position: fixed;
   z-index: 2;
   right: 30px;
   bottom: 30px;

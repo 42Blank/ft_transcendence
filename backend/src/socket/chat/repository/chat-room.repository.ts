@@ -23,7 +23,7 @@ export class ChatRoomRepository {
     chatRoom.sockets.set(socketId, {
       id: userId,
       role: 'host',
-      isMutted: false,
+      isMuted: false,
     });
 
     this.chatRooms.set(chatRoom.id, chatRoom);

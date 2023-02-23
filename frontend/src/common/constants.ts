@@ -24,5 +24,5 @@ export const API = {
 
   // Friend/Block
   FRIEND: '/friend',
-  BLOCK: '/block',
+  BLOCK: '/friend/block',
 } as const;

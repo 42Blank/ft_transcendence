@@ -14,7 +14,7 @@ export const chatListPageWrapperStyle = css`
 `;
 
 export const chatRoomIconStyle = css`
-  position: absolute;
+  position: fixed;
   z-index: 2;
   right: 30px;
   bottom: 30px;

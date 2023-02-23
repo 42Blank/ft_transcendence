@@ -20,9 +20,20 @@ export const friendsListStyle = (isOpen: boolean) => css`
   }
 `;
 
-export const friendsListTitleStyle = css`
-  width: 100%;
-  text-align: center;
-  padding: 10px 0;
-  border-bottom: 1px solid black; // TODO: border color
-`;
+export const friendsListTabWrapperStyle = css({
+  width: '100%',
+  textAlign: 'center',
+  borderBottom: '1px solid black', // TODO: 상수화
+});
+
+export const friendsListTabButtonStyle = (isCurrentTab: boolean) =>
+  css({
+    width: '50%',
+    padding: '10px 0', // TODO: 상수화
+    span: {
+      fontWeight: isCurrentTab ? 700 : 400,
+    },
+    ':first-child': {
+      borderRight: '1px solid black', // TODO: 상수화
+    },
+  });

@@ -6,3 +6,4 @@ export { getFtCallbackCode } from './getFtCallbackCode';
 export { postRegister } from './postRegister';
 export { deleteAuthSignout } from './deleteAuthSignout';
 export { putUserProfile } from './putUserProfile';
+export { getAllUserList } from './getAllUserList';
