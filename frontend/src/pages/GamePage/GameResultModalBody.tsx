@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ROUTE } from 'common/constants';
 import { useGetCurrentGameRoom } from 'hooks';
 import { leaveGameRoomState } from 'store';
+import { finishedGameState } from 'store/finishedGameState';
 
 import {
   formSectionButtonWrapper,
@@ -16,10 +17,7 @@ export const GameResultModalBody = () => {
   const nav = useNavigate();
   const currentGameRoom = useGetCurrentGameRoom();
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
-
-  const hostUser = currentGameRoom.host;
-  const chalUser = currentGameRoom.challenger;
-  const { score } = currentGameRoom;
+  const finishedGame = useRecoilValue(finishedGameState);
 
   function handleOnClick() {
     setLeaveGameRoom({ id: currentGameRoom.id });
@@ -32,10 +30,7 @@ export const GameResultModalBody = () => {
       <div className={newGameInnerDivStyle}>
         <div className={formSectionDivStyle}>
           <h1>
-            {hostUser.user.nickname} 🆚 {chalUser && chalUser.user.nickname}
-          </h1>
-          <h1>
-            {score && score.host} : {score && score.challenger}
+            🏅{finishedGame.winner.nickname} 🆚 {finishedGame.loser.nickname}
           </h1>
         </div>
       </div>

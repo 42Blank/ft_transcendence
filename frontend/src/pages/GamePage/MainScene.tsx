@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
-import { GameData } from 'types/game';
+import { GameData, GameRoomInfoType } from 'types/game';
 
 import { sockets } from 'hooks';
 import { NavigateFunction } from 'react-router-dom';
+import { MatchHistoryType } from 'types/profile';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
@@ -22,11 +23,14 @@ export class MainScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'MainScene', active: true });
+    this.events = new Phaser.Events.EventEmitter();
   }
 
   initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
-    this.events = new Phaser.Events.EventEmitter();
+    sockets.gameSocket.on('update_score', this.updateScoreHandler.bind(this));
+    sockets.gameSocket.on('finish_game', this.finishGameHandler.bind(this));
+    // this.events = new Phaser.Events.EventEmitter();
   }
 
   naviHandlers(navi: NavigateFunction) {
@@ -41,29 +45,27 @@ export class MainScene extends Phaser.Scene {
     this.ball.setVisible(false);
     this.ball.setPosition(400, 300);
     this.ball.setVelocity(0, 0);
-    this.time.delayedCall(1500, () => {
-      this.ball.setVelocity(300, 150);
-    });
+    // this.ball.setVelocity(300, 150);
+    // this.time.delayedCall(1500, () => {
+    // });
     this.ball.setVisible(true);
   }
 
   checkScore() {
-    const maxScore = 5;
+    // const maxScore = 5;
 
     if (this.ball.x >= 10 && this.ball.x <= 790) return;
 
-    if (this.ball.x < 10) {
-      this.scoreRight += 1;
-      this.scoreLabelRight.text = this.scoreRight.toString();
-    } else if (this.ball.x > 790) {
-      this.scoreLeft += 1;
-      this.scoreLabelLeft.text = this.scoreLeft.toString();
+    if (this.isHost && this.ball.x < 10) {
+      sockets.gameSocket.emit('update_score', { winner: 'challenger' });
+    } else if (this.isHost && this.ball.x > 790) {
+      sockets.gameSocket.emit('update_score', { winner: 'host' });
     }
     this.initBall();
-    if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
-      this.events.emit('gameFinished');
-      this.ball.disableBody();
-    }
+    // if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
+    //  this.events.emit('gameFinished');
+    //  this.ball.disableBody();
+    // }
   }
 
   preload() {
@@ -97,6 +99,10 @@ export class MainScene extends Phaser.Scene {
     this.key = this.input.keyboard.createCursorKeys();
 
     this.initBall();
+    this.time.delayedCall(1500, () => {
+      console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%');
+      this.ball.setVelocity(300, 150);
+    });
   }
 
   update(time: number, delta: number) {
@@ -146,13 +152,30 @@ export class MainScene extends Phaser.Scene {
     this.paddleLeft.y = oldPaddleLeftY;
     this.paddleRight.y = oldPaddleRightY;
   }
+  updateScoreHandler(data: GameRoomInfoType['score']) {
+    this.scoreLabelLeft.text = data.host.toString();
+    this.scoreLabelRight.text = data.challenger.toString();
 
+    this.initBall();
+    this.time.delayedCall(1500, () => {
+      this.ball.setVelocity(300, 150);
+    });
+  }
+  finishGameHandler(data: MatchHistoryType) {
+    // const maxScore = 5;
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', data);
+    this.events.emit('gameFinished', data);
+
+    this.ball.disableBody();
+    // if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
+    // }
+  }
   gameDataHandler(data: GameData) {
     if (data.host) this.paddleLeft.y = data.host.y;
     if (data.challenger) this.paddleRight.y = data.challenger.y;
 
     // temperary check if player is challenger
-    if (!this.key.up.isDown && !this.key.down.isDown) {
+    if (!this.isHost) {
       if (data.ball) {
         this.ball.setPosition(data.ball.x, data.ball.y);
         this.ball.setVelocity(data.ball.velocityX, data.ball.velocityY);

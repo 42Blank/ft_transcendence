@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { useGetCurrentGameRoom } from 'hooks';
-import { useSetRecoilState } from 'recoil';
-import { leaveGameRoomState } from 'store';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { finishedGameState, leaveGameRoomState } from 'store';
 
 import { Modal } from 'common';
 import GamePong from './game';
@@ -13,17 +13,20 @@ import { newGameModalHeaderStyle } from './GameResultModalBody.styles';
 export const GamePage = () => {
   const [isModalShown, setIsModalShown] = useState(false);
   const currentGameRoom = useGetCurrentGameRoom();
+  const setFinishedGame = useSetRecoilState(finishedGameState);
+  const finishedGame = useRecoilValue(finishedGameState);
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
 
   useEffect(() => {
+    setFinishedGame(null);
     return () => {
       setLeaveGameRoom({ id: currentGameRoom.id });
     };
   }, []);
 
   useEffect(() => {
-    if (currentGameRoom.state === 'finished') setIsModalShown(true);
-  }, [currentGameRoom]);
+    if (finishedGame) setIsModalShown(true);
+  }, [finishedGame]);
 
   return (
     <div>
