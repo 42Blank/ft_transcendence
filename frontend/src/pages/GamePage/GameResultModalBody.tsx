@@ -1,6 +1,8 @@
 import { ROUTE } from 'common/constants';
 import { useGetCurrentGameRoom } from 'hooks';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { leaveGameRoomState } from 'store';
 
 import {
   formSectionButtonWrapper,
@@ -12,9 +14,11 @@ import {
 export const GameResultModalBody = () => {
   const navigate = useNavigate();
   const currentGameRoom = useGetCurrentGameRoom();
+  const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
   // const nameRef = useRef<HTMLInputElement>(null);
 
   function handleOnClick() {
+    setLeaveGameRoom({ id: currentGameRoom.id });
     navigate(ROUTE.GAME);
     window.location.reload();
   }
