@@ -1,6 +1,8 @@
 import { css } from '@emotion/css';
 
-export const matchHistoryContainerStyle = css({});
+export const matchHistoryContainerStyle = css({
+  display: 'inline-block',
+});
 
 export const matchHistoryWinnerStyle = css`
   background-color: #bbdefb;

@@ -11,14 +11,17 @@ export const profileContainerStyle = css({
 
 export const cardStyle = css({
   gridArea: 'card',
-  borderBottom: '2px solid black',
+  padding: '0.5rem',
+  borderBottom: '1px solid black',
 });
 
 export const histStyle = css({
   gridArea: 'hist',
-  borderRight: '2px solid black',
+  padding: '0.5rem',
+  borderRight: '1px solid black',
 });
 
 export const achvStyle = css({
   gridArea: 'achv',
+  padding: '0.5rem',
 });
