@@ -7,7 +7,7 @@ interface TwoFactorAuthType {
 }
 
 const DUMMY_2FA: TwoFactorAuthType = {
-  isChecked: false,
+  isChecked: true,
 };
 
 export const TwoFactorAuth = () => {
@@ -31,7 +31,14 @@ export const TwoFactorAuth = () => {
       </div>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
-          <div>test</div>
+          {DUMMY_2FA.isChecked ? (
+            <button type="button">cancle 2FA button</button>
+          ) : (
+            <>
+              <div>Check 2FA Github</div>
+              <button type="button">Github Icon</button>
+            </>
+          )}
         </Modal>
       )}
     </>
