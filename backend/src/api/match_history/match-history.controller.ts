@@ -2,7 +2,7 @@ import { Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/c
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserJwtAuthGuard } from 'common/auth/jwt-auth';
 import { MatchHistory } from 'common/database/entities/match-history.entity';
-import { MatchHistoryRequestDto } from './request/match-result-request.dto';
+import { MatchHistoryRequestDto } from './request/match-result-response.dto';
 import { AddUserWinHistoryService } from './service/add-user-win.service';
 import { GetAllMatchHistoryService } from './service/get-all-match-history.service';
 
