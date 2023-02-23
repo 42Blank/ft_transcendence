@@ -6,6 +6,7 @@ export const profileContainerStyle = css({
   height: '100vh',
   gridTemplateAreas: `
   'card card'
+  'hist achv'
   'hist achv'`,
 });
 
