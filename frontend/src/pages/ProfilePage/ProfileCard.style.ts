@@ -34,10 +34,11 @@ export const profileCardAvatarStyle = css({
 });
 
 export const editProfileButtonStyle = css({
-  display: 'inline-flex',
+  display: 'inline-block',
   padding: '10px',
 });
 
 export const twoFactorAuthStyle = css({
-  display: 'inline-flex',
+  display: 'inline-block',
+  padding: '10px',
 });
