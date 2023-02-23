@@ -13,6 +13,7 @@ export const ProfilePage = () => {
   const { id } = useParams();
   const { data: profile, refetch } = useGetUser(id);
   const { data: myProfile } = useGetUser();
+  console.log(profile, myProfile);
 
   if (!profile) return <span>error</span>;
   return (
