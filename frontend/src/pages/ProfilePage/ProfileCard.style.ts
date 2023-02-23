@@ -32,3 +32,7 @@ export const profileCardAvatarStyle = css({
   borderRadius: '50%',
   margin: '5%',
 });
+
+export const editProfileButtonStyle = css({});
+
+export const TwoFactorAuthStyle = css({});
