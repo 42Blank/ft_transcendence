@@ -27,6 +27,7 @@ export class MainScene extends Phaser.Scene {
 
   initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
+    this.events = new Phaser.Events.EventEmitter();
   }
 
   naviHandlers(navi: NavigateFunction) {
@@ -63,7 +64,6 @@ export class MainScene extends Phaser.Scene {
     if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
       this.events.emit('gameFinished');
       this.ball.setVelocity(0, 0);
-      // this.navigate(ROUTE.RESULT);
     }
   }
 
@@ -73,7 +73,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   create() {
-    this.events = new Phaser.Events.EventEmitter();
+    // this.events = new Phaser.Events.EventEmitter();
 
     this.ball = this.physics.add.image(400, 300, 'ball');
     this.ball.setCollideWorldBounds(true);
