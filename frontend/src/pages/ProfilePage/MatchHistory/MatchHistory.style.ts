@@ -1,7 +1,10 @@
 import { css } from '@emotion/css';
 
 export const matchHistoryContainerStyle = css({
-  display: 'inline-block',
+  display: 'grid',
+  gridTemplateAreas: `
+  'winner loser'
+  'time time'`,
 });
 
 export const matchHistoryWinnerStyle = css`
