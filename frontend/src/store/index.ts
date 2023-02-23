@@ -18,3 +18,4 @@ export { gameRoomListState } from './gameRoomListState';
 export { newGameRoomState } from './newGameRoomState';
 export { joinGameRoomState } from './joinGameRoomState';
 export { leaveGameRoomState } from './leaveGameRoomState';
+export { finishedGameState } from './finishedGameState';
