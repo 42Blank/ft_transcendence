@@ -19,7 +19,6 @@ export const ProfilePage = () => {
   if (!profile) return <span>error</span>;
   return (
     <main className={profileContainerStyle}>
-      <h1>Profile Page</h1>
       <div className={cardStyle}>
         <ProfileCard user={profile} />
         {!id || profile.id === myProfile.id ? (
