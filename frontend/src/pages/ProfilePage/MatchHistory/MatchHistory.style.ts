@@ -1,11 +1,13 @@
 import { css } from '@emotion/css';
 
-export const tmpMatchHistoryWinnerStyle = css`
+export const matchHistoryContainerStyle = css({});
+
+export const matchHistoryWinnerStyle = css`
   background-color: #bbdefb;
   border: 1px solid black;
 `;
 
-export const tmpMatchHistoryLoserStyle = css`
+export const matchHistoryLoserStyle = css`
   background-color: #ef9a9a;
   border: 1px solid black;
 `;
