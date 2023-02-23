@@ -21,8 +21,8 @@ export const ProfilePage = () => {
       <ProfileCard user={profile} />
       {!id || profile.id === myProfile.id ? (
         <>
-          <EditProfile user={profile} refetch={refetch} />
           <TwoFactorAuth />
+          <EditProfile user={profile} refetch={refetch} />
         </>
       ) : (
         <ManageFriends user={profile} />
