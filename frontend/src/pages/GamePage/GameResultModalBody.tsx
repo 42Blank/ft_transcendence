@@ -1,7 +1,8 @@
-import { ROUTE } from 'common/constants';
-import { useGetCurrentGameRoom } from 'hooks';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+
+import { ROUTE } from 'common/constants';
+import { useGetCurrentGameRoom } from 'hooks';
 import { leaveGameRoomState } from 'store';
 
 import {
