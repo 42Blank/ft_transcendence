@@ -13,14 +13,17 @@ import {
 } from './GameResultModalBody.styles';
 
 export const GameResultModalBody = () => {
-  const navigate = useNavigate();
+  const nav = useNavigate();
   const currentGameRoom = useGetCurrentGameRoom();
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
-  // const nameRef = useRef<HTMLInputElement>(null);
+
+  const host = currentGameRoom.host.user;
+  const challenger = currentGameRoom.challenger.user;
+  const { score } = currentGameRoom;
 
   function handleOnClick() {
     setLeaveGameRoom({ id: currentGameRoom.id });
-    navigate(ROUTE.GAME);
+    nav(ROUTE.GAME);
     window.location.reload();
   }
 
@@ -28,14 +31,12 @@ export const GameResultModalBody = () => {
     <div className={newGameFormStyle}>
       <div className={newGameInnerDivStyle}>
         <div className={formSectionDivStyle}>
-          <label>
-            {currentGameRoom.host.user.nickname} 🆚{' '}
-            {currentGameRoom.challenger && currentGameRoom.challenger.user.nickname}
-          </label>
-          <label>
-            {currentGameRoom.score && currentGameRoom.score.host} :{' '}
-            {currentGameRoom.score && currentGameRoom.score.challenger}
-          </label>
+          <h1>
+            {host.nickname} 🆚 {challenger && challenger.nickname}
+          </h1>
+          <h1>
+            {score && score.host} : {score && score.challenger}
+          </h1>
         </div>
       </div>
       <div className={formSectionButtonWrapper}>

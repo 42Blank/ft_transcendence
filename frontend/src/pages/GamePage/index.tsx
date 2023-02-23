@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { Modal } from 'common';
 import { useGetCurrentGameRoom } from 'hooks';
 import { useSetRecoilState } from 'recoil';
 import { leaveGameRoomState } from 'store';
+
+import { Modal } from 'common';
 import GamePong from './game';
 import { GameResultModalBody } from './GameResultModalBody';
 
@@ -24,14 +25,9 @@ export const GamePage = () => {
     if (currentGameRoom.state === 'finished') setIsModalShown(true);
   }, [currentGameRoom]);
 
-  // function handleClickButton() {
-  //  setIsModalShown(true);
-  // }
-
   return (
     <div>
       <GamePong />
-      {/* 게임 설명 예시 */}
       <span>• BALL WILL SERVE AUTOMATICALLY</span>
       <span>• AVOID MISSING BALL FOR HIGH SCORE</span>
       {isModalShown && (

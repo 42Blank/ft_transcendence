@@ -2,7 +2,6 @@ export const ROUTE = {
   ROOT: '/',
   CHAT: '/chat',
   GAME: '/game',
-  RESULT: '/game/result',
   PROFILE: '/profile',
   LOGIN: '/login',
   LOGIN_CHECK: '/login/callback',

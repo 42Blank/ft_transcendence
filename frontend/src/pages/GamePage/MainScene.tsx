@@ -3,7 +3,6 @@ import { GameData } from 'types/game';
 
 import { sockets } from 'hooks';
 import { NavigateFunction } from 'react-router-dom';
-// import { ROUTE } from 'common/constants';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
@@ -73,8 +72,6 @@ export class MainScene extends Phaser.Scene {
   }
 
   create() {
-    // this.events = new Phaser.Events.EventEmitter();
-
     this.ball = this.physics.add.image(400, 300, 'ball');
     this.ball.setCollideWorldBounds(true);
     this.ball.setBounce(1);
