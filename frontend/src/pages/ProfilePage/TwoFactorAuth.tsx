@@ -7,7 +7,7 @@ interface TwoFactorAuthType {
 }
 
 const DUMMY_2FA: TwoFactorAuthType = {
-  isChecked: true,
+  isChecked: false,
 };
 
 export const TwoFactorAuth = () => {
