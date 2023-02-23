@@ -1,7 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserJwtAuthGuard } from 'common/auth/jwt-auth';
-import { MatchHistory } from 'common/database/entities/match-history.entity';
 import { MatchHistoryResponseDto } from './response/match-result-response.dto';
 import { AddUserWinHistoryService } from './service/add-user-win.service';
 import { GetAllMatchHistoryService } from './service/get-all-match-history.service';
@@ -17,7 +16,7 @@ export class MatchHistoryController {
 
   @Get(':id')
   @ApiOperation({ summary: '유저 일반 게임 목록 가져오기' })
-  @ApiOkResponse({ description: '유저 일반 개임', type: MatchHistory, isArray: true })
+  @ApiOkResponse({ description: '유저 일반 개임', type: MatchHistoryResponseDto, isArray: true })
   async all(@Param('id', ParseIntPipe) id: number): Promise<MatchHistoryResponseDto[]> {
     const matchHistories = await this.getAllMatchHistoryService.getAllMatch(id);
 
