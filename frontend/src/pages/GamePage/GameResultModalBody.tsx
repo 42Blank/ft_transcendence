@@ -17,8 +17,8 @@ export const GameResultModalBody = () => {
   const currentGameRoom = useGetCurrentGameRoom();
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
 
-  const host = currentGameRoom.host.user;
-  const challenger = currentGameRoom.challenger.user;
+  const hostUser = currentGameRoom.host;
+  const chalUser = currentGameRoom.challenger;
   const { score } = currentGameRoom;
 
   function handleOnClick() {
@@ -32,7 +32,7 @@ export const GameResultModalBody = () => {
       <div className={newGameInnerDivStyle}>
         <div className={formSectionDivStyle}>
           <h1>
-            {host.nickname} 🆚 {challenger && challenger.nickname}
+            {hostUser.user.nickname} 🆚 {chalUser && chalUser.user.nickname}
           </h1>
           <h1>
             {score && score.host} : {score && score.challenger}
