@@ -5,7 +5,12 @@ import { UserInfoType } from 'types/user';
 
 type UserState = 'Friend' | 'No' | 'Block';
 
-export const ManageFriends = ({ user }: { user: UserInfoType }) => {
+interface Props {
+  user: UserInfoType;
+  className?: string;
+}
+
+export const ManageFriends = ({ user, className }: Props) => {
   const { friendList, refetch: refetchFriendList } = useGetFriendList();
   const { blockList, refetch: refetchBlockList } = useGetBlockList();
 
@@ -36,7 +41,7 @@ export const ManageFriends = ({ user }: { user: UserInfoType }) => {
   }
 
   return (
-    <div>
+    <div className={className}>
       {friendState === 'Friend' && (
         <>
           <button type="button" onClick={handleClickUnfriendOrBlock}>
