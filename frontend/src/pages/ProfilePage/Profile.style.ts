@@ -2,7 +2,6 @@ import { css } from '@emotion/css';
 
 export const profileContainerStyle = css({
   display: 'grid',
-  padding: '0.5rem',
   width: '100vw',
   height: '100vh',
   gridTemplateAreas: `
@@ -12,10 +11,12 @@ export const profileContainerStyle = css({
 
 export const cardStyle = css({
   gridArea: 'card',
+  borderBottom: '2px solid black',
 });
 
 export const histStyle = css({
   gridArea: 'hist',
+  borderRight: '2px solid black',
 });
 
 export const achvStyle = css({
