@@ -19,7 +19,16 @@ export class MatchHistoryController {
   @ApiOperation({ summary: '유저 일반 게임 목록 가져오기' })
   @ApiOkResponse({ description: '유저 일반 개임', type: MatchHistory, isArray: true })
   async all(@Param('id', ParseIntPipe) id: number): Promise<MatchHistoryRequestDto[]> {
-    return await this.getAllMatchHistoryService.getAllMatch(id);
+    const matchHistories = await this.getAllMatchHistoryService.getAllMatch(id);
+
+    return matchHistories.map(matchHistory => {
+      return {
+        id: matchHistory.id,
+        winner: matchHistory.winner,
+        loser: matchHistory.loser,
+        createdAt: matchHistory.createdAt,
+      };
+    });
   }
 
   // 테스트용 api
