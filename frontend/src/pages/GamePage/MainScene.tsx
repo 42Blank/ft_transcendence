@@ -63,7 +63,7 @@ export class MainScene extends Phaser.Scene {
     this.initBall();
     if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
       this.events.emit('gameFinished');
-      this.ball.setVelocity(0, 0);
+      this.ball.disableBody();
     }
   }
 
