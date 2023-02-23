@@ -2,6 +2,14 @@ import { useState } from 'react';
 
 import { Modal } from 'common';
 
+interface TwoFactorAuthType {
+  isChecked: boolean;
+}
+
+const DUMMY_2FA: TwoFactorAuthType = {
+  isChecked: false,
+};
+
 export const TwoFactorAuth = () => {
   const [isModalShown, setModalShown] = useState<Boolean>(false);
 
@@ -19,6 +27,7 @@ export const TwoFactorAuth = () => {
         <button type="button" onClick={handleOpenModal}>
           Two-Factor Authentication
         </button>
+        <input type="checkbox" checked={DUMMY_2FA.isChecked} />
       </div>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
