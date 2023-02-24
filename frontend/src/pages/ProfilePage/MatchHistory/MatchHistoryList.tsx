@@ -15,7 +15,7 @@ export const MatchHistoryList = ({ userId, className }: Props) => {
       <h1>Match History List</h1>
       <h2> debug: ID : {userId}</h2>
       {matchHistory.map((value: MatchHistoryType) => (
-        <MatchHistory key={value.id} history={value} />
+        <MatchHistory key={value.id} history={value} userId={userId} />
       ))}
     </div>
   );
