@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { EditIcon, SaveIcon } from 'assets';
 import { Dropdown } from 'common';
 import { updateChatRoomState } from 'store';
-import { ChatRoomInfoType, ChatUserRole } from 'types/chat';
+import { ChatRoomInfoType, ChatUserRoleType } from 'types/chat';
 
 import {
   chatModalHeaderStyle,
@@ -17,7 +17,7 @@ import {
 
 interface Props {
   currentChatRoom: ChatRoomInfoType;
-  currentUserRole: ChatUserRole;
+  currentUserRole: ChatUserRoleType;
 }
 
 export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole }: Props) => {
