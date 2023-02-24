@@ -4,7 +4,7 @@ import { User } from './user.entity';
 
 @Entity('match_history')
 export class MatchHistory {
-  @ApiProperty({ example: 1, description: '친구 요청 고유번호' })
+  @ApiProperty({ example: 1, description: '경기 고유번호' })
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -30,7 +30,7 @@ export class MatchHistory {
   @JoinColumn({ name: 'loser_id', referencedColumnName: 'id' })
   loser: User;
 
-  @ApiProperty({ example: new Date(), description: '친구된 시간' })
+  @ApiProperty({ example: new Date(), description: '경기 시간' })
   @CreateDateColumn()
   createdAt: Date;
 }

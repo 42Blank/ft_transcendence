@@ -1,49 +1,36 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Modal } from 'common';
 import { useGetUser } from 'hooks';
-
 import { ProfileCard } from './ProfileCard';
-import { EditProfile } from './EditProfile';
 import { ManageFriends } from './ManageFriends';
-import { MatchHistoryList } from './MatchHistoryList';
-import { AchievementList } from './AchievementList';
+import { MatchHistoryList } from './MatchHistory';
+import { AchievementList } from './Achievement';
+import { TwoFactorAuth } from './TwoFactorAuth';
+import { EditProfile } from './EditProfile';
+
+import { achvStyle, cardStyle, histStyle, profileContainerStyle } from './Profile.style';
 
 export const ProfilePage = () => {
-  const [isModalShown, setModalShown] = useState<Boolean>(false);
   const { id } = useParams();
-  const { data: profile } = useGetUser(id);
+  const { data: profile, refetch } = useGetUser(id);
   const { data: myProfile } = useGetUser();
 
-  function handleOpenModal() {
-    setModalShown(true);
-  }
-
-  function handleCloseModal() {
-    setModalShown(false);
-  }
-
-  if (!profile) return <span>error</span>;
+  if (profile.id === -1) return <span>Loading profile....</span>;
   return (
-    <>
-      <main>
-        <h1>Profile Page</h1>
+    <main className={profileContainerStyle}>
+      <div className={cardStyle}>
         <ProfileCard user={profile} />
-        {(!id || profile.id === myProfile.id) && (
-          <button type="button" onClick={handleOpenModal}>
-            Edit Profile
-          </button>
+        {!id || profile.id === myProfile.id ? (
+          <>
+            <EditProfile user={profile} refetch={refetch} />
+            <TwoFactorAuth />
+          </>
+        ) : (
+          <ManageFriends user={profile} />
         )}
-        {!(!id || profile.id === myProfile.id) && <ManageFriends user={profile} />}
-        <MatchHistoryList userId={profile.id} />
-        <AchievementList userId={profile.id} />
-      </main>
-      {isModalShown && (
-        <Modal onClickClose={handleCloseModal}>
-          <EditProfile onClickClose={handleCloseModal} />
-        </Modal>
-      )}
-    </>
+      </div>
+      <MatchHistoryList className={histStyle} userId={profile.id} />
+      <AchievementList className={achvStyle} userId={profile.id} />
+    </main>
   );
 };
