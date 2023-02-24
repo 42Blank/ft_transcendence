@@ -11,14 +11,14 @@ const DUMMY_2FA: TwoFactorAuthType = {
 };
 
 export const TwoFactorAuth = () => {
-  const [isModalShown, setModalShown] = useState<Boolean>(false);
+  const [isModalShown, setIsModalShown] = useState<Boolean>(false);
 
   function handleOpenModal() {
-    setModalShown(true);
+    setIsModalShown(true);
   }
 
   function handleCloseModal() {
-    setModalShown(false);
+    setIsModalShown(false);
   }
 
   return (
