@@ -28,8 +28,6 @@ export class MainScene extends Phaser.Scene {
   initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
     sockets.gameSocket.on('update_score', this.updateScoreHandler.bind(this));
-    sockets.gameSocket.on('finish_game', this.finishGameHandler.bind(this));
-    // this.events = new Phaser.Events.EventEmitter();
   }
 
   naviHandlers(navi: NavigateFunction) {
@@ -160,10 +158,6 @@ export class MainScene extends Phaser.Scene {
     this.time.delayedCall(1500, () => {
       this.ball.setVelocity(300, 150);
     });
-  }
-  finishGameHandler() {
-    this.events.emit('gameFinished');
-    this.ball.disableBody();
   }
   gameDataHandler(data: GameData) {
     if (!this.isHost && data.host) {
