@@ -1,48 +1,40 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useGetCurrentGameRoom } from 'hooks';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { finishedGameState, leaveGameRoomState } from 'store';
+import { useSetRecoilState } from 'recoil';
+import { leaveGameRoomState } from 'store';
 
-import { Modal } from 'common';
-import GamePong from './game';
-import { GameResultModalBody } from './GameResultModalBody';
+import { useNavigate } from 'react-router-dom';
 
-import { newGameModalHeaderStyle } from './GameResultModalBody.styles';
+import { ROUTE } from 'common/constants';
+import GamePong from './GamePong';
 
 export const GamePage = () => {
-  const [isModalShown, setIsModalShown] = useState(false);
+  const nav = useNavigate();
   const currentGameRoom = useGetCurrentGameRoom();
-  const setFinishedGame = useSetRecoilState(finishedGameState);
-  const finishedGame = useRecoilValue(finishedGameState);
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
 
   useEffect(() => {
-    setFinishedGame(null);
     return () => {
       setLeaveGameRoom({ id: currentGameRoom.id });
     };
   }, []);
 
   useEffect(() => {
-    if (finishedGame) {
-      setIsModalShown(true);
+    if (currentGameRoom.state === 'finished') {
+      nav(`${ROUTE.RESULT}/${currentGameRoom.matchHistoryId}`);
     }
-  }, [finishedGame]);
+  }, [currentGameRoom]);
 
   return (
     <div>
-      <GamePong />
-      <span>• BALL WILL SERVE AUTOMATICALLY</span>
-      <span>• AVOID MISSING BALL FOR HIGH SCORE</span>
-      {isModalShown && (
-        <Modal onClickClose={() => {}}>
-          <header className={newGameModalHeaderStyle}>
-            <h4> Game Result </h4>
-          </header>
-          <GameResultModalBody />
-        </Modal>
-      )}
+      <div>
+        <GamePong />
+      </div>
+      <div>
+        <span>• BALL WILL SERVE AUTOMATICALLY</span>
+        <span>• AVOID MISSING BALL FOR HIGH SCORE</span>
+      </div>
     </div>
   );
 };

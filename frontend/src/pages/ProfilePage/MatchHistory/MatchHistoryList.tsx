@@ -1,4 +1,4 @@
-import { useGetMatchHistory } from 'hooks';
+import { useGetMatchHistoryByUserId } from 'hooks';
 import { MatchHistoryType } from 'types/profile';
 import { MatchHistory } from './MatchHistory';
 
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const MatchHistoryList = ({ userId, className }: Props) => {
-  const { matchHistory } = useGetMatchHistory(userId);
+  const { matchHistory } = useGetMatchHistoryByUserId(userId);
 
   return (
     <div className={className}>

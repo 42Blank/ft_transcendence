@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import { NavigateFunction } from 'react-router-dom';
 
 import { GameData, GameRoomInfoType } from 'types/game';
-import { MatchHistoryType } from 'types/profile';
 import { sockets } from 'hooks';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
@@ -29,8 +28,6 @@ export class MainScene extends Phaser.Scene {
   initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
     sockets.gameSocket.on('update_score', this.updateScoreHandler.bind(this));
-    sockets.gameSocket.on('finish_game', this.finishGameHandler.bind(this));
-    // this.events = new Phaser.Events.EventEmitter();
   }
 
   naviHandlers(navi: NavigateFunction) {
@@ -162,13 +159,13 @@ export class MainScene extends Phaser.Scene {
       this.ball.setVelocity(300, 150);
     });
   }
-  finishGameHandler(data: MatchHistoryType) {
-    this.events.emit('gameFinished', data);
-    this.ball.disableBody();
-  }
   gameDataHandler(data: GameData) {
-    if (!this.isHost && data.host) this.paddleLeft.y = data.host.y;
-    if (this.isHost && data.challenger) this.paddleRight.y = data.challenger.y;
+    if (!this.isHost && data.host) {
+      this.paddleLeft.y = data.host.y;
+    }
+    if (this.isHost && data.challenger) {
+      this.paddleRight.y = data.challenger.y;
+    }
 
     if (!this.isHost) {
       if (data.ball) {
