@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCookieAuth,
@@ -9,6 +9,7 @@ import {
 } from '@nestjs/swagger';
 import { ReqUser, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 import { User } from '../../common/database/entities/user.entity';
+import { CheckDuplicateNicknameDto } from './dto/request/check-duplicate-nickname.dto';
 import { UpdateUserProfileRequestDto } from './dto/request/update-user-profile.dto';
 import { FindUserService } from './service/find-user.service';
 import { UpdateProfileService } from './service/update-profile.service';
@@ -31,9 +32,6 @@ export class UserController {
     return await this.findUserService.findAll();
   }
 
-  /**
-   * @deprecated
-   */
   @Get('me')
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiOkResponse({ description: '내 정보', type: User })
@@ -57,5 +55,14 @@ export class UserController {
     @Body() updateUserProfileDto: UpdateUserProfileRequestDto,
   ): Promise<void> {
     await this.updateProfileService.updateProfile(user, updateUserProfileDto);
+  }
+
+  @Post()
+  @ApiOperation({ summary: '중복 닉네임 있는지 확인' })
+  @ApiOkResponse({ description: '중복 닉네임 여부' })
+  async checkNickname(
+    @Body() checkDuplicateNicknameDto: CheckDuplicateNicknameDto, //
+  ): Promise<boolean> {
+    return await this.updateProfileService.isNicknameAlreadyUsed(checkDuplicateNicknameDto.nickname);
   }
 }
