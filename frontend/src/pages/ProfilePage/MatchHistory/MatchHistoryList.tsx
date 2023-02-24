@@ -10,8 +10,6 @@ interface Props {
 export const MatchHistoryList = ({ userId, className }: Props) => {
   const { matchHistory } = useGetMatchHistory(userId);
 
-  console.log(matchHistory);
-
   return (
     <div className={className}>
       <h1>Match History List</h1>
