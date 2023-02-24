@@ -10,6 +10,7 @@ import {
   GamePage,
   ProfilePage,
   RegisterPage,
+  GameResultPage,
 } from 'pages';
 
 import { ROUTE } from 'common/constants';
@@ -23,6 +24,7 @@ export const App = () => {
           <Route path={`${ROUTE.CHAT}/:id`} element={<ChatPage />} />
           <Route path={ROUTE.GAME} element={<GameListPage />} />
           <Route path={`${ROUTE.GAME}/:id`} element={<GamePage />} />
+          <Route path={ROUTE.RESULT} element={<GameResultPage />} />
           <Route path={ROUTE.PROFILE} element={<ProfilePage />} />
           <Route path={`${ROUTE.PROFILE}/:id`} element={<ProfilePage />} />
         </Route>

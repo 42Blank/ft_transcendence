@@ -8,6 +8,7 @@ import { useGetCurrentGameRoom, useGetUser } from 'hooks';
 import { useSetRecoilState } from 'recoil';
 import { finishedGameState } from 'store';
 import { MatchHistoryType } from 'types/profile';
+import { ROUTE } from 'common/constants';
 import { MainScene } from './MainScene';
 
 const mainScene = new MainScene();
@@ -38,6 +39,7 @@ const GamePong = () => {
   }, []);
   mainScene.events.on('gameFinished', (data: MatchHistoryType) => {
     setFinishedGame(data);
+    nav(ROUTE.RESULT);
   });
 
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
