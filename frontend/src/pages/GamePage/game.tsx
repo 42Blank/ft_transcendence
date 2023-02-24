@@ -30,6 +30,8 @@ const GamePong = () => {
   mainScene.hostCheckHandlers(isHost);
   mainScene.naviHandlers(useNavigate());
 
+  mainScene.events.on('gameFinished', () => {});
+
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
 };
 
