@@ -45,15 +45,10 @@ export class MainScene extends Phaser.Scene {
     this.ball.setVisible(false);
     this.ball.setPosition(400, 300);
     this.ball.setVelocity(0, 0);
-    // this.ball.setVelocity(300, 150);
-    // this.time.delayedCall(1500, () => {
-    // });
     this.ball.setVisible(true);
   }
 
   checkScore() {
-    // const maxScore = 5;
-
     if (this.ball.x >= 10 && this.ball.x <= 790) return;
 
     if (this.isHost && this.ball.x < 10) {
@@ -62,10 +57,6 @@ export class MainScene extends Phaser.Scene {
       sockets.gameSocket.emit('update_score', { winner: 'host' });
     }
     this.initBall();
-    // if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
-    //  this.events.emit('gameFinished');
-    //  this.ball.disableBody();
-    // }
   }
 
   preload() {
@@ -105,8 +96,6 @@ export class MainScene extends Phaser.Scene {
     this.time.addEvent({
       delay: 100,
       callback: () => {
-        // Get the data you want to send
-        // Send the data over the socket
         if (this.isHost) this.updateHostPos();
         else if (!this.isHost) this.updateChalPos();
       },
@@ -140,18 +129,14 @@ export class MainScene extends Phaser.Scene {
     if (this.isHost) {
       if (this.key.up.isDown) {
         this.paddleLeft.y -= 10;
-        // this.updateHostPos();
       } else if (this.key.down.isDown) {
         this.paddleLeft.y += 10;
-        // this.updateHostPos();
       }
     } else if (!this.isHost) {
       if (this.key.up.isDown) {
         this.paddleRight.y -= 10;
-        // this.updateChalPos();
       } else if (this.key.down.isDown) {
         this.paddleRight.y += 10;
-        // this.updateChalPos();
       }
     }
 
@@ -160,18 +145,6 @@ export class MainScene extends Phaser.Scene {
     this.paddleRight.y = Phaser.Math.Clamp(this.paddleRight.y, 50, 550);
 
     this.checkScore();
-
-    // if (this.isHost) {
-    //  // send paddle position (host)
-    //  if (this.key.up.isDown || this.key.down.isDown) {
-
-    //  }
-    // } else if (!this.isHost) {
-    //  // send paddle position (challenger)
-    //  if (this.key.up.isDown || this.key.down.isDown) {
-
-    //  }
-    // }
 
     // restore paddle position
     // this.paddleLeft.y = oldPaddleLeftY;
@@ -187,18 +160,13 @@ export class MainScene extends Phaser.Scene {
     });
   }
   finishGameHandler(data: MatchHistoryType) {
-    // const maxScore = 5;
     this.events.emit('gameFinished', data);
-
     this.ball.disableBody();
-    // if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
-    // }
   }
   gameDataHandler(data: GameData) {
     if (!this.isHost && data.host) this.paddleLeft.y = data.host.y;
     if (this.isHost && data.challenger) this.paddleRight.y = data.challenger.y;
 
-    // temperary check if player is challenger
     if (!this.isHost) {
       if (data.ball) {
         this.ball.setPosition(data.ball.x, data.ball.y);

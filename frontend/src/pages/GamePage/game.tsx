@@ -37,7 +37,6 @@ const GamePong = () => {
     mainScene.naviHandlers(nav);
   }, []);
   mainScene.events.on('gameFinished', (data: MatchHistoryType) => {
-    console.log('###', data);
     setFinishedGame(data);
   });
 
