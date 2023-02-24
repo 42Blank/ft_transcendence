@@ -30,5 +30,4 @@ export const API = {
 
   // Achievement
   ACHIEVEMENT: '/achievement',
-  
 } as const;
