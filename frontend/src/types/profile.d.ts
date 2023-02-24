@@ -18,3 +18,7 @@ export interface MatchHistoryType {
   loser: UserInfoType;
   createdAt: string; // TODO: replace to Date type ?
 }
+
+interface TwoFactorAuthType {
+  isChecked: boolean;
+}
