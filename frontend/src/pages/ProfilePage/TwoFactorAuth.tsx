@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Modal } from 'common';
+import { twoFactorAuthStyle } from './ProfileCard.style';
 
 interface TwoFactorAuthType {
   isChecked: boolean;
@@ -23,7 +24,7 @@ export const TwoFactorAuth = () => {
 
   return (
     <>
-      <div>
+      <div className={twoFactorAuthStyle}>
         <button type="button" onClick={handleOpenModal}>
           Two-Factor Authentication
         </button>
