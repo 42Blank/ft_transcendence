@@ -19,7 +19,7 @@ export const AchievementList = ({ userId, className }: Props) => {
       setIsPostDone(true);
       refetch();
     });
-  });
+  }, [userId, userAchievement]);
 
   if (!isPostDone) return <div>loading Achievement List ...</div>;
   return (
