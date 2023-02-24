@@ -18,7 +18,6 @@ export class GetUserAchievementService {
       },
       relations: ['achievement'],
     });
-    console.log(userAchievements);
     return userAchievements.map(userAchievement => userAchievement.achievement);
   }
 }
