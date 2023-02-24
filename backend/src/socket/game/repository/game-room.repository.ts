@@ -15,6 +15,7 @@ export class GameRoomRepository {
     const gameRoom: GameRoom = {
       id: uuidv4(),
       state: 'waiting',
+      mode: 'normal',
       host: player,
       spectatorSocketIds: new Set(),
       score: {
@@ -49,6 +50,10 @@ export class GameRoomRepository {
   public setChallengerToGameRoom(gameRoomId: string, socketId: string, userId: number): void {
     const gameRoom = this.getGameRoom(gameRoomId);
 
+    if (!gameRoom) {
+      throw new NotAcceptableException(`Game room ${gameRoomId} does not exist`);
+    }
+
     if (gameRoom.challenger) {
       throw new NotAcceptableException(
         `Game room ${gameRoomId} already has a challenger ${gameRoom.challenger.userId}`,
@@ -66,31 +71,6 @@ export class GameRoomRepository {
     const gameRoom = this.getGameRoom(gameRoomId);
 
     gameRoom.spectatorSocketIds.add(socketId);
-  }
-
-  public removeSocketFromGameRoom(gameRoomId: string, socketId: string): void {
-    const gameRoom = this.getGameRoom(gameRoomId);
-
-    if (gameRoom.host.socketId !== socketId && gameRoom.challenger?.socketId !== socketId) {
-      gameRoom.spectatorSocketIds.delete(socketId);
-      return;
-    }
-
-    if (gameRoom.host.socketId === socketId) {
-      gameRoom.score.host = -42;
-    } else {
-      gameRoom.score.challenger = -42;
-    }
-
-    // save to MatchHistory
-
-    this.removeGameRoom(gameRoomId);
-  }
-
-  public removeSocketFromAllGameRooms(socketId: string): void {
-    Array.from(this.gameRooms.keys()).forEach(gameRoomId => {
-      this.removeSocketFromGameRoom(gameRoomId, socketId);
-    });
   }
 
   public setPlayerReady(gameRoomId: string, socketId: string, ready: boolean): void {

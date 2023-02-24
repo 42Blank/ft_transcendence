@@ -19,7 +19,7 @@ export class Achievement {
   id: number;
 
   @ApiProperty({ example: '업적 이름', description: '업적 이름' })
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   name: string;
 
   @ApiProperty({ example: '업적 설명', description: '업적 설명' })
@@ -54,5 +54,5 @@ export class Achievement {
     createForeignKeyConstraints: false,
     nullable: true,
   })
-  users?: UserAchievement[];
+  userAchievement?: UserAchievement[];
 }

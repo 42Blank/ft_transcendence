@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
@@ -15,9 +15,25 @@ export class GameRoomService {
   ) {}
 
   public createGameRoom(socketId: string, userId: number): GameRoom {
-    this.gameRoomRepository.removeSocketFromAllGameRooms(socketId);
+    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
+      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
+    });
+
+    if (gameRoom) {
+      throw new NotAcceptableException(`Socket ${socketId} is already in game room ${gameRoom.id}`);
+    }
 
     return this.gameRoomRepository.createGameRoom(socketId, userId);
+  }
+
+  public updateGameMode(socketId: string, mode: GameRoom['mode']): void {
+    const gameRoom = this.getJoinedGameRoom(socketId);
+
+    if (gameRoom.state !== 'waiting') {
+      throw new NotAcceptableException(`Game room ${gameRoom.id} is not in waiting state`);
+    }
+
+    gameRoom.mode = mode;
   }
 
   public async getGameRooms(): Promise<GameRoomDto[]> {
@@ -30,6 +46,7 @@ export class GameRoomService {
     const gameRoomDto: GameRoomDto = {
       id: gameRoom.id,
       state: gameRoom.state,
+      mode: gameRoom.mode,
       score: gameRoom.score,
       host: {
         user: await this.userRepository.findOneBy({ id: gameRoom.host.userId }),
@@ -44,6 +61,22 @@ export class GameRoomService {
       };
     }
 
+    if (gameRoom.state === 'finished') {
+      gameRoomDto.matchHistoryId = gameRoom.matchHistoryId;
+    }
+
     return gameRoomDto;
+  }
+
+  private getJoinedGameRoom(socketId: string): GameRoom {
+    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
+      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
+    });
+
+    if (!gameRoom) {
+      throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
+    }
+
+    return gameRoom;
   }
 }

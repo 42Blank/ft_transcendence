@@ -1,8 +1,10 @@
+import { useSetRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 
-import { BanIcon, CrownIcon, FightIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
+import { BanIcon, CrownIcon, FightIcon, KickIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 import { ROUTE } from 'common/constants';
-import { ChatUserInfoType } from 'types/chat';
+import { userOperationState } from 'store';
+import { ChatUserInfoType, ChatUserRoleType } from 'types/chat';
 
 import {
   chatUserButtonStyle,
@@ -14,14 +16,36 @@ import {
 
 interface Props {
   chatUser: ChatUserInfoType;
-  isCurrentUserOperator: boolean;
+  currentUserRole: ChatUserRoleType;
 }
 
-export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) => {
+export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
   const { user, role, isMuted } = chatUser;
+  const setOperation = useSetRecoilState(userOperationState);
+
+  function handleClickGiveOrTakeButton() {
+    if (currentUserRole === 'user' || role === 'host') return;
+    setOperation({ userId: user.id, operation: role === 'user' ? 'give_operator' : 'take_operator' });
+  }
+
+  function handleClickBanButton() {
+    if (currentUserRole === 'user' || role === 'host') return;
+    setOperation({ userId: user.id, operation: 'ban' });
+  }
+
+  function handleClickKickButton() {
+    if (currentUserRole === 'user' || role === 'host') return;
+    setOperation({ userId: user.id, operation: 'kick' });
+  }
+
+  function handleClickToggleMuteButton() {
+    if (currentUserRole === 'user' || role === 'host') return;
+    setOperation({ userId: user.id, operation: isMuted ? 'unmute' : 'mute' });
+  }
+
   return (
     <li className={chatUserElementWrapperStyle}>
-      <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle}>
+      <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle(role)}>
         <img
           src={user.avatar}
           alt={`${user.nickname}-avatar`}
@@ -29,18 +53,25 @@ export const ChatUserListElement = ({ chatUser, isCurrentUserOperator }: Props) 
           height={50}
           className={chatUserElementImageStyle}
         />
-        {(role === 'operator' || role === 'host') && <CrownIcon />}
+        {role !== 'user' && <CrownIcon />}
         <span className={chatUserNicknameSpanStyle}>{user.nickname}</span>
       </Link>
-      {isCurrentUserOperator && (
+      {currentUserRole !== 'user' && (
         <>
-          <button type="button" className={chatUserButtonStyle}>
-            <BanIcon />
-          </button>
-          <button type="button" className={chatUserButtonStyle}>
-            {isMuted ? <UnmuteIcon /> : <MuteIcon />}
-          </button>
-          <button type="button" className={chatUserButtonStyle}>
+          {role !== 'host' && (
+            <>
+              <button type="button" onClick={handleClickKickButton} className={chatUserButtonStyle}>
+                <KickIcon />
+              </button>
+              <button type="button" onClick={handleClickBanButton} className={chatUserButtonStyle}>
+                <BanIcon />
+              </button>
+              <button type="button" onClick={handleClickToggleMuteButton} className={chatUserButtonStyle}>
+                {isMuted ? <UnmuteIcon /> : <MuteIcon />}
+              </button>
+            </>
+          )}
+          <button type="button" onClick={handleClickGiveOrTakeButton} className={chatUserButtonStyle}>
             {role === 'operator' || role === 'host' ? <VerifiedIcon /> : <VerifyIcon />}
           </button>
         </>

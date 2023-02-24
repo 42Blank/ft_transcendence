@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Phaser from 'phaser';
 import { GameInstance, IonPhaser } from '@ion-phaser/react';
@@ -13,7 +14,7 @@ const game: GameInstance = {
   height: 600,
   type: Phaser.AUTO,
   scene: mainScene,
-  physics: { default: 'arcade', arcade: { gravity: { y: 0 } } },
+  physics: { default: 'arcade', arcade: { gravity: { y: 0 }, fps: 60 } },
 };
 
 const GamePong = () => {
@@ -22,11 +23,15 @@ const GamePong = () => {
 
   const { data: currentUser } = useGetUser();
   const currentGameRoom = useGetCurrentGameRoom();
+  const nav = useNavigate();
 
-  const isHost = currentUser.id === currentGameRoom.host.user.id;
+  useEffect(() => {
+    const isHost = currentUser.id === currentGameRoom.host.user.id;
 
-  mainScene.initHandlers();
-  mainScene.hostCheckHandlers(isHost);
+    mainScene.initHandlers();
+    mainScene.hostCheckHandlers(isHost);
+    mainScene.naviHandlers(nav);
+  }, []);
 
   return <IonPhaser ref={gameRef} game={game} initialize={initialize} />;
 };

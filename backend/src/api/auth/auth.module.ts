@@ -5,14 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../common/database/entities/user.entity';
 import { AuthController } from './auth.controller';
 import { FtAuthModule } from './ft-auth/ft-auth.module';
+import { GithubAuthModule } from './github-auth/github-auth.module';
 import { JwtAuthModule } from './jwt-auth/jwt-auth.module';
 import { CookieService } from './service/cookie.service';
 import { LoginService } from './service/login.service';
+import { TwoFactorService } from './service/two-factor.service';
 
 @Module({
   imports: [
     FtAuthModule,
     JwtAuthModule,
+    GithubAuthModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -23,7 +26,7 @@ import { LoginService } from './service/login.service';
     }),
     TypeOrmModule.forFeature([User]),
   ],
-  providers: [CookieService, LoginService],
+  providers: [CookieService, LoginService, TwoFactorService],
   controllers: [AuthController],
 })
 export class AuthModule {}

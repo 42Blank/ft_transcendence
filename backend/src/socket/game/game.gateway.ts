@@ -13,7 +13,11 @@ import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
+import { UpdateModeDto } from './dto/incoming/update-mode.dto';
 import { UpdatePositionDto } from './dto/incoming/update-position.dto';
+import { UpdateScoreDto } from './dto/incoming/update-score.dto';
+import { GameRoom } from './model/game-room';
+import { GamePlayService } from './service/game-play.service';
 import { GameRoomService } from './service/game-room.service';
 import { GameUserService } from './service/game-user.service';
 
@@ -28,59 +32,101 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly connectionHandleService: ConnectionHandleService,
     private readonly gameRoomService: GameRoomService,
     private readonly gameUserService: GameUserService,
+    private readonly gamePlayService: GamePlayService,
   ) {}
 
   @WebSocketServer()
   io: Server;
 
   @SubscribeMessage('create_room')
-  public createRoom(
+  public async createRoom(
     @ConnectedSocket() client: SocketWithUser, //
-  ): void {
+  ): Promise<void> {
     const gameRoom = this.gameRoomService.createGameRoom(client.id, client.user.id);
 
     this.logger.verbose(`${client.user.nickname} createRoom: ${JSON.stringify(gameRoom)}`);
 
-    this.emitGameRooms();
-    this.emitJoinRoom(client, gameRoom.id);
+    await Promise.all([
+      this.emitGameRooms(), //
+      this.emitJoinRoom(client, gameRoom.id),
+    ]);
   }
 
   @SubscribeMessage('join_room')
-  public joinRoom(
+  public async joinRoom(
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: JoinGameRoomDto,
-  ): void {
+  ): Promise<void> {
     this.gameUserService.joinGameRoom(client.id, client.user.id, data.id);
 
     this.logger.verbose(`${client.user.nickname} joinRoom: ${JSON.stringify(data)}`);
 
-    this.emitGameRooms();
-    this.emitJoinRoom(client, data.id);
+    await Promise.all([
+      this.emitGameRooms(), //
+      this.emitJoinRoom(client, data.id),
+    ]);
   }
 
   @SubscribeMessage('leave_room')
-  public leaveRoom(
+  public async leaveRoom(
     @ConnectedSocket() client: SocketWithUser, //
-  ): void {
-    this.gameUserService.leaveAllGameRooms(client.id);
+  ): Promise<void> {
+    await this.gameUserService.leaveGameRoom(client.id);
 
     this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
 
-    this.emitGameRooms();
+    await this.emitGameRooms();
+  }
+
+  @SubscribeMessage('update_mode')
+  public async updateMode(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: UpdateModeDto,
+  ): Promise<void> {
+    this.gameRoomService.updateGameMode(client.id, data.mode);
+
+    this.logger.verbose(`${client.user.nickname} updateMode: ${JSON.stringify(data)}`);
+
+    await this.emitGameRooms();
   }
 
   @SubscribeMessage('update_position')
-  public async emitChatData(
+  public async updatePosition(
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: UpdatePositionDto,
   ): Promise<void> {
-    const gameRoom = this.gameUserService.getJoinedGameRoom(client.id);
-    const gameData = this.gameUserService.createGameData(gameRoom, client.id, data);
+    const gameUserSockets = this.gameUserService.getUsersSocketId(client.id);
+    const gameData = this.gameUserService.createGameData(client.id, data);
 
     this.logger.verbose(`${client.user.nickname} UpdatePosition: ${JSON.stringify(data)}`);
 
-    [gameRoom.host.socketId, gameRoom.challenger.socketId, ...gameRoom.spectatorSocketIds].forEach(socketId => {
+    gameUserSockets.forEach(socketId => {
       this.io.to(socketId).emit('game_data', gameData);
+    });
+  }
+
+  @SubscribeMessage('update_score')
+  public async updateScore(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: UpdateScoreDto,
+  ): Promise<void> {
+    const gameUserSockets = this.gameUserService.getUsersSocketId(client.id);
+    const updateScoreResult = await this.gamePlayService.updateScore(client.id, data.winner);
+
+    this.logger.verbose(`${client.user.nickname} UpdateScore: ${JSON.stringify(data)} }`);
+
+    if (updateScoreResult.isGameFinish === false) {
+      await this.emitUpdateScore(gameUserSockets, updateScoreResult.score);
+    } else if (updateScoreResult.isGameFinish === true) {
+      await this.emitGameRooms();
+    }
+  }
+
+  public async emitUpdateScore(gameUserSockets: string[], score: GameRoom['score']): Promise<void> {
+    this.logger.verbose(`emitUpdateScore: ${JSON.stringify(score)}`);
+
+    gameUserSockets.forEach(socketId => {
+      this.io.to(socketId).emit('update_score', score);
     });
   }
 
@@ -91,6 +137,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.io.to(client.id).emit('update_game_room', gameRoom);
     this.io.to(client.id).emit('join_room', gameRoomId);
+
+    const gameUserSockets = this.gameUserService.getUsersSocketId(client.id);
+    this.emitUpdateScore(gameUserSockets, {
+      challenger: 0,
+      host: 0,
+    });
   }
 
   public async emitGameRooms(): Promise<void> {
@@ -113,7 +165,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const isUserDisconnected = this.connectionHandleService.handleDisconnect(client);
 
     if (isUserDisconnected) {
-      this.gameUserService.leaveAllGameRooms(client.id);
+      this.gameUserService.leaveGameRoom(client.id);
       this.emitGameRooms();
     }
   }

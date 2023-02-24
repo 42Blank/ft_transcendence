@@ -3,33 +3,57 @@ import { UpdatePositionDto } from '../dto/incoming/update-position.dto';
 import { GameDataDto } from '../dto/outcoming/game-data.dto';
 import { GameRoom } from '../model/game-room';
 import { GameRoomRepository } from '../repository/game-room.repository';
+import { FinishGameService } from './finish-game.service';
 
 @Injectable()
 export class GameUserService {
-  constructor(private readonly gameRoomRepository: GameRoomRepository) {}
+  constructor(
+    private readonly gameRoomRepository: GameRoomRepository,
+    private readonly finishGameService: FinishGameService,
+  ) {}
 
   public joinGameRoom(socketId: string, userId: number, gameRoomId: string): void {
     this.gameRoomRepository.setChallengerToGameRoom(gameRoomId, socketId, userId);
     this.gameRoomRepository.updateGameRoomState(gameRoomId, 'playing');
   }
 
-  public leaveAllGameRooms(socketId: string): void {
-    this.gameRoomRepository.removeSocketFromAllGameRooms(socketId);
-  }
-
-  public getJoinedGameRoom(socketId: string): GameRoom {
+  public async leaveGameRoom(socketId: string): Promise<void> {
     const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
       return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
     });
 
     if (!gameRoom) {
-      throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
+      return;
     }
 
-    return gameRoom;
+    if (gameRoom.host.socketId !== socketId && gameRoom.challenger?.socketId !== socketId) {
+      gameRoom.spectatorSocketIds.delete(socketId);
+      return;
+    }
+
+    if (gameRoom.host.socketId === socketId) {
+      gameRoom.score.host = -42;
+    } else {
+      gameRoom.score.challenger = -42;
+    }
+
+    await this.finishGameService.finishGame(gameRoom);
   }
 
-  public createGameData(gameRoom: GameRoom, socketId: string, data: UpdatePositionDto): GameDataDto {
+  public getUsersSocketId(socketId: string): string[] {
+    const gameRoom = this.getJoinedGameRoom(socketId);
+
+    const userSockets = [gameRoom.host.socketId, ...gameRoom.spectatorSocketIds];
+
+    if (gameRoom.challenger) {
+      userSockets.push(gameRoom.challenger.socketId);
+    }
+
+    return userSockets;
+  }
+
+  public createGameData(socketId: string, data: UpdatePositionDto): GameDataDto {
+    const gameRoom = this.getJoinedGameRoom(socketId);
     const gameDataDto: GameDataDto = {};
 
     if (gameRoom.state !== 'playing' || !gameRoom.challenger) {
@@ -58,5 +82,17 @@ export class GameUserService {
     }
 
     return gameDataDto;
+  }
+
+  private getJoinedGameRoom(socketId: string): GameRoom {
+    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
+      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
+    });
+
+    if (!gameRoom) {
+      throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
+    }
+
+    return gameRoom;
   }
 }

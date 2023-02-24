@@ -11,9 +11,11 @@ type Score = {
 
 export interface GameRoom {
   id: string;
-  state: 'waiting' | 'playing';
+  state: 'waiting' | 'playing' | 'finished';
+  mode: 'normal' | 'red';
   score: Score;
   host: Player;
   challenger?: Player;
   spectatorSocketIds: Set<string>;
+  matchHistoryId?: number;
 }

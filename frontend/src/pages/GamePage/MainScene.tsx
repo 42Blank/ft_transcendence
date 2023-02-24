@@ -1,11 +1,14 @@
 import Phaser from 'phaser';
-import { GameData } from 'types/game';
+import { NavigateFunction } from 'react-router-dom';
 
+import { GameData, GameRoomInfoType } from 'types/game';
 import { sockets } from 'hooks';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
   private isHost: Boolean;
+  private navigate: NavigateFunction;
+
   private ball: Phaser.Physics.Arcade.Image;
   private paddleLeft: Phaser.Physics.Arcade.Image;
   private paddleRight: Phaser.Physics.Arcade.Image;
@@ -17,21 +20,40 @@ export class MainScene extends Phaser.Scene {
 
   private key: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  /**
-   * CursorKeys: 지정된 일부 키보드 값만 받을 수 있음
-   * - Up, Down, Right, Left, Shift, SpaceBar
-   * */
-
   constructor() {
     super({ key: 'MainScene', active: true });
+    this.events = new Phaser.Events.EventEmitter();
   }
 
   initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
+    sockets.gameSocket.on('update_score', this.updateScoreHandler.bind(this));
+  }
+
+  naviHandlers(navi: NavigateFunction) {
+    this.navigate = navi;
   }
 
   hostCheckHandlers(isHostInput: boolean) {
     this.isHost = isHostInput;
+  }
+
+  initBall() {
+    this.ball.setVisible(false);
+    this.ball.setPosition(400, 300);
+    this.ball.setVelocity(0, 0);
+    this.ball.setVisible(true);
+  }
+
+  checkScore() {
+    if (this.ball.x >= 10 && this.ball.x <= 790) return;
+
+    if (this.isHost && this.ball.x < 10) {
+      sockets.gameSocket.emit('update_score', { winner: 'challenger' });
+    } else if (this.isHost && this.ball.x > 790) {
+      sockets.gameSocket.emit('update_score', { winner: 'host' });
+    }
+    this.initBall();
   }
 
   preload() {
@@ -43,10 +65,11 @@ export class MainScene extends Phaser.Scene {
     this.ball = this.physics.add.image(400, 300, 'ball');
     this.ball.setCollideWorldBounds(true);
     this.ball.setBounce(1);
-    this.ball.setVelocity(200, 200);
+    this.ball.setVelocity(0, 0);
 
     this.paddleLeft = this.physics.add.image(100, 300, 'peddal');
     this.paddleLeft.setImmovable(true);
+
     this.paddleRight = this.physics.add.image(700, 300, 'peddal');
     this.paddleRight.setImmovable(true);
 
@@ -62,82 +85,89 @@ export class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.ball, this.paddleRight, null, null, this);
 
     this.key = this.input.keyboard.createCursorKeys();
-  }
 
-  initBall() {
-    this.ball.setVisible(false);
-    this.ball.setPosition(400, 300);
-    this.ball.setVelocity(0, 0);
+    this.initBall();
     this.time.delayedCall(1500, () => {
-      this.ball.setVelocity(200, 200);
+      this.ball.setVelocity(300, 150);
     });
-    this.ball.setVisible(true);
+    this.time.addEvent({
+      delay: 100,
+      callback: () => {
+        if (this.isHost) {
+          this.updateHostPos();
+        } else if (!this.isHost) {
+          this.updateChalPos();
+        }
+      },
+      loop: true,
+    });
   }
 
+  updateHostPos() {
+    sockets.gameSocket.emit('update_position', {
+      paddleY: this.paddleLeft.y, //
+      ball: {
+        x: this.ball.x,
+        y: this.ball.y,
+        velocityX: this.ball.body.velocity.x,
+        velocityY: this.ball.body.velocity.y,
+      },
+    });
+  }
+  updateChalPos() {
+    sockets.gameSocket.emit('update_position', {
+      paddleY: this.paddleRight.y, //
+    });
+  }
   update(time: number, delta: number) {
     // save paddle position
-    const oldPaddleLeftY = this.paddleLeft.y;
-    const oldPaddleRightY = this.paddleRight.y;
+    // const oldPaddleLeftY = this.paddleLeft.y;
+    // const oldPaddleRightY = this.paddleRight.y;
 
     if (!this.paddleLeft || !this.paddleRight || !this.key) return;
 
     if (this.isHost) {
-      if (this.key.up.isDown) this.paddleLeft.y -= 10;
-      else if (this.key.down.isDown) this.paddleLeft.y += 10;
+      if (this.key.up.isDown) {
+        this.paddleLeft.y -= 10;
+      } else if (this.key.down.isDown) {
+        this.paddleLeft.y += 10;
+      }
     } else if (!this.isHost) {
-      if (this.key.up.isDown) this.paddleRight.y -= 10;
-      else if (this.key.down.isDown) this.paddleRight.y += 10;
+      if (this.key.up.isDown) {
+        this.paddleRight.y -= 10;
+      } else if (this.key.down.isDown) {
+        this.paddleRight.y += 10;
+      }
     }
 
     /* Paddle 임시 충돌 판정 코드 */
     this.paddleLeft.y = Phaser.Math.Clamp(this.paddleLeft.y, 50, 550);
     this.paddleRight.y = Phaser.Math.Clamp(this.paddleRight.y, 50, 550);
 
-    if (this.ball.x < 10) {
-      this.scoreRight += 1;
-      this.scoreLabelRight.text = this.scoreRight.toString();
-
-      this.initBall();
-    } else if (this.ball.x > 790) {
-      this.scoreLeft += 1;
-      this.scoreLabelLeft.text = this.scoreLeft.toString();
-
-      this.initBall();
-    }
-
-    if (this.isHost) {
-      // send paddle position (host)
-      if (this.key.up.isDown || this.key.down.isDown) {
-        sockets.gameSocket.emit('update_position', {
-          paddleY: this.paddleLeft.y, //
-          ball: {
-            x: this.ball.x,
-            y: this.ball.y,
-            velocityX: this.ball.body.velocity.x,
-            velocityY: this.ball.body.velocity.y,
-          },
-        });
-      }
-    } else if (!this.isHost) {
-      // send paddle position (challenger)
-      if (this.key.up.isDown || this.key.down.isDown) {
-        sockets.gameSocket.emit('update_position', {
-          paddleY: this.paddleRight.y, //
-        });
-      }
-    }
+    this.checkScore();
 
     // restore paddle position
-    this.paddleLeft.y = oldPaddleLeftY;
-    this.paddleRight.y = oldPaddleRightY;
+    // this.paddleLeft.y = oldPaddleLeftY;
+    // this.paddleRight.y = oldPaddleRightY;
   }
+  updateScoreHandler(data: GameRoomInfoType['score']) {
+    this.scoreLabelLeft.text = data.host.toString();
+    this.scoreLabelRight.text = data.challenger.toString();
 
+    this.initBall();
+    this.time.delayedCall(1500, () => {
+      this.ball.setVelocity(300, 150);
+    });
+  }
   gameDataHandler(data: GameData) {
-    if (data.host) this.paddleLeft.y = data.host.y;
-    if (data.challenger) this.paddleRight.y = data.challenger.y;
+    if (!this.isHost && data.host) {
+      this.paddleLeft.y = data.host.y;
+    }
+    if (this.isHost && data.challenger) {
+      this.paddleRight.y = data.challenger.y;
+    }
 
-    // temperary check if player is challenger
-    if (!this.key.up.isDown && !this.key.down.isDown) {
+    if (!this.isHost) {
       if (data.ball) {
         this.ball.setPosition(data.ball.x, data.ball.y);
         this.ball.setVelocity(data.ball.velocityX, data.ball.velocityY);

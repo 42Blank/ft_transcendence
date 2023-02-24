@@ -12,9 +12,11 @@ export class UpdateProfileService {
   ) {}
 
   async updateProfile(user: User, updateUserProfileDto: UpdateUserProfileRequestDto): Promise<void> {
-    const isNicknameAlreadyUsed = await this.isNicknameAlreadyUsed(user.nickname, updateUserProfileDto.nickname);
-    if (isNicknameAlreadyUsed) {
-      throw new BadRequestException(`${updateUserProfileDto.nickname} 는 이미 사용중인 닉네임입니다.`);
+    if (updateUserProfileDto.nickname) {
+      const isNicknameAlreadyUsed = await this.isNicknameAlreadyUsed(updateUserProfileDto.nickname);
+      if (isNicknameAlreadyUsed) {
+        throw new BadRequestException(`${updateUserProfileDto.nickname} 는 이미 사용중인 닉네임입니다.`);
+      }
     }
 
     await this.userRepository.save({
@@ -23,19 +25,18 @@ export class UpdateProfileService {
     });
   }
 
-  private async isNicknameAlreadyUsed(oldNick: string, newNick: string | undefined): Promise<boolean> {
-    if (!newNick) {
-      return false;
-    }
-
-    if (oldNick === newNick) {
-      return false;
-    }
-
+  async isNicknameAlreadyUsed(newNick: string): Promise<boolean> {
     const alreadyUsedNickname = await this.userRepository.findOne({
       where: { nickname: newNick },
     });
 
     return !!alreadyUsedNickname;
+  }
+
+  async removeTwoFactorAuth(user: User): Promise<void> {
+    await this.userRepository.save({
+      ...user,
+      isTwoFactorAuth: false,
+    });
   }
 }

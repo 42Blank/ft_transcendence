@@ -3,23 +3,38 @@ import { useEffect } from 'react';
 import { useGetCurrentGameRoom } from 'hooks';
 import { useSetRecoilState } from 'recoil';
 import { leaveGameRoomState } from 'store';
-import GamePong from './game';
+
+import { useNavigate } from 'react-router-dom';
+
+import { ROUTE } from 'common/constants';
+import GamePong from './GamePong';
 
 export const GamePage = () => {
+  const nav = useNavigate();
   const currentGameRoom = useGetCurrentGameRoom();
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
+
   useEffect(() => {
     return () => {
       setLeaveGameRoom({ id: currentGameRoom.id });
     };
   }, []);
 
+  useEffect(() => {
+    if (currentGameRoom.state === 'finished') {
+      nav(`${ROUTE.RESULT}/${currentGameRoom.matchHistoryId}`);
+    }
+  }, [currentGameRoom]);
+
   return (
     <div>
-      <GamePong />
-      {/* 게임 설명 예시 */}
-      <div>• BALL WILL SERVE AUTOMATICALLY</div>
-      <div>• AVOID MISSING BALL FOR HIGH SCORE</div>
+      <div>
+        <GamePong />
+      </div>
+      <div>
+        <span>• BALL WILL SERVE AUTOMATICALLY</span>
+        <span>• AVOID MISSING BALL FOR HIGH SCORE</span>
+      </div>
     </div>
   );
 };

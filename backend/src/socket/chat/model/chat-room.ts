@@ -3,7 +3,7 @@ export type ChatUserRole = 'host' | 'operator' | 'user';
 export type ChatUserDetail = {
   id: number;
   role: ChatUserRole;
-  isMutted: boolean;
+  isMuted: boolean;
 };
 
 export type ChatRoom = {

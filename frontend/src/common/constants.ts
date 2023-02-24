@@ -2,6 +2,7 @@ export const ROUTE = {
   ROOT: '/',
   CHAT: '/chat',
   GAME: '/game',
+  RESULT: '/game/result',
   PROFILE: '/profile',
   LOGIN: '/login',
   LOGIN_CHECK: '/login/callback',
@@ -20,4 +21,15 @@ export const API = {
   // User
   USER: '/users',
   USER_ME: '/users/me',
+
+  // Friend/Block
+  FRIEND: '/friend',
+  BLOCK: '/friend/block',
+
+  // Match history
+  MATCH: '/match',
+  MATCH_BY_USER: '/match/by/user',
+
+  // Achievement
+  ACHIEVEMENT: '/achievement',
 } as const;

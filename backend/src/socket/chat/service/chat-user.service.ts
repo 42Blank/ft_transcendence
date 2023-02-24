@@ -37,7 +37,7 @@ export class ChatUserService {
     chatRoom.sockets.set(socketId, {
       id: userId,
       role: 'user',
-      isMutted: false,
+      isMuted: false,
     });
   }
 
@@ -69,7 +69,7 @@ export class ChatUserService {
       throw new NotAcceptableException(`User ${chatUser.id} is banned in chat room ${chatRoom.id}`);
     }
 
-    if (chatUser.isMutted) {
+    if (chatUser.isMuted) {
       throw new NotAcceptableException(`User ${chatUser.id} is muted in chat room ${chatRoom.id}`);
     }
 
