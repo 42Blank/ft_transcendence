@@ -17,7 +17,7 @@ const game: GameInstance = {
   height: 600,
   type: Phaser.AUTO,
   scene: mainScene,
-  physics: { default: 'arcade', arcade: { gravity: { y: 0 } } },
+  physics: { default: 'arcade', arcade: { gravity: { y: 0 }, fps: 60 } },
 };
 
 const GamePong = () => {
