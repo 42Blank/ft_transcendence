@@ -1,5 +1,6 @@
-import { getMatchHistory } from 'services';
 import { useQuery } from 'react-query';
+
+import { getMatchHistory } from 'services';
 
 export function useGetMatchHistory(userId: number) {
   const { data: matchHistory = [], refetch } = useQuery(['match_history'], () => getMatchHistory(userId), {

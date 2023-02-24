@@ -1,7 +1,7 @@
 import { MatchHistoryType } from 'types/profile';
+import { MatchHistoryBox } from './MatchHistoryBox';
 
 import { matchHistoryContainerStyle } from './MatchHistory.style';
-import { MatchHistoryBox } from './MatchHistoryBox';
 
 interface Props {
   history: MatchHistoryType;
