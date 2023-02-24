@@ -4,6 +4,7 @@ import { UserJwtAuthGuard } from 'common/auth/jwt-auth';
 import { MatchHistoryResponseDto } from './response/match-result-response.dto';
 import { AddUserWinHistoryService } from './service/add-user-win.service';
 import { GetAllMatchHistoryService } from './service/get-all-match-history.service';
+import { GetMatchHistoryService } from './service/get-match-history.service';
 
 @ApiTags('Match History')
 @Controller('match')
@@ -11,10 +12,25 @@ import { GetAllMatchHistoryService } from './service/get-all-match-history.servi
 export class MatchHistoryController {
   constructor(
     private readonly getAllMatchHistoryService: GetAllMatchHistoryService,
+    private readonly getMatchHistoryService: GetMatchHistoryService,
     private readonly addUserWinHistoryService: AddUserWinHistoryService,
   ) {}
 
   @Get(':id')
+  @ApiOperation({ summary: '게임 정보 가져오기' })
+  @ApiOkResponse({ description: '게임 정보', type: MatchHistoryResponseDto })
+  async findById(@Param('id', ParseIntPipe) id: number): Promise<MatchHistoryResponseDto> {
+    const matchHistory = await this.getMatchHistoryService.getMatchById(id);
+
+    return {
+      id: matchHistory.id,
+      winner: matchHistory.winner,
+      loser: matchHistory.loser,
+      createdAt: matchHistory.createdAt,
+    };
+  }
+
+  @Get('by/user/:id')
   @ApiOperation({ summary: '유저 일반 게임 목록 가져오기' })
   @ApiOkResponse({ description: '유저 일반 개임', type: MatchHistoryResponseDto, isArray: true })
   async all(@Param('id', ParseIntPipe) id: number): Promise<MatchHistoryResponseDto[]> {

@@ -69,31 +69,6 @@ export class GameRoomRepository {
     gameRoom.spectatorSocketIds.add(socketId);
   }
 
-  public removeSocketFromGameRoom(gameRoomId: string, socketId: string): void {
-    const gameRoom = this.getGameRoom(gameRoomId);
-
-    if (gameRoom.host.socketId !== socketId && gameRoom.challenger?.socketId !== socketId) {
-      gameRoom.spectatorSocketIds.delete(socketId);
-      return;
-    }
-
-    if (gameRoom.host.socketId === socketId) {
-      gameRoom.score.host = -42;
-    } else {
-      gameRoom.score.challenger = -42;
-    }
-
-    // save to MatchHistory
-
-    this.removeGameRoom(gameRoomId);
-  }
-
-  public removeSocketFromAllGameRooms(socketId: string): void {
-    Array.from(this.gameRooms.keys()).forEach(gameRoomId => {
-      this.removeSocketFromGameRoom(gameRoomId, socketId);
-    });
-  }
-
   public setPlayerReady(gameRoomId: string, socketId: string, ready: boolean): void {
     const gameRoom = this.getGameRoom(gameRoomId);
 
