@@ -3,13 +3,15 @@ import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swa
 import { Response } from 'express';
 import { ReqFtProfile } from '../../common/auth/ft-auth';
 import { FtAuthGuard } from '../../common/auth/ft-auth/ft-auth.guard';
-import { FtJwtAuthGuard, ReqJwtFtProfile } from '../../common/auth/jwt-auth';
+import { FtJwtAuthGuard, ReqJwtFtProfile, ReqUser, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 import { FtProfile, UserJwtPayload } from '../../common/auth/types';
 import { User } from '../../common/database/entities/user.entity';
 import { RegisterRequestDto } from './dto/request/register.dto';
 import { FtProfileDto } from './dto/response/ft-profile.dto';
+import { GithubAuthGuard } from './github-auth/github-auth.guard';
 import { CookieService } from './service/cookie.service';
 import { LoginService } from './service/login.service';
+import { TwoFactorService } from './service/two-factor.service';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,6 +19,7 @@ export class AuthController {
   constructor(
     private readonly cookieService: CookieService, //
     private readonly loginService: LoginService,
+    private readonly twoFactorService: TwoFactorService,
   ) {}
 
   @Get('ft')
@@ -68,6 +71,34 @@ export class AuthController {
     response.cookie('ft_profile', jwt, cookieOption);
 
     return { ...ftProfile, isRegistered: false };
+  }
+
+  @Get('github')
+  @UseGuards(UserJwtAuthGuard)
+  @UseGuards(GithubAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: '깃허브 로그인',
+    description: "깃허브 로그인 페이지로 리다이렉트 <a href='/auth/github'> Please cmd + click me! </a>",
+  })
+  @ApiOkResponse({ description: '깃허브 페이지' })
+  githubLogin(): void {
+    return;
+  }
+
+  @Get('github/callback')
+  @UseGuards(UserJwtAuthGuard)
+  @UseGuards(GithubAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: '깃허브 로그인 콜백',
+    description: '깃허브 로그인 후에 2FA를 설정합니다.',
+  })
+  @ApiOkResponse({ description: '로그인 성공' })
+  async githubCallback(
+    @ReqUser() user: User, //
+  ): Promise<void> {
+    await this.twoFactorService.updateTwoFactor(user);
   }
 
   @Get('login')
