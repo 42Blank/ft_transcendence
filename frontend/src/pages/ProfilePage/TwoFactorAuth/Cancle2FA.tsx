@@ -1,13 +1,8 @@
-import { useSetRecoilState } from 'recoil';
-
-import { DUMMY_2FA } from 'store/dummy2FA';
-
 export const Cancle2FA = () => {
-  const setDummy = useSetRecoilState(DUMMY_2FA);
-
   function handleClickCancleButton() {
-    setDummy(prev => ({ ...prev, isChecked: false }));
+    alert('hi');
   }
+
   return (
     <div>
       <button type="button" onClick={handleClickCancleButton}>
