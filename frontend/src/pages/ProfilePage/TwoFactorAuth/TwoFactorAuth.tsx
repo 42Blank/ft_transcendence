@@ -1,20 +1,12 @@
 import { useState } from 'react';
-import { atom, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { Modal } from 'common';
+import { DUMMY_2FA } from 'store/dummy2FA';
 import { Enable2FA } from './Enable2FA';
 import { Cancle2FA } from './Cancle2FA';
 
 import { twoFactorAuthStyle } from '../ProfileCard.style';
-
-interface TwoFactorAuthType {
-  isChecked: boolean;
-}
-
-const DUMMY_2FA = atom<TwoFactorAuthType>({
-  key: 'dummy2fa',
-  default: { isChecked: false },
-});
 
 export const TwoFactorAuth = () => {
   const dummy2FA = useRecoilValue(DUMMY_2FA);
