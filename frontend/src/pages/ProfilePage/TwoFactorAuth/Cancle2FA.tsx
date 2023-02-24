@@ -1,8 +1,10 @@
+import { useGetUser } from 'hooks';
 import { deleteTwoFactorAuth } from 'services';
 
 export const Cancle2FA = () => {
+  const { refetch } = useGetUser();
   function handleClickCancleButton() {
-    deleteTwoFactorAuth();
+    deleteTwoFactorAuth().then(() => refetch());
   }
 
   return (
