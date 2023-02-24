@@ -1,6 +1,7 @@
 import { FormEvent } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { newGameRoomState } from 'store';
+import { playerRoleState } from 'store/playerRoleState';
 
 import {
   formSectionButtonWrapper,
@@ -15,11 +16,12 @@ interface Props {
 
 export const NewGameModalBody = ({ onClickClose }: Props) => {
   const setNewGameRoom = useSetRecoilState(newGameRoomState);
-  // const nameRef = useRef<HTMLInputElement>(null);
+  const setPlayerRole = useSetRecoilState(playerRoleState);
 
   function handleOnClick(e: FormEvent) {
     // roomTitle 필요없어서 처내야함.
     e.preventDefault();
+    setPlayerRole({ role: 'host' });
     setNewGameRoom({
       created: true,
     });
