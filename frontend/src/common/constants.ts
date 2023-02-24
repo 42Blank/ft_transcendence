@@ -24,4 +24,7 @@ export const API = {
   // Friend/Block
   FRIEND: '/friend',
   BLOCK: '/friend/block',
+
+  // Match history
+  MATCH: '/match',
 } as const;

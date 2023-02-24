@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const MatchHistoryList = ({ userId, className }: Props) => {
-  // DUMMY INITIALIZE ***
   const user1 = useGetUser('1').data;
   const user2 = useGetUser('2').data;
 
