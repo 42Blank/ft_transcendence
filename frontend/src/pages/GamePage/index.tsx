@@ -25,7 +25,9 @@ export const GamePage = () => {
   }, []);
 
   useEffect(() => {
-    if (finishedGame) setIsModalShown(true);
+    if (finishedGame) {
+      setIsModalShown(true);
+    }
   }, [finishedGame]);
 
   return (

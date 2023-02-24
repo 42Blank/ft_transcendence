@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import { GameData, GameRoomInfoType } from 'types/game';
+import { NavigateFunction } from 'react-router-dom';
 
 import { sockets } from 'hooks';
-import { NavigateFunction } from 'react-router-dom';
 import { MatchHistoryType } from 'types/profile';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
@@ -96,8 +96,11 @@ export class MainScene extends Phaser.Scene {
     this.time.addEvent({
       delay: 100,
       callback: () => {
-        if (this.isHost) this.updateHostPos();
-        else if (!this.isHost) this.updateChalPos();
+        if (this.isHost) {
+          this.updateHostPos();
+        } else if (!this.isHost) {
+          this.updateChalPos();
+        }
       },
       loop: true,
     });

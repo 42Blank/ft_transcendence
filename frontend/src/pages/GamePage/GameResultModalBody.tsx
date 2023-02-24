@@ -3,8 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ROUTE } from 'common/constants';
 import { useGetCurrentGameRoom } from 'hooks';
-import { leaveGameRoomState } from 'store';
-import { finishedGameState } from 'store/finishedGameState';
+import { leaveGameRoomState, finishedGameState } from 'store';
 
 import {
   formSectionButtonWrapper,
@@ -29,9 +28,9 @@ export const GameResultModalBody = () => {
     <div className={newGameFormStyle}>
       <div className={newGameInnerDivStyle}>
         <div className={formSectionDivStyle}>
-          <h1>
+          <span>
             🏅{finishedGame.winner.nickname} 🆚 {finishedGame.loser.nickname}
-          </h1>
+          </span>
         </div>
       </div>
       <div className={formSectionButtonWrapper}>
