@@ -27,4 +27,7 @@ export const API = {
 
   // Match history
   MATCH: '/match',
+
+  // Achievement
+  ACHIEVEMENT: '/achievement',
 } as const;

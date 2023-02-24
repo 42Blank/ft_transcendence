@@ -5,7 +5,11 @@ export interface AchievementType {
   name: string;
   description: string;
   image: string;
-  achievedAt: string;
+  winCount?: number;
+  loseCount?: number;
+  winStreak?: number;
+  loseStreak?: number;
+  friendCount?: number;
 }
 
 export interface MatchHistoryType {

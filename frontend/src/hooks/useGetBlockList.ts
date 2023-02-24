@@ -1,5 +1,6 @@
-import { getBlockList } from 'services';
 import { useQuery } from 'react-query';
+
+import { getBlockList } from 'services';
 
 export function useGetBlockList() {
   const { data: blockList = [], refetch } = useQuery(['block_list'], getBlockList, {
