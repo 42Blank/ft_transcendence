@@ -23,7 +23,7 @@ export const GameRoomElement = ({ gameRoomInfo }: Props) => {
   }
 
   return (
-    <button type="button" onClick={handleClickJoinButton} className={gameRoomLinkStyle}>
+    <div className={gameRoomLinkStyle}>
       <div className={gameRoomElementStyle}>
         <div className={gameRoomVsSectionStyle}>
           <div className={gameRoomUserWrapperStyle}>
@@ -48,8 +48,16 @@ export const GameRoomElement = ({ gameRoomInfo }: Props) => {
           <div>
             <span>{state}</span>
           </div>
+          <div>
+            <button type="button" onClick={handleClickJoinButton}>
+              <span>[입장]</span>
+            </button>
+            <button type="button">
+              <span>[관전]</span>
+            </button>
+          </div>
         </div>
       </div>
-    </button>
+    </div>
   );
 };
