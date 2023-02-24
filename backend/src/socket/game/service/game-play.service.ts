@@ -30,7 +30,7 @@ export class GamePlayService {
 
     gameRoom.score[winner]++;
 
-    if (gameRoom.score[winner] >= 2) {
+    if (gameRoom.score[winner] >= 5) {
       await this.finishGameService.finishGame(gameRoom);
 
       return {

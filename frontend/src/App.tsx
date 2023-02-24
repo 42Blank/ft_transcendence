@@ -12,8 +12,8 @@ import {
   RegisterPage,
   GameResultPage,
 } from 'pages';
-
 import { ROUTE } from 'common/constants';
+import { GithubCallback } from 'pages/ProfilePage/TwoFactorAuth/GithubCallback';
 
 export const App = () => {
   return (
@@ -27,6 +27,7 @@ export const App = () => {
           <Route path={`${ROUTE.RESULT}/:id`} element={<GameResultPage />} />
           <Route path={ROUTE.PROFILE} element={<ProfilePage />} />
           <Route path={`${ROUTE.PROFILE}/:id`} element={<ProfilePage />} />
+          <Route path={`${ROUTE.GITHUB_CHECK}`} element={<GithubCallback />} />
         </Route>
       </Route>
       <Route path={ROUTE.ROOT} element={<LoginLayout />}>

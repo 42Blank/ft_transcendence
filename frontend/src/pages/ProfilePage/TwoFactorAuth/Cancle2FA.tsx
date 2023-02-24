@@ -1,13 +1,12 @@
-import { useSetRecoilState } from 'recoil';
-
-import { DUMMY_2FA } from 'store/dummy2FA';
+import { useGetUser } from 'hooks';
+import { deleteTwoFactorAuth } from 'services';
 
 export const Cancle2FA = () => {
-  const setDummy = useSetRecoilState(DUMMY_2FA);
-
+  const { refetch } = useGetUser();
   function handleClickCancleButton() {
-    setDummy(prev => ({ ...prev, isChecked: false }));
+    deleteTwoFactorAuth().then(() => refetch());
   }
+
   return (
     <div>
       <button type="button" onClick={handleClickCancleButton}>

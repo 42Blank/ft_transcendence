@@ -13,6 +13,7 @@ const INIT_DATA: UserInfoType = {
   point: 0,
   createdAt: '1970-01-01T00:00:00.000Z',
   updatedAt: '1970-01-01T00:00:00.000Z',
+  isTwoFactorAuth: false,
 };
 
 export function useGetUser(userId?: string) {

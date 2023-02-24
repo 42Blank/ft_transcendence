@@ -36,6 +36,6 @@ export class FinishGameService {
 
     setTimeout(() => {
       this.gameRoomRepository.removeGameRoom(gameRoom.id);
-    }, 10_000);
+    }, 3_000);
   }
 }
