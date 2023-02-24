@@ -10,21 +10,8 @@ interface Props {
 export const MatchHistoryList = ({ userId, className }: Props) => {
   const { matchHistory } = useGetMatchHistory(userId);
 
-  //   const DUMMY_MATCH_HISTORY = [
-  //     {
-  //       id: 1,
-  //       winner: user1,
-  //       loser: user2,
-  //       createdAt: '1970-01-01T00:00:00.000Z',
-  //     },
-  //     {
-  //       id: 2,
-  //       winner: user2,
-  //       loser: user1,
-  //       createdAt: '1970-01-01T00:00:00.000Z',
-  //     },
-  //   ];
-  // ***
+  console.log(matchHistory);
+
   return (
     <div className={className}>
       <h1>Match History List</h1>
