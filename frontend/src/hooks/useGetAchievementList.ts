@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { getAchievementList } from 'services';
 
 export function useGetAchievementList() {
-  const { data: achievementList = [], refetch } = useQuery(['block_list'], getAchievementList, {
+  const { data: achievementList = [], refetch } = useQuery(['achievement_list'], getAchievementList, {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60,
     cacheTime: 1000 * 60,
