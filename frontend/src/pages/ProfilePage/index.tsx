@@ -15,7 +15,7 @@ export const ProfilePage = () => {
   const { data: profile, refetch } = useGetUser(id);
   const { data: myProfile } = useGetUser();
 
-  if (!profile) return <span>error</span>;
+  if (profile.id === -1) return <span>Loading profile....</span>;
   return (
     <main className={profileContainerStyle}>
       <div className={cardStyle}>
