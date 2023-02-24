@@ -38,6 +38,12 @@ export type GameData = {
 export interface JoinGameRoomType {
   id: string;
 }
+export interface JoinSpectateRoomType {
+  id: string;
+}
+export interface PlayerRoleType {
+  role: 'host' | 'challenger' | 'spectator' | 'none';
+}
 
 export interface NewGameRoomType {
   created: boolean;

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Phaser from 'phaser';
 import { GameInstance, IonPhaser } from '@ion-phaser/react';
 
-import { useGetCurrentGameRoom, useGetUser } from 'hooks';
+import { useRecoilValue } from 'recoil';
+import { playerRoleState } from 'store/playerRoleState';
 import { MainScene } from './MainScene';
 
 const mainScene = new MainScene();
@@ -20,16 +21,12 @@ const game: GameInstance = {
 const GamePong = () => {
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   const [initialize] = useState(true);
-
-  const { data: currentUser } = useGetUser();
-  const currentGameRoom = useGetCurrentGameRoom();
+  const playerRole = useRecoilValue(playerRoleState);
   const nav = useNavigate();
 
   useEffect(() => {
-    const isHost = currentUser.id === currentGameRoom.host.user.id;
-
     mainScene.initHandlers();
-    mainScene.hostCheckHandlers(isHost);
+    mainScene.hostCheckHandlers(playerRole.role);
     mainScene.naviHandlers(nav);
   }, []);
 

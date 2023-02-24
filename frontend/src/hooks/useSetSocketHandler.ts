@@ -42,6 +42,9 @@ export function useSetSocketHandler() {
   function joinGameRoomHandler(id: string) {
     nav(`${ROUTE.GAME}/${id}`);
   }
+  function joinSpectateRoomHandler(id: string) {
+    nav(`${ROUTE.GAME}/${id}`);
+  }
 
   return {
     connectHandler,
@@ -53,5 +56,6 @@ export function useSetSocketHandler() {
     joinChatRoomHandler,
     getAllGameRoomHandler,
     joinGameRoomHandler,
+    joinSpectateRoomHandler,
   };
 }

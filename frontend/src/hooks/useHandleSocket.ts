@@ -10,6 +10,7 @@ import {
   userOperationState,
   updateChatRoomState,
   joinGameRoomState,
+  joinSpectateRoomState,
   newGameRoomState,
   leaveGameRoomState,
 } from 'store';
@@ -64,6 +65,8 @@ export function useHandleSocket() {
   const resetNewGameRoom = useResetRecoilState(newGameRoomState);
   const joinGameRoom = useRecoilValue(joinGameRoomState);
   const resetJoinGameRoom = useResetRecoilState(joinGameRoomState);
+  const joinSpectateRoom = useRecoilValue(joinSpectateRoomState);
+  const resetJoinSpectateRoom = useResetRecoilState(joinSpectateRoomState);
   const leaveGameRoom = useRecoilValue(leaveGameRoomState);
   const resetLeaveGameRoom = useResetRecoilState(leaveGameRoomState);
 
@@ -78,6 +81,7 @@ export function useHandleSocket() {
     joinChatRoomHandler,
     // Game
     joinGameRoomHandler,
+    joinSpectateRoomHandler,
     getAllGameRoomHandler,
   } = useSetSocketHandler();
 
@@ -160,6 +164,14 @@ export function useHandleSocket() {
     resetJoinGameRoom();
   }, [joinGameRoom]);
 
+  useEffect(() => {
+    if (joinSpectateRoom.id.length === 0) return;
+    if (sockets.gameSocket === null) return;
+
+    sockets.gameSocket.emit('spectate_room', joinSpectateRoom);
+    resetJoinSpectateRoom();
+  }, [joinSpectateRoom]);
+
   /* ----------------- Game ----------------- */
   useEffect(() => {
     if (!sockets.chatSocket) {
@@ -179,6 +191,7 @@ export function useHandleSocket() {
         disconnectHandler,
       });
       sockets.gameSocket.on('join_room', joinGameRoomHandler);
+      sockets.gameSocket.on('spectate_room', joinSpectateRoomHandler);
       sockets.gameSocket.on('update_game_room', getAllGameRoomHandler);
     }
     if (!sockets.onlineSocket) {

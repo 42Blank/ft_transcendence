@@ -1,5 +1,6 @@
 import { useSetRecoilState } from 'recoil';
-import { joinGameRoomState } from 'store';
+import { joinGameRoomState, joinSpectateRoomState } from 'store';
+import { playerRoleState } from 'store/playerRoleState';
 import { GameRoomInfoType } from 'types/game';
 
 import {
@@ -17,13 +18,20 @@ interface Props {
 export const GameRoomElement = ({ gameRoomInfo }: Props) => {
   const { id: roomID, host, challenger, state } = gameRoomInfo;
   const setJoinGameRoom = useSetRecoilState(joinGameRoomState);
+  const setJoinSpectateRoom = useSetRecoilState(joinSpectateRoomState);
+  const setPlayerRole = useSetRecoilState(playerRoleState);
 
   function handleClickJoinButton() {
+    setPlayerRole({ role: 'challenger' });
     setJoinGameRoom({ id: roomID });
+  }
+  function handleClickSpectateButton() {
+    setPlayerRole({ role: 'spectator' });
+    setJoinSpectateRoom({ id: roomID });
   }
 
   return (
-    <button type="button" onClick={handleClickJoinButton} className={gameRoomLinkStyle}>
+    <div className={gameRoomLinkStyle}>
       <div className={gameRoomElementStyle}>
         <div className={gameRoomVsSectionStyle}>
           <div className={gameRoomUserWrapperStyle}>
@@ -48,8 +56,16 @@ export const GameRoomElement = ({ gameRoomInfo }: Props) => {
           <div>
             <span>{state}</span>
           </div>
+          <div>
+            <button type="button" onClick={handleClickJoinButton}>
+              <span>[입장]</span>
+            </button>
+            <button type="button" onClick={handleClickSpectateButton}>
+              <span>[관전]</span>
+            </button>
+          </div>
         </div>
       </div>
-    </button>
+    </div>
   );
 };
