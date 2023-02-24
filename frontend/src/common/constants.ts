@@ -7,7 +7,7 @@ export const ROUTE = {
   LOGIN: '/login',
   LOGIN_CHECK: '/login/callback',
   REGISTER: '/login/new',
-  GITHUB_AUTH_CALLBACK: '/auth/github/callback',
+  GITHUB_CHECK: '/github/callback',
 } as const;
 
 export const API = {
@@ -19,6 +19,7 @@ export const API = {
   REGISTER: '/auth/register',
   SIGN_OUT: '/auth/signout',
   GITHUB_AUTH: '/auth/github',
+  GITHUB_AUTH_CALLBACK: '/auth/github/callback',
 
   // User
   USER: '/users',
