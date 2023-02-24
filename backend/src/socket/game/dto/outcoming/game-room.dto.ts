@@ -18,4 +18,5 @@ export type GameRoomDto = {
   score: Score;
   host: Player;
   challenger?: Player;
+  matchHistoryId?: number;
 };

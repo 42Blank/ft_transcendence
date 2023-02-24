@@ -9,3 +9,6 @@ export { putUserProfile } from './putUserProfile';
 export { getAllUserList } from './getAllUserList';
 export { getMatchHistoryByUserId } from './getMatchHistoryByUserId';
 export { getMatchHistoryById } from './getMatchHistoryById';
+export { getAchievementList } from './getAchievementList';
+export { getUserAchievement } from './getUserAchievement';
+export { postUserAchievement } from './postUserAchievement';

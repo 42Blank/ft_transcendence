@@ -3,18 +3,41 @@ import { UpdatePositionDto } from '../dto/incoming/update-position.dto';
 import { GameDataDto } from '../dto/outcoming/game-data.dto';
 import { GameRoom } from '../model/game-room';
 import { GameRoomRepository } from '../repository/game-room.repository';
+import { FinishGameService } from './finish-game.service';
 
 @Injectable()
 export class GameUserService {
-  constructor(private readonly gameRoomRepository: GameRoomRepository) {}
+  constructor(
+    private readonly gameRoomRepository: GameRoomRepository,
+    private readonly finishGameService: FinishGameService,
+  ) {}
 
   public joinGameRoom(socketId: string, userId: number, gameRoomId: string): void {
     this.gameRoomRepository.setChallengerToGameRoom(gameRoomId, socketId, userId);
     this.gameRoomRepository.updateGameRoomState(gameRoomId, 'playing');
   }
 
-  public leaveAllGameRooms(socketId: string): void {
-    this.gameRoomRepository.removeSocketFromAllGameRooms(socketId);
+  public async leaveGameRoom(socketId: string): Promise<void> {
+    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
+      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
+    });
+
+    if (!gameRoom) {
+      return;
+    }
+
+    if (gameRoom.host.socketId !== socketId && gameRoom.challenger?.socketId !== socketId) {
+      gameRoom.spectatorSocketIds.delete(socketId);
+      return;
+    }
+
+    if (gameRoom.host.socketId === socketId) {
+      gameRoom.score.host = -42;
+    } else {
+      gameRoom.score.challenger = -42;
+    }
+
+    await this.finishGameService.finishGame(gameRoom);
   }
 
   public getUsersSocketId(socketId: string): string[] {

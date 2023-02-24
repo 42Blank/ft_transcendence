@@ -17,4 +17,5 @@ export interface GameRoom {
   host: Player;
   challenger?: Player;
   spectatorSocketIds: Set<string>;
+  matchHistoryId?: number;
 }
