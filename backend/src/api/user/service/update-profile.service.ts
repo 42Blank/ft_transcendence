@@ -32,4 +32,11 @@ export class UpdateProfileService {
 
     return !!alreadyUsedNickname;
   }
+
+  async removeTwoFactorAuth(user: User): Promise<void> {
+    await this.userRepository.save({
+      ...user,
+      isTwoFactorAuth: false,
+    });
+  }
 }
