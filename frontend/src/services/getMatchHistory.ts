@@ -1,7 +1,7 @@
 import { API } from 'common/constants';
-import { UserInfoType } from 'types/user';
+import { MatchHistoryType } from 'types/profile';
 import { axiosGet } from './axiosWrapper';
 
-export function getMatchHistory(userId: number): Promise<UserInfoType[]> {
-  return axiosGet<UserInfoType[]>(`${API.MATCH}/${userId}`);
+export function getMatchHistory(userId: number): Promise<MatchHistoryType[]> {
+  return axiosGet<MatchHistoryType[]>(`${API.MATCH}/${userId}`);
 }
