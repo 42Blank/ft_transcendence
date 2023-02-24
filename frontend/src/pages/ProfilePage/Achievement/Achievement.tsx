@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { Tooltip } from 'common';
-
 import { AchievementType } from 'types/profile';
 import { AchievementTooltip } from './AchievementTooltip';
 
@@ -14,14 +13,14 @@ interface Props {
 }
 
 export const Achievement = ({ achieve }: Props) => {
-  const [isTooltipShown, setTooltipShown] = useState<Boolean>(false);
+  const [isTooltipShown, setIsTooltipShown] = useState<Boolean>(false);
 
   function handleOpenTooltip() {
-    setTooltipShown(true);
+    setIsTooltipShown(true);
   }
 
   function handleCloseTooltip() {
-    setTooltipShown(false);
+    setIsTooltipShown(false);
   }
 
   return (

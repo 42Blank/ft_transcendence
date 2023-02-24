@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 
 import { useGetUser } from 'hooks';
-
 import { ProfileCard } from './ProfileCard';
 import { ManageFriends } from './ManageFriends';
 import { MatchHistoryList } from './MatchHistory';

@@ -26,6 +26,7 @@ export class MainScene extends Phaser.Scene {
 
   initHandlers() {
     sockets.gameSocket.on('game_data', this.gameDataHandler.bind(this));
+    this.events = new Phaser.Events.EventEmitter();
   }
 
   naviHandlers(navi: NavigateFunction) {
@@ -41,7 +42,7 @@ export class MainScene extends Phaser.Scene {
     this.ball.setPosition(400, 300);
     this.ball.setVelocity(0, 0);
     this.time.delayedCall(1500, () => {
-      this.ball.setVelocity(200, 200);
+      this.ball.setVelocity(300, 150);
     });
     this.ball.setVisible(true);
   }
@@ -60,7 +61,8 @@ export class MainScene extends Phaser.Scene {
     }
     this.initBall();
     if (this.scoreLeft >= maxScore || this.scoreRight >= maxScore) {
-      this.navigate('/game');
+      this.events.emit('gameFinished');
+      this.ball.disableBody();
     }
   }
 
@@ -73,7 +75,7 @@ export class MainScene extends Phaser.Scene {
     this.ball = this.physics.add.image(400, 300, 'ball');
     this.ball.setCollideWorldBounds(true);
     this.ball.setBounce(1);
-    this.ball.setVelocity(200, 200);
+    this.ball.setVelocity(0, 0);
 
     this.paddleLeft = this.physics.add.image(100, 300, 'peddal');
     this.paddleLeft.setImmovable(true);
@@ -93,6 +95,8 @@ export class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.ball, this.paddleRight, null, null, this);
 
     this.key = this.input.keyboard.createCursorKeys();
+
+    this.initBall();
   }
 
   update(time: number, delta: number) {

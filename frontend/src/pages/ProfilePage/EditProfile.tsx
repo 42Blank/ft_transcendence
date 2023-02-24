@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { Modal } from 'common';
 import { UserInfoType } from 'types/user';
-
 import { EditProfileModal } from './EditProfileModal';
 import { editProfileButtonStyle } from './ProfileCard.style';
 
@@ -12,14 +11,14 @@ interface Props {
 }
 
 export const EditProfile = ({ user, refetch }: Props) => {
-  const [isModalShown, setModalShown] = useState<Boolean>(false);
+  const [isModalShown, setIsModalShown] = useState<Boolean>(false);
 
   function handleOpenModal() {
-    setModalShown(true);
+    setIsModalShown(true);
   }
 
   function handleCloseModal() {
-    setModalShown(false);
+    setIsModalShown(false);
   }
 
   return (
