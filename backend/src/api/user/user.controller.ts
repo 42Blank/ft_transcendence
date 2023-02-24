@@ -57,7 +57,7 @@ export class UserController {
     await this.updateProfileService.updateProfile(user, updateUserProfileDto);
   }
 
-  @Delete()
+  @Delete('two-factor-auth')
   @ApiOperation({ summary: '유저 2차 인증 제거' })
   @ApiOkResponse({ description: '성공' })
   async deleteTwoFactorAuth(
