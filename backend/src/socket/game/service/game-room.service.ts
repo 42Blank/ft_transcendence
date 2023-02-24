@@ -15,7 +15,13 @@ export class GameRoomService {
   ) {}
 
   public createGameRoom(socketId: string, userId: number): GameRoom {
-    this.gameRoomRepository.removeSocketFromAllGameRooms(socketId);
+    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
+      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
+    });
+
+    if (gameRoom) {
+      throw new NotAcceptableException(`Socket ${socketId} is already in game room ${gameRoom.id}`);
+    }
 
     return this.gameRoomRepository.createGameRoom(socketId, userId);
   }
@@ -53,6 +59,10 @@ export class GameRoomService {
         user: await this.userRepository.findOneBy({ id: gameRoom.challenger.userId }),
         ready: gameRoom.challenger.ready,
       };
+    }
+
+    if (gameRoom.state === 'finished') {
+      gameRoomDto.matchHistoryId = gameRoom.matchHistoryId;
     }
 
     return gameRoomDto;

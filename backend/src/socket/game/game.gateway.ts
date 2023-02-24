@@ -10,7 +10,6 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser';
-import { MatchHistory } from '../../common/database/entities/match-history.entity';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
@@ -72,7 +71,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   public async leaveRoom(
     @ConnectedSocket() client: SocketWithUser, //
   ): Promise<void> {
-    this.gameUserService.leaveAllGameRooms(client.id);
+    await this.gameUserService.leaveGameRoom(client.id);
 
     this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
 
@@ -119,7 +118,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     if (updateScoreResult.isGameFinish === false) {
       await this.emitUpdateScore(gameUserSockets, updateScoreResult.score);
     } else if (updateScoreResult.isGameFinish === true) {
-      await this.emitFinishGame(gameUserSockets, updateScoreResult.matchHistory);
+      await this.emitGameRooms();
     }
   }
 
@@ -129,16 +128,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     gameUserSockets.forEach(socketId => {
       this.io.to(socketId).emit('update_score', score);
     });
-  }
-
-  public async emitFinishGame(gameUserSockets: string[], matchHistory: MatchHistory): Promise<void> {
-    this.logger.verbose(`emitFinishGame: ${JSON.stringify(matchHistory)}`);
-
-    gameUserSockets.forEach(socketId => {
-      this.io.to(socketId).emit('finish_game', matchHistory);
-    });
-
-    await this.emitGameRooms();
   }
 
   public async emitJoinRoom(client: SocketWithUser, gameRoomId: string): Promise<void> {
@@ -176,7 +165,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const isUserDisconnected = this.connectionHandleService.handleDisconnect(client);
 
     if (isUserDisconnected) {
-      this.gameUserService.leaveAllGameRooms(client.id);
+      this.gameUserService.leaveGameRoom(client.id);
       this.emitGameRooms();
     }
   }
