@@ -17,6 +17,7 @@ export interface GameRoomInfoType {
   challenger?: Player;
   spectatorSocketIds: Set<string>;
   score: Score;
+  matchHistoryId?: number;
 }
 
 export type GameData = {
