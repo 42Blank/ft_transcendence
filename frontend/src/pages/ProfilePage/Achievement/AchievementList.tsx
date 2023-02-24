@@ -12,14 +12,12 @@ const DUMMY_ACHIEVEMENT = [
     name: 'First Blood',
     description: 'Winning very first game',
     image: '/pochita_sample.png',
-    achievedAt: '1970-01-01T00:00:00.000Z',
   },
   {
     id: 3,
     name: 'Killing Spree',
     description: 'Winning 3 games in a streak',
     image: '/pochita_sample.png',
-    achievedAt: '1970-01-01T00:00:00.000Z',
   },
 ];
 
