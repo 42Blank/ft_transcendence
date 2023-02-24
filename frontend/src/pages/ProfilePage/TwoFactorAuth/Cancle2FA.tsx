@@ -1,6 +1,8 @@
+import { deleteTwoFactorAuth } from 'services';
+
 export const Cancle2FA = () => {
   function handleClickCancleButton() {
-    alert('hi');
+    deleteTwoFactorAuth();
   }
 
   return (
