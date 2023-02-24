@@ -12,20 +12,23 @@ interface Props {
 
 export const AchievementList = ({ userId, className }: Props) => {
   const [isPostDone, setIsPostDone] = useState<Boolean>(false);
-  postUserAchievement(userId).then(() => setIsPostDone(true));
-  const achievementList: AchievementType[] = useGetUserAchievement(userId).userAchievement;
-  const allAchievementList: AchievementType[] = useGetAchievementList().achievementList;
+  const { achievementList } = useGetAchievementList();
+  const { userAchievement, refetch } = useGetUserAchievement(userId);
+  postUserAchievement(userId).then(() => {
+    setIsPostDone(true);
+    refetch();
+  });
 
   if (!isPostDone) return <div>loading Achievement List ...</div>;
   return (
     <div className={className}>
       <h1>Achievement</h1>
       <h2> debug: ID : {userId}</h2>
-      {allAchievementList.map((value: AchievementType) => (
+      {achievementList.map((value: AchievementType) => (
         <Achievement
           key={value.id}
           achieve={value}
-          isAchieved={achievementList.some(active => active.id === value.id)}
+          isAchieved={userAchievement.some(active => active.id === value.id)}
         />
       ))}
     </div>
