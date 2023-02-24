@@ -50,6 +50,10 @@ export class GameRoomRepository {
   public setChallengerToGameRoom(gameRoomId: string, socketId: string, userId: number): void {
     const gameRoom = this.getGameRoom(gameRoomId);
 
+    if (!gameRoom) {
+      throw new NotAcceptableException(`Game room ${gameRoomId} does not exist`);
+    }
+
     if (gameRoom.challenger) {
       throw new NotAcceptableException(
         `Game room ${gameRoomId} already has a challenger ${gameRoom.challenger.userId}`,
