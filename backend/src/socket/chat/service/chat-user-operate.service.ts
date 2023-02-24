@@ -68,9 +68,10 @@ export class ChatUserOperateService {
 
   public unbanUser(chatRoomId: string, fromUserId: number, toUserId: number): void {
     const fromUser = this.getChatUser(chatRoomId, fromUserId);
-    const toUser = this.getChatUser(chatRoomId, toUserId);
 
-    this.validateOperable(fromUser, toUser);
+    if (fromUser.role === 'user') {
+      throw new NotAcceptableException(`User ${fromUser.id} is neither operator nor host`);
+    }
 
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
     chatRoom.bannedUsers.delete({
