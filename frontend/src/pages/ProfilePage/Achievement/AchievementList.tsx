@@ -1,6 +1,6 @@
 import { useGetAchievementList } from 'hooks/useGetAchievementList';
 import { useGetUserAchievement } from 'hooks/useGetUserAchievement';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { postUserAchievement } from 'services';
 import { AchievementType } from 'types/profile';
 import { Achievement } from './Achievement';
@@ -14,9 +14,11 @@ export const AchievementList = ({ userId, className }: Props) => {
   const [isPostDone, setIsPostDone] = useState<Boolean>(false);
   const { achievementList } = useGetAchievementList();
   const { userAchievement, refetch } = useGetUserAchievement(userId);
-  postUserAchievement(userId).then(() => {
-    setIsPostDone(true);
-    refetch();
+  useEffect(() => {
+    postUserAchievement(userId).then(() => {
+      setIsPostDone(true);
+      refetch();
+    });
   });
 
   if (!isPostDone) return <div>loading Achievement List ...</div>;
