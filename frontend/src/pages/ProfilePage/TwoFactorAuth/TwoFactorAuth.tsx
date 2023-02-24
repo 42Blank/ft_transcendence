@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { atom, useRecoilValue } from 'recoil';
 
 import { Modal } from 'common';
 import { Enable2FA } from './Enable2FA';
@@ -10,11 +11,14 @@ interface TwoFactorAuthType {
   isChecked: boolean;
 }
 
-const DUMMY_2FA: TwoFactorAuthType = {
-  isChecked: false,
-};
+const DUMMY_2FA = atom<TwoFactorAuthType>({
+  key: 'dummy2fa',
+  default: { isChecked: false },
+});
 
 export const TwoFactorAuth = () => {
+  const dummy2FA = useRecoilValue(DUMMY_2FA);
+
   const [isModalShown, setIsModalShown] = useState<Boolean>(false);
 
   function handleOpenModal() {
@@ -31,10 +35,10 @@ export const TwoFactorAuth = () => {
         <button type="button" onClick={handleOpenModal}>
           Two-Factor Authentication
         </button>
-        <input type="checkbox" checked={DUMMY_2FA.isChecked} readOnly />
+        <input type="checkbox" checked={dummy2FA.isChecked} readOnly />
       </div>
       {isModalShown && (
-        <Modal onClickClose={handleCloseModal}>{DUMMY_2FA.isChecked ? <Cancle2FA /> : <Enable2FA />}</Modal>
+        <Modal onClickClose={handleCloseModal}>{dummy2FA.isChecked ? <Cancle2FA /> : <Enable2FA />}</Modal>
       )}
     </>
   );
