@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
-import { GameData, GameRoomInfoType } from 'types/game';
 import { NavigateFunction } from 'react-router-dom';
 
-import { sockets } from 'hooks';
+import { GameData, GameRoomInfoType } from 'types/game';
 import { MatchHistoryType } from 'types/profile';
+import { sockets } from 'hooks';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
