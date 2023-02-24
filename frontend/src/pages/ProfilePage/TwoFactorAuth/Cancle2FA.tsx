@@ -11,7 +11,7 @@ export const Cancle2FA = () => {
   return (
     <div>
       <button type="button" onClick={handleClickCancleButton}>
-        cancle 2FA button
+        <span>cancle 2FA button</span>
       </button>
     </div>
   );
