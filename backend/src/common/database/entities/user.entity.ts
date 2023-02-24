@@ -26,6 +26,10 @@ export class User {
   @Column({ type: 'int', nullable: false, default: 0 })
   point: number;
 
+  @ApiProperty({ example: false, description: '2차 인증여부' })
+  @Column({ type: 'boolean', nullable: false, default: 0 })
+  isTwoFactorAuth: boolean;
+
   @ApiProperty({ example: new Date(), description: '유저 생성 시간' })
   @CreateDateColumn()
   createdAt: Date;
