@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { postUserAchievement } from 'services';
 import { AchievementType } from 'types/profile';
 import { Achievement } from './Achievement';
@@ -23,8 +24,10 @@ const DUMMY_ACHIEVEMENT = [
 ];
 
 export const AchievementList = ({ userId, className }: Props) => {
-  const isPostDone = postUserAchievement(userId);
-  console.log('post: ', isPostDone);
+  const [isPostDone, setIsPostDone] = useState<Boolean>(false);
+  postUserAchievement(userId).then(() => setIsPostDone(true));
+
+  if (!isPostDone) return <div>loading Achievement List ...</div>;
   return (
     <div className={className}>
       <h1>Achievement</h1>
