@@ -14,6 +14,7 @@ type Score = {
 export type GameRoomDto = {
   id: string;
   state: GameRoom['state'];
+  mode: GameRoom['mode'];
   score: Score;
   host: Player;
   challenger?: Player;

@@ -17,19 +17,20 @@ export class GameUserService {
     this.gameRoomRepository.removeSocketFromAllGameRooms(socketId);
   }
 
-  public getJoinedGameRoom(socketId: string): GameRoom {
-    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
-      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
-    });
+  public getUsersSocketId(socketId: string): string[] {
+    const gameRoom = this.getJoinedGameRoom(socketId);
 
-    if (!gameRoom) {
-      throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
+    const userSockets = [gameRoom.host.socketId, ...gameRoom.spectatorSocketIds];
+
+    if (gameRoom.challenger) {
+      userSockets.push(gameRoom.challenger.socketId);
     }
 
-    return gameRoom;
+    return userSockets;
   }
 
-  public createGameData(gameRoom: GameRoom, socketId: string, data: UpdatePositionDto): GameDataDto {
+  public createGameData(socketId: string, data: UpdatePositionDto): GameDataDto {
+    const gameRoom = this.getJoinedGameRoom(socketId);
     const gameDataDto: GameDataDto = {};
 
     if (gameRoom.state !== 'playing' || !gameRoom.challenger) {
@@ -58,5 +59,17 @@ export class GameUserService {
     }
 
     return gameDataDto;
+  }
+
+  private getJoinedGameRoom(socketId: string): GameRoom {
+    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
+      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
+    });
+
+    if (!gameRoom) {
+      throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
+    }
+
+    return gameRoom;
   }
 }

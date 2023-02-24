@@ -15,6 +15,7 @@ export class GameRoomRepository {
     const gameRoom: GameRoom = {
       id: uuidv4(),
       state: 'waiting',
+      mode: 'normal',
       host: player,
       spectatorSocketIds: new Set(),
       score: {
