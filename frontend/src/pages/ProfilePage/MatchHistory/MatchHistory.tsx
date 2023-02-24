@@ -1,24 +1,27 @@
 import { MatchHistoryType } from 'types/profile';
+import { MatchHistoryBox } from './MatchHistoryBox';
 
-import { matchAvatarStyle, matchHistoryContainerStyle, matchHistoryBoxStyle } from './MatchHistory.style';
+import { matchHistoryContainerStyle } from './MatchHistory.style';
 
 interface Props {
   history: MatchHistoryType;
+  userId: number;
 }
 
-export const MatchHistory = ({ history }: Props) => {
+export const MatchHistory = ({ history, userId }: Props) => {
   return (
     <div className={matchHistoryContainerStyle}>
-      <div className={matchHistoryBoxStyle}>
-        <img className={matchAvatarStyle} src={history.winner.avatar} width={100} height={100} alt="winnerAvatar" />
-        <span className="win-lose">WIN</span>
-        <span className="nick">{history.winner.nickname}</span>
-      </div>
-      <div className={matchHistoryBoxStyle}>
-        <img className={matchAvatarStyle} src={history.loser.avatar} width={100} height={100} alt="loserAvatar" />
-        <span className="win-lose">LOSE</span>
-        <span className="nick">{history.loser.nickname}</span>
-      </div>
+      {userId === history.winner.id ? (
+        <>
+          <MatchHistoryBox user={history.winner} result="WIN" />
+          <MatchHistoryBox user={history.loser} result="LOSE" />
+        </>
+      ) : (
+        <>
+          <MatchHistoryBox user={history.loser} result="LOSE" />
+          <MatchHistoryBox user={history.winner} result="WIN" />
+        </>
+      )}
       <div className="time">Match Time: {history.createdAt}</div>
     </div>
   );
