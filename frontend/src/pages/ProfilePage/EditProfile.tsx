@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { Modal } from 'common';
 import { UserInfoType } from 'types/user';
-
 import { EditProfileModal } from './EditProfileModal';
 
 interface Props {

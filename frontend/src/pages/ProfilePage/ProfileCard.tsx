@@ -1,4 +1,5 @@
 import { UserInfoType } from 'types/user';
+
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 
 export const ProfileCard = ({ user }: { user: UserInfoType }) => {
