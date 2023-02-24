@@ -5,9 +5,6 @@ import Phaser from 'phaser';
 import { GameInstance, IonPhaser } from '@ion-phaser/react';
 
 import { useGetCurrentGameRoom, useGetUser } from 'hooks';
-import { useSetRecoilState } from 'recoil';
-import { finishedGameState } from 'store';
-import { MatchHistoryType } from 'types/profile';
 import { ROUTE } from 'common/constants';
 import { MainScene } from './MainScene';
 
@@ -27,7 +24,7 @@ const GamePong = () => {
 
   const { data: currentUser } = useGetUser();
   const currentGameRoom = useGetCurrentGameRoom();
-  const setFinishedGame = useSetRecoilState(finishedGameState);
+  // const setFinishedGame = useSetRecoilState(finishedGameState);
   const nav = useNavigate();
 
   useEffect(() => {
@@ -37,8 +34,7 @@ const GamePong = () => {
     mainScene.hostCheckHandlers(isHost);
     mainScene.naviHandlers(nav);
   }, []);
-  mainScene.events.on('gameFinished', (data: MatchHistoryType) => {
-    setFinishedGame(data);
+  mainScene.events.on('gameFinished', () => {
     nav(ROUTE.RESULT);
   });
 
