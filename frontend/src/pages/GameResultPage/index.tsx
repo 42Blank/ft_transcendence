@@ -1,9 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useRecoilValue } from 'recoil';
+import { finishedGameState } from 'store';
 import { ROUTE } from 'common/constants';
 
 export const GameResultPage = () => {
   const nav = useNavigate();
+  const finishedGame = useRecoilValue(finishedGameState);
 
   function handleClickLinkButton() {
     nav(ROUTE.GAME);
@@ -12,8 +15,9 @@ export const GameResultPage = () => {
   return (
     <div>
       <h1>Result Page</h1>
-      <h4>🏅Player VS Player</h4>
-      <h4>5 VS 3</h4>
+      <h2>
+        🏅{finishedGame.winner.nickname} 🆚 {finishedGame.loser.nickname}
+      </h2>
       <button type="button" onClick={handleClickLinkButton}>
         <span>게임 메뉴로 돌아가기</span>
       </button>
