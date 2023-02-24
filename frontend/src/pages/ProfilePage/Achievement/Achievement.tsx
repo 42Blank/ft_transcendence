@@ -10,9 +10,10 @@ import { tmpAchievementTooltipStyle } from './tmpAchievementTooltip.style';
 
 interface Props {
   achieve: AchievementType;
+  isAchieved: Boolean;
 }
 
-export const Achievement = ({ achieve }: Props) => {
+export const Achievement = ({ achieve, isAchieved }: Props) => {
   const [isTooltipShown, setIsTooltipShown] = useState<Boolean>(false);
 
   function handleOpenTooltip() {
@@ -28,7 +29,8 @@ export const Achievement = ({ achieve }: Props) => {
       <div className={tmpAchievementStyle}>
         <img
           className={tmpAvatarStyle}
-          src={achieve.image}
+          //   src={achieve.image}  will be used !
+          src="/pochita_sample.png" // this is for test
           width={100}
           height={100}
           alt="pochi"
@@ -37,6 +39,7 @@ export const Achievement = ({ achieve }: Props) => {
           onMouseOut={handleCloseTooltip}
           onBlur={handleCloseTooltip}
         />
+        <p>achieved : {`${isAchieved}`}</p>
         <span>name: {achieve.name}</span>
         {isTooltipShown && (
           <Tooltip className={tmpAchievementTooltipStyle}>

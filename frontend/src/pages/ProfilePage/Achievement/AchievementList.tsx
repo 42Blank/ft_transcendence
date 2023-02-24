@@ -1,3 +1,7 @@
+import { useGetAchievementList } from 'hooks/useGetAchievementList';
+import { useGetUserAchievement } from 'hooks/useGetUserAchievement';
+import { useEffect, useState } from 'react';
+import { postUserAchievement } from 'services';
 import { AchievementType } from 'types/profile';
 import { Achievement } from './Achievement';
 
@@ -6,30 +10,28 @@ interface Props {
   className?: string;
 }
 
-const DUMMY_ACHIEVEMENT = [
-  {
-    id: 1,
-    name: 'First Blood',
-    description: 'Winning very first game',
-    image: '/pochita_sample.png',
-    achievedAt: '1970-01-01T00:00:00.000Z',
-  },
-  {
-    id: 3,
-    name: 'Killing Spree',
-    description: 'Winning 3 games in a streak',
-    image: '/pochita_sample.png',
-    achievedAt: '1970-01-01T00:00:00.000Z',
-  },
-];
-
 export const AchievementList = ({ userId, className }: Props) => {
+  const [isPostDone, setIsPostDone] = useState<Boolean>(false);
+  const { achievementList } = useGetAchievementList();
+  const { userAchievement, refetch } = useGetUserAchievement(userId);
+  useEffect(() => {
+    postUserAchievement(userId).then(() => {
+      setIsPostDone(true);
+      refetch();
+    });
+  }, [userId]);
+
+  if (!isPostDone) return <div>loading Achievement List ...</div>;
   return (
     <div className={className}>
       <h1>Achievement</h1>
       <h2> debug: ID : {userId}</h2>
-      {DUMMY_ACHIEVEMENT.map((value: AchievementType) => (
-        <Achievement key={value.id} achieve={value} />
+      {achievementList.map((value: AchievementType) => (
+        <Achievement
+          key={value.id}
+          achieve={value}
+          isAchieved={userAchievement.some(active => active.id === value.id)}
+        />
       ))}
     </div>
   );

@@ -28,7 +28,7 @@ export const TwoFactorAuth = () => {
         <button type="button" onClick={handleOpenModal}>
           Two-Factor Authentication
         </button>
-        <input type="checkbox" checked={DUMMY_2FA.isChecked} />
+        <input type="checkbox" checked={DUMMY_2FA.isChecked} readOnly />
       </div>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
