@@ -5,7 +5,11 @@ export interface AchievementType {
   name: string;
   description: string;
   image: string;
-  achievedAt: string;
+  winCount?: number;
+  loseCount?: number;
+  winStreak?: number;
+  loseStreak?: number;
+  friendCount?: number;
 }
 
 export interface MatchHistoryType {
@@ -13,4 +17,8 @@ export interface MatchHistoryType {
   winner: UserInfoType;
   loser: UserInfoType;
   createdAt: string; // TODO: replace to Date type ?
+}
+
+interface TwoFactorAuthType {
+  isChecked: boolean;
 }
