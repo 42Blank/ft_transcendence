@@ -7,7 +7,7 @@ export const Enable2FA = () => {
     <div>
       <div>Check 2FA Github</div>
       <a href={process.env.REACT_APP_SERVER + API.GITHUB_AUTH} className={loginLinkStyle}>
-        <span>TFA with</span>
+        <span>TFA</span>
         <GithubIcon />
         <span>Github</span>
       </a>
