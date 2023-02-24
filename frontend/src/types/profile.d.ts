@@ -16,5 +16,5 @@ export interface MatchHistoryType {
 }
 
 interface TwoFactorAuthType {
-    isChecked: boolean;
-  }
+  isChecked: boolean;
+}
