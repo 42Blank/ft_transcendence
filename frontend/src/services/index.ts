@@ -12,3 +12,4 @@ export { getMatchHistoryById } from './getMatchHistoryById';
 export { getAchievementList } from './getAchievementList';
 export { getUserAchievement } from './getUserAchievement';
 export { postUserAchievement } from './postUserAchievement';
+export { deleteTwoFactorAuth } from './deleteTwoFactorAuth';

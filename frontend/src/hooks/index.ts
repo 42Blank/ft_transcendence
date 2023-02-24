@@ -9,3 +9,4 @@ export { useLogin } from './useLogin';
 export { useLogout } from './useLogout';
 export { useGetMatchHistoryByUserId } from './useGetMatchHistoryByUserId';
 export { useGetMatchHistoryById } from './useGetMatchHistoryById';
+export { useTwoFactorLogin } from './useTwoFactorLogin';

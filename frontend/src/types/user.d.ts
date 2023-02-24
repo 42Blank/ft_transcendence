@@ -6,6 +6,7 @@ export interface UserInfoType {
   point: number;
   createdAt: string;
   updatedAt: string;
+  isTwoFactorAuth: boolean;
   isOnline?: boolean;
 }
 
