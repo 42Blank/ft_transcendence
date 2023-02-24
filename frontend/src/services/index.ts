@@ -7,4 +7,5 @@ export { postRegister } from './postRegister';
 export { deleteAuthSignout } from './deleteAuthSignout';
 export { putUserProfile } from './putUserProfile';
 export { getAllUserList } from './getAllUserList';
-export { getMatchHistory } from './getMatchHistory';
+export { getMatchHistoryByUserId } from './getMatchHistoryByUserId';
+export { getMatchHistoryById } from './getMatchHistoryById';
