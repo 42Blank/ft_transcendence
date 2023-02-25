@@ -13,6 +13,7 @@ import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { sleep } from '../../common/utils';
 import { ConnectionHandleService } from '../connection-handle';
+import { CreateGameRoomDto } from './dto/incoming/create-game-room.dto';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
 import { SpectateGameRoomDto } from './dto/incoming/spectate-game-room.dto';
 import { UpdateModeDto } from './dto/incoming/update-mode.dto';
@@ -43,8 +44,9 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('create_room')
   public async createRoom(
     @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: CreateGameRoomDto,
   ): Promise<void> {
-    const gameRoom = this.gameRoomService.createGameRoom(client.id, client.user.id);
+    const gameRoom = this.gameRoomService.createGameRoom(client.id, client.user.id, data.mode);
 
     this.logger.verbose(`${client.user.nickname} createRoom: ${JSON.stringify(gameRoom)}`);
 
