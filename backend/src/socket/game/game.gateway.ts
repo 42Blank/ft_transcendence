@@ -76,11 +76,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: SpectateGameRoomDto,
   ): Promise<void> {
-    this.gameUserService.spectateGameRoom(client.id, data.id);
+    const gameRoom = this.gameUserService.spectateGameRoom(client.id, data.id);
 
     this.logger.verbose(`${client.user.nickname} spectateRoom: ${JSON.stringify(data)}`);
 
     client.emit('spectate_room', data.id);
+    client.emit('update_score', gameRoom.score);
   }
 
   @SubscribeMessage('leave_room')

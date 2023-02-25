@@ -51,13 +51,13 @@ export class ChatRoomRepository {
     }
 
     if (chatRoom.sockets.get(socketId).role === 'host') {
-      const nextHost = Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.role === 'operator');
+      const nextOperator = Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.role === 'operator');
+      const nextUser = Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.role === 'user');
 
-      if (nextHost) {
-        nextHost.role = 'host';
-      } else {
-        const randomHost = Array.from(chatRoom.sockets.values())[0];
-        randomHost.role = 'host';
+      if (nextOperator) {
+        nextOperator.role = 'host';
+      } else if (nextUser) {
+        nextUser.role = 'host';
       }
     }
 
