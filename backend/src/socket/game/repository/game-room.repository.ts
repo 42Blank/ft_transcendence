@@ -70,6 +70,10 @@ export class GameRoomRepository {
   public addSpectatorToGameRoom(gameRoomId: string, socketId: string): void {
     const gameRoom = this.getGameRoom(gameRoomId);
 
+    if (!gameRoom) {
+      throw new NotAcceptableException(`Game room ${gameRoomId} does not exist`);
+    }
+
     gameRoom.spectatorSocketIds.add(socketId);
   }
 

@@ -11,8 +11,10 @@ import {
 import { Server } from 'socket.io';
 import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
+import { sleep } from '../../common/utils';
 import { ConnectionHandleService } from '../connection-handle';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
+import { SpectateGameRoomDto } from './dto/incoming/spectate-game-room.dto';
 import { UpdateModeDto } from './dto/incoming/update-mode.dto';
 import { UpdatePositionDto } from './dto/incoming/update-position.dto';
 import { UpdateScoreDto } from './dto/incoming/update-score.dto';
@@ -67,6 +69,18 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     ]);
   }
 
+  @SubscribeMessage('spectate_room')
+  public async spectateRoom(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: SpectateGameRoomDto,
+  ): Promise<void> {
+    this.gameUserService.spectateGameRoom(client.id, data.id);
+
+    this.logger.verbose(`${client.user.nickname} spectateRoom: ${JSON.stringify(data)}`);
+
+    client.emit('spectate_room', data.id);
+  }
+
   @SubscribeMessage('leave_room')
   public async leaveRoom(
     @ConnectedSocket() client: SocketWithUser, //
@@ -118,6 +132,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     if (updateScoreResult.isGameFinish === false) {
       await this.emitUpdateScore(gameUserSockets, updateScoreResult.score);
     } else if (updateScoreResult.isGameFinish === true) {
+      await this.emitGameRooms();
+      await sleep(4000);
       await this.emitGameRooms();
     }
   }

@@ -13,9 +13,9 @@ export { updateChatRoomState } from './updateChatRoomState';
 export { userOperationState } from './userOperationState';
 
 // game
-// export { currentGamePongState } from './currentGamePongState';
 export { gameRoomListState } from './gameRoomListState';
 export { newGameRoomState } from './newGameRoomState';
 export { joinGameRoomState } from './joinGameRoomState';
+export { joinSpectateRoomState } from './joinSpectateRoomState';
 export { leaveGameRoomState } from './leaveGameRoomState';
 export { finishedGameState } from './finishedGameState';

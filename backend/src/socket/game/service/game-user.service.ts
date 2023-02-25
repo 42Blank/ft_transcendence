@@ -13,8 +13,28 @@ export class GameUserService {
   ) {}
 
   public joinGameRoom(socketId: string, userId: number, gameRoomId: string): void {
+    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
+      return gameRoom.id === gameRoomId;
+    });
+
+    if (!gameRoom) {
+      throw new NotAcceptableException('게임방이 존재하지 않습니다.');
+    }
+
+    if (gameRoom.challenger) {
+      throw new NotAcceptableException('이미 게임방에 참가자가 있습니다.');
+    }
+
+    if (gameRoom.host.userId === userId) {
+      throw new NotAcceptableException('자기 자신의 게임방에는 참가할 수 없습니다.');
+    }
+
     this.gameRoomRepository.setChallengerToGameRoom(gameRoomId, socketId, userId);
     this.gameRoomRepository.updateGameRoomState(gameRoomId, 'playing');
+  }
+
+  public spectateGameRoom(socketId: string, gameRoomId: string): void {
+    this.gameRoomRepository.addSpectatorToGameRoom(gameRoomId, socketId);
   }
 
   public async leaveGameRoom(socketId: string): Promise<void> {

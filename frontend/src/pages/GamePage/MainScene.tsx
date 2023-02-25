@@ -1,12 +1,13 @@
 import Phaser from 'phaser';
 import { NavigateFunction } from 'react-router-dom';
 
-import { GameData, GameRoomInfoType } from 'types/game';
+import { GameData, GameRoomInfoType, PlayerRoleType } from 'types/game';
 import { sockets } from 'hooks';
 
 const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
+
 export class MainScene extends Phaser.Scene {
-  private isHost: Boolean;
+  private playerRole: PlayerRoleType['role'];
   private navigate: NavigateFunction;
 
   private ball: Phaser.Physics.Arcade.Image;
@@ -34,8 +35,8 @@ export class MainScene extends Phaser.Scene {
     this.navigate = navi;
   }
 
-  hostCheckHandlers(isHostInput: boolean) {
-    this.isHost = isHostInput;
+  hostCheckHandlers(role: PlayerRoleType['role']) {
+    this.playerRole = role;
   }
 
   initBall() {
@@ -48,9 +49,9 @@ export class MainScene extends Phaser.Scene {
   checkScore() {
     if (this.ball.x >= 10 && this.ball.x <= 790) return;
 
-    if (this.isHost && this.ball.x < 10) {
+    if (this.playerRole === 'host' && this.ball.x < 10) {
       sockets.gameSocket.emit('update_score', { winner: 'challenger' });
-    } else if (this.isHost && this.ball.x > 790) {
+    } else if (this.playerRole === 'host' && this.ball.x > 790) {
       sockets.gameSocket.emit('update_score', { winner: 'host' });
     }
     this.initBall();
@@ -87,15 +88,17 @@ export class MainScene extends Phaser.Scene {
     this.key = this.input.keyboard.createCursorKeys();
 
     this.initBall();
-    this.time.delayedCall(1500, () => {
-      this.ball.setVelocity(300, 150);
-    });
+    if (this.playerRole === 'host') {
+      this.time.delayedCall(1500, () => {
+        this.ball.setVelocity(300, 150);
+      });
+    }
     this.time.addEvent({
       delay: 100,
       callback: () => {
-        if (this.isHost) {
+        if (this.playerRole === 'host') {
           this.updateHostPos();
-        } else if (!this.isHost) {
+        } else if (this.playerRole === 'challenger') {
           this.updateChalPos();
         }
       },
@@ -126,13 +129,13 @@ export class MainScene extends Phaser.Scene {
 
     if (!this.paddleLeft || !this.paddleRight || !this.key) return;
 
-    if (this.isHost) {
+    if (this.playerRole === 'host') {
       if (this.key.up.isDown) {
         this.paddleLeft.y -= 10;
       } else if (this.key.down.isDown) {
         this.paddleLeft.y += 10;
       }
-    } else if (!this.isHost) {
+    } else if (this.playerRole === 'challenger') {
       if (this.key.up.isDown) {
         this.paddleRight.y -= 10;
       } else if (this.key.down.isDown) {
@@ -160,15 +163,15 @@ export class MainScene extends Phaser.Scene {
     });
   }
   gameDataHandler(data: GameData) {
-    if (!this.isHost && data.host) {
+    if ((this.playerRole === 'challenger' || this.playerRole === 'spectator') && data.host && this.paddleLeft) {
       this.paddleLeft.y = data.host.y;
     }
-    if (this.isHost && data.challenger) {
+    if ((this.playerRole === 'host' || this.playerRole === 'spectator') && data.challenger && this.paddleRight) {
       this.paddleRight.y = data.challenger.y;
     }
 
-    if (!this.isHost) {
-      if (data.ball) {
+    if (this.playerRole !== 'host') {
+      if (data.ball && this.ball) {
         this.ball.setPosition(data.ball.x, data.ball.y);
         this.ball.setVelocity(data.ball.velocityX, data.ball.velocityY);
       }

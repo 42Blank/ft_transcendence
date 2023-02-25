@@ -7,15 +7,18 @@ import { leaveGameRoomState } from 'store';
 import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
+import { playerRoleState } from 'store/playerRoleState';
 import GamePong from './GamePong';
 
 export const GamePage = () => {
   const nav = useNavigate();
   const currentGameRoom = useGetCurrentGameRoom();
   const setLeaveGameRoom = useSetRecoilState(leaveGameRoomState);
+  const setPlayerRole = useSetRecoilState(playerRoleState);
 
   useEffect(() => {
     return () => {
+      setPlayerRole({ role: 'none' });
       setLeaveGameRoom({ id: currentGameRoom.id });
     };
   }, []);
