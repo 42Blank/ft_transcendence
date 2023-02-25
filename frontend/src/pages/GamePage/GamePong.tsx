@@ -6,6 +6,7 @@ import { GameInstance, IonPhaser } from '@ion-phaser/react';
 
 import { useRecoilValue } from 'recoil';
 import { playerRoleState } from 'store/playerRoleState';
+import { useGetCurrentGameRoom } from 'hooks';
 import { MainScene } from './MainScene';
 
 const mainScene = new MainScene();
@@ -22,11 +23,13 @@ const GamePong = () => {
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   const [initialize] = useState(true);
   const playerRole = useRecoilValue(playerRoleState);
+  const gameMode = useGetCurrentGameRoom().mode;
   const nav = useNavigate();
 
   useEffect(() => {
     mainScene.initHandlers();
     mainScene.hostCheckHandlers(playerRole.role);
+    mainScene.gameModeCheckHandlers(gameMode);
     mainScene.naviHandlers(nav);
   }, []);
 
