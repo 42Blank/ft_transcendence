@@ -5,7 +5,7 @@ import Phaser from 'phaser';
 import { GameInstance, IonPhaser } from '@ion-phaser/react';
 
 import { useRecoilValue } from 'recoil';
-import { playerRoleState } from 'store/playerRoleState';
+import { playerRoleState } from 'store';
 import { useGetCurrentGameRoom } from 'hooks';
 import { MainScene } from './MainScene';
 

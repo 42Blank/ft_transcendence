@@ -1,9 +1,7 @@
 import { Dropdown } from 'common';
 import { FormEvent, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { newGameRoomState } from 'store';
-import { playerRoleState } from 'store/playerRoleState';
-// import { NewGameRoomType } from 'types/game';
+import { newGameRoomState, playerRoleState } from 'store';
 
 import {
   formSectionButtonWrapper,
