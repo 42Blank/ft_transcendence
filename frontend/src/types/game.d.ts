@@ -13,6 +13,7 @@ type Score = {
 export interface GameRoomInfoType {
   id: string;
   state: 'waiting' | 'playing' | 'finished';
+  mode: 'normal' | 'red';
   host: Player;
   challenger?: Player;
   spectatorSocketIds: Set<string>;
@@ -47,6 +48,7 @@ export interface PlayerRoleType {
 
 export interface NewGameRoomType {
   created: boolean;
+  mode: 'normal' | 'red';
 }
 
 export interface LeaveGameRoomType {
