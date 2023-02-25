@@ -19,3 +19,4 @@ export { joinGameRoomState } from './joinGameRoomState';
 export { joinSpectateRoomState } from './joinSpectateRoomState';
 export { leaveGameRoomState } from './leaveGameRoomState';
 export { finishedGameState } from './finishedGameState';
+export { playerRoleState } from './playerRoleState';
