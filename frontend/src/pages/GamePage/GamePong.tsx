@@ -21,7 +21,7 @@ const GamePong = () => {
   const [initialize, setInitialize] = useState(true);
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   const playerRole = useRecoilValue(playerRoleState);
-  const gameMode = useGetCurrentGameRoom().mode;
+  const { mode: gameMode } = useGetCurrentGameRoom();
   const nav = useNavigate();
 
   const destroy = () => {
