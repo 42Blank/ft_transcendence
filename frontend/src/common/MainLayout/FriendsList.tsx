@@ -12,15 +12,17 @@ interface Props {
 }
 
 export const FriendsList = ({ isOpen }: Props) => {
-  const { userList } = useGetAllUserList();
+  const { userList, refetch: refetchAllUserList } = useGetAllUserList();
   const onlineUserList = useRecoilValue(onlineUserListState);
-  const { friendList } = useGetFriendList();
+  const { friendList, refetch: refetfriendList } = useGetFriendList();
   const [isFriendTab, setIsFriendTab] = useState(true);
 
   function handleClickFriendsListButton() {
+    refetfriendList();
     setIsFriendTab(true);
   }
   function handleClickAllUserListButton() {
+    refetchAllUserList();
     setIsFriendTab(false);
   }
 

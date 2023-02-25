@@ -33,8 +33,10 @@ export class GameUserService {
     this.gameRoomRepository.updateGameRoomState(gameRoomId, 'playing');
   }
 
-  public spectateGameRoom(socketId: string, gameRoomId: string): void {
+  public spectateGameRoom(socketId: string, gameRoomId: string): GameRoom {
     this.gameRoomRepository.addSpectatorToGameRoom(gameRoomId, socketId);
+
+    return this.gameRoomRepository.getGameRoom(gameRoomId);
   }
 
   public async leaveGameRoom(socketId: string): Promise<void> {
