@@ -38,4 +38,7 @@ export const API = {
 
   // Achievement
   ACHIEVEMENT: '/achievement',
+
+  // File
+  FILE_UPLOAD: '/file/upload',
 } as const;

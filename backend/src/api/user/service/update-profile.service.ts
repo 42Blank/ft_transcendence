@@ -12,7 +12,7 @@ export class UpdateProfileService {
   ) {}
 
   async updateProfile(user: User, updateUserProfileDto: UpdateUserProfileRequestDto): Promise<void> {
-    if (updateUserProfileDto.nickname) {
+    if (updateUserProfileDto.nickname && updateUserProfileDto.nickname !== user.nickname) {
       const isNicknameAlreadyUsed = await this.isNicknameAlreadyUsed(updateUserProfileDto.nickname);
       if (isNicknameAlreadyUsed) {
         throw new BadRequestException(`${updateUserProfileDto.nickname} 는 이미 사용중인 닉네임입니다.`);
