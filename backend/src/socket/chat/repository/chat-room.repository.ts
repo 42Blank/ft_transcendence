@@ -9,12 +9,13 @@ export class ChatRoomRepository {
   public createChatRoom(
     socketId: string,
     userId: number,
-    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password' | 'dmId'>,
   ): ChatRoom {
     const chatRoom: ChatRoom = {
       id: uuidv4(),
       roomTitle: data.roomTitle,
       isPrivate: data.isPrivate,
+      dmId: data.dmId,
       password: data.password,
       sockets: new Map(),
       bannedUsers: new Set(),

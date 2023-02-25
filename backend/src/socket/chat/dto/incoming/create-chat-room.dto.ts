@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class CreateChatRoomDto {
   @IsString()
@@ -15,8 +15,13 @@ export class CreateChatRoomDto {
   isPrivate: boolean;
 
   @IsString()
+  @IsOptional()
+  @ApiPropertyOptional({ example: '1-2' })
+  dmId?: string;
+
+  @IsString()
   @ValidateIf(o => o.isPrivate)
   @IsNotEmpty()
-  @ApiProperty({ example: 'asdf' })
+  @ApiPropertyOptional({ example: 'asdf' })
   password?: string;
 }

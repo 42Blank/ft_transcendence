@@ -1,9 +1,9 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { joinChatRoomState } from 'store';
 import { LockIcon } from 'assets';
 import { useGetUser } from 'hooks';
+import { joinChatRoomState } from 'store';
 import { ChatRoomInfoType } from 'types/chat';
 
 import {

@@ -22,15 +22,22 @@ export class ChatUserService {
     }
 
     if (Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.id === userId)) {
-      throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoomId}`);
+      throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoom.roomTitle}`);
     }
 
     if (chatRoom.isPrivate && chatRoom.password !== password) {
       throw new NotAcceptableException(`Password is incorrect`);
     }
 
+    if (chatRoom.dmId) {
+      const dmUserIds = chatRoom.dmId.split('-').map(id => parseInt(id, 10));
+      if (!dmUserIds.includes(userId)) {
+        throw new NotAcceptableException(`User ${userId} is not allowed to join chat room ${chatRoom.roomTitle}`);
+      }
+    }
+
     if (chatRoom.bannedUsers.has(userId)) {
-      throw new NotAcceptableException(`User ${userId} is banned in chat room ${chatRoomId}`);
+      throw new NotAcceptableException(`User ${userId} is banned in chat room ${chatRoom.roomTitle}`);
     }
 
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
