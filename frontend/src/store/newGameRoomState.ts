@@ -5,5 +5,6 @@ export const newGameRoomState = atom<NewGameRoomType>({
   key: 'newGameRoomState',
   default: {
     created: false,
+    mode: 'normal',
   },
 });
