@@ -6,6 +6,7 @@ export const ROUTE = {
   PROFILE: '/profile',
   LOGIN: '/login',
   LOGIN_CHECK: '/login/callback',
+  LOGIN_RANDOM: '/login/random',
   REGISTER: '/login/new',
   GITHUB_CHECK: '/github/callback',
 } as const;
