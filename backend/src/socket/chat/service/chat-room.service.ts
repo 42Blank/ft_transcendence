@@ -62,9 +62,7 @@ export class ChatRoomService {
           role: chatUser.role,
         })),
       ),
-      bannedUsers: await Promise.all(
-        Array.from(chatRoom.bannedUsers).map(({ id }) => this.userRepository.findOneBy({ id })),
-      ),
+      bannedUsers: await Promise.all(Array.from(chatRoom.bannedUsers).map(id => this.userRepository.findOneBy({ id }))),
     };
   }
 }
