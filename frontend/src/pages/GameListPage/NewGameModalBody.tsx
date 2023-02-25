@@ -27,11 +27,8 @@ export const NewGameModalBody = ({ onClickClose }: Props) => {
 
   function handleToggleMode(value: number | boolean) {
     setIsNormal(value as boolean);
-    // setGameMode(isNormal ? 'normal' : 'red');
-    // console.log('1.MODE: ' + gameMode);
   }
   function handleOnClick(e: FormEvent) {
-    // roomTitle 필요없어서 처내야함.
     e.preventDefault();
     setPlayerRole({ role: 'host' });
     const mode = isNormal ? 'normal' : 'red';
