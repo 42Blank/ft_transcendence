@@ -66,7 +66,7 @@ export class UserController {
     await this.updateProfileService.removeTwoFactorAuth(user);
   }
 
-  @Post()
+  @Post('check-duplicate-nickname')
   @ApiOperation({ summary: '중복 닉네임 있는지 확인' })
   @ApiOkResponse({ description: '중복 닉네임 여부' })
   async checkNickname(
