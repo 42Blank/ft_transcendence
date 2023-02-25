@@ -4,23 +4,38 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE } from 'common/constants';
 import { postRegister } from 'services';
 
+import { postUserCheckDuplicateNickname } from '../../services/postUserCheckDuplicateNickname';
 import {
   registerPageButtonWrapperStyle,
   registerPageFormStyle,
   registerPageInnerDivStyle,
   registerPageLogoImageStyle,
-  registerPageNicknameCheckButtonStyle,
   registerPageWrapperStyle,
 } from './RegisterPage.styles';
 
 export const RegisterPage = () => {
   const nicknameRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  // const [isValidated, setIsValidated] = useState<boolean>(false);  // TODO: 닉네임 중복체크
+  const [isValidated, setIsValidated] = useState<boolean>(false);
   const nav = useNavigate();
 
   function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
     setImageUrl(URL.createObjectURL(e.currentTarget.files[0]));
+  }
+
+  function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
+    const nickname = e.currentTarget.value;
+
+    if (!nickname || nickname.length === 0) {
+      setIsValidated(false);
+      return;
+    }
+
+    postUserCheckDuplicateNickname({
+      nickname: e.currentTarget.value,
+    }).then(res => {
+      setIsValidated(!res);
+    });
   }
 
   async function handleSubmitForm(e: FormEvent) {
@@ -45,10 +60,8 @@ export const RegisterPage = () => {
         </div>
         <div className={registerPageInnerDivStyle}>
           <label htmlFor="register-nickname">닉네임</label>
-          <input type="text" id="register-nickname" ref={nicknameRef} />
-          <button type="button" className={registerPageNicknameCheckButtonStyle}>
-            <span>중복체크</span>
-          </button>
+          <input type="text" id="register-nickname" ref={nicknameRef} onChange={handleChangeNickname} />
+          <input type="checkbox" checked={isValidated} readOnly />
         </div>
         <div className={registerPageButtonWrapperStyle}>
           <button type="button" onClick={handleClickCancel}>
