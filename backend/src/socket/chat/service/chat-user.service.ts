@@ -29,7 +29,7 @@ export class ChatUserService {
       throw new NotAcceptableException(`Password is incorrect`);
     }
 
-    if (chatRoom.bannedUsers.has({ id: userId })) {
+    if (chatRoom.bannedUsers.has(userId)) {
       throw new NotAcceptableException(`User ${userId} is banned in chat room ${chatRoomId}`);
     }
 
@@ -65,7 +65,7 @@ export class ChatUserService {
       throw new NotAcceptableException(`Socket ${socketId} is not in chat room ${chatRoom.id}`);
     }
 
-    if (chatRoom.bannedUsers.has({ id: chatUser.id })) {
+    if (chatRoom.bannedUsers.has(chatUser.id)) {
       throw new NotAcceptableException(`User ${chatUser.id} is banned in chat room ${chatRoom.id}`);
     }
 
