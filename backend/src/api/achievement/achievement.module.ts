@@ -38,12 +38,6 @@ export class AchievementModule implements OnModuleInit {
         loseCount: 1,
       },
       {
-        name: '동반자',
-        description: '친구 목록에 1명 이상의 친구 등록',
-        image: 'https://x.boardgamearena.net/data/themereleases/230221-1000//img/awards/72.png',
-        friendCount: 1,
-      },
-      {
         name: '연승가도!',
         description: '전체 게임에서 3연승 달성',
         image: 'https://x.boardgamearena.net/data/themereleases/230221-1000//img/awards/2.png',
@@ -54,6 +48,18 @@ export class AchievementModule implements OnModuleInit {
         description: '전체 게임에서 3연패 달성',
         image: 'https://x.boardgamearena.net/data/themereleases/230221-1000//img/awards/148.png',
         loseCount: 3,
+      },
+      {
+        name: '동반자',
+        description: '친구 목록에 1명 이상의 친구 등록',
+        image: 'https://x.boardgamearena.net/data/themereleases/230221-1000//img/awards/72.png',
+        friendCount: 1,
+      },
+      {
+        name: '연예인',
+        description: '친구 목록에 3명 이상의 친구 등록',
+        image: 'https://x.boardgamearena.net/data/themereleases/230221-1000//img/awards/71.png',
+        friendCount: 3,
       },
     ];
     await this.achievementRepository.upsert(achievements, {
