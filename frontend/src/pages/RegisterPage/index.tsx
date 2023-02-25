@@ -12,14 +12,17 @@ import {
   registerPageWrapperStyle,
 } from './RegisterPage.styles';
 
+const DEFAULT_IMAGE_URL = 'https://bit.ly/3YMBEvR';
+const LOADING_IMAGE_URL = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif';
+
 export const RegisterPage = () => {
   const nicknameRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState<string>('https://bit.ly/3YMBEvR');
+  const [imageUrl, setImageUrl] = useState<string>(DEFAULT_IMAGE_URL);
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const nav = useNavigate();
 
   function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
-    setImageUrl('https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif');
+    setImageUrl(LOADING_IMAGE_URL);
     postFile({ file: e.currentTarget.files[0] }).then(res => {
       setImageUrl(`${process.env.REACT_APP_SERVER}/file/${res}`);
     });
@@ -43,6 +46,8 @@ export const RegisterPage = () => {
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
     if (!nicknameRef.current || !nicknameRef.current.value || nicknameRef.current.value.length === 0) return;
+    if (!isValidated) return;
+    if (imageUrl === LOADING_IMAGE_URL) return;
     await postRegister({ nickname: nicknameRef.current.value, avatar: imageUrl });
     nav(ROUTE.CHAT);
   }
@@ -58,7 +63,7 @@ export const RegisterPage = () => {
         <div className={registerPageInnerDivStyle}>
           <label htmlFor="register-image">프로필 사진</label>
           <input type="file" id="register-image" onChange={handleChangeImage} />
-          {imageUrl && <img src={imageUrl} alt="register-selected" />}
+          <img src={imageUrl} alt="register-selected" />
         </div>
         <div className={registerPageInnerDivStyle}>
           <label htmlFor="register-nickname">닉네임</label>
