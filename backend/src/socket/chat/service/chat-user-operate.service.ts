@@ -61,9 +61,7 @@ export class ChatUserOperateService {
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
     const socketId = this.getSocketId(chatRoomId, toUserId);
     this.chatRoomRepository.removeSocketFromChatRoom(chatRoomId, socketId);
-    chatRoom.bannedUsers.add({
-      id: toUserId,
-    });
+    chatRoom.bannedUsers.add(toUserId);
   }
 
   public unbanUser(chatRoomId: string, fromUserId: number, toUserId: number): void {
@@ -74,9 +72,7 @@ export class ChatUserOperateService {
     }
 
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
-    chatRoom.bannedUsers.delete({
-      id: toUserId,
-    });
+    chatRoom.bannedUsers.delete(toUserId);
   }
 
   private getSocketId(chatRoomId: string, userId: number): string {

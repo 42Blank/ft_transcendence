@@ -12,7 +12,5 @@ export type ChatRoom = {
   isPrivate: boolean;
   password?: string;
   sockets: Map<string, ChatUserDetail>;
-  bannedUsers: Set<{
-    id: number;
-  }>;
+  bannedUsers: Set<number>;
 };
