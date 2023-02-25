@@ -8,6 +8,7 @@ const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 
 export class MainScene extends Phaser.Scene {
   private playerRole: PlayerRoleType['role'];
+  private gameMode: GameRoomInfoType['mode'];
   private navigate: NavigateFunction;
 
   private ball: Phaser.Physics.Arcade.Image;
@@ -38,6 +39,9 @@ export class MainScene extends Phaser.Scene {
   hostCheckHandlers(role: PlayerRoleType['role']) {
     this.playerRole = role;
   }
+  gameModeCheckHandlers(mode: GameRoomInfoType['mode']) {
+    this.gameMode = mode;
+  }
 
   initBall() {
     this.ball.setVisible(false);
@@ -58,7 +62,12 @@ export class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('ball', '/ball.png');
+    if (this.gameMode === 'red') {
+      this.load.image('ball', '/ball_red.png');
+    } else {
+      this.load.image('ball', '/ball.png');
+    }
+
     this.load.image('peddal', '/paddle.png');
   }
 
