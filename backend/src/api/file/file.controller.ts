@@ -1,16 +1,12 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiCookieAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
-import { UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 
 @ApiTags('File')
 @Controller('file')
-@ApiCookieAuth()
-@UseGuards(UserJwtAuthGuard)
-@ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
 export class FileController {
   @Post('upload')
   @UseInterceptors(

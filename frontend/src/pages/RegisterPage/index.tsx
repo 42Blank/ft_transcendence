@@ -14,7 +14,7 @@ import {
 
 export const RegisterPage = () => {
   const nicknameRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>('https://bit.ly/3YMBEvR');
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const nav = useNavigate();
 
