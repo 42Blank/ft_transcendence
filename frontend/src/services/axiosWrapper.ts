@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { RawAxiosRequestConfig } from 'axios';
 import { throwApiError } from 'utils/error';
 
 const axiosInstance = axios.create({
@@ -17,9 +17,13 @@ export async function axiosGet<ResType>(uri: string, params?: URLSearchParams | 
     .catch(throwApiError);
 }
 
-export async function axiosPost<BodyObjType, ResType = void>(uri: string, reqData?: BodyObjType): Promise<ResType> {
+export async function axiosPost<BodyObjType, ResType = void>(
+  uri: string,
+  reqData?: BodyObjType,
+  options?: RawAxiosRequestConfig<BodyObjType>,
+): Promise<ResType> {
   return axiosInstance
-    .post<ResType>(uri, reqData)
+    .post<ResType>(uri, reqData, options)
     .then(({ data }) => data)
     .catch(throwApiError);
 }

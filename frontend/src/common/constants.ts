@@ -26,6 +26,7 @@ export const API = {
   // User
   USER: '/users',
   USER_ME: '/users/me',
+  USER_CHECK_DUPLICATE_NICKNAME: '/users/check-duplicate-nickname',
 
   // Friend/Block
   FRIEND: '/friend',
@@ -37,4 +38,7 @@ export const API = {
 
   // Achievement
   ACHIEVEMENT: '/achievement',
+
+  // File
+  FILE_UPLOAD: '/file/upload',
 } as const;

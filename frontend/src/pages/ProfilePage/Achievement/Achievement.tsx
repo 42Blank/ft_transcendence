@@ -29,8 +29,7 @@ export const Achievement = ({ achieve, isAchieved }: Props) => {
       <div className={tmpAchievementStyle}>
         <img
           className={tmpAvatarStyle}
-          //   src={achieve.image}  will be used !
-          src="/pochita_sample.png" // this is for test
+          src={achieve.image}
           width={100}
           height={100}
           alt="pochi"

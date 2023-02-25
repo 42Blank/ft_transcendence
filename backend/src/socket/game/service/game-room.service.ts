@@ -14,7 +14,7 @@ export class GameRoomService {
     private readonly gameRoomRepository: GameRoomRepository,
   ) {}
 
-  public createGameRoom(socketId: string, userId: number): GameRoom {
+  public createGameRoom(socketId: string, userId: number, mode: GameRoom['mode']): GameRoom {
     const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
       return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
     });
@@ -23,7 +23,7 @@ export class GameRoomService {
       throw new NotAcceptableException(`Socket ${socketId} is already in game room ${gameRoom.id}`);
     }
 
-    return this.gameRoomRepository.createGameRoom(socketId, userId);
+    return this.gameRoomRepository.createGameRoom(socketId, userId, mode);
   }
 
   public updateGameMode(socketId: string, mode: GameRoom['mode']): void {

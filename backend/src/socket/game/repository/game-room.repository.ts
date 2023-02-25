@@ -6,7 +6,7 @@ import { GameRoom } from '../model/game-room';
 export class GameRoomRepository {
   private readonly gameRooms: Map<string, GameRoom> = new Map();
 
-  public createGameRoom(socketId: string, userId: number): GameRoom {
+  public createGameRoom(socketId: string, userId: number, mode: GameRoom['mode']): GameRoom {
     const player = {
       socketId,
       userId,
@@ -15,7 +15,7 @@ export class GameRoomRepository {
     const gameRoom: GameRoom = {
       id: uuidv4(),
       state: 'waiting',
-      mode: 'normal',
+      mode,
       host: player,
       spectatorSocketIds: new Set(),
       score: {

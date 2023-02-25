@@ -97,11 +97,22 @@ export class MainScene extends Phaser.Scene {
     this.key = this.input.keyboard.createCursorKeys();
 
     this.initBall();
+    this.initGame();
+  }
+
+  initGame() {
+    if (!this.playerRole) {
+      throw new Error('please set playerRole!!');
+    }
+    if (this.playerRole === 'spectator') {
+      return;
+    }
     if (this.playerRole === 'host') {
       this.time.delayedCall(1500, () => {
         this.ball.setVelocity(300, 150);
       });
     }
+
     this.time.addEvent({
       delay: 100,
       callback: () => {
@@ -162,14 +173,17 @@ export class MainScene extends Phaser.Scene {
     // this.paddleLeft.y = oldPaddleLeftY;
     // this.paddleRight.y = oldPaddleRightY;
   }
+
   updateScoreHandler(data: GameRoomInfoType['score']) {
     this.scoreLabelLeft.text = data.host.toString();
     this.scoreLabelRight.text = data.challenger.toString();
 
     this.initBall();
-    this.time.delayedCall(1500, () => {
-      this.ball.setVelocity(300, 150);
-    });
+    if (this.playerRole === 'host') {
+      this.time.delayedCall(1500, () => {
+        this.ball.setVelocity(300, 150);
+      });
+    }
   }
   gameDataHandler(data: GameData) {
     if ((this.playerRole === 'challenger' || this.playerRole === 'spectator') && data.host && this.paddleLeft) {

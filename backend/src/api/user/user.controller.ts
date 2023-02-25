@@ -1,12 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiCookieAuth,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ReqUser, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 import { User } from '../../common/database/entities/user.entity';
 import { CheckDuplicateNicknameDto } from './dto/request/check-duplicate-nickname.dto';
@@ -16,9 +9,6 @@ import { UpdateProfileService } from './service/update-profile.service';
 
 @ApiTags('User')
 @Controller('users')
-@ApiCookieAuth()
-@UseGuards(UserJwtAuthGuard)
-@ApiUnauthorizedResponse({ description: '로그인이 필요합니다.' })
 export class UserController {
   constructor(
     private readonly findUserService: FindUserService,
@@ -26,6 +16,8 @@ export class UserController {
   ) {}
 
   @Get()
+  @ApiCookieAuth()
+  @UseGuards(UserJwtAuthGuard)
   @ApiOperation({ summary: '모든 유저 가져오기' })
   @ApiOkResponse({ description: '모든 유저 정보', type: User, isArray: true })
   async all(): Promise<User[]> {
@@ -33,6 +25,8 @@ export class UserController {
   }
 
   @Get('me')
+  @ApiCookieAuth()
+  @UseGuards(UserJwtAuthGuard)
   @ApiOperation({ summary: '내 정보 가져오기' })
   @ApiOkResponse({ description: '내 정보', type: User })
   async me(@ReqUser() { id }: User): Promise<User> {
@@ -40,6 +34,8 @@ export class UserController {
   }
 
   @Get(':id')
+  @ApiCookieAuth()
+  @UseGuards(UserJwtAuthGuard)
   @ApiOperation({ summary: '특정 유저 정보 가져오기' })
   @ApiOkResponse({ description: '유저 정보', type: User })
   @ApiBadRequestResponse({ description: '없는 유저' })
@@ -48,6 +44,8 @@ export class UserController {
   }
 
   @Put()
+  @ApiCookieAuth()
+  @UseGuards(UserJwtAuthGuard)
   @ApiOperation({ summary: '유저 프로필 변경' })
   @ApiOkResponse({ description: '성공' })
   async update(
@@ -58,6 +56,8 @@ export class UserController {
   }
 
   @Delete('two-factor-auth')
+  @ApiCookieAuth()
+  @UseGuards(UserJwtAuthGuard)
   @ApiOperation({ summary: '유저 2차 인증 제거' })
   @ApiOkResponse({ description: '성공' })
   async deleteTwoFactorAuth(
@@ -66,7 +66,7 @@ export class UserController {
     await this.updateProfileService.removeTwoFactorAuth(user);
   }
 
-  @Post()
+  @Post('check-duplicate-nickname')
   @ApiOperation({ summary: '중복 닉네임 있는지 확인' })
   @ApiOkResponse({ description: '중복 닉네임 여부' })
   async checkNickname(
