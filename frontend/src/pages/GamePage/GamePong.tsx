@@ -31,7 +31,6 @@ const GamePong = () => {
 
   useEffect(() => {
     const mainScene = new MainScene();
-    console.log('SetGame!');
 
     setGame({ ...gameConfig, scene: mainScene });
     mainScene.initHandlers();
@@ -40,7 +39,6 @@ const GamePong = () => {
     // mainScene.initGame();
 
     return () => {
-      console.log('destroy!!');
       sockets.gameSocket.removeListener('game_data');
       sockets.gameSocket.removeListener('update_score');
       destroy();
