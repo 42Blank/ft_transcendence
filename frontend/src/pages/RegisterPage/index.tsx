@@ -2,9 +2,8 @@ import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { postRegister } from 'services';
+import { postFile, postRegister, postUserCheckDuplicateNickname } from 'services';
 
-import { postUserCheckDuplicateNickname } from '../../services/postUserCheckDuplicateNickname';
 import {
   registerPageButtonWrapperStyle,
   registerPageFormStyle,
@@ -20,7 +19,10 @@ export const RegisterPage = () => {
   const nav = useNavigate();
 
   function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
-    setImageUrl(URL.createObjectURL(e.currentTarget.files[0]));
+    setImageUrl('https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif');
+    postFile({ file: e.currentTarget.files[0] }).then(res => {
+      setImageUrl(`${process.env.REACT_APP_SERVER}/file/${res}`);
+    });
   }
 
   function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
@@ -41,7 +43,7 @@ export const RegisterPage = () => {
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
     if (!nicknameRef.current || !nicknameRef.current.value || nicknameRef.current.value.length === 0) return;
-    await postRegister({ nickname: nicknameRef.current.value, avatar: 'https://bit.ly/3YMBEvR' });
+    await postRegister({ nickname: nicknameRef.current.value, avatar: imageUrl });
     nav(ROUTE.CHAT);
   }
 
