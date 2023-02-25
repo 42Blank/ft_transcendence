@@ -32,8 +32,8 @@ export const NewGameModalBody = ({ onClickClose }: Props) => {
     <div className={newGameFormStyle}>
       <div className={newGameInnerDivStyle}>
         <div className={formSectionDivStyle}>
-          <label htmlFor="new-chat-name">이름따위설정할수없다</label>
-          {/* <input id="new-chat-name" ref={nameRef} type="text" placeholder="최대 20자" required /> */}
+          <input type="checkbox" disabled={} />
+          <label>RED MODE ON</label>
         </div>
       </div>
       <div className={formSectionButtonWrapper}>
