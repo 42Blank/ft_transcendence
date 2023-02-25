@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { useGetCurrentChatRoom, useGetUser } from 'hooks';
-import { Modal } from 'common';
 import { HamburgerIcon, LockIcon } from 'assets';
-import { checkUserRole } from 'utils';
+import { Modal } from 'common';
+import { useGetBlockList, useGetCurrentChatRoom, useGetUser } from 'hooks';
 import { currentChatDataState, leaveChatRoomState } from 'store';
+import { checkUserRole } from 'utils';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
-import { ChatInfoModalHeader, ChatInfoModalBody } from './ChatModal';
+import { ChatInfoModalBody, ChatInfoModalHeader } from './ChatModal';
 
 import {
   chatPageListWrapperStyle,
@@ -30,6 +30,7 @@ export const ChatPage = () => {
   const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);
   const [isModalShown, setIsModalShown] = useState(false);
   const currentUserRole = checkUserRole(currentChatRoom.users, id);
+  const { blockList } = useGetBlockList();
 
   function handleOpenModal() {
     setIsModalShown(true);
@@ -59,15 +60,17 @@ export const ChatPage = () => {
           </button>
         </header>
         <ul className={chatPageListWrapperStyle}>
-          {currentChatData.map(({ chatUser, message, timestamp }, index) => (
-            <ChatElement
-              key={`${index}-${chatUser.user.nickname}`}
-              chatUser={chatUser}
-              message={message}
-              timestamp={timestamp}
-              isMine={id === chatUser.user.id}
-            />
-          ))}
+          {currentChatData
+            .filter(({ chatUser }) => blockList.every(({ id: blockUserId }) => blockUserId !== chatUser.user.id))
+            .map(({ chatUser, message, timestamp }, index) => (
+              <ChatElement
+                key={`${index}-${chatUser.user.nickname}`}
+                chatUser={chatUser}
+                message={message}
+                timestamp={timestamp}
+                isMine={id === chatUser.user.id}
+              />
+            ))}
         </ul>
         <ChatInput />
       </main>
