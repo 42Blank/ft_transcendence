@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import Phaser from 'phaser';
 import { GameInstance, IonPhaser } from '@ion-phaser/react';
-import { sockets } from 'hooks';
+import { sockets, useGetCurrentGameRoom } from 'hooks';
 
 import { useRecoilValue } from 'recoil';
 import { playerRoleState } from 'store';
-import { useGetCurrentGameRoom } from 'hooks';
 import { MainScene } from './MainScene';
 
 const gameConfig: GameInstance = {
@@ -39,7 +38,6 @@ const GamePong = () => {
     mainScene.hostCheckHandlers(playerRole.role);
     mainScene.gameModeCheckHandlers(gameMode);
     mainScene.naviHandlers(nav);
-    // mainScene.initGame();
 
     return () => {
       sockets.gameSocket.removeListener('game_data');
