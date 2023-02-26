@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
-import { putUserProfile } from 'services';
+import { putUserProfile, postUserCheckDuplicateNickname } from 'services';
 import { UserInfoType } from 'types/user';
 
 import { tmpAvatarStyle } from './tmpAvatarStyle';
@@ -20,6 +20,22 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
   const inputAvatarRef = useRef<HTMLInputElement>(null);
   const inputNickRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const [isValidated, setIsValidated] = useState<boolean>(false);
+
+  function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
+    const nickname = e.currentTarget.value;
+
+    if (!nickname || nickname.length === 0) {
+      setIsValidated(false);
+      return;
+    }
+
+    postUserCheckDuplicateNickname({
+      nickname: e.currentTarget.value,
+    }).then(res => {
+      setIsValidated(!res);
+    });
+  }
 
   function handleSubmitProfile() {
     const profileObj: ProfileObj = {};
@@ -51,7 +67,9 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
           placeholder="new nickname"
           ref={inputNickRef}
           required
+          onChange={handleChangeNickname}
         />
+        <input type="checkbox" checked={isValidated} readOnly />
         <br />
         <br />
         <label htmlFor="avatar">Edit Avatar</label>
