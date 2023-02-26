@@ -30,11 +30,13 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
       return;
     }
 
-    postUserCheckDuplicateNickname({
-      nickname: e.currentTarget.value,
-    }).then(res => {
-      setIsValidated(!res);
-    });
+    if (e.currentTarget.value !== data.nickname) {
+      postUserCheckDuplicateNickname({
+        nickname: e.currentTarget.value,
+      }).then(res => {
+        setIsValidated(!res);
+      });
+    }
   }
 
   function handleSubmitProfile() {
