@@ -45,6 +45,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
     if (!inputNickRef.current.value) return;
     if (imageUrl === LOADING_IMAGE_URL) return;
     if (inputNickRef.current.value) profileObj.nickname = inputNickRef.current.value;
+    profileObj.avatar = imageUrl;
     await putUserProfile(profileObj);
     refetch();
     onClickClose();
