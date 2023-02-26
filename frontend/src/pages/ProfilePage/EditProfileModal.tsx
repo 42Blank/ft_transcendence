@@ -14,6 +14,22 @@ const sampleAvatarList = [
     src: '/denji_sample.png',
     alt: 'denji',
   },
+  {
+    src: '/power_sample.jpg',
+    alt: 'power',
+  },
+  {
+    src: '/aki_sample.jpg',
+    alt: 'aki',
+  },
+  {
+    src: '/kobeni_sample.jpg',
+    alt: 'kobeni',
+  },
+  {
+    src: '/makima_sample.jpg',
+    alt: 'makima',
+  },
 ];
 
 interface Props {
