@@ -1,9 +1,7 @@
 import { ChangeEvent, useRef, useState } from 'react';
 
-import { putUserProfile, postUserCheckDuplicateNickname } from 'services';
+import { putUserProfile, postUserCheckDuplicateNickname, postFile } from 'services';
 import { UserInfoType } from 'types/user';
-
-import { tmpAvatarStyle } from './tmpAvatarStyle';
 
 interface Props {
   onClickClose: () => void;
@@ -16,11 +14,13 @@ interface ProfileObj {
   avatar?: string;
 }
 
+const DEFAULT_IMAGE_URL = 'https://bit.ly/3YMBEvR';
+const LOADING_IMAGE_URL = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif';
+
 export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) => {
-  const inputAvatarRef = useRef<HTMLInputElement>(null);
   const inputNickRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   const [isValidated, setIsValidated] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>(DEFAULT_IMAGE_URL);
 
   function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
     const nickname = e.currentTarget.value;
@@ -39,21 +39,21 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
     }
   }
 
-  function handleSubmitProfile() {
+  async function handleSubmitProfile() {
     const profileObj: ProfileObj = {};
     if (!isValidated) return;
-    if (!inputAvatarRef.current.value && !inputNickRef.current.value) return;
+    if (!inputNickRef.current.value) return;
+    if (imageUrl === LOADING_IMAGE_URL) return;
     if (inputNickRef.current.value) profileObj.nickname = inputNickRef.current.value;
-    if (inputAvatarRef.current.value) profileObj.avatar = inputAvatarRef.current.value;
-    putUserProfile(profileObj).then(() => {
-      refetch();
-    });
+    await putUserProfile(profileObj);
+    refetch();
     onClickClose();
   }
 
-  function handleClickImage() {
-    putUserProfile({ avatar: imageRef.current.src }).then(() => {
-      inputAvatarRef.current.value = imageRef.current.src;
+  function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
+    setImageUrl(LOADING_IMAGE_URL);
+    postFile({ file: e.currentTarget.files[0] }).then(res => {
+      setImageUrl(`${process.env.REACT_APP_SERVER}/file/${res}`);
     });
   }
 
@@ -76,22 +76,15 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
         <br />
         <br />
         <label htmlFor="avatar">Edit Avatar</label>
-        <input
-          type="text"
-          id="avatar"
-          defaultValue={data.avatar}
-          placeholder="new Avatar URL"
-          ref={inputAvatarRef}
-          required
-        />
+        <input type="file" id="avatar" onChange={handleChangeImage} />
         <br />
         <button type="button" onClick={handleSubmitProfile}>
           submit
         </button>
       </div>
-      <div>
+      {/* <div>
         <p>Sample Avatar</p>
-        <button type="button" onClick={handleClickImage}>
+        <button type="button" onClick={handleChangeImage}>
           <img
             className={tmpAvatarStyle}
             src="/pochita_sample.png"
@@ -101,7 +94,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
             ref={imageRef}
           />
         </button>
-      </div>
+      </div> */}
     </>
   );
 };
