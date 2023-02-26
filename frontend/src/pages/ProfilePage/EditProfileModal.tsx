@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { putUserProfile, postUserCheckDuplicateNickname, postFile } from 'services';
 import { UserInfoType } from 'types/user';
@@ -21,7 +21,6 @@ const LOADING_IMAGE_URL = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.
 
 export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) => {
   const inputNickRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(DEFAULT_IMAGE_URL);
 
@@ -66,8 +65,8 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
     });
   }
 
-  function handleClickImage() {
-    setImageUrl(imageRef.current.src);
+  function handleClickImage(e: MouseEvent<HTMLElement>) {
+    setImageUrl((e.target as HTMLInputElement).src);
   }
 
   return (
@@ -99,14 +98,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
       <div>
         <p>Sample Avatar</p>
         <button type="button" onClick={handleClickImage}>
-          <img
-            className={tmpAvatarStyle}
-            src="/pochita_sample.png"
-            width={100}
-            height={100}
-            alt="pochi"
-            ref={imageRef}
-          />
+          <img className={tmpAvatarStyle} src="/pochita_sample.png" width={100} height={100} alt="pochi" />
         </button>
       </div>
     </>
