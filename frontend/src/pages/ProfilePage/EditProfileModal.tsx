@@ -27,7 +27,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
 
   useEffect(() => {
     if (inputNickRef.current.value === data.nickname) setIsValidated(true);
-    if (imageRef.current.src === data.avatar) setImageUrl(imageRef.current.src);
+    setImageUrl(data.avatar);
   }, []);
 
   function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
