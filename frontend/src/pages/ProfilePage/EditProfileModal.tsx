@@ -5,6 +5,17 @@ import { UserInfoType } from 'types/user';
 
 import { tmpAvatarStyle } from './tmpAvatarStyle';
 
+const sampleAvatarList = [
+  {
+    src: '/pochita_sample.png',
+    alt: 'pochi',
+  },
+  {
+    src: '/denji_sample.png',
+    alt: 'denji',
+  },
+];
+
 interface Props {
   onClickClose: () => void;
   user: UserInfoType;
@@ -97,9 +108,11 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
       </div>
       <div>
         <p>Sample Avatar</p>
-        <button type="button" onClick={handleClickImage}>
-          <img className={tmpAvatarStyle} src="/pochita_sample.png" width={100} height={100} alt="pochi" />
-        </button>
+        {sampleAvatarList.map((value, index) => (
+          <button key={index} type="button" onClick={handleClickImage}>
+            <img className={tmpAvatarStyle} src={value.src} width={100} height={100} alt={value.alt} />
+          </button>
+        ))}
       </div>
     </>
   );
