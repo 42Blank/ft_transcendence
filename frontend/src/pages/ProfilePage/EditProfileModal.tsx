@@ -3,6 +3,8 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { putUserProfile, postUserCheckDuplicateNickname, postFile } from 'services';
 import { UserInfoType } from 'types/user';
 
+import { tmpAvatarStyle } from './tmpAvatarStyle';
+
 interface Props {
   onClickClose: () => void;
   user: UserInfoType;
@@ -19,11 +21,13 @@ const LOADING_IMAGE_URL = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.
 
 export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) => {
   const inputNickRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(DEFAULT_IMAGE_URL);
 
   useEffect(() => {
     if (inputNickRef.current.value === data.nickname) setIsValidated(true);
+    if (imageRef.current.src === data.avatar) setImageUrl(imageRef.current.src);
   }, []);
 
   function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
@@ -62,6 +66,10 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
     });
   }
 
+  function handleClickImage() {
+    setImageUrl(imageRef.current.src);
+  }
+
   return (
     <>
       <div>
@@ -82,15 +90,15 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
         <br />
         <label htmlFor="avatar">Edit Avatar</label>
         <input type="file" id="avatar" onChange={handleChangeImage} />
-        <img src={imageUrl} alt="register-selected" />
+        <img className={tmpAvatarStyle} src={imageUrl} alt="register-selected" />
         <br />
         <button type="button" onClick={handleSubmitProfile}>
           submit
         </button>
       </div>
-      {/* <div>
+      <div>
         <p>Sample Avatar</p>
-        <button type="button" onClick={handleChangeImage}>
+        <button type="button" onClick={handleClickImage}>
           <img
             className={tmpAvatarStyle}
             src="/pochita_sample.png"
@@ -100,7 +108,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
             ref={imageRef}
           />
         </button>
-      </div> */}
+      </div>
     </>
   );
 };
