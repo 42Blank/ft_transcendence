@@ -41,6 +41,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
 
   function handleSubmitProfile() {
     const profileObj: ProfileObj = {};
+    if (!isValidated) return;
     if (!inputAvatarRef.current.value && !inputNickRef.current.value) return;
     if (inputNickRef.current.value) profileObj.nickname = inputNickRef.current.value;
     if (inputAvatarRef.current.value) profileObj.avatar = inputAvatarRef.current.value;
