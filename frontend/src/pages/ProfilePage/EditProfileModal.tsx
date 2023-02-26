@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { putUserProfile, postUserCheckDuplicateNickname, postFile } from 'services';
 import { UserInfoType } from 'types/user';
@@ -21,6 +21,10 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
   const inputNickRef = useRef<HTMLInputElement>(null);
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(DEFAULT_IMAGE_URL);
+
+  useEffect(() => {
+    if (inputNickRef.current.value === data.nickname) setIsValidated(true);
+  }, []);
 
   function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
     const nickname = e.currentTarget.value;
@@ -78,6 +82,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
         <br />
         <label htmlFor="avatar">Edit Avatar</label>
         <input type="file" id="avatar" onChange={handleChangeImage} />
+        <img src={imageUrl} alt="register-selected" />
         <br />
         <button type="button" onClick={handleSubmitProfile}>
           submit
