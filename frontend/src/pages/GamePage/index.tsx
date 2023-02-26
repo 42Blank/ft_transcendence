@@ -35,8 +35,11 @@ export const GamePage = () => {
         <GamePong />
       </div>
       <div>
-        <span>• BALL WILL SERVE AUTOMATICALLY</span>
-        <span>• AVOID MISSING BALL FOR HIGH SCORE</span>
+        <ul>
+          <li>상하 방향키로 패들을 조작합니다.</li>
+          <li>공은 자동으로 서브 됩니다.</li>
+          <li>고득점을 위해 공을 놓치지 마세요!</li>
+        </ul>
       </div>
     </div>
   );
