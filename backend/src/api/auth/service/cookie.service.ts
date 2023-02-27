@@ -19,7 +19,11 @@ export class CookieService {
       : { maxAge };
   }
 
-  createJwt<T extends Record<string, string | number>>(payload: T): string {
+  createJwt<T extends Record<string, string | number | boolean>>(payload: T): string {
     return this.jwtService.sign(payload);
+  }
+
+  readJwt<T extends Record<string, string | number | boolean>>(jwt: string): T {
+    return this.jwtService.verify(jwt) as T;
   }
 }

@@ -67,6 +67,7 @@ export class ChatRoomService {
       id: chatRoom.id,
       roomTitle: chatRoom.roomTitle,
       isPrivate: chatRoom.isPrivate,
+      dmId: chatRoom.dmId,
       users: await Promise.all(
         Array.from(chatRoom.sockets.values()).map(async chatUser => ({
           user: await this.userRepository.findOneBy({ id: chatUser.id }),
