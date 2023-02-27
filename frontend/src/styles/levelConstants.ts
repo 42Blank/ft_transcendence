@@ -1,3 +1,5 @@
+export const COMMON_LEVELS: Record<string, number> = {};
+
 export const LOGIN_LEVELS: Record<string, number> = {
   ROTATE_DEG: 20,
   IMAGE_ZINDEX: 0,
