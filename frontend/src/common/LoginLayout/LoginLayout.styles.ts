@@ -14,6 +14,7 @@ export const loginLayoutWrapperStyle = css({
 });
 
 export const loginLayoutCenterAlignStyle = css({
+  marginTop: 60,
   width: 500,
   height: 800,
   position: 'relative',
@@ -49,24 +50,16 @@ export const loginMainInnerStyle = css({
   transform: `rotate(-${LOGIN_LEVELS.ROTATE_DEG}deg)`,
 });
 
-export const loginFooterStyle = css({
-  width: '100vw',
-  display: 'flex',
-  position: 'fixed',
-  left: 0,
-  bottom: 0,
-  padding: '20px 10px',
-  flexDirection: 'row',
-  justifyContent: 'center',
-});
-
 export const githubLinkStyle = css({
   display: 'inline-block',
-  width: 40,
-  height: 40,
+  position: 'absolute',
+  bottom: 0,
+  right: 30,
+  width: COMMON_SIZES.ICON_LARGE,
+  height: COMMON_SIZES.ICON_LARGE,
 
   svg: {
-    width: 40,
-    height: 40,
+    width: COMMON_SIZES.ICON_LARGE,
+    height: COMMON_SIZES.ICON_LARGE,
   },
 });
