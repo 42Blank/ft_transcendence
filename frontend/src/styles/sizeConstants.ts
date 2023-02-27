@@ -1,4 +1,4 @@
-export const COMMON_SIZES: Record<string, number> = {
+export const COMMON_SIZES = {
   BORDER_RADIUS_SMALL: 5,
   BORDER_RADIUS_BIG: 20,
 
@@ -6,17 +6,17 @@ export const COMMON_SIZES: Record<string, number> = {
   ICON_MEDIUM: 30,
   ICON_LARGE: 40,
   ICON_XLARGE: 50,
-};
+} as const;
 
-export const FONT_SIZES: Record<string, number> = {
+export const FONT_SIZES = {
   XXLARGE: 30,
   XLARGE: 24,
   LARGE: 20,
   MEDIUM: 16,
   SMALL: 12,
   XSMALL: 10,
-};
+} as const;
 
-export const LOGIN_SIZES: Record<string, number> = {};
+export const LOGIN_SIZES = {} as const;
 
-export const MAIN_SIZES: Record<string, number> = {};
+export const MAIN_SIZES = {} as const;

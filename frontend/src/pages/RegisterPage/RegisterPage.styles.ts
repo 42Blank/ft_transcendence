@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-import { COLORS, COMMON_SIZES, FONT_SIZES, makeButtonStyle } from 'styles';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder, makeButtonStyle } from 'styles';
 
 export const registerPageFormStyle = css({
   width: '100%',
@@ -16,21 +16,25 @@ export const registerPageInnerDivStyle = css({
   height: 50,
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
   alignItems: 'center',
   marginBottom: 20,
   fontSize: FONT_SIZES.MEDIUM,
-
-  'span, label': {
-    fontSize: FONT_SIZES.MEDIUM,
-    color: COLORS.WHITE,
-  },
 
   'input[type="file"]': {
     display: 'none',
   },
   'input[type="text"]': {
     marginLeft: 10,
+    width: 100,
+    paddingRight: 30,
+    backgroundColor: COLORS.BLACK,
+    border: 'none',
+    borderBottom: makeBorder({ color: COLORS.WHITE }),
+    color: COLORS.WHITE,
+
+    ':placeholder': {
+      color: COLORS.GRAY3,
+    },
   },
 
   img: {
@@ -39,6 +43,13 @@ export const registerPageInnerDivStyle = css({
     objectFit: 'cover',
     borderRadius: COMMON_SIZES.ICON_XLARGE,
   },
+});
+
+export const registerPageLabelStyle = css({
+  fontSize: FONT_SIZES.MEDIUM,
+  color: COLORS.WHITE,
+  width: 80,
+  marginRight: 10,
 });
 
 export const registerPageNicknameSectionWrapper = css({
@@ -50,7 +61,8 @@ export const registerPageNicknameSectionWrapper = css({
 
   svg: {
     position: 'absolute',
-    right: 0,
+    right: 5,
+    top: 12,
     fill: COLORS.GREEN,
     width: COMMON_SIZES.ICON_SMALL,
     height: COMMON_SIZES.ICON_SMALL,
@@ -60,7 +72,8 @@ export const registerPageNicknameSectionWrapper = css({
 export const registerPageImageUploadButtonStyle = css({
   ...makeButtonStyle({}),
   marginLeft: 10,
-  marginRight: 10,
+  marginRight: 20,
+  color: COLORS.WHITE,
 });
 
 export const registerPageButtonWrapperStyle = css({

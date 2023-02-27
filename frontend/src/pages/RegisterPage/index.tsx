@@ -10,6 +10,7 @@ import {
   registerPageFormStyle,
   registerPageImageUploadButtonStyle,
   registerPageInnerDivStyle,
+  registerPageLabelStyle,
   registerPageNicknameSectionWrapper,
 } from './RegisterPage.styles';
 
@@ -60,7 +61,7 @@ export const RegisterPage = () => {
   return (
     <form className={registerPageFormStyle} onSubmit={handleSubmitForm}>
       <div className={registerPageInnerDivStyle}>
-        <span>프로필 사진</span>
+        <span className={registerPageLabelStyle}>프로필 사진</span>
         <label htmlFor="register-image" className={registerPageImageUploadButtonStyle}>
           업로드
         </label>
@@ -68,7 +69,9 @@ export const RegisterPage = () => {
         <img src={imageUrl} alt="register-selected" />
       </div>
       <div className={registerPageInnerDivStyle}>
-        <label htmlFor="register-nickname">닉네임</label>
+        <label htmlFor="register-nickname" className={registerPageLabelStyle}>
+          닉네임
+        </label>
         <div className={registerPageNicknameSectionWrapper}>
           <input type="text" id="register-nickname" ref={nicknameRef} onChange={handleChangeNickname} />
           {isValidated && <CheckIcon />}

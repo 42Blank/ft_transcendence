@@ -1,4 +1,4 @@
-export const COLORS: Record<string, string> = {
+export const COLORS = {
   BLACK: '#000000',
   WHITE: '#ffffff',
   GRAY3: '#333333',
@@ -10,4 +10,4 @@ export const COLORS: Record<string, string> = {
   GRAYE: '#eeeeee',
   GREEN: '#10D300',
   RED: '#F13810',
-};
+} as const;
