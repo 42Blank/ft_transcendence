@@ -115,7 +115,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
         <br />
         <br />
         <label htmlFor="avatar">Edit Avatar</label>
-        <input type="file" id="avatar" onChange={handleChangeImage} />
+        <input type="file" accept="image/*" id="avatar" onChange={handleChangeImage} />
         <img className={tmpAvatarStyle} src={imageUrl} alt="register-selected" />
       </div>
       <div>
