@@ -22,10 +22,6 @@ export const GameListPage = () => {
   const gameRoomList = useRecoilValue(gameRoomListState);
   const setLeaveMatchMake = useSetRecoilState(leaveMatchMakeState);
 
-  // joinmatchmake
-  // leavematchmake
-  // 변경점이 있어야 recoil 업데이트 되니까 아무거나 넣으면 됨.
-
   function handleClickButton() {
     setIsNewGameModalShown(true);
   }
@@ -44,6 +40,7 @@ export const GameListPage = () => {
   }
   useEffect(() => {
     return () => {
+      // 어거 동작하는지 안하는지 확인 어케해야함?
       if (isLadderModalShown) {
         setIsLadderModalShown(false);
         setLeaveMatchMake({ id: 'LeaveMatch' });
