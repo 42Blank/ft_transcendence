@@ -117,10 +117,6 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
         <label htmlFor="avatar">Edit Avatar</label>
         <input type="file" id="avatar" onChange={handleChangeImage} />
         <img className={tmpAvatarStyle} src={imageUrl} alt="register-selected" />
-        <br />
-        <button type="button" onClick={handleSubmitProfile}>
-          submit
-        </button>
       </div>
       <div>
         <p>Sample Avatar</p>
@@ -129,6 +125,10 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
             <img className={tmpAvatarStyle} src={value.src} width={100} height={100} alt={value.alt} />
           </button>
         ))}
+        <br />
+        <button type="button" onClick={handleSubmitProfile}>
+          <span>submit</span>
+        </button>
       </div>
     </>
   );
