@@ -39,7 +39,7 @@ export const GamePage = () => {
       <div>
         <span>상대를 기다리는 중</span>
         <button type="button" onClick={onClickCancle}>
-          <span>취소</span>
+          <span>[취소]</span>
         </button>
       </div>
     );
