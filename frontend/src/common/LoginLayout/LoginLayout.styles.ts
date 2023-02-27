@@ -32,14 +32,13 @@ export const loginLayoutImageStyle = (top: number, right: number) =>
 
 export const loginMainWrapperStyle = css({
   position: 'absolute',
-  bottom: 140,
-  width: 500,
+  bottom: 120,
+  left: 50,
+  width: 480,
   height: 360,
-  paddingLeft: 20,
-  paddingRight: 20,
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-end',
+  alignItems: 'center',
   justifyContent: 'flex-start',
   overflow: 'hidden',
   zIndex: LOGIN_LEVELS.MAIN_ZINDEX,

@@ -1,19 +1,22 @@
 import { css } from '@emotion/css';
 
-import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeButtonStyle } from 'styles';
 
 export const registerPageFormStyle = css({
-  width: 'calc(100% - 20px)',
+  width: '100%',
   overflow: 'hidden',
-  marginRight: 40,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 export const registerPageInnerDivStyle = css({
-  width: '100%',
+  width: '50%',
   height: 50,
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
   alignItems: 'center',
   marginBottom: 20,
   fontSize: FONT_SIZES.MEDIUM,
@@ -55,24 +58,18 @@ export const registerPageNicknameSectionWrapper = css({
 });
 
 export const registerPageImageUploadButtonStyle = css({
-  border: makeBorder({ color: COLORS.WHITE }),
-  borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
-  padding: '5px 10px',
+  ...makeButtonStyle({}),
   marginLeft: 10,
   marginRight: 10,
 });
 
 export const registerPageButtonWrapperStyle = css({
-  marginRight: 20,
+  width: '50%',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-end',
 
-  button: {
-    border: makeBorder({ color: COLORS.WHITE }),
-    borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
-    padding: '10px 20px',
-  },
+  button: makeButtonStyle({ paddingHorizontal: 10, paddingVertical: 20 }),
 
   'button:first-child': {
     marginRight: 20,
