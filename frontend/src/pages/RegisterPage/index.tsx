@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
 import { postFile, postRegister, postUserCheckDuplicateNickname } from 'services';
+import { CheckIcon } from 'assets';
 
 import {
   registerPageButtonWrapperStyle,
   registerPageFormStyle,
+  registerPageImageUploadButtonStyle,
   registerPageInnerDivStyle,
-  registerPageLogoImageStyle,
-  registerPageWrapperStyle,
+  registerPageNicknameSectionWrapper,
 } from './RegisterPage.styles';
 
 const DEFAULT_IMAGE_URL = 'https://bit.ly/3YMBEvR';
@@ -57,28 +58,30 @@ export const RegisterPage = () => {
   }
 
   return (
-    <main className={registerPageWrapperStyle}>
-      <img src="/logo.png" alt="pochitandence logo" width={280} height={80} className={registerPageLogoImageStyle} />
-      <form className={registerPageFormStyle} onSubmit={handleSubmitForm}>
-        <div className={registerPageInnerDivStyle}>
-          <label htmlFor="register-image">프로필 사진</label>
-          <input type="file" id="register-image" onChange={handleChangeImage} />
-          <img src={imageUrl} alt="register-selected" />
-        </div>
-        <div className={registerPageInnerDivStyle}>
-          <label htmlFor="register-nickname">닉네임</label>
+    <form className={registerPageFormStyle} onSubmit={handleSubmitForm}>
+      <div className={registerPageInnerDivStyle}>
+        <span>프로필 사진</span>
+        <label htmlFor="register-image" className={registerPageImageUploadButtonStyle}>
+          업로드
+        </label>
+        <input type="file" id="register-image" onChange={handleChangeImage} />
+        <img src={imageUrl} alt="register-selected" />
+      </div>
+      <div className={registerPageInnerDivStyle}>
+        <label htmlFor="register-nickname">닉네임</label>
+        <div className={registerPageNicknameSectionWrapper}>
           <input type="text" id="register-nickname" ref={nicknameRef} onChange={handleChangeNickname} />
-          <input type="checkbox" checked={isValidated} readOnly />
+          {isValidated && <CheckIcon />}
         </div>
-        <div className={registerPageButtonWrapperStyle}>
-          <button type="button" onClick={handleClickCancel}>
-            <span>취소</span>
-          </button>
-          <button type="submit">
-            <span>가입</span>
-          </button>
-        </div>
-      </form>
-    </main>
+      </div>
+      <div className={registerPageButtonWrapperStyle}>
+        <button type="button" onClick={handleClickCancel}>
+          <span>취소</span>
+        </button>
+        <button type="submit">
+          <span>가입</span>
+        </button>
+      </div>
+    </form>
   );
 };

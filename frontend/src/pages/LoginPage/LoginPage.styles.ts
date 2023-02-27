@@ -1,18 +1,14 @@
 import { css } from '@emotion/css';
 
-import { COLORS, COMMON_SIZES, FONT_SIZES } from 'styles';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 
 export const loginLinkStyle = css({
   textDecoration: 'none',
   color: COLORS.WHITE,
-  paddingRight: 60,
-  marginTop: -10,
   display: 'flex',
-  width: 'calc(100% - 60px)',
-  height: 70,
-  flexDirection: 'row',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
+  padding: '20px 40px',
+  marginRight: 20,
+  border: makeBorder({ color: COLORS.WHITE }),
   borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
 
   span: {

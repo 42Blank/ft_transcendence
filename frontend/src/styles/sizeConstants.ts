@@ -1,9 +1,11 @@
 export const COMMON_SIZES: Record<string, number> = {
   BORDER_RADIUS_SMALL: 5,
   BORDER_RADIUS_BIG: 20,
+
   ICON_SMALL: 20,
   ICON_MEDIUM: 30,
   ICON_LARGE: 40,
+  ICON_XLARGE: 50,
 };
 
 export const FONT_SIZES: Record<string, number> = {

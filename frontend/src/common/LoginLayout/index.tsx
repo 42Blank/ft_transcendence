@@ -4,8 +4,6 @@ import {
   githubLinkStyle,
   loginLayoutCenterAlignStyle,
   loginLayoutImageStyle,
-  loginLayoutWrapperStyle,
-  loginMainInnerStyle,
   loginMainWrapperStyle,
 } from './LoginLayout.styles';
 
@@ -26,25 +24,21 @@ export const LoginLayout = () => {
   }[Math.floor(Math.random() * 10)] ?? { src: '/images/csm.png', alt: 'chainsaw-man', top: -60, right: -180 };
 
   return (
-    <div className={loginLayoutWrapperStyle}>
-      <div className={loginLayoutCenterAlignStyle}>
-        <img
-          src={titleChar.src}
-          alt={titleChar.alt}
-          width={600}
-          height={400}
-          className={loginLayoutImageStyle(titleChar.top, titleChar.right)}
-        />
-        <main className={loginMainWrapperStyle}>
-          <div className={loginMainInnerStyle}>
-            <img src="/images/title.webp" width={490} height={140} alt="title logo" />
-            <Outlet />
-          </div>
-        </main>
-        <a href="https://github.com/42Blank/ft_transcendence" className={githubLinkStyle}>
-          <GithubIcon />
-        </a>
-      </div>
+    <div className={loginLayoutCenterAlignStyle}>
+      <img
+        src={titleChar.src}
+        alt={titleChar.alt}
+        width={600}
+        height={400}
+        className={loginLayoutImageStyle(titleChar.top, titleChar.right)}
+      />
+      <main className={loginMainWrapperStyle}>
+        <img src="/images/title.webp" width={490} height={140} alt="title logo" />
+        <Outlet />
+      </main>
+      <a href="https://github.com/42Blank/ft_transcendence" className={githubLinkStyle}>
+        <GithubIcon />
+      </a>
     </div>
   );
 };
