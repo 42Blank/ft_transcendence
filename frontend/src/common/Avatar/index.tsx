@@ -4,7 +4,7 @@ import { avatarImageStyle } from './Avatar.styles';
 interface Props {
   userAvatar: string | undefined;
   alt?: string | undefined;
-  size: number | undefined;
+  size?: number | undefined;
   className?: string | undefined;
 }
 export const Avatar: React.FC<Props> = ({ userAvatar, alt, size = 50, className = avatarImageStyle }) => {
