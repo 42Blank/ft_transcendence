@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../common/database/entities/user.entity';
 import { AuthController } from './auth.controller';
 import { FtAuthModule } from './ft-auth/ft-auth.module';
-import { GithubAuthModule } from './github-auth/github-auth.module';
 import { JwtAuthModule } from './jwt-auth/jwt-auth.module';
 import MailService from './mail/mail.service';
 import { CookieService } from './service/cookie.service';
@@ -16,7 +15,6 @@ import { TwoFactorService } from './service/two-factor.service';
   imports: [
     FtAuthModule,
     JwtAuthModule,
-    GithubAuthModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
