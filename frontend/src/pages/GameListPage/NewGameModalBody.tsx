@@ -16,7 +16,6 @@ interface Props {
 
 export const NewGameModalBody = ({ onClickClose }: Props) => {
   const [isNormal, setIsNormal] = useState(true);
-  // const [gameMode, setGameMode] = useState<NewGameRoomType['mode']>('normal');
   const setNewGameRoom = useSetRecoilState(newGameRoomState);
   const setPlayerRole = useSetRecoilState(playerRoleState);
 
