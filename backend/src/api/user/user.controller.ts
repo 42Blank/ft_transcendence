@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ReqUser, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 import { User } from '../../common/database/entities/user.entity';
@@ -53,17 +53,6 @@ export class UserController {
     @Body() updateUserProfileDto: UpdateUserProfileRequestDto,
   ): Promise<void> {
     await this.updateProfileService.updateProfile(user, updateUserProfileDto);
-  }
-
-  @Delete('two-factor-auth')
-  @ApiCookieAuth()
-  @UseGuards(UserJwtAuthGuard)
-  @ApiOperation({ summary: '유저 2차 인증 제거' })
-  @ApiOkResponse({ description: '성공' })
-  async deleteTwoFactorAuth(
-    @ReqUser() user: User, //
-  ): Promise<void> {
-    await this.updateProfileService.removeTwoFactorAuth(user);
   }
 
   @Post('check-duplicate-nickname')

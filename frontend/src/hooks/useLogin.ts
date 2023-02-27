@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { API, ROUTE } from 'common/constants';
+import { ROUTE } from 'common/constants';
 import { getFtCallbackCode, getLogin } from 'services';
 import { FtProfileType } from 'types/user';
 import { ApiError } from '../utils/error';
@@ -39,7 +39,7 @@ export function useLogin() {
     onError: (err: unknown) => {
       if (err instanceof ApiError) {
         if (err.statusCode === 401 && err.message.includes('2FA')) {
-          window.location.href = process.env.REACT_APP_SERVER + API.GITHUB_AUTH;
+          nav(ROUTE.LOGIN_2FA);
           return;
         }
       }
