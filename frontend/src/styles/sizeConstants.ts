@@ -1,5 +1,7 @@
-export const LOGIN_SIZES: Record<string, number> = {};
-
-export const MAIN_SIZES: Record<string, number> = {
-  ROTATE_DEG: 30,
+export const LOGIN_SIZES: Record<string, number> = {
+  ROTATE_DEG: 20,
+  IMAGE_ZINDEX: 0,
+  MAIN_ZINDEX: 2,
 };
+
+export const MAIN_SIZES: Record<string, number> = {};
