@@ -21,6 +21,10 @@ export class ChatRoomService {
   ): ChatRoom {
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
 
+    if (data.roomTitle.length > 20) {
+      throw new ForbiddenException('Room title is too long');
+    }
+
     return this.chatRoomRepository.createChatRoom(socketId, userId, data);
   }
 
@@ -30,6 +34,10 @@ export class ChatRoomService {
     data: Partial<Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>>,
   ): void {
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
+
+    if (data.roomTitle.length > 20) {
+      throw new ForbiddenException('Room title is too long');
+    }
 
     if (!chatRoom) {
       throw new ForbiddenException('Chat room not found');
