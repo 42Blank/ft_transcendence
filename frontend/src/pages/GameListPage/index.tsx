@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { FightIcon, PlusIcon } from 'assets';
@@ -42,6 +42,15 @@ export const GameListPage = () => {
       window.location.reload();
     }
   }
+  useEffect(() => {
+    return () => {
+      if (isLadderModalShown) {
+        setIsLadderModalShown(false);
+        setLeaveMatchMake({ id: 'LeaveMatch' });
+        window.location.reload();
+      }
+    };
+  }, []);
   return (
     <main className={gameListWrapperStyle}>
       {gameRoomList.map((data, index) => (
