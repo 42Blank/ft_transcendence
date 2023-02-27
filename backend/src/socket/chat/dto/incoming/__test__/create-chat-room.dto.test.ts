@@ -8,6 +8,7 @@ describe('CreateChatRoomDto', () => {
       plainToInstance(CreateChatRoomDto, {
         roomTitle: 'name',
         isPrivate: false,
+        isDm: false,
       }),
     );
 
@@ -19,6 +20,7 @@ describe('CreateChatRoomDto', () => {
       plainToInstance(CreateChatRoomDto, {
         roomTitle: 'name',
         isPrivate: true,
+        isDm: false,
       }),
     );
 
@@ -32,6 +34,7 @@ describe('CreateChatRoomDto', () => {
           },
           "property": "password",
           "target": CreateChatRoomDto {
+            "isDm": false,
             "isPrivate": true,
             "roomTitle": "name",
           },
@@ -47,6 +50,7 @@ describe('CreateChatRoomDto', () => {
         roomTitle: 'name',
         isPrivate: true,
         password: 'asdf',
+        isDm: false,
       }),
     );
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { pwEncryption } from 'common/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { ChatRoom } from '../model/chat-room';
 
@@ -9,13 +10,14 @@ export class ChatRoomRepository {
   public createChatRoom(
     socketId: string,
     userId: number,
-    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password' | 'dmId'>,
   ): ChatRoom {
     const chatRoom: ChatRoom = {
       id: uuidv4(),
       roomTitle: data.roomTitle,
       isPrivate: data.isPrivate,
-      password: data.password,
+      dmId: data.dmId,
+      password: data.password ? pwEncryption(data.password) : undefined,
       sockets: new Map(),
       bannedUsers: new Set(),
     };

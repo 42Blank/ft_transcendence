@@ -5,6 +5,7 @@ export class RegisterRequestDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(1)
+  @MaxLength(8)
   @ApiProperty({ example: 'jasong' })
   nickname: string;
 

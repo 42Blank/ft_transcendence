@@ -20,6 +20,8 @@ services:
       - ./backend/.env
     ports:
       - 8081:8081
+    volumes:
+      - uploads_volumes:/app/uploads
     networks:
       - transcendence
     depends_on:
@@ -30,6 +32,8 @@ services:
     env_file:
       - ./backend/.env
     restart: always
+    volumes:
+      - db_volumes:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
@@ -39,4 +43,5 @@ networks:
   transcendence:
 
 volumes:
-  data:
+  db_volumes: {}
+  uploads_volumes: {}

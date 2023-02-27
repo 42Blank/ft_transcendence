@@ -1,5 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { pwCompare } from 'common/utils';
 import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
 import { ChatDataDto } from '../dto/outcoming/chat-data.dto';
@@ -22,15 +23,22 @@ export class ChatUserService {
     }
 
     if (Array.from(chatRoom.sockets.values()).find(chatUser => chatUser.id === userId)) {
-      throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoomId}`);
+      throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoom.roomTitle}`);
     }
 
-    if (chatRoom.isPrivate && chatRoom.password !== password) {
+    if (chatRoom.isPrivate && pwCompare(password, chatRoom.password)) {
       throw new NotAcceptableException(`Password is incorrect`);
     }
 
+    if (chatRoom.dmId) {
+      const dmUserIds = chatRoom.dmId.split('-').map(id => parseInt(id, 10));
+      if (!dmUserIds.includes(userId)) {
+        throw new NotAcceptableException(`User ${userId} is not allowed to join chat room ${chatRoom.roomTitle}`);
+      }
+    }
+
     if (chatRoom.bannedUsers.has(userId)) {
-      throw new NotAcceptableException(`User ${userId} is banned in chat room ${chatRoomId}`);
+      throw new NotAcceptableException(`User ${userId} is banned in chat room ${chatRoom.roomTitle}`);
     }
 
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);

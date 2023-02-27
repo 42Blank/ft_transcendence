@@ -10,6 +10,7 @@ interface ChatUserInfoType {
 export interface ChatRoomInfoType {
   roomTitle: string;
   id: string;
+  dmId?: string;
   isPrivate: boolean;
   password?: string;
   users: ChatUserInfoType[];
@@ -20,6 +21,7 @@ export interface NewChatRoomType {
   roomTitle: string;
   isPrivate: boolean;
   password?: string;
+  dmId?: string;
 }
 
 export interface JoinChatRoomType {

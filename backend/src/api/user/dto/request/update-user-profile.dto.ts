@@ -5,6 +5,7 @@ export class UpdateUserProfileRequestDto {
   @IsString()
   @IsOptional()
   @MinLength(1)
+  @MaxLength(8)
   @ApiPropertyOptional({ example: 'jasong' })
   nickname?: string;
 
