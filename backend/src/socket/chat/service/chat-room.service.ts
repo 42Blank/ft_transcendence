@@ -17,7 +17,7 @@ export class ChatRoomService {
   public createChatRoom(
     socketId: string,
     userId: number,
-    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password' | 'dmId'>,
   ): ChatRoom {
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
 
