@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 export const pwEncryption = (pw: string): string => {
   const salt = bcrypt.genSaltSync(10);
