@@ -28,7 +28,22 @@ export const GamePage = () => {
       nav(`${ROUTE.RESULT}/${currentGameRoom.matchHistoryId}`);
     }
   }, [currentGameRoom]);
+  function onClickCancle() {
+    setPlayerRole({ role: 'none' });
+    setLeaveGameRoom({ id: currentGameRoom.id });
+    nav(ROUTE.GAME);
+  }
 
+  if (currentGameRoom.state === 'waiting') {
+    return (
+      <div>
+        <span>상대를 기다리는 중</span>
+        <button type="button" onClick={onClickCancle}>
+          <span>취소</span>
+        </button>
+      </div>
+    );
+  }
   return (
     <div>
       <div>
