@@ -39,6 +39,10 @@ export class ChatRoomService {
       throw new ForbiddenException('You are not in this chat room');
     }
 
+    if (chatRoom.sockets.get(socketId).role !== 'host') {
+      throw new ForbiddenException('You are not owner of this chat room');
+    }
+
     chatRoom.roomTitle = data.roomTitle ?? chatRoom.roomTitle;
     chatRoom.isPrivate = data.isPrivate ?? chatRoom.isPrivate;
     chatRoom.password = data.password ?? chatRoom.password;

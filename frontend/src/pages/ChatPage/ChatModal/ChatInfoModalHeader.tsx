@@ -54,7 +54,7 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole }: Props)
     <header className={chatModalHeaderStyle}>
       <div className={chatModalTitleWrapperStyle}>
         {isEditMode ? <input type="text" ref={roomTitleRef} defaultValue={roomTitle} /> : <h4>#{roomTitle}</h4>}
-        {currentUserRole !== 'user' && (
+        {currentUserRole === 'host' && (
           <button type="button" onClick={handleToggleEditMode}>
             {isEditMode ? <SaveIcon /> : <EditIcon />}
           </button>
