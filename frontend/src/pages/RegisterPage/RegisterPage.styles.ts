@@ -62,7 +62,6 @@ export const registerPageNicknameSectionWrapper = css({
   svg: {
     position: 'absolute',
     right: 5,
-    top: 12,
     fill: COLORS.GREEN,
     width: COMMON_SIZES.ICON_SMALL,
     height: COMMON_SIZES.ICON_SMALL,
