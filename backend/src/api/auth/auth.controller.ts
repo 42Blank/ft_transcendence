@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { ReqFtProfile } from '../../common/auth/ft-auth';
 import { FtAuthGuard } from '../../common/auth/ft-auth/ft-auth.guard';
-import { FtJwtAuthGuard, ReqJwtFtProfile, ReqUser, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
+import { FtJwtAuthGuard, ReqJwtFtProfile, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 import { FtProfile, UserJwtPayload } from '../../common/auth/types';
 import { User } from '../../common/database/entities/user.entity';
 import { RegisterRequestDto } from './dto/request/register.dto';
@@ -74,7 +74,7 @@ export class AuthController {
   }
 
   @Get('github')
-  @UseGuards(UserJwtAuthGuard)
+  @UseGuards(FtJwtAuthGuard)
   @UseGuards(GithubAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
@@ -86,8 +86,29 @@ export class AuthController {
     return;
   }
 
-  @Get('github/callback')
+  @Get('github/register')
   @UseGuards(UserJwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({
+    summary: '2차 인증 등록',
+    description:
+      "깃허브 로그인 페이지로 리다이렉트 <a href='/auth/register/two-factor-auth'> Please cmd + click me! </a>",
+  })
+  @ApiOkResponse({ description: '깃허브 페이지' })
+  async registerGithub(
+    @Res({ passthrough: true }) response: Response, //
+  ): Promise<void> {
+    const cookieOption = this.cookieService.getCookieOption();
+    const jwt = this.cookieService.createJwt<{ isRegister: boolean }>({
+      isRegister: true,
+    });
+
+    response.cookie('two_factor', jwt, cookieOption);
+    response.redirect('/auth/github');
+  }
+
+  @Get('github/callback')
+  @UseGuards(FtJwtAuthGuard)
   @UseGuards(GithubAuthGuard)
   @ApiCookieAuth()
   @ApiOperation({
@@ -96,9 +117,27 @@ export class AuthController {
   })
   @ApiOkResponse({ description: '로그인 성공' })
   async githubCallback(
-    @ReqUser() user: User, //
+    @ReqJwtFtProfile() ftProfile: FtProfile, //
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    await this.twoFactorService.updateTwoFactor(user);
+    const cookieOption = this.cookieService.getCookieOption();
+    const user = await this.loginService.login(ftProfile);
+    const { isRegister } = this.cookieService.readJwt<{ isRegister: boolean }>(request.cookies.two_factor);
+
+    if (isRegister) {
+      await this.twoFactorService.updateTwoFactor(user);
+      response.clearCookie('two_factor', cookieOption);
+      return;
+    }
+
+    this.twoFactorService.validateTwoFactor(user);
+    const jwt = this.cookieService.createJwt<UserJwtPayload>({
+      id: user.id,
+      intraId: user.intraId,
+    });
+    response.cookie('access_token', jwt, cookieOption);
+    response.clearCookie('two_factor', cookieOption);
   }
 
   @Get('login')
@@ -111,12 +150,21 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<User> {
     const user = await this.loginService.login(ftProfile);
+    const cookieOption = this.cookieService.getCookieOption();
+
+    if (user.isTwoFactorAuth) {
+      const jwt = this.cookieService.createJwt<{ isRegister: boolean }>({
+        isRegister: false,
+      });
+      response.cookie('two_factor', jwt, cookieOption);
+
+      throw new UnauthorizedException('2FA 인증이 필요합니다.');
+    }
+
     const jwt = this.cookieService.createJwt<UserJwtPayload>({
       id: user.id,
       intraId: user.intraId,
     });
-    const cookieOption = this.cookieService.getCookieOption();
-
     response.cookie('access_token', jwt, cookieOption);
 
     return user;
@@ -152,5 +200,6 @@ export class AuthController {
 
     response.clearCookie('access_token', cookieOption);
     response.clearCookie('ft_profile', cookieOption);
+    response.clearCookie('two_factor', cookieOption);
   }
 }

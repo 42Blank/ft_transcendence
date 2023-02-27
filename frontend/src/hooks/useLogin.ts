@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { ROUTE } from 'common/constants';
+import { API, ROUTE } from 'common/constants';
 import { getFtCallbackCode, getLogin } from 'services';
 import { FtProfileType } from 'types/user';
+import { ApiError } from '../utils/error';
 
 export function useLogin() {
   const [param] = useSearchParams();
@@ -21,7 +22,7 @@ export function useLogin() {
       setIsRegistered(true);
     },
     onError: () => {
-      // 로그인 실패
+      nav(ROUTE.LOGIN);
     },
   });
 
@@ -33,10 +34,16 @@ export function useLogin() {
     enabled: isRegistered,
     useErrorBoundary: false,
     onSuccess: () => {
-      nav(ROUTE.CHAT); // 일단해봄
+      nav(ROUTE.CHAT);
     },
-    onError: () => {
-      // 로그인 실패
+    onError: (err: unknown) => {
+      if (err instanceof ApiError) {
+        if (err.statusCode === 401 && err.message.includes('2FA')) {
+          window.location.href = process.env.REACT_APP_SERVER + API.GITHUB_AUTH;
+          return;
+        }
+      }
+      nav(ROUTE.LOGIN);
     },
   });
 }

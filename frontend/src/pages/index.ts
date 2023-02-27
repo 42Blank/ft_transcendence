@@ -3,6 +3,7 @@ export { ChatPage } from './ChatPage';
 export { GameListPage } from './GameListPage';
 export { GamePage } from './GamePage';
 export { GameResultPage } from './GameResultPage';
+export { GithubCallbackPage } from './GithubCallbackPage';
 export { LoginCallbackPage } from './LoginCallbackPage';
 export { LoginPage } from './LoginPage';
 export { LoginRandomPage } from './LoginRandomPage';
