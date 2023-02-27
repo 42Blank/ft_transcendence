@@ -7,4 +7,7 @@ export type FtProfile = {
 
   // 이미지 주소
   image_url: string;
+
+  // 이메일
+  email: string;
 };

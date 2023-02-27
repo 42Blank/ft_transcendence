@@ -17,6 +17,7 @@ export class FtAuthStrategy extends PassportStrategy(FortyTwoPassport.Strategy) 
         id: (obj: { id: number }) => String(obj.id),
         username: 'login',
         image_url: 'image.link',
+        email: 'emails.0.value',
       },
     });
   }
@@ -31,6 +32,7 @@ export class FtAuthStrategy extends PassportStrategy(FortyTwoPassport.Strategy) 
       id: profile.id,
       username: profile.username,
       image_url: profile.image_url,
+      email: profile.email,
     });
   }
 }
