@@ -1,5 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { pwCompare } from 'common/utils';
 import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
 import { ChatDataDto } from '../dto/outcoming/chat-data.dto';
@@ -25,7 +26,7 @@ export class ChatUserService {
       throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoom.roomTitle}`);
     }
 
-    if (chatRoom.isPrivate && chatRoom.password !== password) {
+    if (chatRoom.isPrivate && pwCompare(password, chatRoom.password)) {
       throw new NotAcceptableException(`Password is incorrect`);
     }
 
