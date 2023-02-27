@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
+
 import { avatarImageStyle } from './Avatar.styles';
 
 interface Props {
-  userAvatar: string | undefined;
-  alt?: string | undefined;
-  size?: number | undefined;
-  className?: string | undefined;
+  userAvatar: string;
+  alt?: string;
+  size?: number;
+  className?: string;
 }
-export const Avatar: React.FC<Props> = ({ userAvatar, alt, size = 50, className = avatarImageStyle }) => {
+export const Avatar: FC<Props> = ({ userAvatar, alt, size = 50, className = avatarImageStyle }) => {
   const [imgSrc, setImgSrc] = useState(userAvatar);
-  const handleImgError = () => {
+  function handleImgError() {
     setImgSrc('/unknown_user.png');
-  };
+  }
   if (imgSrc === null) {
     setImgSrc('/unknown_user.png');
   }
