@@ -1,23 +1,19 @@
 import { css } from '@emotion/css';
+import { COLORS, FONT_SIZES } from 'styles';
 
 export const loginCallbackWrapperStyle = css({
-  width: 480,
-  border: '1px solid black', // TODO: 상수화
-  borderRadius: 5,
+  color: COLORS.WHITE,
+  paddingRight: 60,
+  marginTop: -10,
   display: 'flex',
-  flexDirection: 'column',
+  width: 'calc(100% - 60px)',
+  height: 70,
+  justifyContent: 'flex-end',
   alignItems: 'center',
-  paddingTop: 10,
-  paddingBottom: 50,
 
   span: {
-    fontSize: 18,
+    fontSize: FONT_SIZES.XLARGE,
     fontStyle: 'italic',
+    color: COLORS.WHITE,
   },
-});
-
-export const loginCallbackLogoImageStyle = css({
-  width: 280,
-  height: 80,
-  marginBottom: 30,
 });
