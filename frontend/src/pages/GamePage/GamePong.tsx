@@ -21,7 +21,7 @@ const GamePong = () => {
   const [initialize, setInitialize] = useState(true);
   const gameRef = useRef<HTMLIonPhaserElement>(null);
   const playerRole = useRecoilValue(playerRoleState);
-  const { mode: gameMode, state: gameStat } = useGetCurrentGameRoom();
+  const { mode: gameMode } = useGetCurrentGameRoom();
   const nav = useNavigate();
 
   const destroy = () => {
@@ -37,7 +37,6 @@ const GamePong = () => {
     mainScene.initHandlers();
     mainScene.hostCheckHandlers(playerRole.role);
     mainScene.gameModeCheckHandlers(gameMode);
-    mainScene.gameStatCheckHandlers(gameStat);
     mainScene.naviHandlers(nav);
 
     return () => {

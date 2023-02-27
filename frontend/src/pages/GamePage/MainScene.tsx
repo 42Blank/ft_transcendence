@@ -9,7 +9,6 @@ const scoreFontStyle = { fontSize: '32px', fontFamily: 'Arial' };
 export class MainScene extends Phaser.Scene {
   private playerRole: PlayerRoleType['role'];
   private gameMode: GameRoomInfoType['mode'];
-  private gameStat: GameRoomInfoType['state'];
   private navigate: NavigateFunction;
 
   private ball: Phaser.Physics.Arcade.Image;
@@ -42,10 +41,6 @@ export class MainScene extends Phaser.Scene {
   }
   gameModeCheckHandlers(mode: GameRoomInfoType['mode']) {
     this.gameMode = mode;
-  }
-
-  gameStatCheckHandlers(stat: GameRoomInfoType['state']) {
-    this.gameStat = stat;
   }
 
   initBall() {
