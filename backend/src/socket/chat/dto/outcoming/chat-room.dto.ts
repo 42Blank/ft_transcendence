@@ -11,6 +11,7 @@ export type ChatRoomDto = {
   id: string;
   roomTitle: string;
   isPrivate: boolean;
+  dmId?: string;
   users: ChatUserDetail[];
   bannedUsers: User[];
 };

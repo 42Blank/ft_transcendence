@@ -20,6 +20,7 @@ export const API = {
   REGISTER: '/auth/register',
   SIGN_OUT: '/auth/signout',
   GITHUB_AUTH: '/auth/github',
+  GITHUB_AUTH_REGISTER: '/auth/github/register',
   GITHUB_AUTH_CALLBACK: '/auth/github/callback',
   GITHUB_SIGN_OUT: '/users/two-factor-auth',
 
