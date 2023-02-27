@@ -33,7 +33,15 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole }: Props)
   ];
 
   function handleToggleEditMode() {
-    if (isEditMode) setUpdateChatRoom({ id: chatRoomId, roomTitle: roomTitleRef.current.value, isPrivate });
+    if (isEditMode) {
+      if (
+        roomTitleRef.current.value ||
+        roomTitleRef.current.value.length > 0 ||
+        roomTitleRef.current.value.length <= 20
+      ) {
+        setUpdateChatRoom({ id: chatRoomId, roomTitle: roomTitleRef.current.value, isPrivate });
+      }
+    }
     setIsEditMode(prevState => !prevState);
   }
 
@@ -53,7 +61,11 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole }: Props)
   return (
     <header className={chatModalHeaderStyle}>
       <div className={chatModalTitleWrapperStyle}>
-        {isEditMode ? <input type="text" ref={roomTitleRef} defaultValue={roomTitle} /> : <h4>#{roomTitle}</h4>}
+        {isEditMode ? (
+          <input type="text" maxLength={20} ref={roomTitleRef} defaultValue={roomTitle} />
+        ) : (
+          <h4>#{roomTitle}</h4>
+        )}
         {currentUserRole !== 'user' && (
           <button type="button" onClick={handleToggleEditMode}>
             {isEditMode ? <SaveIcon /> : <EditIcon />}
