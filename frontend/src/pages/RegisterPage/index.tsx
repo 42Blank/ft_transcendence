@@ -47,7 +47,13 @@ export const RegisterPage = () => {
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
-    if (!nicknameRef.current || !nicknameRef.current.value || nicknameRef.current.value.length === 0) return;
+    if (
+      !nicknameRef.current ||
+      !nicknameRef.current.value ||
+      nicknameRef.current.value.length === 0 ||
+      nicknameRef.current.value.length > 8
+    )
+      return;
     if (!isValidated) return;
     if (imageUrl === LOADING_IMAGE_URL) return;
     await postRegister({ nickname: nicknameRef.current.value, avatar: imageUrl });
@@ -73,7 +79,7 @@ export const RegisterPage = () => {
           닉네임
         </label>
         <div className={registerPageNicknameSectionWrapper}>
-          <input type="text" id="register-nickname" ref={nicknameRef} onChange={handleChangeNickname} />
+          <input type="text" id="register-nickname" maxLength={8} ref={nicknameRef} onChange={handleChangeNickname} />
           {isValidated && <CheckIcon />}
         </div>
       </div>
