@@ -25,7 +25,7 @@ export const ChangeAvatar = ({ imageUrl, onChange, className }: Props) => {
   }
 
   return (
-    <div className={`${changeProfileWrapperStyle} ${className}`}>
+    <div className={`${changeProfileWrapperStyle} ${className ?? ''}`}>
       <span className={changeProfileLabelStyle}>프로필 사진</span>
       <label htmlFor="change-image" className={changeAvatarImageUploadButtonStyle}>
         업로드

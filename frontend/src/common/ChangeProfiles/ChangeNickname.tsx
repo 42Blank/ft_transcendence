@@ -33,7 +33,7 @@ export const ChangeNickname = ({ isValidated, setIsValidated, nicknameRef, defau
   }
 
   return (
-    <div className={`${changeProfileWrapperStyle} ${className}`}>
+    <div className={`${changeProfileWrapperStyle} ${className ?? ''}`}>
       <label htmlFor="register-nickname" className={changeProfileLabelStyle}>
         닉네임
       </label>
