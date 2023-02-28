@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-import { COLORS, FONT_SIZES } from 'styles';
+import { COLORS, FONT_SIZES, makeBorder } from 'styles';
 
 export const registerPageFormStyle = css({
   width: '100%',
@@ -26,6 +26,7 @@ export const registerPageButtonWrapperStyle = css({
 
 export const registerPageButtonstyle = css({
   padding: '10px 20px',
+  border: makeBorder({ color: COLORS.WHITE }),
 
   ':first-child': {
     marginRight: 20,

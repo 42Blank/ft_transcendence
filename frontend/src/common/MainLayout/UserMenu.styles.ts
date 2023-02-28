@@ -1,15 +1,19 @@
 import { css } from '@emotion/css';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 
 export const userMenuWrapperStyle = css({
   display: 'flex',
   position: 'relative',
-  width: 100,
+  width: 150,
   height: '100%',
   alignItems: 'center',
   justifyContent: 'flex-end',
 
-  span: {
-    userSelect: 'none',
+  img: {
+    width: COMMON_SIZES.ICON_LARGE,
+    height: COMMON_SIZES.ICON_LARGE,
+    borderRadius: COMMON_SIZES.ICON_LARGE,
+    marginRight: 10,
   },
 
   ':hover': {
@@ -17,13 +21,23 @@ export const userMenuWrapperStyle = css({
   },
 });
 
+export const userMenuNameStyle = css({
+  flex: 1,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  color: COLORS.WHITE,
+  fontSize: FONT_SIZES.MEDIUM,
+  userSelect: 'none',
+});
+
 export const userMenuInnerStyle = (isMenuShown: boolean) =>
   css({
     zIndex: 2, // TODO: zindex 상수화
-    backgroundColor: 'white', // TODO: color 상수화
+    backgroundColor: COLORS.WHITE,
     position: 'absolute',
     display: isMenuShown ? 'flex' : 'none',
-    border: `1px solid black`, // TODO: border color
+    border: makeBorder({ color: COLORS.WHITE }),
     borderRadius: 5,
     overflow: 'hidden',
     right: 0,
@@ -32,18 +46,21 @@ export const userMenuInnerStyle = (isMenuShown: boolean) =>
     alignItems: 'center',
     justifyItems: 'center',
     width: 90,
-
-    button: {
-      padding: 10,
-      width: '100%',
-      transition: 'background-color 0.2s ease-in-out',
-
-      '&:first-child': {
-        borderBottom: `1px solid black`, // TODO: border color
-      },
-
-      ':hover': {
-        backgroundColor: 'lightgray', // TODO: background hover color
-      },
-    },
   });
+
+export const userMenuHoverButton = css({
+  '&&': {
+    width: '100%',
+    padding: 10,
+    borderRadius: 0,
+    border: 0,
+  },
+
+  ':first-child': {
+    borderBottom: makeBorder({ color: COLORS.WHITE }),
+  },
+
+  ':hover': {
+    backgroundColor: COLORS.GRAYE,
+  },
+});

@@ -53,7 +53,7 @@ export const changeNicknameWrapperStyle = css({
     width: 100,
     paddingRight: 30,
     backgroundColor: COLORS.BLACK,
-    border: 'none',
+    border: 0,
     borderBottom: makeBorder({ color: COLORS.WHITE }),
     color: COLORS.WHITE,
 

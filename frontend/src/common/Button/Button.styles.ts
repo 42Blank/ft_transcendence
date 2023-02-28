@@ -9,6 +9,10 @@ export const buttonWrapperStyle = css({
   borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
   transition: 'background-color 0.2s ease-in',
 
+  span: {
+    color: COLORS.WHITE,
+  },
+
   ':hover': {
     backgroundColor: COLORS.GRAY3,
     cursor: 'pointer',

@@ -22,27 +22,42 @@ export const headerLeftSectionStyle = css({
 });
 
 export const headerHamburgerButtonStyle = css({
-  marginRight: 20,
-  padding: 0,
-  border: 'none',
+  '&&': {
+    padding: 0,
+    marginRight: 20,
+    border: 0,
+  },
 
   svg: {
     width: COMMON_SIZES.ICON_MEDIUM,
     height: COMMON_SIZES.ICON_MEDIUM,
     fill: COLORS.WHITE,
   },
+
+  ':hover': {
+    background: 0,
+  },
 });
 
 export const headerIconButtonStyle = css({
-  padding: 0,
-  border: 'none',
+  '&&': {
+    padding: 0,
+    marginRight: 30,
+    border: 0,
+  },
+
+  ':hover': {
+    background: 0,
+  },
 });
 
 export const headerMainButtonStyle = (isSelected: boolean) =>
   css({
-    paddingLeft: 20,
-    paddingRight: 20,
-    border: 'none',
+    '&&': {
+      paddingLeft: 20,
+      paddingRight: 20,
+      border: 0,
+    },
 
     span: {
       fontWeight: isSelected ? 700 : 400,

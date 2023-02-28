@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Avatar, Button } from 'common';
 import { ROUTE } from 'common/constants';
 import { useGetUser, useLogout } from 'hooks';
 
-import { userMenuInnerStyle, userMenuWrapperStyle } from './UserMenu.styles';
+import { userMenuHoverButton, userMenuInnerStyle, userMenuNameStyle, userMenuWrapperStyle } from './UserMenu.styles';
 
 export const UserMenu = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
@@ -37,14 +38,15 @@ export const UserMenu = () => {
       onBlur={handleMouseOut}
       className={userMenuWrapperStyle}
     >
-      <span>{currentUser.nickname}</span>
+      <Avatar userAvatar={currentUser.avatar} alt="nav-bar-profile" />
+      <span className={userMenuNameStyle}>{currentUser.nickname}</span>
       <div className={userMenuInnerStyle(isMenuShown)}>
-        <button type="button" onClick={handleClickProfileButton}>
+        <Button onClick={handleClickProfileButton} className={userMenuHoverButton}>
           <span>내 프로필</span>
-        </button>
-        <button type="button" onClick={handleClickLogoutButton}>
+        </Button>
+        <Button onClick={handleClickLogoutButton} className={userMenuHoverButton}>
           <span>로그아웃</span>
-        </button>
+        </Button>
       </div>
     </div>
   );
