@@ -4,7 +4,7 @@ import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 export const userMenuWrapperStyle = css({
   display: 'flex',
   position: 'relative',
-  width: 150,
+  width: 200,
   height: '100%',
   alignItems: 'center',
   justifyContent: 'flex-end',
@@ -21,7 +21,7 @@ export const userMenuWrapperStyle = css({
 });
 
 export const userMenuNameStyle = css({
-  flex: 1,
+  maxWidth: 150,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
