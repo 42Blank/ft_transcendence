@@ -43,20 +43,17 @@ export const friendsListImageStyle = css({
   marginRight: 20,
 });
 
-function getStateColor(
-  state: string,
-): string[] | import('csstype').Property.BackgroundColor | import('csstype').Property.BackgroundColor[] {
-  // 김es-lint씨가 자동완성 이렇게 해줬는데 이렇게 써야하는거 맞을까?
+function getStateColor(state: string) {
   if (state === 'online') {
-    return 'green';
+    return COLORS.GREEN;
   }
   if (state === 'chatting') {
-    return 'yellow';
+    return COLORS.YELLOW;
   }
   if (state === 'playing') {
-    return 'orange';
+    return COLORS.ORANGE;
   }
-  return 'gray';
+  return COLORS.GRAY3;
 }
 export const friendsListNameStyle = css({
   flex: 1,
