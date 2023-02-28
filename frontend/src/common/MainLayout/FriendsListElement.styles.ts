@@ -1,8 +1,7 @@
 import { css } from '@emotion/css';
-
 import { COLORS, makeBorder, makeTransition } from 'styles';
 
-export const friendsListElementStyle = (isOnline: boolean) =>
+export const friendsListElementStyle = (state: string) =>
   css({
     position: 'relative',
     width: '100%',
@@ -25,12 +24,12 @@ export const friendsListElementStyle = (isOnline: boolean) =>
     '::after': {
       content: `""`,
       position: 'absolute',
-      display: isOnline ? 'block' : 'none',
+      display: 'block',
       bottom: 5,
       left: 45,
       width: 12,
       height: 12,
-      backgroundColor: COLORS.GREEN,
+      backgroundColor: getStateColor(state),
       border: makeBorder({ width: 2 }),
       borderRadius: 20,
     },
@@ -44,6 +43,18 @@ export const friendsListImageStyle = css({
   marginRight: 20,
 });
 
+function getStateColor(state: string) {
+  if (state === 'online') {
+    return COLORS.GREEN;
+  }
+  if (state === 'chatting') {
+    return COLORS.YELLOW;
+  }
+  if (state === 'playing') {
+    return COLORS.ORANGE;
+  }
+  return COLORS.GRAY3;
+}
 export const friendsListNameStyle = css({
   flex: 1,
   overflow: 'hidden',

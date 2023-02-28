@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { Button } from 'common';
 import { useGetAllUserList, useGetFriendList } from 'hooks';
 import { onlineUserListState } from 'store';
+import { UserInfoType } from 'types/user';
 import { FriendsListElement } from './FriendsListElement';
 
 import { friendsListStyle, friendsListTabButtonStyle, friendsListTabWrapperStyle } from './FriendsList.styles';
@@ -29,6 +30,14 @@ export const FriendsList = ({ isOpen }: Props) => {
     });
   }
 
+  function getUserState(userInfo: UserInfoType) {
+    const onlineUser = onlineUserList.find(({ userId }) => userId === userInfo.id);
+    if (!onlineUser) {
+      return 'offline';
+    }
+    return onlineUser.state;
+  }
+
   return (
     <aside className={friendsListStyle(isOpen)}>
       <div className={friendsListTabWrapperStyle}>
@@ -43,7 +52,7 @@ export const FriendsList = ({ isOpen }: Props) => {
         {(isFriendTab ? friendList : userList).map(userInfo => (
           <FriendsListElement
             userInfo={userInfo}
-            isOnline={onlineUserList.includes(userInfo.id)}
+            state={getUserState(userInfo)} // TODO: 동작하는지 check 필요
             key={`friend-${userInfo.id}`}
           />
         ))}
