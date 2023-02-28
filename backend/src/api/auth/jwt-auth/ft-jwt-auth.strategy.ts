@@ -16,7 +16,7 @@ export class FtJwtAuthStrategy extends PassportStrategy(Strategy, 'ft-jwt-auth')
   }
 
   async validate(payload: FtProfile, done: (err: unknown, data: FtProfile) => void): Promise<void> {
-    if (!payload.id || !payload.username || !payload.image_url) {
+    if (!payload.id || !payload.username || !payload.image_url || !payload.email) {
       throw new UnauthorizedException('Invalid ftProfile token');
     }
 

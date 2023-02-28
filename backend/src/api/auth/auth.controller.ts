@@ -1,14 +1,13 @@
-import { Body, Controller, Delete, Get, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { ReqFtProfile } from '../../common/auth/ft-auth';
 import { FtAuthGuard } from '../../common/auth/ft-auth/ft-auth.guard';
-import { FtJwtAuthGuard, ReqJwtFtProfile, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
+import { FtJwtAuthGuard, ReqJwtFtProfile, ReqUser, UserJwtAuthGuard } from '../../common/auth/jwt-auth';
 import { FtProfile, UserJwtPayload } from '../../common/auth/types';
 import { User } from '../../common/database/entities/user.entity';
 import { RegisterRequestDto } from './dto/request/register.dto';
 import { FtProfileDto } from './dto/response/ft-profile.dto';
-import { GithubAuthGuard } from './github-auth/github-auth.guard';
 import { CookieService } from './service/cookie.service';
 import { LoginService } from './service/login.service';
 import { TwoFactorService } from './service/two-factor.service';
@@ -64,6 +63,7 @@ export class AuthController {
       id: `Z${randomId}`,
       username: `Pochita${randomId}`,
       image_url: 'https://beebom.com/wp-content/uploads/2022/10/Cute-Weakened-form-of-Pochita.jpg?w=640',
+      email: 'invalidmail',
     };
     const jwt = this.cookieService.createJwt<FtProfile>(ftProfile);
     const cookieOption = this.cookieService.getCookieOption();
@@ -73,71 +73,39 @@ export class AuthController {
     return { ...ftProfile, isRegistered: false };
   }
 
-  @Get('github')
+  @Get('2fa')
   @UseGuards(FtJwtAuthGuard)
-  @UseGuards(GithubAuthGuard)
   @ApiCookieAuth()
-  @ApiOperation({
-    summary: '깃허브 로그인',
-    description: "깃허브 로그인 페이지로 리다이렉트 <a href='/auth/github'> Please cmd + click me! </a>",
-  })
-  @ApiOkResponse({ description: '깃허브 페이지' })
-  githubLogin(): void {
-    return;
-  }
-
-  @Get('github/register')
-  @UseGuards(UserJwtAuthGuard)
-  @ApiCookieAuth()
-  @ApiOperation({
-    summary: '2차 인증 등록',
-    description:
-      "깃허브 로그인 페이지로 리다이렉트 <a href='/auth/register/two-factor-auth'> Please cmd + click me! </a>",
-  })
-  @ApiOkResponse({ description: '깃허브 페이지' })
-  async registerGithub(
-    @Res({ passthrough: true }) response: Response, //
-  ): Promise<void> {
-    const cookieOption = this.cookieService.getCookieOption();
-    const jwt = this.cookieService.createJwt<{ isRegister: boolean }>({
-      isRegister: true,
-    });
-
-    response.cookie('two_factor', jwt, cookieOption);
-    response.redirect('/auth/github');
-  }
-
-  @Get('github/callback')
-  @UseGuards(FtJwtAuthGuard)
-  @UseGuards(GithubAuthGuard)
-  @ApiCookieAuth()
-  @ApiOperation({
-    summary: '깃허브 로그인 콜백',
-    description: '깃허브 로그인 후에 2FA를 설정합니다.',
-  })
-  @ApiOkResponse({ description: '로그인 성공' })
-  async githubCallback(
+  @ApiOperation({ summary: '2차인증 로그인' })
+  @ApiOkResponse({ description: '이메일 전송 성공' })
+  async twoFactorAuthLogin(
     @ReqJwtFtProfile() ftProfile: FtProfile, //
-    @Req() request: Request,
+  ): Promise<void> {
+    const user = await this.loginService.login(ftProfile);
+
+    await this.twoFactorService.signin(user, ftProfile);
+  }
+
+  @Get('2fa/callback')
+  @UseGuards(FtJwtAuthGuard)
+  @ApiCookieAuth()
+  @ApiOperation({ summary: '2차인증 콜백' })
+  @ApiOkResponse({ description: '2차인증 성공' })
+  async twoFactorAuthCallback(
+    @ReqJwtFtProfile() ftProfile: FtProfile, //
+    @Query('code') code: string,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    const cookieOption = this.cookieService.getCookieOption();
     const user = await this.loginService.login(ftProfile);
-    const { isRegister } = this.cookieService.readJwt<{ isRegister: boolean }>(request.cookies.two_factor);
+    await this.twoFactorService.verify(user, ftProfile, code);
 
-    if (isRegister) {
-      await this.twoFactorService.updateTwoFactor(user);
-      response.clearCookie('two_factor', cookieOption);
-      return;
-    }
-
-    this.twoFactorService.validateTwoFactor(user);
+    const cookieOption = this.cookieService.getCookieOption();
     const jwt = this.cookieService.createJwt<UserJwtPayload>({
       id: user.id,
       intraId: user.intraId,
     });
     response.cookie('access_token', jwt, cookieOption);
-    response.clearCookie('two_factor', cookieOption);
+    // response.clearCookie('two_factor', cookieOption);
   }
 
   @Get('login')
@@ -153,10 +121,10 @@ export class AuthController {
     const cookieOption = this.cookieService.getCookieOption();
 
     if (user.isTwoFactorAuth) {
-      const jwt = this.cookieService.createJwt<{ isRegister: boolean }>({
-        isRegister: false,
-      });
-      response.cookie('two_factor', jwt, cookieOption);
+      // const jwt = this.cookieService.createJwt<{ isRegister: boolean }>({
+      //   isRegister: false,
+      // });
+      // response.cookie('two_factor', jwt, cookieOption);
 
       throw new UnauthorizedException('2FA 인증이 필요합니다.');
     }
@@ -192,6 +160,33 @@ export class AuthController {
     return user;
   }
 
+  @Put('two-factor-auth')
+  @ApiCookieAuth()
+  @UseGuards(UserJwtAuthGuard)
+  @ApiOperation({ summary: '유저 2차 인증 제거' })
+  @ApiOkResponse({ description: '성공' })
+  async putTwoFactorAuth(
+    @ReqUser() user: User, //
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<void> {
+    const cookieOption = this.cookieService.getCookieOption();
+
+    await this.twoFactorService.register(user);
+
+    response.clearCookie('access_token', cookieOption);
+  }
+
+  @Delete('two-factor-auth')
+  @ApiCookieAuth()
+  @UseGuards(UserJwtAuthGuard)
+  @ApiOperation({ summary: '유저 2차 인증 제거' })
+  @ApiOkResponse({ description: '성공' })
+  async deleteTwoFactorAuth(
+    @ReqUser() user: User, //
+  ): Promise<void> {
+    await this.twoFactorService.remove(user);
+  }
+
   @Delete('signout')
   @ApiOperation({ summary: '로그아웃' })
   @ApiOkResponse({ description: '로그아웃 성공' })
@@ -200,6 +195,6 @@ export class AuthController {
 
     response.clearCookie('access_token', cookieOption);
     response.clearCookie('ft_profile', cookieOption);
-    response.clearCookie('two_factor', cookieOption);
+    // response.clearCookie('two_factor', cookieOption);
   }
 }

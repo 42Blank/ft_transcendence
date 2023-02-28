@@ -8,7 +8,8 @@ export const ROUTE = {
   LOGIN_CHECK: '/login/callback',
   LOGIN_RANDOM: '/login/random',
   REGISTER: '/login/new',
-  GITHUB_CHECK: '/github/callback',
+  LOGIN_2FA: '/login/2fa',
+  LOGIN_2FA_CHECK: '/login/2fa/callback',
 } as const;
 
 export const API = {
@@ -19,10 +20,9 @@ export const API = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   SIGN_OUT: '/auth/signout',
-  GITHUB_AUTH: '/auth/github',
-  GITHUB_AUTH_REGISTER: '/auth/github/register',
-  GITHUB_AUTH_CALLBACK: '/auth/github/callback',
-  GITHUB_SIGN_OUT: '/users/two-factor-auth',
+  AUTH_2FA: '/auth/2fa',
+  AUTH_2FA_CALLBACK: '/auth/2fa/callback',
+  TWO_FACTOR_AUTH: '/auth/two-factor-auth',
 
   // User
   USER: '/users',
