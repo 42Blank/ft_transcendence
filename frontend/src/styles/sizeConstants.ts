@@ -6,6 +6,7 @@ export const COMMON_SIZES = {
   ICON_MEDIUM: 30,
   ICON_LARGE: 40,
   ICON_XLARGE: 50,
+  ICON_XXLARGE: 100,
 } as const;
 
 export const FONT_SIZES = {

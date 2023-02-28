@@ -1,15 +1,13 @@
 import { css } from '@emotion/css';
+import { COLORS } from 'styles';
 
 export const profileContainerStyle = css({
-  display: 'grid',
-  width: '100vw',
-  height: '100vh',
-  gridTemplateAreas: `
-  'card card'
-  'hist achv'
-  'hist achv'`,
-  gridTemplateColumns: '1fr 1fr',
-  gridTemplateRows: '1fr 1fr 1fr',
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  height: 'calc(100vh - 70px)',
+  overflow: 'hidden',
+  background: COLORS.BLACK_TRANSPARENT,
 });
 
 export const cardStyle = css({

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Modal } from 'common';
 import { UserInfoType } from 'types/user';
 import { EditProfileModal } from './EditProfileModal';
-import { editProfileButtonStyle } from './ProfileCard.style';
+import { editProfileButtonStyle } from './ProfileHeader/ProfileHeader.styles';
 
 interface Props {
   user: UserInfoType;

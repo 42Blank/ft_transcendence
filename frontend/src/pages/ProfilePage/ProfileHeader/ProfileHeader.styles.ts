@@ -1,4 +1,7 @@
 import { css } from '@emotion/css';
+import { COMMON_SIZES } from 'styles';
+
+export const profileHeaderWrapperStyle = css({});
 
 export const profileCardStyle = css({
   display: 'grid',
@@ -26,9 +29,9 @@ export const profileCardStyle = css({
   },
 });
 
-export const profileCardAvatarStyle = css({
-  height: '200px',
-  width: '200px',
+export const profileHeaderAvatarStyle = css({
+  width: COMMON_SIZES.ICON_XXLARGE,
+  height: COMMON_SIZES.ICON_XXLARGE,
   borderRadius: '50%',
   margin: '5%',
 });
