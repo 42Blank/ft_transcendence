@@ -33,7 +33,7 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (isPrivate && (!passwordRef?.current || passwordRef.current.value.length === 0)) return;
-    if (!nameRef.current || nameRef.current?.value.length === 0) return;
+    if (!nameRef.current || nameRef.current?.value.length === 0 || nameRef.current.value.length > 20) return;
     setNewChatRoom({
       roomTitle: nameRef.current.value,
       isPrivate,
@@ -48,7 +48,7 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
       <div className={newChatInnerDivStyle}>
         <div className={formSectionDivStyle}>
           <label htmlFor="new-chat-name">이름</label>
-          <input id="new-chat-name" ref={nameRef} type="text" placeholder="최대 20자" required />
+          <input id="new-chat-name" ref={nameRef} maxLength={20} type="text" placeholder="최대 20자" required />
         </div>
         <div className={formSectionDivStyle}>
           <span>공개 여부</span>

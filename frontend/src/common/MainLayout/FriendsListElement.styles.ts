@@ -1,18 +1,21 @@
 import { css } from '@emotion/css';
 
+import { COLORS, makeBorder, makeTransition } from 'styles';
+
 export const friendsListElementStyle = (isOnline: boolean) =>
   css({
     position: 'relative',
     width: '100%',
+    transition: makeTransition({ attrs: 'background-color' }),
 
     ':not(:last-child)': {
-      borderBottom: '1px solid black', // TODO: border color
+      borderBottom: makeBorder({ color: COLORS.GRAY5 }),
     },
 
     a: {
       display: 'flex',
       width: 'calc(100% - 20px)',
-      padding: '5px 10px',
+      padding: 10,
       flexDirection: 'row',
       alignItems: 'center',
       color: 'black',
@@ -27,24 +30,25 @@ export const friendsListElementStyle = (isOnline: boolean) =>
       left: 45,
       width: 12,
       height: 12,
-      backgroundColor: 'green', // TODO: 상수화
-      border: '2px solid white', // TODO: 상수화
-      borderRadius: 10,
+      backgroundColor: COLORS.GREEN,
+      border: makeBorder({ width: 2 }),
+      borderRadius: 20,
+    },
+
+    ':hover': {
+      backgroundColor: COLORS.GRAY3,
     },
   });
 
-export const friendsListImageStyle = css`
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 25px;
-  margin-right: 20px;
-`;
+export const friendsListImageStyle = css({
+  marginRight: 20,
+});
 
-export const friendsListNameStyle = css`
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 18px;
-`;
+export const friendsListNameStyle = css({
+  flex: 1,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  lineHeight: 1.5,
+  color: COLORS.WHITE,
+});

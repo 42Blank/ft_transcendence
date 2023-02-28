@@ -1,37 +1,58 @@
 import { css } from '@emotion/css';
 
-export const loginHeaderStyle = css({
-  width: '100vw',
-  height: 350,
-  display: 'flex',
-  justifyContent: 'center',
-  marginTop: 20,
+import { COLORS, LOGIN_LEVELS, COMMON_SIZES } from 'styles';
+
+export const loginLayoutCenterAlignStyle = css({
+  width: 500,
+  height: 800,
+  position: 'relative',
+
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    bottom: 60,
+    right: 0,
+    backgroundColor: COLORS.BLACK,
+    zIndex: LOGIN_LEVELS.MAIN_ZINDEX,
+    borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+    width: 480,
+    height: 480,
+    transform: `rotate(${LOGIN_LEVELS.ROTATE_DEG}deg)`,
+  },
 });
+
+export const loginLayoutImageStyle = (top: number, right: number) =>
+  css({
+    position: 'absolute',
+    top,
+    right,
+    zIndex: LOGIN_LEVELS.IMAGE_ZINDEX,
+  });
 
 export const loginMainWrapperStyle = css({
-  width: '100vw',
+  position: 'absolute',
+  bottom: 120,
+  left: 50,
+  width: 480,
+  height: 360,
   display: 'flex',
-  justifyContent: 'center',
-});
-
-export const loginFooterStyle = css({
-  width: '100vw',
-  display: 'flex',
-  position: 'fixed',
-  left: 0,
-  bottom: 0,
-  padding: '20px 10px',
-  flexDirection: 'row',
-  justifyContent: 'center',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  overflow: 'hidden',
+  zIndex: LOGIN_LEVELS.MAIN_ZINDEX,
 });
 
 export const githubLinkStyle = css({
   display: 'inline-block',
-  width: 40,
-  height: 40,
+  position: 'absolute',
+  bottom: 0,
+  right: 30,
+  width: COMMON_SIZES.ICON_LARGE,
+  height: COMMON_SIZES.ICON_LARGE,
 
   svg: {
-    width: 40,
-    height: 40,
+    width: COMMON_SIZES.ICON_LARGE,
+    height: COMMON_SIZES.ICON_LARGE,
   },
 });
