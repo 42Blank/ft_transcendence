@@ -7,7 +7,6 @@ export interface UserInfoType {
   createdAt: string;
   updatedAt: string;
   isTwoFactorAuth: boolean;
-  state?: UserStateType;
 }
 
 export interface FtProfileType {
