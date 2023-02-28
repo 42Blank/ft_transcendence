@@ -22,6 +22,8 @@ export class MainScene extends Phaser.Scene {
 
   private key: Phaser.Types.Input.Keyboard.CursorKeys;
 
+  private isHit: boolean;
+
   constructor() {
     super({ key: 'MainScene', active: true });
     this.events = new Phaser.Events.EventEmitter();
@@ -72,6 +74,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   create() {
+    this.isHit = false;
+
     this.ball = this.physics.add.image(400, 300, 'ball');
     this.ball.setCollideWorldBounds(true);
     this.ball.setBounce(1);
@@ -89,15 +93,20 @@ export class MainScene extends Phaser.Scene {
     this.scoreLabelRight = this.add.text(600, 125, '0', scoreFontStyle).setOrigin(0.5, 0.5);
 
     /**
-     * @param collideCallback 으로 패들 출돌 위치에 따라 velocity를 다르게 주면 되지 않을까?
+     * @param collideCallback 으로 패들 충돌 할 때만 업데이트 Ball(pos, velo) 업데이트
      */
-    this.physics.add.collider(this.ball, this.paddleLeft, null, null, this);
-    this.physics.add.collider(this.ball, this.paddleRight, null, null, this);
+    this.physics.add.collider(this.ball, this.paddleLeft, this.hitPaddle, null, this);
+    this.physics.add.collider(this.ball, this.paddleRight, this.hitPaddle, null, this);
 
     this.key = this.input.keyboard.createCursorKeys();
 
     this.initBall();
     this.initGame();
+  }
+
+  hitPaddle() {
+    console.log('Hit! y:' + this.ball.y);
+    this.isHit = true;
   }
 
   initGame() {
@@ -194,9 +203,10 @@ export class MainScene extends Phaser.Scene {
     }
 
     if (this.playerRole !== 'host') {
-      if (data.ball && this.ball) {
+      if (data.ball && this.ball && this.isHit) {
         this.ball.setPosition(data.ball.x, data.ball.y);
         this.ball.setVelocity(data.ball.velocityX, data.ball.velocityY);
+        this.isHit = false;
       }
     }
   }
