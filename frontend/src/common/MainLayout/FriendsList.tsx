@@ -8,7 +8,6 @@ import { UserInfoType } from 'types/user';
 import { FriendsListElement } from './FriendsListElement';
 
 import { friendsListStyle, friendsListTabButtonStyle, friendsListTabWrapperStyle } from './FriendsList.styles';
-// import { userInfo } from 'os';
 
 interface Props {
   isOpen: boolean;
@@ -50,11 +49,11 @@ export const FriendsList = ({ isOpen }: Props) => {
         </Button>
       </div>
       <ul>
-        {(isFriendTab ? friendList : userList).map(userInfo1 => (
+        {(isFriendTab ? friendList : userList).map(userInfo => (
           <FriendsListElement
-            userInfo={userInfo1}
-            state={getUserState(userInfo1)} // TODO: 동작하는지 check 필요
-            key={`friend-${userInfo1.id}`}
+            userInfo={userInfo}
+            state={getUserState(userInfo)} // TODO: 동작하는지 check 필요
+            key={`friend-${userInfo.id}`}
           />
         ))}
       </ul>
