@@ -3,8 +3,9 @@ import { axiosPost } from './axiosWrapper';
 
 interface Params {
   recvFriendRequestUserId: number;
+  status: 'FRIEND';
 }
 
-export function postFriend({ recvFriendRequestUserId }: Params): Promise<void> {
-  return axiosPost<Params & { status: 'FRIEND' }>(API.FRIEND, { recvFriendRequestUserId, status: 'FRIEND' });
+export function postFriend(userId: number): Promise<void> {
+  return axiosPost<Params>(API.FRIEND, { recvFriendRequestUserId: userId, status: 'FRIEND' });
 }

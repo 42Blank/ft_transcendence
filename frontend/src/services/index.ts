@@ -20,6 +20,7 @@ export { postUserCheckDuplicateNickname } from './postUserCheckDuplicateNickname
 
 export { deleteAuthSignout } from './deleteAuthSignout';
 export { deleteTwoFactorAuth } from './deleteTwoFactorAuth';
+export { deleteFriend } from './deleteFriend';
 
 export { putTwoFactorAuth } from './putTwoFactorAuth';
 export { putUserProfile } from './putUserProfile';
