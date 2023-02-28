@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { pwCompare } from 'common/utils';
 import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
+import { ChatRoom } from '../../../common/database/model';
+import { ChatRoomRepository } from '../../../common/database/repository';
 import { ChatDataDto } from '../dto/outcoming/chat-data.dto';
-import { ChatRoom } from '../model/chat-room';
-import { ChatRoomRepository } from '../repository/chat-room.repository';
 
 @Injectable()
 export class ChatUserService {

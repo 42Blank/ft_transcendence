@@ -2,9 +2,9 @@ import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
+import { GameRoom } from '../../../common/database/model';
+import { GameRoomRepository } from '../../../common/database/repository';
 import { GameRoomDto } from '../dto/outcoming/game-room.dto';
-import { GameRoom } from '../model/game-room';
-import { GameRoomRepository } from '../repository/game-room.repository';
 
 @Injectable()
 export class GameRoomService {

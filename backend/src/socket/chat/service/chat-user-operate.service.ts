@@ -1,6 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { ChatUserDetail } from '../model/chat-room';
-import { ChatRoomRepository } from '../repository/chat-room.repository';
+import { ChatUserDetail } from '../../../common/database/model';
+import { ChatRoomRepository } from '../../../common/database/repository';
 
 @Injectable()
 export class ChatUserOperateService {

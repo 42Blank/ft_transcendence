@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { GameRoom } from '../../model/game-room';
+import { GameRoom } from '../../../../common/database/model';
 
 enum GameMode {
   NORMAL = 'normal',
