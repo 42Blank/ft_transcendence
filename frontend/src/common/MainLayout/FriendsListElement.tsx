@@ -1,3 +1,4 @@
+import { Avatar } from 'common';
 import { ROUTE } from 'common/constants';
 import { Link } from 'react-router-dom';
 import { UserInfoType } from 'types/user';
@@ -14,7 +15,7 @@ export const FriendsListElement = ({ userInfo, isOnline }: Props) => {
   return (
     <li className={friendsListElementStyle(isOnline)}>
       <Link to={`${ROUTE.PROFILE}/${id}`}>
-        <img src={avatar} alt={`${intraId}-profile`} width={50} height={50} className={friendsListImageStyle} />
+        <Avatar userAvatar={avatar} alt={`${intraId}-profile`} className={friendsListImageStyle} />
         <span className={friendsListNameStyle}>{nickname}</span>
       </Link>
     </li>

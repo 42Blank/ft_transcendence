@@ -21,7 +21,7 @@ export const changeAvatarImageStyle = css({
 
 export const changeAvatarImageUploadButtonStyle = css({
   padding: '5px 10px',
-  border: makeBorder({ color: COLORS.WHITE }),
+  border: makeBorder({}),
   borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
   transition: 'background-color 0.2s ease-in',
   marginLeft: 10,
@@ -54,7 +54,7 @@ export const changeNicknameWrapperStyle = css({
     paddingRight: 30,
     backgroundColor: COLORS.BLACK,
     border: 0,
-    borderBottom: makeBorder({ color: COLORS.WHITE }),
+    borderBottom: makeBorder({}),
     color: COLORS.WHITE,
 
     ':placeholder': {

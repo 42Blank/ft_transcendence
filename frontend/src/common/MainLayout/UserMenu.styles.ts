@@ -12,7 +12,6 @@ export const userMenuWrapperStyle = css({
   img: {
     width: COMMON_SIZES.ICON_LARGE,
     height: COMMON_SIZES.ICON_LARGE,
-    borderRadius: COMMON_SIZES.ICON_LARGE,
     marginRight: 10,
   },
 

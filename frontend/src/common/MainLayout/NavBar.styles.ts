@@ -8,7 +8,7 @@ export const headerStyle = css({
   backgroundColor: COLORS.BLACK,
   padding: '10px 30px',
   width: 'calc(100% - 60px)',
-  height: 49,
+  height: 50,
   alignItems: 'center',
   justifyContent: 'space-between',
 });
