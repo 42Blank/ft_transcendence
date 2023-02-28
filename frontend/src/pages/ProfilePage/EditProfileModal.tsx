@@ -75,8 +75,9 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
 
   async function handleSubmitProfile() {
     const profileObj: ProfileObj = {};
+    if (inputNickRef.current.value.length > 8) return;
     if (!isValidated || !inputNickRef.current.value || imageUrl === LOADING_IMAGE_URL) return;
-    if (inputNickRef.current.value) profileObj.nickname = inputNickRef.current.value;
+    profileObj.nickname = inputNickRef.current.value;
     profileObj.avatar = imageUrl;
     await putUserProfile(profileObj);
     refetch();
@@ -104,6 +105,7 @@ export const EditProfileModal = ({ onClickClose, user: data, refetch }: Props) =
           type="text"
           id="nickname"
           defaultValue={data.nickname}
+          maxLength={8}
           placeholder="new nickname"
           ref={inputNickRef}
           required

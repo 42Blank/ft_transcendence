@@ -1,8 +1,8 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
+import { GameRoom } from '../../../common/database/model';
+import { GameRoomRepository } from '../../../common/database/repository';
 import { UpdatePositionDto } from '../dto/incoming/update-position.dto';
 import { GameDataDto } from '../dto/outcoming/game-data.dto';
-import { GameRoom } from '../model/game-room';
-import { GameRoomRepository } from '../repository/game-room.repository';
 import { FinishGameService } from './finish-game.service';
 
 @Injectable()
@@ -39,7 +39,9 @@ export class GameUserService {
     return this.gameRoomRepository.getGameRoom(gameRoomId);
   }
 
-  public async leaveGameRoom(socketId: string): Promise<void> {
+  public async leaveGameRoom(socketId: string): Promise<{
+    isGameFinished: boolean;
+  }> {
     const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
       return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
     });
@@ -50,7 +52,9 @@ export class GameUserService {
 
     if (gameRoom.host.socketId !== socketId && gameRoom.challenger?.socketId !== socketId) {
       gameRoom.spectatorSocketIds.delete(socketId);
-      return;
+      return {
+        isGameFinished: false,
+      };
     }
 
     if (gameRoom.host.socketId === socketId) {
@@ -60,6 +64,9 @@ export class GameUserService {
     }
 
     await this.finishGameService.finishGame(gameRoom);
+    return {
+      isGameFinished: true,
+    };
   }
 
   public getUsersSocketId(socketId: string): string[] {

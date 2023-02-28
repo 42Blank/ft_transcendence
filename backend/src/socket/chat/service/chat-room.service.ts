@@ -2,9 +2,9 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
+import { ChatRoom } from '../../../common/database/model';
+import { ChatRoomRepository } from '../../../common/database/repository';
 import { ChatRoomDto } from '../dto/outcoming/chat-room.dto';
-import { ChatRoom } from '../model/chat-room';
-import { ChatRoomRepository } from '../repository/chat-room.repository';
 
 @Injectable()
 export class ChatRoomService {

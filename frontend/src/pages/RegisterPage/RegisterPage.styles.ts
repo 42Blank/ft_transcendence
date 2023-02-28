@@ -1,68 +1,39 @@
 import { css } from '@emotion/css';
 
-export const registerPageWrapperStyle = css({
-  width: 480,
-  border: '1px solid black', // TODO: 상수화
-  borderRadius: 5,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  paddingTop: 10,
-});
-
-export const registerPageLogoImageStyle = css({
-  width: 280,
-  height: 80,
-  marginBottom: 15,
-});
+import { COLORS, FONT_SIZES, makeBorder } from 'styles';
 
 export const registerPageFormStyle = css({
   width: '100%',
-});
-
-export const registerPageInnerDivStyle = css({
+  overflow: 'hidden',
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
+  justifyContent: 'center',
   alignItems: 'center',
-  paddingLeft: 30,
-  paddingRight: 30,
-  width: 'calc(100% - 60px)',
-  height: 70,
-
-  label: {
-    marginRight: 10,
-  },
-
-  input: {
-    marginRight: 10,
-  },
-
-  img: {
-    width: 50,
-    height: 50,
-    objectFit: 'cover',
-    borderRadius: 30,
-  },
 });
 
-export const registerPageNicknameCheckButtonStyle = css({
-  border: '1px solid black', // TODO : 색상 상수화
-  borderRadius: 5,
-  padding: '5px 10px',
+export const registerProfileInnerStyle = css({
+  width: '50%',
+  height: 50,
+  marginBottom: 20,
 });
 
 export const registerPageButtonWrapperStyle = css({
+  width: '50%',
   display: 'flex',
   flexDirection: 'row',
-  height: 50,
+  justifyContent: 'flex-end',
+});
 
-  button: {
-    borderTop: '1px solid black', // TODO : 색상 상수화
-    width: '100%',
-    height: '100%',
+export const registerPageButtonstyle = css({
+  padding: '10px 20px',
+  border: makeBorder({}),
+
+  ':first-child': {
+    marginRight: 20,
   },
 
-  'button:first-child': {
-    borderRight: '1px solid black', // TODO : 색상 상수화
+  span: {
+    color: COLORS.WHITE,
+    fontSize: FONT_SIZES.LARGE,
   },
 });

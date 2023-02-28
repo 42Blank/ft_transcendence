@@ -1,39 +1,44 @@
 import { css } from '@emotion/css';
+import { COLORS, makeTransition } from 'styles';
 
-export const friendsListStyle = (isOpen: boolean) => css`
-  width: 250px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid black; // TODO: border color
-  transition: margin 0.2s ease-in;
+export const friendsListStyle = (isOpen: boolean) =>
+  css({
+    width: 250,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: COLORS.BLACK,
+    transition: makeTransition({ attrs: 'margin' }),
+    marginLeft: !isOpen && -251,
 
-  ${!isOpen &&
-  `
-    margin-left: -251px;
-  `}
-
-  & > ul {
-    flex: 1;
-    overflow-x: hidden;
-    overflow-y: scroll;
-  }
-`;
+    ul: {
+      flex: 1,
+      overflowX: 'hidden',
+      overflowY: 'scroll',
+    },
+  });
 
 export const friendsListTabWrapperStyle = css({
   width: '100%',
   textAlign: 'center',
-  borderBottom: '1px solid black', // TODO: 상수화
+  marginBottom: 10,
 });
 
 export const friendsListTabButtonStyle = (isCurrentTab: boolean) =>
   css({
-    width: '50%',
-    padding: '10px 0', // TODO: 상수화
+    '&&': {
+      border: 0,
+      width: '50%',
+      padding: '10px 0',
+      opacity: !isCurrentTab && 0.5,
+    },
+
     span: {
+      color: COLORS.WHITE,
       fontWeight: isCurrentTab ? 700 : 400,
     },
-    ':first-child': {
-      borderRight: '1px solid black', // TODO: 상수화
+
+    ':hover': {
+      backgroundColor: isCurrentTab && COLORS.BLACK,
     },
   });

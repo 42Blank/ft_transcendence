@@ -10,16 +10,17 @@ import {
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser';
+import { GameRoom } from '../../common/database/model';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { sleep } from '../../common/utils';
 import { ConnectionHandleService } from '../connection-handle';
+import { OnlineGateway } from '../online';
 import { CreateGameRoomDto } from './dto/incoming/create-game-room.dto';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
 import { SpectateGameRoomDto } from './dto/incoming/spectate-game-room.dto';
 import { UpdateModeDto } from './dto/incoming/update-mode.dto';
 import { UpdatePositionDto } from './dto/incoming/update-position.dto';
 import { UpdateScoreDto } from './dto/incoming/update-score.dto';
-import { GameRoom } from './model/game-room';
 import { GamePlayService } from './service/game-play.service';
 import { GameRoomService } from './service/game-room.service';
 import { GameUserService } from './service/game-user.service';
@@ -36,6 +37,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly gameRoomService: GameRoomService,
     private readonly gameUserService: GameUserService,
     private readonly gamePlayService: GamePlayService,
+    private readonly onlineGateway: OnlineGateway,
   ) {}
 
   @WebSocketServer()
@@ -88,11 +90,15 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   public async leaveRoom(
     @ConnectedSocket() client: SocketWithUser, //
   ): Promise<void> {
-    await this.gameUserService.leaveGameRoom(client.id);
+    const { isGameFinished } = await this.gameUserService.leaveGameRoom(client.id);
 
     this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
 
     await this.emitGameRooms();
+    if (isGameFinished) {
+      await sleep(4000);
+      await this.emitGameRooms();
+    }
   }
 
   @SubscribeMessage('update_mode')
@@ -170,6 +176,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.verbose(`emitGameRooms: ${JSON.stringify(gameRoom)}`);
 
     this.io.emit('update_game_room', gameRoom);
+    await this.onlineGateway.emitOnlineUsers();
   }
 
   public async handleConnection(client: SocketWithUser): Promise<void> {
