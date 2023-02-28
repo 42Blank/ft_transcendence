@@ -40,7 +40,6 @@ export const GameListPage = () => {
   }
   useEffect(() => {
     return () => {
-      // 어거 동작하는지 안하는지 확인 어케해야함?
       if (isLadderModalShown) {
         setIsLadderModalShown(false);
         setLeaveMatchMake({ id: 'LeaveMatch' });
