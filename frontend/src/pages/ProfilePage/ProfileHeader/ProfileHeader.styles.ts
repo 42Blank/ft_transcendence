@@ -1,47 +1,56 @@
 import { css } from '@emotion/css';
-import { COMMON_SIZES } from 'styles';
+import { COLORS, FONT_SIZES } from 'styles';
 
-export const profileHeaderWrapperStyle = css({});
-
-export const profileCardStyle = css({
-  display: 'grid',
-  gridTemplateAreas: `
-  'img nick point-text'
-  'img nick point'`,
-  gridTemplateColumns: '230px 230px 230px',
-  gridTemplateRows: '130px 130px',
-  textAlign: 'center',
-  fontSize: '2.5rem',
-  '& .avatar': {
-    gridArea: 'img',
-  },
-  '& .nick': {
-    gridArea: 'nick',
-    marginTop: '120px',
-  },
-  '& .point-text': {
-    gridArea: 'point-text',
-    marginTop: '90px',
-  },
-  '& .point': {
-    gridArea: 'point',
-    marginTop: '25px',
-  },
+export const profileHeaderWrapperStyle = css({
+  backgroundColor: COLORS.BLACK_TRANSPARENT9,
+  width: 'calc(100% - 60px)',
+  padding: '20px 30px',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
 });
 
 export const profileHeaderAvatarStyle = css({
-  width: COMMON_SIZES.ICON_XXLARGE,
-  height: COMMON_SIZES.ICON_XXLARGE,
-  borderRadius: '50%',
-  margin: '5%',
+  marginRight: 30,
 });
 
-export const editProfileButtonStyle = css({
-  display: 'inline-block',
-  padding: '10px',
+export const profileNicknameSectionStyle = css({
+  flex: 1,
+
+  h2: {
+    fontSize: FONT_SIZES.XLARGE,
+    color: COLORS.WHITE,
+    marginBottom: 10,
+  },
+
+  span: {
+    fontSize: FONT_SIZES.MEDIUM,
+    color: COLORS.WHITE,
+    opacity: 0.7,
+  },
 });
 
-export const twoFactorAuthStyle = css({
-  display: 'inline-block',
-  padding: '10px',
+export const profileButtonSectionStyle = css({
+  width: 200,
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+export const profileButtonStyle = css({
+  '&&': {
+    flex: 1,
+    padding: '10px 0',
+    border: 0,
+    background: 0,
+  },
+
+  ':hover': {
+    background: COLORS.BLACK_TRANSPARENT3,
+  },
+});
+
+export const profileButtonSectionBottomStyle = css({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
 });

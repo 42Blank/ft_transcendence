@@ -1,12 +1,20 @@
 import { Avatar, Button } from 'common';
 import { useGetUser } from 'hooks';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { chatRoomListState, joinChatRoomState, newChatRoomState } from 'store';
-import { ManageFriends } from './ManageFriends';
-// import { EditProfile } from './EditProfile';
 
-import { profileHeaderAvatarStyle, profileHeaderWrapperStyle } from './ProfileHeader.styles';
+import { chatRoomListState, joinChatRoomState, newChatRoomState } from 'store';
+import { COMMON_SIZES } from 'styles';
+import { FriendsSection } from './FriendsSection';
+import { EditProfileSection } from './EditProfileSection';
 import { TwoFactorAuthSection } from './TwoFactorAuthSection';
+
+import {
+  profileButtonSectionStyle,
+  profileButtonStyle,
+  profileHeaderAvatarStyle,
+  profileHeaderWrapperStyle,
+  profileNicknameSectionStyle,
+} from './ProfileHeader.styles';
 
 interface Props {
   userId?: string;
@@ -42,23 +50,22 @@ export const ProfileHeader = ({ userId }: Props) => {
 
   return (
     <header className={profileHeaderWrapperStyle}>
-      <Avatar userAvatar={avatar} className={profileHeaderAvatarStyle} />
-      <span>{nickname}</span>
-      <div>
-        <span>point</span>
-        <span>{point}</span>
+      <Avatar userAvatar={avatar} size={COMMON_SIZES.ICON_XXLARGE} className={profileHeaderAvatarStyle} />
+      <div className={profileNicknameSectionStyle}>
+        <h2>{nickname}</h2>
+        <span>{point}점</span>
       </div>
       {!userId ? (
-        <div>
-          {/* <EditProfile refetch={refetch} /> */}
+        <div className={profileButtonSectionStyle}>
+          <EditProfileSection />
           <TwoFactorAuthSection />
         </div>
       ) : (
-        <div>
-          <Button onClick={handleClickDMButton}>
+        <div className={profileButtonSectionStyle}>
+          <Button onClick={handleClickDMButton} className={profileButtonStyle}>
             <span>DM</span>
           </Button>
-          <ManageFriends />
+          <FriendsSection userId={id} />
         </div>
       )}
     </header>

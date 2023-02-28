@@ -1,13 +1,10 @@
 import { css } from '@emotion/css';
 
-import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
+import { COLORS, makeBorder } from 'styles';
 
 export const avatarImageStyle = css({
-  width: COMMON_SIZES.ICON_XLARGE,
-  height: COMMON_SIZES.ICON_XLARGE,
+  borderRadius: '100vw',
   objectFit: 'cover',
-  borderRadius: 30,
-  marginRight: 20,
   backgroundColor: COLORS.WHITE,
   border: makeBorder({}),
 });

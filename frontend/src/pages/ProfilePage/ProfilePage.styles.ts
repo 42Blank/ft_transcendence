@@ -7,7 +7,7 @@ export const profileContainerStyle = css({
   flex: 1,
   height: 'calc(100vh - 70px)',
   overflow: 'hidden',
-  background: COLORS.BLACK_TRANSPARENT,
+  background: COLORS.BLACK_TRANSPARENT6,
 });
 
 export const cardStyle = css({
