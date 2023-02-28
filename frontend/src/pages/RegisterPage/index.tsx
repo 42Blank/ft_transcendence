@@ -1,9 +1,10 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, ChangeAvatar, ChangeNickname } from 'common';
 import { ROUTE, DEFAULT_IMAGE_URL, LOADING_IMAGE_URL } from 'common/constants';
 import { postRegister } from 'services';
+import { checkInputRefValid } from 'utils';
 
 import {
   registerPageButtonStyle,
@@ -14,26 +15,21 @@ import {
 
 export const RegisterPage = () => {
   const [imageUrl, setImageUrl] = useState<string>(DEFAULT_IMAGE_URL);
-  const [nickname, setNickname] = useState<string>('');
+  const nicknameRef = useRef<HTMLInputElement>(null);
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const nav = useNavigate();
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
-    if (nickname.length === 0 || nickname.length > 8) return;
+    if (checkInputRefValid(nicknameRef, 8)) return;
     if (!isValidated) return;
     if (imageUrl === LOADING_IMAGE_URL) return;
-    await postRegister({ nickname, avatar: imageUrl });
+    await postRegister({ nickname: nicknameRef.current.value, avatar: imageUrl });
     nav(ROUTE.CHAT);
   }
 
   function handleClickCancel() {
     nav(ROUTE.LOGIN);
-  }
-
-  function handleChangeNickname(newNickname: string, newValidated: boolean) {
-    setNickname(newNickname);
-    setIsValidated(newValidated);
   }
 
   function handleChangeAvatar(newImageUrl: string) {
@@ -44,9 +40,9 @@ export const RegisterPage = () => {
     <form className={registerPageFormStyle} onSubmit={handleSubmitForm}>
       <ChangeAvatar imageUrl={imageUrl} onChange={handleChangeAvatar} className={registerProfileInnerStyle} />
       <ChangeNickname
-        nickname={nickname}
+        nicknameRef={nicknameRef}
         isValidated={isValidated}
-        onChange={handleChangeNickname}
+        setIsValidated={setIsValidated}
         className={registerProfileInnerStyle}
       />
       <div className={registerPageButtonWrapperStyle}>
