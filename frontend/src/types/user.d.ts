@@ -7,12 +7,17 @@ export interface UserInfoType {
   createdAt: string;
   updatedAt: string;
   isTwoFactorAuth: boolean;
-  isOnline?: boolean;
+  state?: UserStateType;
 }
 
 export interface FtProfileType {
   id: string;
-  username: string;
   image_url: string;
+  username: string;
   isRegistered: boolean;
 }
+export interface OnlineUserType {
+  userId: number;
+  state: UserStateType;
+}
+export type UserStateType = 'online' | 'playing' | 'chatting';
