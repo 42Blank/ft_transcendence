@@ -22,9 +22,9 @@ export const headerLeftSectionStyle = css({
 });
 
 export const headerHamburgerButtonStyle = css({
-  width: 30,
-  height: 30,
   marginRight: 20,
+  padding: 0,
+  border: 'none',
 
   svg: {
     width: COMMON_SIZES.ICON_MEDIUM,
@@ -34,14 +34,8 @@ export const headerHamburgerButtonStyle = css({
 });
 
 export const headerIconButtonStyle = css({
-  display: 'flex',
-  flexDirection: 'row',
-  height: '100%',
-  alignItems: 'center',
-
-  img: {
-    marginRight: 15,
-  },
+  padding: 0,
+  border: 'none',
 });
 
 export const headerMainButtonStyle = (isSelected: boolean) =>

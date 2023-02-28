@@ -35,12 +35,12 @@ export const NavBar = ({ setIsSidebarOpen }: Props) => {
   return (
     <header className={headerStyle}>
       <div className={headerLeftSectionStyle}>
-        <button type="button" onClick={handleClickSidebarButton} className={headerHamburgerButtonStyle}>
+        <Button onClick={handleClickSidebarButton} className={headerHamburgerButtonStyle}>
           <HamburgerIcon />
-        </button>
-        <button type="button" onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
+        </Button>
+        <Button onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
           <img src="/images/logo.png" alt="pochitandence logo" width={140} height={40} />
-        </button>
+        </Button>
         <Button onClick={handleClickMainPageButton} className={headerMainButtonStyle(pathname.startsWith(ROUTE.CHAT))}>
           <span>채팅</span>
         </Button>
