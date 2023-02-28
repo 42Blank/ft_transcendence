@@ -43,3 +43,6 @@ export const API = {
   // File
   FILE_UPLOAD: '/file/upload',
 } as const;
+
+export const DEFAULT_IMAGE_URL = 'https://bit.ly/3YMBEvR';
+export const LOADING_IMAGE_URL = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif';
