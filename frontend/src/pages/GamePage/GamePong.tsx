@@ -31,21 +31,21 @@ const GamePong = () => {
 
   useEffect(() => {
     const mainScene = new MainScene();
-    const playerRoleType: PlayerRoleType = {
+    const playerRole: PlayerRoleType = {
       role: 'none',
     };
 
     if (currentGameRoom.host.user.id === user.id) {
-      playerRoleType.role = 'host';
+      playerRole.role = 'host';
     } else if (currentGameRoom.challenger.user.id === user.id) {
-      playerRoleType.role = 'challenger';
+      playerRole.role = 'challenger';
     } else {
-      playerRoleType.role = 'spectator';
+      playerRole.role = 'spectator';
     }
 
     setGame({ ...gameConfig, scene: mainScene });
     mainScene.initHandlers();
-    mainScene.hostCheckHandlers(playerRoleType.role);
+    mainScene.hostCheckHandlers(playerRole.role);
     mainScene.gameModeCheckHandlers(currentGameRoom.mode);
     mainScene.naviHandlers(nav);
 
