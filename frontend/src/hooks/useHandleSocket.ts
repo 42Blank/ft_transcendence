@@ -13,6 +13,8 @@ import {
   joinSpectateRoomState,
   newGameRoomState,
   leaveGameRoomState,
+  joinMatchMakeState,
+  leaveMatchMakeState,
 } from 'store';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
@@ -67,6 +69,12 @@ export function useHandleSocket() {
   const resetJoinGameRoom = useResetRecoilState(joinGameRoomState);
   const joinSpectateRoom = useRecoilValue(joinSpectateRoomState);
   const resetJoinSpectateRoom = useResetRecoilState(joinSpectateRoomState);
+
+  const joinMatchMake = useRecoilValue(joinMatchMakeState);
+  const resetJoinMatchMake = useResetRecoilState(joinMatchMakeState);
+  const leaveMatchMake = useRecoilValue(leaveMatchMakeState);
+  const resetLeaveMatchMake = useResetRecoilState(leaveMatchMakeState);
+
   const leaveGameRoom = useRecoilValue(leaveGameRoomState);
   const resetLeaveGameRoom = useResetRecoilState(leaveGameRoomState);
 
@@ -163,6 +171,22 @@ export function useHandleSocket() {
     sockets.gameSocket.emit('join_room', joinGameRoom);
     resetJoinGameRoom();
   }, [joinGameRoom]);
+
+  useEffect(() => {
+    if (joinMatchMake.id.length === 0) return;
+    if (sockets.gameSocket === null) return;
+
+    sockets.gameSocket.emit('join_match_make', joinMatchMake);
+    resetJoinMatchMake();
+  }, [joinMatchMake]);
+
+  useEffect(() => {
+    if (leaveMatchMake.id.length === 0) return;
+    if (sockets.gameSocket === null) return;
+
+    sockets.gameSocket.emit('leave_match_make', leaveMatchMake);
+    resetLeaveMatchMake();
+  }, [leaveMatchMake]);
 
   useEffect(() => {
     if (joinSpectateRoom.id.length === 0) return;

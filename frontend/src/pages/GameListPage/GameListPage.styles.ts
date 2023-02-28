@@ -29,6 +29,22 @@ export const gameRoomIconStyle = css`
   }
 `;
 
+export const gameMatchIconStyle = css`
+  position: fixed;
+  z-index: 2;
+  right: 105px;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  background-color: white; // TODO: 상수화
+  border: 1px solid black; // TODO: 상수화
+
+  & > svg {
+    fill: black; // TODO: 상수화
+  }
+`;
+
 export const newGameModalWrapperStyle = css`
   height: 30%;
   display: flex;
