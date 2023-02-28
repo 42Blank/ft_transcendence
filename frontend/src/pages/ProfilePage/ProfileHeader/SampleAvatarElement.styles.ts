@@ -14,5 +14,6 @@ export const sampleAvatarButtonWrapper = css({
 
   '&&': {
     padding: 0,
+    border: 0,
   },
 });
