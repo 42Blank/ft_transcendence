@@ -7,6 +7,10 @@ import { ChatRoom } from '../model';
 export class ChatRoomRepository {
   private readonly chatRooms: Map<string, ChatRoom> = new Map();
 
+  constructor() {
+    console.warn('ChatRoomRepository');
+  }
+
   public createChatRoom(
     socketId: string,
     userId: number,

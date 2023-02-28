@@ -14,6 +14,7 @@ import { GameRoom } from '../../common/database/model';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { sleep } from '../../common/utils';
 import { ConnectionHandleService } from '../connection-handle';
+import { OnlineGateway } from '../online';
 import { CreateGameRoomDto } from './dto/incoming/create-game-room.dto';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
 import { SpectateGameRoomDto } from './dto/incoming/spectate-game-room.dto';
@@ -36,6 +37,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly gameRoomService: GameRoomService,
     private readonly gameUserService: GameUserService,
     private readonly gamePlayService: GamePlayService,
+    private readonly onlineGateway: OnlineGateway,
   ) {}
 
   @WebSocketServer()
@@ -170,6 +172,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.verbose(`emitGameRooms: ${JSON.stringify(gameRoom)}`);
 
     this.io.emit('update_game_room', gameRoom);
+    await this.onlineGateway.emitOnlineUsers();
   }
 
   public async handleConnection(client: SocketWithUser): Promise<void> {
