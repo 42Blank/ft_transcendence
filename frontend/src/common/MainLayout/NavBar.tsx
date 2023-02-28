@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { Button } from 'common';
 import { ROUTE } from 'common/constants';
 import { HamburgerIcon } from 'assets';
 import { UserMenu } from './UserMenu';
@@ -11,7 +12,6 @@ import {
   headerLeftSectionStyle,
   headerMainButtonStyle,
   headerStyle,
-  logoImageStyle,
 } from './NavBar.styles';
 
 interface Props {
@@ -35,26 +35,18 @@ export const NavBar = ({ setIsSidebarOpen }: Props) => {
   return (
     <header className={headerStyle}>
       <div className={headerLeftSectionStyle}>
-        <button type="button" onClick={handleClickSidebarButton} className={headerHamburgerButtonStyle}>
+        <Button onClick={handleClickSidebarButton} className={headerHamburgerButtonStyle}>
           <HamburgerIcon />
-        </button>
-        <button type="button" onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
-          <img src="/logo.png" alt="pochitandence logo" width={140} height={40} className={logoImageStyle} />
-        </button>
-        <button
-          type="button"
-          onClick={handleClickMainPageButton}
-          className={headerMainButtonStyle(pathname.startsWith(ROUTE.CHAT))}
-        >
+        </Button>
+        <Button onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
+          <img src="/images/logo.png" alt="pochitandence logo" width={140} height={40} />
+        </Button>
+        <Button onClick={handleClickMainPageButton} className={headerMainButtonStyle(pathname.startsWith(ROUTE.CHAT))}>
           <span>채팅</span>
-        </button>
-        <button
-          type="button"
-          onClick={handleClickGamePageButton}
-          className={headerMainButtonStyle(pathname.startsWith(ROUTE.GAME))}
-        >
+        </Button>
+        <Button onClick={handleClickGamePageButton} className={headerMainButtonStyle(pathname.startsWith(ROUTE.GAME))}>
           <span>게임</span>
-        </button>
+        </Button>
       </div>
       <UserMenu />
     </header>

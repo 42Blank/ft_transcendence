@@ -1,14 +1,16 @@
 import { css } from '@emotion/css';
 
+import { COLORS, COMMON_SIZES } from 'styles';
+
 export const headerStyle = css({
   display: 'flex',
   flexDirection: 'row',
+  backgroundColor: COLORS.BLACK,
   padding: '10px 30px',
   width: 'calc(100% - 60px)',
-  height: 49,
+  height: 50,
   alignItems: 'center',
   justifyContent: 'space-between',
-  borderBottom: '1px solid black', // TODO: border color
 });
 
 export const headerLeftSectionStyle = css({
@@ -20,49 +22,44 @@ export const headerLeftSectionStyle = css({
 });
 
 export const headerHamburgerButtonStyle = css({
-  width: 30,
-  height: 30,
-  marginRight: 10,
+  '&&': {
+    padding: 0,
+    marginRight: 20,
+    border: 0,
+  },
 
   svg: {
-    width: 20,
-    height: 20,
+    width: COMMON_SIZES.ICON_MEDIUM,
+    height: COMMON_SIZES.ICON_MEDIUM,
+    fill: COLORS.WHITE,
+  },
+
+  ':hover': {
+    background: 0,
   },
 });
 
 export const headerIconButtonStyle = css({
-  display: 'flex',
-  flexDirection: 'row',
-  height: '100%',
-  alignItems: 'center',
-
-  img: {
-    height: 40,
-    marginRight: 15,
+  '&&': {
+    padding: 0,
+    marginRight: 30,
+    border: 0,
   },
-  h1: {
-    // TODO: 폰트 크기 및 색상 지정
-    marginRight: 15,
+
+  ':hover': {
+    background: 0,
   },
 });
 
 export const headerMainButtonStyle = (isSelected: boolean) =>
   css({
-    padding: `0 20px`,
-    height: '100%',
-    fontWeight: isSelected ? 700 : 400,
-
-    ' span': {
-      // TODO: 나중에 색상, 글자 크기 추가 후 스타일 정의
+    '&&': {
+      paddingLeft: 20,
+      paddingRight: 20,
+      border: 0,
     },
 
-    ':hover': {
-      backgroundColor: 'lightgray', // TODO: 나중에 색상 변경
+    span: {
+      fontWeight: isSelected ? 700 : 400,
     },
   });
-
-export const logoImageStyle = css({
-  width: 140,
-  height: 40,
-  marginLeft: 5,
-});

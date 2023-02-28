@@ -1,4 +1,7 @@
-import { FC, useState } from 'react';
+import { SyntheticEvent } from 'react';
+
+import { UNKNOWN_IMAGE_URL } from 'common/constants';
+import { COMMON_SIZES } from 'styles';
 
 import { avatarImageStyle } from './Avatar.styles';
 
@@ -8,14 +11,19 @@ interface Props {
   size?: number;
   className?: string;
 }
-export const Avatar: FC<Props> = ({ userAvatar, alt, size = 50, className = avatarImageStyle }) => {
-  const [imgSrc, setImgSrc] = useState(userAvatar);
-  function handleImgError() {
-    setImgSrc('/unknown_user.png');
-  }
-  if (imgSrc === null) {
-    setImgSrc('/unknown_user.png');
+export const Avatar = ({ userAvatar, alt, size = COMMON_SIZES.ICON_LARGE, className }: Props) => {
+  function handleImgError(e: SyntheticEvent<HTMLImageElement, Event>) {
+    e.currentTarget.src = UNKNOWN_IMAGE_URL;
   }
 
-  return <img src={imgSrc} alt={alt} width={size} height={size} className={className} onError={handleImgError} />;
+  return (
+    <img
+      src={userAvatar ?? UNKNOWN_IMAGE_URL}
+      alt={alt}
+      width={size}
+      height={size}
+      className={`${avatarImageStyle} ${className}`}
+      onError={handleImgError}
+    />
+  );
 };
