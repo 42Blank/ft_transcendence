@@ -26,7 +26,7 @@ export const registerPageButtonWrapperStyle = css({
 
 export const registerPageButtonstyle = css({
   padding: '10px 20px',
-  border: makeBorder({ color: COLORS.WHITE }),
+  border: makeBorder({}),
 
   ':first-child': {
     marginRight: 20,

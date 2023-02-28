@@ -8,7 +8,7 @@ export const loginLinkStyle = css({
   color: COLORS.WHITE,
   display: 'flex',
   padding: '20px 40px',
-  border: makeBorder({ color: COLORS.WHITE }),
+  border: makeBorder({}),
   borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
 
   span: {

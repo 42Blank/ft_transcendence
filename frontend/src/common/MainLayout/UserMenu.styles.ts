@@ -37,7 +37,7 @@ export const userMenuInnerStyle = (isMenuShown: boolean) =>
     backgroundColor: COLORS.WHITE,
     position: 'absolute',
     display: isMenuShown ? 'flex' : 'none',
-    border: makeBorder({ color: COLORS.WHITE }),
+    border: makeBorder({}),
     borderRadius: 5,
     overflow: 'hidden',
     right: 0,
@@ -57,7 +57,7 @@ export const userMenuHoverButton = css({
   },
 
   ':first-child': {
-    borderBottom: makeBorder({ color: COLORS.WHITE }),
+    borderBottom: makeBorder({}),
   },
 
   ':hover': {

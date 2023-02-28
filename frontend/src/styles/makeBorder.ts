@@ -5,6 +5,6 @@ interface Params {
   color?: string;
 }
 
-export function makeBorder({ width = 1, color = COLORS.BLACK }: Params) {
+export function makeBorder({ width = 1, color = COLORS.WHITE }: Params) {
   return `${width}px solid ${color}`;
 }
