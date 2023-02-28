@@ -39,7 +39,8 @@ export const EditProfileSection = () => {
 
   function handleSubmitProfile(e: FormEvent) {
     e.preventDefault();
-    if (checkInputRefValid(nicknameRef, 8)) return;
+
+    if (!checkInputRefValid(nicknameRef, 8)) return;
     if (newImageUrl === LOADING_IMAGE_URL) return;
 
     putUserProfile({ nickname: nicknameRef.current.value, avatar: newImageUrl }).then(() => {
