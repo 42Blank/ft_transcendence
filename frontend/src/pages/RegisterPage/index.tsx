@@ -1,11 +1,13 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ChangeAvatar, ChangeNickname } from 'common';
+import { Button, ChangeAvatar, ChangeNickname } from 'common';
 import { ROUTE, DEFAULT_IMAGE_URL, LOADING_IMAGE_URL } from 'common/constants';
+import { checkInputRefValid } from 'utils';
 import { postRegister } from 'services';
 
 import {
+  registerPageButtonstyle,
   registerPageButtonWrapperStyle,
   registerPageFormStyle,
   registerProfileInnerStyle,
@@ -19,13 +21,7 @@ export const RegisterPage = () => {
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
-    if (
-      !nicknameRef.current ||
-      !nicknameRef.current.value ||
-      nicknameRef.current.value.length === 0 ||
-      nicknameRef.current.value.length > 8
-    )
-      return;
+    if (!checkInputRefValid(nicknameRef, 8)) return;
     if (!isValidated) return;
     if (imageUrl === LOADING_IMAGE_URL) return;
     await postRegister({ nickname: nicknameRef.current.value, avatar: imageUrl });
@@ -46,12 +42,12 @@ export const RegisterPage = () => {
         className={registerProfileInnerStyle}
       />
       <div className={registerPageButtonWrapperStyle}>
-        <button type="button" onClick={handleClickCancel}>
+        <Button onClick={handleClickCancel} className={registerPageButtonstyle}>
           <span>취소</span>
-        </button>
-        <button type="submit">
+        </Button>
+        <Button isSubmit className={registerPageButtonstyle}>
           <span>가입</span>
-        </button>
+        </Button>
       </div>
     </form>
   );
