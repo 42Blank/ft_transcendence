@@ -47,3 +47,29 @@ export const API = {
 export const DEFAULT_IMAGE_URL = 'https://bit.ly/3YMBEvR';
 export const LOADING_IMAGE_URL = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif';
 export const UNKNOWN_IMAGE_URL = '/unknown_user.png';
+export const SAMPLE_IMAGE_LIST = [
+  {
+    src: '/pochita_sample.png',
+    alt: 'pochi',
+  },
+  {
+    src: '/denji_sample.png',
+    alt: 'denji',
+  },
+  {
+    src: '/power_sample.jpg',
+    alt: 'power',
+  },
+  {
+    src: '/aki_sample.jpg',
+    alt: 'aki',
+  },
+  {
+    src: '/kobeni_sample.jpg',
+    alt: 'kobeni',
+  },
+  {
+    src: '/makima_sample.jpg',
+    alt: 'makima',
+  },
+] as const;
