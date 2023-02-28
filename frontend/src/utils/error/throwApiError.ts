@@ -22,7 +22,7 @@ function isAxiosApiError(error: unknown): error is AxiosError<{
 
 export function throwApiError(error: unknown): never {
   if (isAxiosApiError(error)) {
-    throw new ApiError(+error.code, error.response.data.message);
+    throw new ApiError(error.response.status, error.response.data.message);
   }
 
   throw error;

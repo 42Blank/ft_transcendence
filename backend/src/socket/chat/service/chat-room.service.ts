@@ -17,9 +17,13 @@ export class ChatRoomService {
   public createChatRoom(
     socketId: string,
     userId: number,
-    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password'>,
+    data: Pick<ChatRoom, 'roomTitle' | 'isPrivate' | 'password' | 'dmId'>,
   ): ChatRoom {
     this.chatRoomRepository.removeSocketFromAllChatRoom(socketId);
+
+    if (data.roomTitle.length > 20) {
+      throw new ForbiddenException('Room title is too long');
+    }
 
     return this.chatRoomRepository.createChatRoom(socketId, userId, data);
   }
@@ -31,12 +35,20 @@ export class ChatRoomService {
   ): void {
     const chatRoom = this.chatRoomRepository.getChatRoom(chatRoomId);
 
+    if (data.roomTitle.length > 20) {
+      throw new ForbiddenException('Room title is too long');
+    }
+
     if (!chatRoom) {
       throw new ForbiddenException('Chat room not found');
     }
 
     if (!chatRoom.sockets.has(socketId)) {
       throw new ForbiddenException('You are not in this chat room');
+    }
+
+    if (chatRoom.sockets.get(socketId).role !== 'host') {
+      throw new ForbiddenException('You are not owner of this chat room');
     }
 
     chatRoom.roomTitle = data.roomTitle ?? chatRoom.roomTitle;
@@ -55,6 +67,7 @@ export class ChatRoomService {
       id: chatRoom.id,
       roomTitle: chatRoom.roomTitle,
       isPrivate: chatRoom.isPrivate,
+      dmId: chatRoom.dmId,
       users: await Promise.all(
         Array.from(chatRoom.sockets.values()).map(async chatUser => ({
           user: await this.userRepository.findOneBy({ id: chatUser.id }),

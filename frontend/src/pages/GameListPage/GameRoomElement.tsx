@@ -1,3 +1,4 @@
+import { Avatar } from 'common/Avatar';
 import { useSetRecoilState } from 'recoil';
 import { joinGameRoomState, joinSpectateRoomState } from 'store';
 import { playerRoleState } from 'store/playerRoleState';
@@ -35,22 +36,12 @@ export const GameRoomElement = ({ gameRoomInfo }: Props) => {
       <div className={gameRoomElementStyle}>
         <div className={gameRoomVsSectionStyle}>
           <div className={gameRoomUserWrapperStyle}>
-            <img
-              src="https://beebom.com/wp-content/uploads/2022/10/Cute-Weakened-form-of-Pochita.jpg?w=640"
-              width={70}
-              height={70}
-              alt="profile1"
-            />
+            <Avatar userAvatar={host.user.avatar} size={30} />
             <span>{host.user.nickname}</span>
           </div>
           <span className={gameRoomVsSpanStyle}>vs</span>
           <div className={gameRoomUserWrapperStyle}>
-            <img
-              src="https://pbs.twimg.com/profile_images/1579899155048239127/xbwg77D0_400x400.jpg"
-              width={70}
-              height={70}
-              alt="profile1"
-            />
+            <Avatar userAvatar={challenger && challenger.user.avatar} size={30} />
             <span>{challenger && challenger.user.nickname}</span>
           </div>
           <div>

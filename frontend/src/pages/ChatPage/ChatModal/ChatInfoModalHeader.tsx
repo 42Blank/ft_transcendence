@@ -66,7 +66,7 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole }: Props)
         ) : (
           <h4>#{roomTitle}</h4>
         )}
-        {currentUserRole !== 'user' && (
+        {currentUserRole === 'host' && (
           <button type="button" onClick={handleToggleEditMode}>
             {isEditMode ? <SaveIcon /> : <EditIcon />}
           </button>

@@ -1,6 +1,6 @@
 import { useTwoFactorLogin } from 'hooks';
 
-export const GithubCallback = () => {
+export const GithubCallbackPage = () => {
   useTwoFactorLogin();
 
   return (

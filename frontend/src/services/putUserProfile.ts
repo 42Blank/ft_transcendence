@@ -6,6 +6,6 @@ interface Params {
   avatar?: string;
 }
 
-export function putUserProfile({ nickname, avatar }: Params): Promise<void> {
+export async function putUserProfile({ nickname, avatar }: Params): Promise<void> {
   return axiosPut<Params>(API.USER, { nickname, avatar });
 }
