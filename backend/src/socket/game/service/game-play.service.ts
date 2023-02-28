@@ -1,6 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { GameRoom } from '../model/game-room';
-import { GameRoomRepository } from '../repository/game-room.repository';
+import { GameRoom } from '../../../common/database/model';
+import { GameRoomRepository } from '../../../common/database/repository';
 import { FinishGameService } from './finish-game.service';
 
 @Injectable()

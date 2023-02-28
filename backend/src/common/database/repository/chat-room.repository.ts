@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { pwEncryption } from 'common/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { ChatRoom } from '../model/chat-room';
+import { ChatRoom } from '../model';
 
 @Injectable()
 export class ChatRoomRepository {
