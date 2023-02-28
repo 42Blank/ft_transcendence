@@ -20,4 +20,4 @@ export interface OnlineUserType {
   userId: number;
   state: UserStateType;
 }
-export type UserStateType = 'online' | 'playing' | 'chatting';
+export type UserStateType = 'online' | 'playing' | 'chatting' | 'offline';
