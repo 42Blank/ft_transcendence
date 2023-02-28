@@ -1,6 +1,8 @@
-import { LOADING_IMAGE_URL } from 'common/constants';
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent } from 'react';
+
 import { postFile } from 'services';
+import { LOADING_IMAGE_URL } from 'common/constants';
+
 import {
   changeAvatarImageStyle,
   changeAvatarImageUploadButtonStyle,
@@ -10,15 +12,15 @@ import {
 
 interface Props {
   imageUrl: string;
-  setImageUrl: Dispatch<SetStateAction<string>>;
+  onChange: (newImageUrl: string) => void;
   className?: string;
 }
 
-export const ChangeAvatar = ({ imageUrl, setImageUrl, className }: Props) => {
+export const ChangeAvatar = ({ imageUrl, onChange, className }: Props) => {
   function handleChangeImage(e: ChangeEvent<HTMLInputElement>) {
-    setImageUrl(LOADING_IMAGE_URL);
+    onChange(LOADING_IMAGE_URL);
     postFile({ file: e.currentTarget.files[0] }).then(res => {
-      setImageUrl(`${process.env.REACT_APP_SERVER}/file/${res}`);
+      onChange(`${process.env.REACT_APP_SERVER}/file/${res}`);
     });
   }
 

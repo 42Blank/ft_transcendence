@@ -24,7 +24,7 @@ export const registerPageButtonWrapperStyle = css({
   justifyContent: 'flex-end',
 });
 
-export const registerPageButtonstyle = css({
+export const registerPageButtonStyle = css({
   padding: '10px 20px',
   border: makeBorder({}),
 

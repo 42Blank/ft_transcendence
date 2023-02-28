@@ -1,5 +1,5 @@
 import { CheckIcon } from 'assets';
-import { ChangeEvent, Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { ChangeEvent } from 'react';
 import { postUserCheckDuplicateNickname } from 'services';
 
 import {
@@ -9,25 +9,25 @@ import {
 } from './ChangeProfiles.styles';
 
 interface Props {
+  nickname: string;
   isValidated: boolean;
-  setIsValidated: Dispatch<SetStateAction<boolean>>;
-  nicknameRef: MutableRefObject<HTMLInputElement>;
+  onChange: (newNickname: string, isValidated: boolean) => void;
   className?: string;
 }
 
-export const ChangeNickname = ({ isValidated, setIsValidated, nicknameRef, className }: Props) => {
+export const ChangeNickname = ({ nickname, isValidated, onChange, className }: Props) => {
   function handleChangeNickname(e: ChangeEvent<HTMLInputElement>) {
-    const nickname = e.currentTarget.value;
+    const newNickname = e.currentTarget.value;
 
-    if (!nickname || nickname.length === 0) {
-      setIsValidated(false);
+    if (!newNickname || newNickname.length === 0) {
+      onChange(newNickname, false);
       return;
     }
 
     postUserCheckDuplicateNickname({
-      nickname: e.currentTarget.value,
+      nickname: newNickname,
     }).then(res => {
-      setIsValidated(!res);
+      onChange(newNickname, !res);
     });
   }
 
@@ -37,7 +37,7 @@ export const ChangeNickname = ({ isValidated, setIsValidated, nicknameRef, class
         닉네임
       </label>
       <div className={changeNicknameWrapperStyle}>
-        <input type="text" id="register-nickname" maxLength={8} ref={nicknameRef} onChange={handleChangeNickname} />
+        <input type="text" id="register-nickname" maxLength={8} value={nickname} onChange={handleChangeNickname} />
         {isValidated && <CheckIcon />}
       </div>
     </div>
