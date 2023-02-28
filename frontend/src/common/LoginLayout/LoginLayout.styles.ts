@@ -3,7 +3,6 @@ import { css } from '@emotion/css';
 import { COLORS, LOGIN_LEVELS, COMMON_SIZES } from 'styles';
 
 export const loginLayoutCenterAlignStyle = css({
-  marginTop: 60,
   width: 500,
   height: 800,
   position: 'relative',
