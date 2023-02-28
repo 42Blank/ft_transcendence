@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MatchHistory } from '../../../common/database/entities/match-history.entity';
-import { GameRoom } from '../model/game-room';
-import { GameRoomRepository } from '../repository/game-room.repository';
+import { GameRoom } from '../../../common/database/model';
+import { GameRoomRepository } from '../../../common/database/repository';
 
 @Injectable()
 export class FinishGameService {

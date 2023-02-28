@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OnlineUserRepository } from '../repository/online-user.repository';
+import { OnlineUserRepository } from '../../../common/database/repository';
 
 @Injectable()
 export class OnlineUserService {
