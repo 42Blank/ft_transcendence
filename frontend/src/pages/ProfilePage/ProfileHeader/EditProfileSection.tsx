@@ -14,6 +14,7 @@ import {
   editProfileModalStyle,
   sampleAvatarListStyle,
 } from './EditProfileSection.styles';
+import { profileButtonStyle } from './ProfileHeader.styles';
 
 export const EditProfileSection = () => {
   const {
@@ -57,7 +58,7 @@ export const EditProfileSection = () => {
 
   return (
     <>
-      <Button onClick={handleClickModal}>
+      <Button onClick={handleClickModal} className={profileButtonStyle}>
         <span>프로필 편집</span>
       </Button>
       {isModalShown && (

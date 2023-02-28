@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Modal } from 'common';
+import { Button, Modal } from 'common';
 import { ROUTE } from 'common/constants';
 import { deleteTwoFactorAuth, putTwoFactorAuth } from 'services';
 import { useGetUser } from 'hooks';
+
+import { profileButtonStyle } from './ProfileHeader.styles';
 
 export const TwoFactorAuthSection = () => {
   const { data: user, refetch } = useGetUser();
@@ -29,12 +31,9 @@ export const TwoFactorAuthSection = () => {
 
   return (
     <>
-      <div>
-        <button type="button" onClick={handleOpenModal}>
-          <span>Two-Factor Authentication</span>
-        </button>
-        <input type="checkbox" checked={user.isTwoFactorAuth} readOnly />
-      </div>
+      <Button onClick={handleOpenModal} className={profileButtonStyle}>
+        <span>{user.isTwoFactorAuth ? '2차 인증 설정됨' : '2차 인증'}</span>
+      </Button>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal}>
           {user.isTwoFactorAuth ? (
