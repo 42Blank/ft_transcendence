@@ -6,6 +6,7 @@ import { onlineUserListState } from 'store';
 import { FriendsListElement } from './FriendsListElement';
 
 import { friendsListStyle, friendsListTabButtonStyle, friendsListTabWrapperStyle } from './FriendsList.styles';
+// import { userInfo } from 'os';
 
 interface Props {
   isOpen: boolean;
@@ -41,11 +42,11 @@ export const FriendsList = ({ isOpen }: Props) => {
         </button>
       </div>
       <ul>
-        {(isFriendTab ? friendList : userList).map(userInfo => (
+        {(isFriendTab ? friendList : userList).map(userInfo1 => (
           <FriendsListElement
-            userInfo={userInfo}
-            isOnline={onlineUserList.includes(userInfo.id)}
-            key={`friend-${userInfo.id}`}
+            userInfo={userInfo1}
+            state={onlineUserList.find(({ userId }) => userId === userInfo1.id).state} // TODO: 동작하는지 check 필요
+            key={`friend-${userInfo1.id}`}
           />
         ))}
       </ul>

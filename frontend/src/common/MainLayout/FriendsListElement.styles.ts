@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-export const friendsListElementStyle = (isOnline: boolean) =>
+export const friendsListElementStyle = (state: string) =>
   css({
     position: 'relative',
     width: '100%',
@@ -22,12 +22,12 @@ export const friendsListElementStyle = (isOnline: boolean) =>
     '::after': {
       content: `""`,
       position: 'absolute',
-      display: isOnline ? 'block' : 'none',
+      display: 'block',
       bottom: 5,
       left: 45,
       width: 12,
       height: 12,
-      backgroundColor: 'green', // TODO: 상수화
+      backgroundColor: getStateColor(state),
       border: '2px solid white', // TODO: 상수화
       borderRadius: 10,
     },
@@ -48,3 +48,19 @@ export const friendsListNameStyle = css`
   white-space: nowrap;
   line-height: 18px;
 `;
+
+function getStateColor(
+  state: string,
+): string[] | import('csstype').Property.BackgroundColor | import('csstype').Property.BackgroundColor[] {
+  // 김es-lint씨가 자동완성 이렇게 해줬는데 이렇게 써야하는거 맞을까?
+  if (state === 'online') {
+    return 'green';
+  }
+  if (state === 'chatting') {
+    return 'yellow';
+  }
+  if (state === 'playing') {
+    return 'orange';
+  }
+  return 'gray';
+}
