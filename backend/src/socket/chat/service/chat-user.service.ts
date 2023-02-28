@@ -26,7 +26,7 @@ export class ChatUserService {
       throw new NotAcceptableException(`User ${userId} is already in chat room ${chatRoom.roomTitle}`);
     }
 
-    if (chatRoom.isPrivate && pwCompare(password, chatRoom.password)) {
+    if (chatRoom.isPrivate && !pwCompare(password, chatRoom.password)) {
       throw new NotAcceptableException(`Password is incorrect`);
     }
 
