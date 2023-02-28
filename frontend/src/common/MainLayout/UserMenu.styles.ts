@@ -40,7 +40,7 @@ export const userMenuInnerStyle = (isMenuShown: boolean) =>
     borderRadius: 5,
     overflow: 'hidden',
     right: 0,
-    top: 45,
+    top: 50,
     flexDirection: 'column',
     alignItems: 'center',
     justifyItems: 'center',
