@@ -10,4 +10,6 @@ export const COLORS = {
   GRAYE: '#eeeeee',
   GREEN: '#10D300',
   RED: '#F13810',
+  YELLOW: '#F9DB57',
+  ORANGE: '#E2792E',
 } as const;

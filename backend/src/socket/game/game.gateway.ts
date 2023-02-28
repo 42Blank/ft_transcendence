@@ -92,11 +92,15 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   public async leaveRoom(
     @ConnectedSocket() client: SocketWithUser, //
   ): Promise<void> {
-    await this.gameUserService.leaveGameRoom(client.id);
+    const { isGameFinished } = await this.gameUserService.leaveGameRoom(client.id);
 
     this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
 
     await this.emitGameRooms();
+    if (isGameFinished) {
+      await sleep(4000);
+      await this.emitGameRooms();
+    }
   }
 
   @SubscribeMessage('update_mode')

@@ -6,6 +6,7 @@ import { chatRoomListState, currentChatDataState, gameRoomListState, onlineUserL
 import { ChatDataType, ChatRoomInfoType } from 'types/chat';
 
 import { GameRoomInfoType } from 'types/game';
+import { OnlineUserType } from 'types/user';
 
 export function useSetSocketHandler() {
   const setCurrentChatData = useSetRecoilState(currentChatDataState);
@@ -21,7 +22,7 @@ export function useSetSocketHandler() {
   }
   function disconnectHandler() {}
 
-  function getOnlineUserListHandler(data: number[]) {
+  function getOnlineUserListHandler(data: OnlineUserType[]) {
     setOnlineUserList(data);
   }
 
