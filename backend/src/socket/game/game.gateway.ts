@@ -21,6 +21,7 @@ import { SpectateGameRoomDto } from './dto/incoming/spectate-game-room.dto';
 import { UpdateModeDto } from './dto/incoming/update-mode.dto';
 import { UpdatePositionDto } from './dto/incoming/update-position.dto';
 import { UpdateScoreDto } from './dto/incoming/update-score.dto';
+import { GameMatchQueueService } from './service/game-match-queue.service';
 import { GamePlayService } from './service/game-play.service';
 import { GameRoomService } from './service/game-room.service';
 import { GameUserService } from './service/game-user.service';
@@ -38,6 +39,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly gameUserService: GameUserService,
     private readonly gamePlayService: GamePlayService,
     private readonly onlineGateway: OnlineGateway,
+    private readonly gameMatchQueueService: GameMatchQueueService,
   ) {}
 
   @WebSocketServer()
@@ -179,6 +181,39 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     await this.onlineGateway.emitOnlineUsers();
   }
 
+  @SubscribeMessage('join_match_make')
+  public async joinMatchRoom(@ConnectedSocket() client: SocketWithUser): Promise<void> {
+    const matchedGameRoom = this.gameMatchQueueService.joinMatchQueue(client.id, client.user.id);
+
+    this.logger.verbose(`${client.user.nickname} joinMatchRoom`);
+
+    if (matchedGameRoom === undefined) {
+      return;
+    }
+
+    this.logger.verbose(`${client.user.nickname} emitJoinMatchRoom: ${matchedGameRoom.id}`);
+
+    const gameRooms = await this.gameRoomService.getGameRooms();
+    this.io.to(matchedGameRoom.host.socketId).emit('update_game_room', gameRooms);
+    this.io.to(matchedGameRoom.challenger.socketId).emit('update_game_room', gameRooms);
+    this.io.to(matchedGameRoom.host.socketId).emit('join_room', matchedGameRoom.id);
+    this.io.to(matchedGameRoom.challenger.socketId).emit('join_room', matchedGameRoom.id);
+    await this.emitGameRooms();
+
+    const gameUserSockets = this.gameUserService.getUsersSocketId(matchedGameRoom.host.socketId);
+    this.emitUpdateScore(gameUserSockets, {
+      challenger: 0,
+      host: 0,
+    });
+  }
+
+  @SubscribeMessage('leave_match_make')
+  public leaveMatchRoom(@ConnectedSocket() client: SocketWithUser): void {
+    this.logger.verbose(`${client.user.nickname} leaveMatchRoom: ${client.user.nickname}`);
+
+    this.gameMatchQueueService.leaveMatchQueue(client.id);
+  }
+
   public async handleConnection(client: SocketWithUser): Promise<void> {
     const isUserConnected = await this.connectionHandleService.handleConnection(client);
 
@@ -192,6 +227,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     if (isUserDisconnected) {
       this.gameUserService.leaveGameRoom(client.id);
+      this.gameMatchQueueService.leaveMatchQueue(client.id);
       this.emitGameRooms();
     }
   }
