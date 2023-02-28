@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder, makeButtonStyle } from 'styles';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 
 export const changeProfileWrapperStyle = css({
   display: 'flex',
@@ -20,10 +20,18 @@ export const changeAvatarImageStyle = css({
 });
 
 export const changeAvatarImageUploadButtonStyle = css({
-  ...makeButtonStyle({}),
+  padding: '5px 10px',
+  border: makeBorder({ color: COLORS.WHITE }),
+  borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+  transition: 'background-color 0.2s ease-in',
   marginLeft: 10,
   marginRight: 20,
   color: COLORS.WHITE,
+
+  ':hover': {
+    backgroundColor: COLORS.GRAY3,
+    cursor: 'pointer',
+  },
 });
 
 export const changeProfileLabelStyle = css({

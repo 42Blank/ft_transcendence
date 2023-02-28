@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 
-import { COLORS, COMMON_SIZES, makeButtonStyle } from 'styles';
+import { COLORS, COMMON_SIZES } from 'styles';
 
 export const headerStyle = css({
   display: 'flex',
@@ -46,10 +46,11 @@ export const headerIconButtonStyle = css({
 
 export const headerMainButtonStyle = (isSelected: boolean) =>
   css({
-    ...makeButtonStyle({ paddingVertical: 20, borderColor: 'none' }),
+    paddingLeft: 20,
+    paddingRight: 20,
+    border: 'none',
 
     span: {
-      color: COLORS.WHITE,
       fontWeight: isSelected ? 700 : 400,
     },
   });

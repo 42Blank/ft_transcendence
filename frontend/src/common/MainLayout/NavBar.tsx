@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { Button } from 'common';
 import { ROUTE } from 'common/constants';
 import { HamburgerIcon } from 'assets';
 import { UserMenu } from './UserMenu';
@@ -40,20 +41,12 @@ export const NavBar = ({ setIsSidebarOpen }: Props) => {
         <button type="button" onClick={handleClickMainPageButton} className={headerIconButtonStyle}>
           <img src="/images/logo.png" alt="pochitandence logo" width={140} height={40} />
         </button>
-        <button
-          type="button"
-          onClick={handleClickMainPageButton}
-          className={headerMainButtonStyle(pathname.startsWith(ROUTE.CHAT))}
-        >
+        <Button onClick={handleClickMainPageButton} className={headerMainButtonStyle(pathname.startsWith(ROUTE.CHAT))}>
           <span>채팅</span>
-        </button>
-        <button
-          type="button"
-          onClick={handleClickGamePageButton}
-          className={headerMainButtonStyle(pathname.startsWith(ROUTE.GAME))}
-        >
+        </Button>
+        <Button onClick={handleClickGamePageButton} className={headerMainButtonStyle(pathname.startsWith(ROUTE.GAME))}>
           <span>게임</span>
-        </button>
+        </Button>
       </div>
       <UserMenu />
     </header>

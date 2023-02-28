@@ -3,13 +3,13 @@ import { buttonWrapperStyle } from './Button.styles';
 
 interface Props {
   children: ReactNode;
-  type: 'submit' | 'button';
+  isSubmit?: boolean;
   className?: string;
   onClick?: () => void;
 }
 
-export const Button = ({ children, type, className, onClick }: Props) => {
-  if (type === 'submit') {
+export const Button = ({ children, isSubmit, className, onClick }: Props) => {
+  if (isSubmit) {
     return (
       <button type="submit" className={`${buttonWrapperStyle} ${className}`}>
         {children}
