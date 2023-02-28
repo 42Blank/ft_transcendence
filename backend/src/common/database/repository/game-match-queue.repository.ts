@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
-export interface GameMatchQueue {
+interface GameMatchQueue {
   socketId: string;
   userId: number;
 }
 
 @Injectable()
 export class GameMatchQueueRepository {
-  private readonly gameMatchQueues: GameMatchQueue[] = [];
+  private gameMatchQueues: GameMatchQueue[] = [];
 
   public push(socketId: string, userId: number): void {
     this.gameMatchQueues.push({ socketId, userId });
@@ -22,5 +22,9 @@ export class GameMatchQueueRepository {
       this.gameMatchQueues.findIndex(queue => queue.socketId === socketId),
       1,
     );
+  }
+
+  public size(): number {
+    return this.gameMatchQueues.length;
   }
 }
