@@ -44,11 +44,15 @@ export class GameMatchQueueService {
       return gameRoom.host.userId === userId || gameRoom.challenger?.userId === userId;
     });
 
+    if (!gameRoom) {
+      return false;
+    }
+
     if (gameRoom.state === 'finished') {
       return false;
     }
 
-    return !!gameRoom;
+    return true;
   }
 
   private isUserInChatRoom(userId: number): boolean {
