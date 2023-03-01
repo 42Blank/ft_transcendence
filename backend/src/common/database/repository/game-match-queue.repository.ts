@@ -10,6 +10,10 @@ export class GameMatchQueueRepository {
   private gameMatchQueues: GameMatchQueue[] = [];
 
   public push(socketId: string, userId: number): void {
+    if (this.gameMatchQueues.find(queue => queue.socketId === socketId)) {
+      return;
+    }
+
     this.gameMatchQueues.push({ socketId, userId });
   }
 
