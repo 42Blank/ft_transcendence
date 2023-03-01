@@ -4,7 +4,7 @@ import { Button, ChangeAvatar, ChangeNickname, Modal } from 'common';
 import { LOADING_IMAGE_URL, SAMPLE_IMAGE_LIST } from 'common/constants';
 import { putUserProfile } from 'services';
 import { checkInputRefValid } from 'utils';
-import { useGetAllUserList, useGetFriendList, useGetUser } from 'hooks';
+import { useGetAllUserList, useGetUser } from 'hooks';
 import { SampleAvatarElement } from './SampleAvatarElement';
 
 import {
@@ -22,7 +22,6 @@ export const EditProfileSection = () => {
     refetch,
   } = useGetUser();
   const { refetch: refetchAllUserList } = useGetAllUserList();
-  const { refetch: refetchFriendsList } = useGetFriendList();
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const [isValidated, setIsValidated] = useState<boolean>(false);
@@ -49,7 +48,6 @@ export const EditProfileSection = () => {
     putUserProfile({ nickname: nicknameRef.current.value, avatar: newImageUrl }).then(() => {
       refetch();
       refetchAllUserList();
-      refetchFriendsList();
       setIsModalShown(false);
     });
   }
