@@ -5,7 +5,6 @@ export { LoginLayout } from './LoginLayout';
 export { Modal } from './Modal';
 export { Button } from './Button';
 export { Dropdown } from './Dropdown';
-export { Tooltip } from './Tooltip';
 export { Avatar } from './Avatar';
 
 export { ChangeAvatar, ChangeNickname } from './ChangeProfiles';

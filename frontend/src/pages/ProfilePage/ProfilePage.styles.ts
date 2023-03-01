@@ -10,16 +10,28 @@ export const profileContainerStyle = css({
   background: COLORS.BLACK_TRANSPARENT6,
 });
 
-export const cardStyle = css({
-  gridArea: 'card',
-  borderBottom: '1px solid black',
+export const profileTabWrapperStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
 });
 
-export const histStyle = css({
-  gridArea: 'hist',
-  borderRight: '1px solid black',
-});
+export const profileTabStyle = (isSelected: boolean) =>
+  css({
+    '&&': {
+      backgroundColor: isSelected ? COLORS.BLACK_TRANSPARENT3 : COLORS.BLACK_TRANSPARENT6,
+      border: 0,
+      padding: '10px 40px',
+      borderRadius: 0,
+    },
 
-export const achvStyle = css({
-  gridArea: 'achv',
+    span: {
+      fontWeight: isSelected ? 700 : 500,
+      opacity: isSelected ? 1 : 0.7,
+    },
+  });
+
+export const profileTabBlankStyle = css({
+  flex: 1,
+  background: COLORS.BLACK_TRANSPARENT6,
 });

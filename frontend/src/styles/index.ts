@@ -4,3 +4,4 @@ export { COMMON_LEVELS, LOGIN_LEVELS, MAIN_LEVELS } from './levelConstants';
 
 export { makeBorder } from './makeBorder';
 export { makeTransition } from './makeTransition';
+export { makeBoxShadow } from './makeBoxShadow';

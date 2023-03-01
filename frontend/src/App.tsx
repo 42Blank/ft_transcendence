@@ -1,4 +1,5 @@
-import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { LoginLayout, MainLayout, RootComponent } from 'common';
 import { ROUTE } from 'common/constants';
@@ -18,6 +19,14 @@ import {
 } from 'pages';
 
 export const App = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    document.documentElement.style.backgroundImage = `url('/images/bg${
+      pathname.startsWith('/login') ? '' : '_gray'
+    }.jpg')`;
+  }, [pathname]);
+
   return (
     <Routes>
       <Route path={ROUTE.ROOT} element={<MainLayout />}>

@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+
 import { COMMON_SIZES } from 'styles';
 
 export const sampleAvatarWrapper = css({
