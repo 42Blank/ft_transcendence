@@ -33,14 +33,14 @@ export class GameUserService {
     this.gameRoomRepository.updateGameRoomState(gameRoomId, 'playing');
   }
 
-  public spectateGameRoom(socketId: string, gameRoomId: string): void {
+  public spectateGameRoom(socketId: string, userId: number, gameRoomId: string): void {
     const gameRoom = this.gameRoomRepository.getGameRoom(gameRoomId);
 
     if (!gameRoom) {
       throw new NotAcceptableException('게임방이 존재하지 않습니다.');
     }
 
-    if (gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId)) {
+    if (gameRoom.host.userId === userId || (gameRoom.challenger && gameRoom.challenger.userId === userId)) {
       throw new NotAcceptableException('게임방에 참가한 유저는 관전할 수 없습니다.');
     }
 
