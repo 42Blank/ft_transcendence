@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 
 import { useGetUser } from 'hooks';
 import { Button } from 'common';
-import { AchievementList } from './Achievement';
 import { MatchHistoryList } from './MatchHistory';
 import { ProfileHeader } from './ProfileHeader';
 
@@ -13,6 +12,7 @@ import {
   profileTabStyle,
   profileTabWrapperStyle,
 } from './ProfilePage.styles';
+import { AchievementList } from './AchievementList';
 
 export const ProfilePage = () => {
   const { id } = useParams();

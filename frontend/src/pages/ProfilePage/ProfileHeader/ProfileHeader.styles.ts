@@ -16,6 +16,7 @@ export const profileHeaderAvatarStyle = css({
 
 export const profileNicknameSectionStyle = css({
   flex: 1,
+  userSelect: 'none',
 
   h2: {
     fontSize: FONT_SIZES.XLARGE,
@@ -42,10 +43,11 @@ export const profileButtonStyle = css({
     padding: '10px 0',
     border: 0,
     background: 0,
+    userSelect: 'none',
   },
 
   ':hover': {
-    background: COLORS.BLACK_TRANSPARENT3,
+    background: COLORS.WHITE_TRANSPARENT3,
   },
 });
 
