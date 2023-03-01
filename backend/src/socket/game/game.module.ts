@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MatchHistory } from '../../common/database/entities/match-history.entity';
 import { User } from '../../common/database/entities/user.entity';
 import { SocketRepositoryModule } from '../../common/database/repository';
+import { ChatModule } from '../chat';
 import { ConnectionHandleModule } from '../connection-handle';
 import { OnlineModule } from '../online';
 import { GameGateway } from './game.gateway';
@@ -18,6 +19,7 @@ import { GameUserService } from './service/game-user.service';
     ConnectionHandleModule,
     SocketRepositoryModule,
     OnlineModule, // Fix me
+    ChatModule, // Fix me
   ],
   providers: [GameRoomService, GameUserService, GamePlayService, FinishGameService, GameGateway, GameMatchQueueService],
 })

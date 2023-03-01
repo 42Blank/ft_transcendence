@@ -5,6 +5,7 @@ interface ChatUserInfoType {
   role: ChatUserRoleType;
   isMuted?: boolean;
   muteTime?: number;
+  socketId: string;
 }
 
 export interface ChatRoomInfoType {
