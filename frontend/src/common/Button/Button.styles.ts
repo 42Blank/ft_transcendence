@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 import { COLORS } from 'styles';
 
 export const buttonWrapperStyle = css({
-  background: COLORS.BLACK,
+  background: COLORS.TRANSPARENT,
   border: 0,
   padding: '5px 10px',
   transition: 'background-color 0.2s ease-in',
