@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { joinMatchMakeState } from 'store';
+import { joinMatchMakeState, leaveMatchMakeState } from 'store';
 import {
   formSectionButtonWrapper,
   formSectionDivStyle,
@@ -14,10 +14,18 @@ interface Props {
 
 export const LadderGameModalBody = ({ onClickClose }: Props) => {
   const setJoinMatchMake = useSetRecoilState(joinMatchMakeState);
+  const setLeaveMatchMake = useSetRecoilState(leaveMatchMakeState);
 
   useEffect(() => {
     setJoinMatchMake({ id: 'JoinMatch' });
   }, []);
+
+  useEffect(() => {
+    return () => {
+      setLeaveMatchMake({ id: 'LeaveMatch' });
+    };
+  }, []);
+
   return (
     <div className={newGameFormStyle}>
       <div className={newGameInnerDivStyle}>
