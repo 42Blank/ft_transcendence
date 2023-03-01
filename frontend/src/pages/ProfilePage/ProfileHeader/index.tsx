@@ -28,6 +28,7 @@ export const ProfileHeader = ({ userId }: Props) => {
   const {
     data: { id: myId, nickname: myNickname },
   } = useGetUser();
+
   const chatRoomList = useRecoilValue(chatRoomListState);
   const setNewChatRoom = useSetRecoilState(newChatRoomState);
   const setJoinChatRoom = useSetRecoilState(joinChatRoomState);
@@ -55,7 +56,7 @@ export const ProfileHeader = ({ userId }: Props) => {
         <h2>{nickname}</h2>
         <span>{point}점</span>
       </div>
-      {!userId ? (
+      {id === myId ? (
         <div className={profileButtonSectionStyle}>
           <EditProfileSection />
           <TwoFactorAuthSection />
