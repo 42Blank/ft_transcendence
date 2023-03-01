@@ -1,73 +1,74 @@
 import { css } from '@emotion/css';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 
-export const chatPageWrapperStyle = css`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: calc(100vh - 70px);
-`;
+export const chatPageWrapperStyle = css({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  height: '100%',
+  background: COLORS.BLACK_TRANSPARENT6,
+});
 
-export const chatPageTitleStyle = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white; // TODO: 상수화
-  padding: 20px;
-  border-bottom: 1px solid black; // TODO: 상수화
-`;
+export const chatPageTitleStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  backgroundColor: COLORS.BLACK_TRANSPARENTA,
+  padding: 20,
+});
 
-export const chatPageTitleLeftSectionStyle = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+export const chatPageTitleLeftSectionStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
 
-  & > svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
+  svg: {
+    width: COMMON_SIZES.ICON_SMALL,
+    height: COMMON_SIZES.ICON_SMALL,
+    marginRight: 10,
+  },
 
-  & > span {
-    font-size: 20px; // TODO: 상수화
-  }
-`;
+  span: {
+    fontSize: FONT_SIZES.LARGE,
+    color: COLORS.WHITE,
+  },
+});
 
-export const chatPageMenuButtonStyle = css`
-  width: 20px;
-  height: 20px;
+export const chatPageMenuButtonStyle = css({
+  width: COMMON_SIZES.ICON_MEDIUM,
+  height: COMMON_SIZES.ICON_MEDIUM,
+  marginLeft: 10,
 
-  & > svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
+  '&&': {
+    border: 0,
+    padding: 0,
+    background: 0,
 
-export const chatPageExitButtonStyle = css`
-  width: 20px;
-  height: 20px;
+    ':hover': {
+      background: 0,
+    },
+  },
 
-  & > svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
+  svg: {
+    fill: COLORS.WHITE,
+    width: COMMON_SIZES.ICON_MEDIUM,
+    height: COMMON_SIZES.ICON_MEDIUM,
+  },
+});
 
-export const chatPageListWrapperStyle = css`
-  flex: 1;
-  display: flex;
-  flex-direction: column-reverse;
-  overflow-x: hidden;
-  overflow-y: scroll;
-`;
+export const chatPageListWrapperStyle = css({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column-reverse',
+  overflowX: 'hidden',
+  overflowY: 'scroll',
+});
 
-export const chatPageModalStyle = css`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const closeButtonStyle = css`
-  width: 100%;
-  padding: 5px 20px;
-`;
+export const chatPageModalStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: COLORS.BLACK,
+  border: makeBorder({}),
+});

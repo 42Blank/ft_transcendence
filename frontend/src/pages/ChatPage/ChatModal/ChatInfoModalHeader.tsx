@@ -1,8 +1,8 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { EditIcon, SaveIcon } from 'assets';
-import { Dropdown } from 'common';
+import { CloseIcon, EditIcon, SaveIcon } from 'assets';
+import { Button, Dropdown } from 'common';
 import { updateChatRoomState } from 'store';
 import { ChatRoomInfoType, ChatUserRoleType } from 'types/chat';
 
@@ -18,9 +18,10 @@ import {
 interface Props {
   currentChatRoom: ChatRoomInfoType;
   currentUserRole: ChatUserRoleType;
+  onClickClose: () => void;
 }
 
-export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole }: Props) => {
+export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole, onClickClose }: Props) => {
   const { id: chatRoomId, roomTitle } = currentChatRoom;
   const [isEditMode, setIsEditMode] = useState(false);
   const [isPrivate, setIsPrivate] = useState<boolean>(currentChatRoom.isPrivate);
@@ -60,40 +61,45 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole }: Props)
 
   return (
     <header className={chatModalHeaderStyle}>
-      <div className={chatModalTitleWrapperStyle}>
-        {isEditMode ? (
-          <input type="text" maxLength={20} ref={roomTitleRef} defaultValue={roomTitle} />
-        ) : (
-          <h4>#{roomTitle}</h4>
-        )}
-        {currentUserRole === 'host' && (
-          <button type="button" onClick={handleToggleEditMode}>
-            {isEditMode ? <SaveIcon /> : <EditIcon />}
-          </button>
+      <div>
+        <div className={chatModalTitleWrapperStyle}>
+          {isEditMode ? (
+            <input type="text" maxLength={20} ref={roomTitleRef} defaultValue={roomTitle} />
+          ) : (
+            <h4>#{roomTitle}</h4>
+          )}
+          {currentUserRole === 'host' && (
+            <button type="button" onClick={handleToggleEditMode}>
+              {isEditMode ? <SaveIcon /> : <EditIcon />}
+            </button>
+          )}
+        </div>
+        <div className={chatVisibilityWrapperStyle}>
+          <span className={chatVisibilityLeftSpanStyle}>이 방은</span>
+          {isEditMode && currentUserRole === 'host' ? (
+            <Dropdown
+              currentKey={isPrivate ? '비공개' : '공개'}
+              elements={dropdownElement}
+              onChange={handleChangePrivate}
+            />
+          ) : (
+            <span>{isPrivate ? '비공개' : '공개'}</span>
+          )}
+          <span className={chatVisibilityRightSpanStyle}>입니다.</span>
+        </div>
+        {isPrivate && currentUserRole === 'host' && (
+          <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
+            <label htmlFor="password-name">비밀번호</label>
+            <input ref={passwordRef} type="text" id="password-name" required />
+            <button type="submit">
+              <span>수정</span>
+            </button>
+          </form>
         )}
       </div>
-      <div className={chatVisibilityWrapperStyle}>
-        <span className={chatVisibilityLeftSpanStyle}>이 방은</span>
-        {isEditMode && currentUserRole === 'host' ? (
-          <Dropdown
-            currentKey={isPrivate ? '비공개' : '공개'}
-            elements={dropdownElement}
-            onChange={handleChangePrivate}
-          />
-        ) : (
-          <span>{isPrivate ? '비공개' : '공개'}</span>
-        )}
-        <span className={chatVisibilityRightSpanStyle}>입니다.</span>
-      </div>
-      {isPrivate && currentUserRole === 'host' && (
-        <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
-          <label htmlFor="password-name">비밀번호</label>
-          <input ref={passwordRef} type="text" id="password-name" required />
-          <button type="submit">
-            <span>수정</span>
-          </button>
-        </form>
-      )}
+      <Button onClick={onClickClose}>
+        <CloseIcon />
+      </Button>
     </header>
   );
 };

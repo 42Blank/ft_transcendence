@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { ROUTE } from 'common/constants';
-import { CloseIcon, LockIcon, MoreHorizIcon } from 'assets';
-import { Modal } from 'common';
+import { CloseIcon, LockIcon, EllipsisIcon } from 'assets';
+import { Button, Modal } from 'common';
 import { useGetBlockList, useGetCurrentChatRoom, useGetUser } from 'hooks';
 import { currentChatDataState, inviteGameRoomState, leaveChatRoomState } from 'store';
 import { checkUserRole } from 'utils';
@@ -19,7 +19,6 @@ import {
   chatPageTitleLeftSectionStyle,
   chatPageTitleStyle,
   chatPageWrapperStyle,
-  closeButtonStyle,
 } from './ChatPage.styles';
 import { GameInviteModalBody } from './GameInviteModal';
 
@@ -78,12 +77,12 @@ export const ChatPage = () => {
             <span>{currentChatRoom.roomTitle ?? ''}</span>
           </div>
           <div>
-            <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
-              <MoreHorizIcon />
-            </button>
-            <button type="button" onClick={onClickExit} className={chatPageMenuButtonStyle}>
+            <Button onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
+              <EllipsisIcon />
+            </Button>
+            <Button onClick={onClickExit} className={chatPageMenuButtonStyle}>
               <CloseIcon />
-            </button>
+            </Button>
           </div>
         </header>
         <ul className={chatPageListWrapperStyle}>
@@ -103,15 +102,16 @@ export const ChatPage = () => {
       </main>
       {isModalShown && (
         <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
-          <ChatInfoModalHeader currentChatRoom={currentChatRoom} currentUserRole={currentUserRole} />
+          <ChatInfoModalHeader
+            currentChatRoom={currentChatRoom}
+            currentUserRole={currentUserRole}
+            onClickClose={handleCloseModal}
+          />
           <ChatInfoModalBody
             users={currentChatRoom.users}
             bannedUsers={currentChatRoom.bannedUsers}
             currentUserRole={currentUserRole}
           />
-          <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
-            닫기
-          </button>
         </Modal>
       )}
       {isInviteModalShown && (
