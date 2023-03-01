@@ -13,11 +13,12 @@ import {
 interface Props {
   user: UserInfoType;
   isWon?: boolean;
+  isRight?: boolean;
 }
 
-export const MatchHistoryUserBox = ({ user, isWon }: Props) => {
+export const MatchHistoryUserBox = ({ user, isWon, isRight }: Props) => {
   return (
-    <div className={userBoxWrapperStyle}>
+    <div className={userBoxWrapperStyle(isRight)}>
       <div className={userBoxAvatarWrapperStyle}>
         <div className={userBoxTagStyle(isWon)}>
           <span>{isWon ? '승리' : '패배'}</span>

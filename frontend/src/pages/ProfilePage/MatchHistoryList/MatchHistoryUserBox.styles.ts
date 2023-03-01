@@ -2,12 +2,12 @@ import { css } from '@emotion/css';
 
 import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 
-export const userBoxWrapperStyle = css({
-  width: 150,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-});
+export const userBoxWrapperStyle = (isRight: boolean) =>
+  css({
+    display: 'flex',
+    flexDirection: isRight ? 'row' : 'row-reverse',
+    alignItems: 'flex-end',
+  });
 
 export const userBoxAvatarWrapperStyle = css({
   position: 'relative',
@@ -16,7 +16,6 @@ export const userBoxAvatarWrapperStyle = css({
   width: COMMON_SIZES.ICON_XXLARGE,
   height: COMMON_SIZES.ICON_XXLARGE,
   borderRadius: COMMON_SIZES.ICON_XXLARGE,
-  marginBottom: 10,
 });
 
 export const userBoxTagStyle = (isWon: boolean) =>
@@ -45,19 +44,10 @@ export const userAvatarStyle = (isWon: boolean) =>
     opacity: isWon ? 1 : 0.7,
   });
 
-export const userBoxMedalStyle = css({
-  fill: COLORS.YELLOW,
-  width: COMMON_SIZES.ICON_SMALL,
-  height: COMMON_SIZES.ICON_SMALL,
-  borderRadius: COMMON_SIZES.ICON_MEDIUM,
-});
-
 export const userBoxNicknameStyle = css({
-  width: '100%',
-  textAlign: 'center',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+  margin: '0 20px',
   fontSize: FONT_SIZES.MEDIUM,
   color: COLORS.GRAYE,
   fontWeight: 600,
+  marginBottom: 10,
 });

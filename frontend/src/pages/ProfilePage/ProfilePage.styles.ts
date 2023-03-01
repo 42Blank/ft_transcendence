@@ -19,7 +19,7 @@ export const profileTabWrapperStyle = css({
 export const profileTabStyle = (isSelected: boolean) =>
   css({
     '&&': {
-      backgroundColor: isSelected ? COLORS.BLACK_TRANSPARENT3 : COLORS.BLACK_TRANSPARENT9,
+      backgroundColor: isSelected ? COLORS.BLACK_TRANSPARENT3 : COLORS.BLACK_TRANSPARENT6,
       border: 0,
       padding: '10px 40px',
       borderRadius: 0,
@@ -33,5 +33,5 @@ export const profileTabStyle = (isSelected: boolean) =>
 
 export const profileTabBlankStyle = css({
   flex: 1,
-  background: COLORS.BLACK_TRANSPARENT9,
+  background: COLORS.BLACK_TRANSPARENT6,
 });

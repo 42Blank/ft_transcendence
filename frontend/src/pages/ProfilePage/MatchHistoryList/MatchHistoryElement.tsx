@@ -1,5 +1,6 @@
+import { FightIcon } from 'assets';
 import { MatchHistoryType } from 'types/profile';
-import { matchHistoryWrapper } from './MatchHistoryElement.styles';
+import { matchHistoryTimeWrapper, matchHistoryUserWrapper, matchHistoryWrapper } from './MatchHistoryElement.styles';
 import { MatchHistoryUserBox } from './MatchHistoryUserBox';
 
 interface Props {
@@ -8,21 +9,30 @@ interface Props {
 }
 
 export const MatchHistoryElement = ({ history, userId }: Props) => {
-  const { winner, loser } = history;
+  const { winner, loser, createdAt } = history;
+  const historyDate = new Date(createdAt);
 
   return (
     <li className={matchHistoryWrapper}>
-      {userId === winner.id ? (
-        <>
-          <MatchHistoryUserBox user={winner} isWon />
-          <MatchHistoryUserBox user={loser} />
-        </>
-      ) : (
-        <>
-          <MatchHistoryUserBox user={loser} />
-          <MatchHistoryUserBox user={winner} isWon />
-        </>
-      )}
+      <div className={matchHistoryTimeWrapper}>
+        <span>{historyDate.toLocaleDateString()}</span>
+        <span>{historyDate.toLocaleTimeString()}</span>
+      </div>
+      <div className={matchHistoryUserWrapper}>
+        {userId === winner.id ? (
+          <>
+            <MatchHistoryUserBox user={winner} isWon />
+            <FightIcon />
+            <MatchHistoryUserBox user={loser} isRight />
+          </>
+        ) : (
+          <>
+            <MatchHistoryUserBox user={loser} />
+            <FightIcon />
+            <MatchHistoryUserBox user={winner} isWon isRight />
+          </>
+        )}
+      </div>
     </li>
   );
 };
