@@ -1,10 +1,11 @@
-import { FormEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { CloseIcon, EditIcon, SaveIcon } from 'assets';
 import { Button, Dropdown, Input } from 'common';
 import { updateChatRoomState } from 'store';
 import { ChatRoomInfoType, ChatUserRoleType } from 'types/chat';
+import { checkInputRefValid } from 'utils';
 
 import {
   chatModalHeaderStyle,
@@ -15,6 +16,7 @@ import {
   chatVisibilityMiddleSpanStyle,
   chatVisibilitySpanStyle,
   chatVisibilityWrapperStyle,
+  dropdownStyle,
 } from './ChatInfoModalHeader.styles';
 
 interface Props {
@@ -36,70 +38,78 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole, onClickC
   ];
 
   function handleToggleEditMode() {
-    if (isEditMode) {
-      if (
-        roomTitleRef.current.value ||
-        roomTitleRef.current.value.length > 0 ||
-        roomTitleRef.current.value.length <= 20
-      ) {
-        setUpdateChatRoom({ id: chatRoomId, roomTitle: roomTitleRef.current.value, isPrivate });
-      }
+    if (!isEditMode) {
+      setIsEditMode(true);
+      return;
     }
-    setIsEditMode(prevState => !prevState);
+    if (!isPrivate && checkInputRefValid(roomTitleRef, 20)) {
+      setUpdateChatRoom({ id: chatRoomId, roomTitle: roomTitleRef.current.value, isPrivate });
+    } else if (checkInputRefValid(passwordRef, 20)) {
+      setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: true, password: passwordRef.current.value });
+    } else {
+      setIsPrivate(false);
+    }
   }
 
   function handleChangePrivate(value: number | boolean) {
-    if (!value) {
-      setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: false });
-      setIsPrivate(false);
-    } else setIsPrivate(true);
+    setIsPrivate(value as boolean);
   }
 
-  function handleSubmitPassword(e: FormEvent) {
-    e.preventDefault();
-    if (!passwordRef?.current?.value || passwordRef.current.value.length === 0) return;
-    setUpdateChatRoom({ id: chatRoomId, roomTitle, isPrivate: true, password: passwordRef.current.value });
-  }
+  if (isEditMode)
+    return (
+      <header className={chatModalHeaderStyle}>
+        <div className={chatModalLeftStyle}>
+          <div className={chatModalTitleWrapperStyle}>
+            <Input maxLength={20} placeholder="방 이름" inputRef={roomTitleRef} defaultValue={roomTitle} />
+            {currentUserRole === 'host' && (
+              <Button onClick={handleToggleEditMode} className={chatModalIconButtonStyle}>
+                <SaveIcon />
+              </Button>
+            )}
+          </div>
+          <div className={chatVisibilityWrapperStyle}>
+            <span className={chatVisibilitySpanStyle}>이 방은</span>
+            {currentUserRole === 'host' ? (
+              <Dropdown
+                currentKey={isPrivate ? '비공개' : '공개'}
+                elements={dropdownElement}
+                onChange={handleChangePrivate}
+                className={dropdownStyle}
+              />
+            ) : (
+              <span className={`${chatVisibilitySpanStyle} ${chatVisibilityMiddleSpanStyle}`}>
+                {isPrivate ? '비공개' : '공개'}
+              </span>
+            )}
+            <span className={chatVisibilitySpanStyle}>입니다.</span>
+          </div>
+          {isPrivate && currentUserRole === 'host' && (
+            <div className={chatPasswordWrapperStyle}>
+              <label htmlFor="password-name">비밀번호</label>
+              <Input maxLength={20} inputRef={passwordRef} id="password-name" required />
+            </div>
+          )}
+        </div>
+        <Button onClick={onClickClose} className={chatModalIconButtonStyle}>
+          <CloseIcon />
+        </Button>
+      </header>
+    );
 
   return (
     <header className={chatModalHeaderStyle}>
       <div className={chatModalLeftStyle}>
         <div className={chatModalTitleWrapperStyle}>
-          {isEditMode ? (
-            <Input maxLength={20} placeholder="방 이름" inputRef={roomTitleRef} defaultValue={roomTitle} />
-          ) : (
-            <h4>#{roomTitle}</h4>
-          )}
+          <h4>#{roomTitle}</h4>
           {currentUserRole === 'host' && (
             <Button onClick={handleToggleEditMode} className={chatModalIconButtonStyle}>
-              {isEditMode ? <SaveIcon /> : <EditIcon />}
+              <EditIcon />
             </Button>
           )}
         </div>
         <div className={chatVisibilityWrapperStyle}>
-          <span className={chatVisibilitySpanStyle}>이 방은</span>
-          {isEditMode && currentUserRole === 'host' ? (
-            <Dropdown
-              currentKey={isPrivate ? '비공개' : '공개'}
-              elements={dropdownElement}
-              onChange={handleChangePrivate}
-            />
-          ) : (
-            <span className={`${chatVisibilitySpanStyle} ${chatVisibilityMiddleSpanStyle}`}>
-              {isPrivate ? '비공개' : '공개'}
-            </span>
-          )}
-          <span className={chatVisibilitySpanStyle}>입니다.</span>
+          <span className={chatVisibilitySpanStyle}>이 방은 {isPrivate ? '비공개' : '공개'} 입니다.</span>
         </div>
-        {isPrivate && currentUserRole === 'host' && (
-          <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
-            <label htmlFor="password-name">비밀번호</label>
-            <Input inputRef={passwordRef} id="password-name" required />
-            <button type="submit">
-              <span>수정</span>
-            </button>
-          </form>
-        )}
       </div>
       <Button onClick={onClickClose} className={chatModalIconButtonStyle}>
         <CloseIcon />

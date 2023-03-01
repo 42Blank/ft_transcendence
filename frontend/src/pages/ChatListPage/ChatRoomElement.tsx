@@ -66,7 +66,7 @@ export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
       <LockIcon />
       <h3>{roomTitle}</h3>
       <form className={chatRoomFormSectionStyle} onSubmit={handleSubmitPasswordAndJoin}>
-        <Input isPassword maxLength={Infinity} placeholder="비밀번호" inputRef={passwordRef} required />
+        <Input isPassword maxLength={20} placeholder="비밀번호" inputRef={passwordRef} required />
         <div className={chatRoomFormButtonSectionStyle}>
           <Button onClick={handleClickCancelButton}>
             <span>취소</span>

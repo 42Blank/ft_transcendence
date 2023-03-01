@@ -68,4 +68,13 @@ export const chatPasswordWrapperStyle = css({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+
+  label: {
+    color: COLORS.WHITE,
+    marginRight: 20,
+  },
+});
+
+export const dropdownStyle = css({
+  margin: '0 10px',
 });

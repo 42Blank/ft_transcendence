@@ -24,18 +24,6 @@ export const formSectionDivStyle = css({
     color: COLORS.WHITE,
     marginRight: 10,
   },
-
-  input: {
-    width: 200,
-    backgroundColor: COLORS.BLACK,
-    border: 0,
-    borderBottom: makeBorder({}),
-    color: COLORS.WHITE,
-
-    ':placeholder': {
-      color: COLORS.GRAY3,
-    },
-  },
 });
 
 export const formSectionButtonWrapperStyle = css({

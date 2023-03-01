@@ -12,11 +12,6 @@ export const chatInputStyle = css({
 
   input: {
     flex: 1,
-    padding: '5px 10px',
-
-    ':placeholder': {
-      opacity: 0.5,
-    },
   },
 
   button: {
