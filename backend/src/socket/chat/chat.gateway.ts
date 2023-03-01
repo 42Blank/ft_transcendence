@@ -83,7 +83,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ): void {
     this.chatUserService.leaveAllChatRooms(client.id);
 
-    this.logger.verbose(`${client.user.nickname}(${client.id}) leaveRoom}`);
+    this.logger.verbose(`${client.id} leaveRoom}`);
 
     this.emitChatRooms();
   }
@@ -210,6 +210,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.io.emit('update_chat_room', chatRoom);
     await this.onlineGateway.emitOnlineUsers();
+  }
+
+  public emitInviteRoom(toSocketId: string, gameRoomId: string, nickname: string): void {
+    this.logger.verbose(`${toSocketId} emitInviteRoom: ${gameRoomId} ${nickname}`);
+
+    this.io.to(toSocketId).emit('invite_room', {
+      id: gameRoomId,
+      nickname,
+    });
   }
 
   public async handleConnection(client: SocketWithUser): Promise<void> {

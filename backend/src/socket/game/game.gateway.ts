@@ -1,4 +1,4 @@
-import { Logger, UseFilters } from '@nestjs/common';
+import { BadRequestException, Logger, UseFilters } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -13,9 +13,11 @@ import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser
 import { GameRoom } from '../../common/database/model';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { sleep } from '../../common/utils';
+import { ChatGateway } from '../chat';
 import { ConnectionHandleService } from '../connection-handle';
 import { OnlineGateway } from '../online';
 import { CreateGameRoomDto } from './dto/incoming/create-game-room.dto';
+import { InviteGameRoomDto } from './dto/incoming/invite-game-room.dto';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
 import { SpectateGameRoomDto } from './dto/incoming/spectate-game-room.dto';
 import { UpdatePositionDto } from './dto/incoming/update-position.dto';
@@ -38,6 +40,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly gameUserService: GameUserService,
     private readonly gamePlayService: GamePlayService,
     private readonly onlineGateway: OnlineGateway,
+    private readonly chatGateway: ChatGateway,
     private readonly gameMatchQueueService: GameMatchQueueService,
   ) {}
 
@@ -84,6 +87,27 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.verbose(`${client.user.nickname} spectateRoom: ${JSON.stringify(data)}`);
 
     client.emit('spectate_room', data.id);
+  }
+
+  @SubscribeMessage('invite_room')
+  public async inviteRoom(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: InviteGameRoomDto,
+  ): Promise<void> {
+    if (data.fromSocketId === data.toSocketId) {
+      throw new BadRequestException('Cannot invite yourself');
+    }
+
+    const gameRoom = this.gameRoomService.createGameRoom(client.id, client.user.id, 'normal');
+
+    this.logger.verbose(`${client.user.nickname} inviteRoom: ${JSON.stringify(data)}`);
+
+    await Promise.all([
+      this.emitGameRooms(), //
+      this.emitJoinRoom(client, gameRoom.id),
+    ]);
+
+    this.chatGateway.emitInviteRoom(data.toSocketId, gameRoom.id, client.user.nickname);
   }
 
   @SubscribeMessage('leave_room')
