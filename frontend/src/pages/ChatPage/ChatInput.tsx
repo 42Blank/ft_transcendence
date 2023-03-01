@@ -1,6 +1,7 @@
 import { FormEvent, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
+import { Input } from 'common';
 import { newMessageState } from 'store';
 
 import { chatInputStyle } from './ChatInput.styles';
@@ -17,7 +18,7 @@ export const ChatInput = () => {
 
   return (
     <form className={chatInputStyle} onSubmit={handleSubmit}>
-      <input type="text" placeholder="메시지를 입력하세요..." ref={inputRef} />
+      <Input placeholder="메시지를 입력하세요..." inputRef={inputRef} />
       <button type="submit">{'>'}</button>
     </form>
   );

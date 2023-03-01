@@ -2,16 +2,18 @@ import { FormEvent, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { CloseIcon, EditIcon, SaveIcon } from 'assets';
-import { Button, Dropdown } from 'common';
+import { Button, Dropdown, Input } from 'common';
 import { updateChatRoomState } from 'store';
 import { ChatRoomInfoType, ChatUserRoleType } from 'types/chat';
 
 import {
   chatModalHeaderStyle,
+  chatModalIconButtonStyle,
+  chatModalLeftStyle,
   chatModalTitleWrapperStyle,
   chatPasswordWrapperStyle,
-  chatVisibilityLeftSpanStyle,
-  chatVisibilityRightSpanStyle,
+  chatVisibilityMiddleSpanStyle,
+  chatVisibilitySpanStyle,
   chatVisibilityWrapperStyle,
 } from './ChatInfoModalHeader.styles';
 
@@ -61,21 +63,21 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole, onClickC
 
   return (
     <header className={chatModalHeaderStyle}>
-      <div>
+      <div className={chatModalLeftStyle}>
         <div className={chatModalTitleWrapperStyle}>
           {isEditMode ? (
-            <input type="text" maxLength={20} ref={roomTitleRef} defaultValue={roomTitle} />
+            <Input maxLength={20} placeholder="방 이름" inputRef={roomTitleRef} defaultValue={roomTitle} />
           ) : (
             <h4>#{roomTitle}</h4>
           )}
           {currentUserRole === 'host' && (
-            <button type="button" onClick={handleToggleEditMode}>
+            <Button onClick={handleToggleEditMode} className={chatModalIconButtonStyle}>
               {isEditMode ? <SaveIcon /> : <EditIcon />}
-            </button>
+            </Button>
           )}
         </div>
         <div className={chatVisibilityWrapperStyle}>
-          <span className={chatVisibilityLeftSpanStyle}>이 방은</span>
+          <span className={chatVisibilitySpanStyle}>이 방은</span>
           {isEditMode && currentUserRole === 'host' ? (
             <Dropdown
               currentKey={isPrivate ? '비공개' : '공개'}
@@ -83,21 +85,23 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole, onClickC
               onChange={handleChangePrivate}
             />
           ) : (
-            <span>{isPrivate ? '비공개' : '공개'}</span>
+            <span className={`${chatVisibilitySpanStyle} ${chatVisibilityMiddleSpanStyle}`}>
+              {isPrivate ? '비공개' : '공개'}
+            </span>
           )}
-          <span className={chatVisibilityRightSpanStyle}>입니다.</span>
+          <span className={chatVisibilitySpanStyle}>입니다.</span>
         </div>
         {isPrivate && currentUserRole === 'host' && (
           <form className={chatPasswordWrapperStyle} onSubmit={handleSubmitPassword}>
             <label htmlFor="password-name">비밀번호</label>
-            <input ref={passwordRef} type="text" id="password-name" required />
+            <Input inputRef={passwordRef} id="password-name" required />
             <button type="submit">
               <span>수정</span>
             </button>
           </form>
         )}
       </div>
-      <Button onClick={onClickClose}>
+      <Button onClick={onClickClose} className={chatModalIconButtonStyle}>
         <CloseIcon />
       </Button>
     </header>

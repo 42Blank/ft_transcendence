@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { COLORS, makeBorder } from 'styles';
+import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
 
 export const newChatFormStyle = css({
   flex: 1,
@@ -38,23 +38,26 @@ export const formSectionDivStyle = css({
   },
 });
 
-export const formSectionButtonWrapper = css({
+export const formSectionButtonWrapperStyle = css({
   display: 'flex',
   flexDirection: 'row',
   borderTop: makeBorder({}),
+});
 
-  button: {
-    flex: 1,
+export const formSectionButtonStyle = css({
+  flex: 1,
+
+  '&&': {
     padding: '10px 0',
     border: 0,
     borderRadius: 0,
 
     ':first-child': {
       borderRight: makeBorder({}),
+      borderBottomLeftRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
     },
-
-    span: {
-      color: COLORS.WHITE,
+    ':last-child': {
+      borderBottomRightRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
     },
   },
 });

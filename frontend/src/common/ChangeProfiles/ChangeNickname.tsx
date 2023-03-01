@@ -1,6 +1,8 @@
-import { CheckIcon } from 'assets';
 import { ChangeEvent, Dispatch, MutableRefObject, SetStateAction } from 'react';
+
+import { Input } from 'common';
 import { postUserCheckDuplicateNickname } from 'services';
+import { CheckIcon } from 'assets';
 
 import {
   changeNicknameWrapperStyle,
@@ -38,13 +40,11 @@ export const ChangeNickname = ({ isValidated, setIsValidated, nicknameRef, defau
         닉네임
       </label>
       <div className={changeNicknameWrapperStyle}>
-        <input
-          type="text"
+        <Input
           defaultValue={defaultNickname}
           placeholder="8글자 제한"
           id="register-nickname"
-          maxLength={8}
-          ref={nicknameRef}
+          inputRef={nicknameRef}
           onChange={handleChangeNickname}
         />
         {isValidated && <CheckIcon />}

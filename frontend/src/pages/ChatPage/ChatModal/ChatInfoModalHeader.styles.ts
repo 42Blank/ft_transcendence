@@ -1,65 +1,71 @@
 import { css } from '@emotion/css';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 
-export const chatModalHeaderStyle = css`
-  width: calc(100% - 40px);
-  padding: 10px 20px;
-  border-bottom: 1px solid black; // TODO: 색상 상수화
-`;
+export const chatModalHeaderStyle = css({
+  width: 'calc(100% - 60px)',
+  padding: '10px 30px',
+  display: 'flex',
+  flexDirection: 'row',
+  borderBottom: makeBorder({}),
+});
 
-export const chatModalTitleWrapperStyle = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 5px;
+export const chatModalLeftStyle = css({
+  display: 'flex',
+  flex: 1,
+  flexDirection: 'column',
+  width: 'calc(100% - 30px)',
+});
 
-  & h4 {
-    font-size: 18px;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+export const chatModalTitleWrapperStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 5,
 
-  & button {
-    width: 25px;
-    height: 25px;
-    margin-left: 10px;
+  h4: {
+    fontSize: FONT_SIZES.LARGE,
+    color: COLORS.WHITE,
+  },
+});
 
-    & > svg {
-      width: 25px;
-      height: 25px;
-    }
-  }
-`;
+export const chatModalIconButtonStyle = css({
+  marginLeft: 10,
 
-export const chatVisibilityWrapperStyle = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 5px;
-`;
+  '&&': {
+    border: 0,
+    padding: 0,
+    background: 0,
+    width: COMMON_SIZES.ICON_MEDIUM,
+    height: COMMON_SIZES.ICON_MEDIUM,
+    ':hover': {
+      background: 0,
+    },
+  },
 
-export const chatVisibilityLeftSpanStyle = css`
-  margin-right: 5px;
-`;
+  svg: {
+    width: COMMON_SIZES.ICON_MEDIUM,
+    height: COMMON_SIZES.ICON_MEDIUM,
+    fill: COLORS.WHITE_TRANSPARENTA,
+  },
+});
 
-export const chatVisibilityRightSpanStyle = css`
-  margin-left: 5px;
-`;
+export const chatVisibilityWrapperStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 5,
+});
 
-export const chatPasswordWrapperStyle = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+export const chatVisibilitySpanStyle = css({
+  color: COLORS.WHITE,
+});
 
-  & input {
-    margin: 0px 5px;
-  }
+export const chatVisibilityMiddleSpanStyle = css({
+  margin: '0 5px',
+});
 
-  & button {
-    border: 1px solid black; // TODO: 상수화
-    border-radius: 3px;
-    padding: 2px 5px;
-    font-size: 13px;
-  }
-`;
+export const chatPasswordWrapperStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+});
