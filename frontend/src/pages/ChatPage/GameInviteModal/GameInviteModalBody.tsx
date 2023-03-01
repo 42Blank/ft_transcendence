@@ -34,7 +34,7 @@ export const GameInviteModalBody = ({ onClickClose, nickname, gameRoomId }: Prop
       </div>
       <div className={formSectionButtonWrapper}>
         <button type="button" onClick={onClickClose}>
-          취소
+          <span>취소</span>
         </button>
         <button type="button" onClick={handleOnClick}>
           수락
