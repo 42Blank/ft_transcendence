@@ -44,6 +44,8 @@ export const ChatPage = () => {
   }
 
   function onClickExit() {
+    setLeaveChatRoom({ id: currentChatRoom.id });
+    resetCurrentChatData();
     nav(ROUTE.CHAT);
   }
 
