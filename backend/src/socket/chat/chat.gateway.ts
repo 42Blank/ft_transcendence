@@ -12,6 +12,7 @@ import { Server } from 'socket.io';
 import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { ConnectionHandleService } from '../connection-handle';
+import { OnlineGateway } from '../online';
 import { ChatMessageDto } from './dto/incoming/chat-message.dto';
 import { CreateChatRoomDto } from './dto/incoming/create-chat-room.dto';
 import { JoinChatRoomDto } from './dto/incoming/join-chat-room.dto';
@@ -33,6 +34,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly chatRoomService: ChatRoomService,
     private readonly chatUserService: ChatUserService,
     private readonly chatUserOperateService: ChatUserOperateService,
+    private readonly onlineGateway: OnlineGateway,
   ) {}
 
   @WebSocketServer()
@@ -207,6 +209,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.verbose(`emitChatRooms: ${JSON.stringify(chatRoom)}`);
 
     this.io.emit('update_chat_room', chatRoom);
+    await this.onlineGateway.emitOnlineUsers();
   }
 
   public async handleConnection(client: SocketWithUser): Promise<void> {

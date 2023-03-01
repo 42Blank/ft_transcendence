@@ -1,6 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { GameRoom } from '../model/game-room';
+import { GameRoom } from '../model';
 
 @Injectable()
 export class GameRoomRepository {

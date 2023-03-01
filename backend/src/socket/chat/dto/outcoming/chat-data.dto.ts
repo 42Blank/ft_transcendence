@@ -1,5 +1,5 @@
 import { User } from '../../../../common/database/entities/user.entity';
-import { ChatUserRole } from '../../model/chat-room';
+import { ChatUserRole } from '../../../../common/database/model';
 
 export type ChatDataDto = {
   chatUser: {

@@ -1,5 +1,5 @@
 import { User } from '../../../../common/database/entities/user.entity';
-import { GameRoom } from '../../model/game-room';
+import { GameRoom } from '../../../../common/database/model';
 
 type Player = {
   user: User;
