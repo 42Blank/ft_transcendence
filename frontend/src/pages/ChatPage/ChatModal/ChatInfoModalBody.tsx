@@ -14,7 +14,7 @@ import { BannedUserListElement } from './BannedUserListElement';
 interface Props {
   users: ChatUserInfoType[];
   bannedUsers: UserInfoType[];
-  currentUserRole: ChatUserRoleType; // TODO: 헷갈릴 여지 있는 변수명?
+  currentUserRole: ChatUserRoleType;
 }
 
 export const ChatInfoModalBody = ({ users, bannedUsers, currentUserRole }: Props) => {

@@ -8,6 +8,7 @@ import { NewChatModalBody } from './NewChatModalBody';
 import { ChatRoomElement } from './ChatRoomElement';
 
 import {
+  chatListPageInnerStyle,
   chatListPageWrapperStyle,
   chatRoomIconStyle,
   newChatModalHeaderStyle,
@@ -28,17 +29,17 @@ export const ChatListPage = () => {
 
   return (
     <main className={chatListPageWrapperStyle}>
-      {chatRoomList.map((data, index) => (
-        <ChatRoomElement key={`chat-room-${index}`} chatRoomInfo={data} />
-      ))}
+      <div className={chatListPageInnerStyle}>
+        {chatRoomList.map((data, index) => (
+          <ChatRoomElement key={`chat-room-${index}`} chatRoomInfo={data} />
+        ))}
+      </div>
       <button type="button" onClick={handleClickButton} className={chatRoomIconStyle}>
         <PlusIcon />
       </button>
       {isModalShown && (
         <Modal onClickClose={handleClickClose} className={newChatModalWrapperStyle}>
-          <header className={newChatModalHeaderStyle}>
-            <h4>새 채팅방</h4>
-          </header>
+          <h3 className={newChatModalHeaderStyle}>새 채팅방</h3>
           <NewChatModalBody onClickClose={handleClickClose} />
         </Modal>
       )}
