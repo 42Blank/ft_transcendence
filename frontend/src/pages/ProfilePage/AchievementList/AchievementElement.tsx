@@ -1,42 +1,30 @@
 import { AchievementType } from 'types/profile';
 
-import { achievementElementWrapperStyle } from './AchievementElement.styles';
+import {
+  achievementElementImageStyle,
+  achievementElementTextWrapperStyle,
+  achievementElementWrapperStyle,
+} from './AchievementElement.styles';
 
 interface Props {
   achieve: AchievementType;
-  isAchieved: Boolean;
+  isAchieved: boolean;
 }
 
 export const AchievementElement = ({ achieve, isAchieved }: Props) => {
-  //   const [isTooltipShown, setIsTooltipShown] = useState<Boolean>(false);
-
-  //   function handleOpenTooltip() {
-  //     setIsTooltipShown(true);
-  //   }
-
-  //   function handleCloseTooltip() {
-  //     setIsTooltipShown(false);
-  //   }
-
   return (
-    <li className={achievementElementWrapperStyle}>
+    <li className={achievementElementWrapperStyle(isAchieved)}>
       <img
         src={achieve.image}
         width={100}
         height={100}
-        alt="pochi"
-        //   onMouseOver={handleOpenTooltip}
-        //   onFocus={handleOpenTooltip}
-        //   onMouseOut={handleCloseTooltip}
-        //   onBlur={handleCloseTooltip}
+        alt={`${achieve.name}-achievement`}
+        className={achievementElementImageStyle}
       />
-      <p>achieved : {`${isAchieved}`}</p>
-      <span>name: {achieve.name}</span>
-      {/* {isTooltipShown && (
-          <Tooltip className={tmpAchievementTooltipStyle}>
-            <AchievementTooltip achieve={achieve} />
-          </Tooltip>
-        )} */}
+      <div className={achievementElementTextWrapperStyle}>
+        <span>{achieve.name}</span>
+        <span>{achieve.description}</span>
+      </div>
     </li>
   );
 };

@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const AchievementList = ({ userId }: Props) => {
-  const [isPostDone, setIsPostDone] = useState<Boolean>(false);
+  const [isPostDone, setIsPostDone] = useState<boolean>(false);
   const { achievementList } = useGetAchievementList();
   const { userAchievement, refetch } = useGetUserAchievement(userId);
 
