@@ -41,3 +41,4 @@ export const sampleAvatarListStyle = css({
   marginBottom: 30,
   padding: '0 30px',
 });
+
