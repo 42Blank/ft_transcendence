@@ -5,4 +5,5 @@ export const mainLayoutStyle = css({
   flexDirection: 'row',
   width: '100%',
   flex: 1,
+  overflow: 'hidden',
 });

@@ -4,7 +4,7 @@ import { COLORS, makeTransition } from 'styles';
 export const friendsListStyle = (isOpen: boolean) =>
   css({
     width: 250,
-    height: 'calc(100% - 110px)',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     transition: makeTransition({ attrs: 'margin' }),
