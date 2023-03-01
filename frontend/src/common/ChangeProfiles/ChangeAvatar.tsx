@@ -30,7 +30,7 @@ export const ChangeAvatar = ({ imageUrl, onChange, className }: Props) => {
       <label htmlFor="change-image" className={changeAvatarImageUploadButtonStyle}>
         업로드
       </label>
-      <input type="file" id="change-image" onChange={handleChangeImage} />
+      <input type="file" id="change-image" accept="image/jpeg, image/jpg, image/png" onChange={handleChangeImage} />
       <img src={imageUrl} alt="change profile" className={changeAvatarImageStyle} />
     </div>
   );
