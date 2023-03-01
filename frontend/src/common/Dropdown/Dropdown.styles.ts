@@ -1,52 +1,65 @@
 import { css } from '@emotion/css';
 
-export const dropdownWrapperStyle = css`
-  position: relative;
-  background-color: white; // TODO: 색상 상수화
-  width: fit-content;
-  display: flex;
-  flex-direction: column;
-`;
+import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
 
-export const dropdownTopValueStyle = (isShown: boolean) => css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: 1px solid black; // TODO: 색상 상수화
-  padding: 3px 5px;
+export const dropdownWrapperStyle = css({
+  position: 'relative',
+  backgroundColor: COLORS.BLACK,
+  width: 'fit-content',
+  display: 'flex',
+  flexDirection: 'column',
+});
 
-  & > svg {
-    ${isShown && 'transform: rotate(0.5turn);'}
-    width: 20px;
-    height: 20px;
-    // TODO: fill color
-  }
-`;
+export const dropdownTopValueStyle = (isShown: boolean) =>
+  css({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    border: makeBorder({}),
+    padding: 5,
 
-export const dropdownListStyle = (isShown: boolean) => css`
-  z-index: 2; // TODO: 색상 상수화
-  background-color: white; // TODO: 색상 상수화
-  display: ${isShown ? 'flex' : 'none'};
-  position: absolute;
-  left: 0;
-  top: 27px;
-  border: 1px solid black; // TODO: 색상 상수화
-  flex-direction: column;
-  width: calc(100% - 2px);
-`;
+    span: {
+      color: COLORS.WHITE,
+    },
 
-export const dropdownListElementStyle = css`
-  & button {
-    padding: 3px 5px;
-    width: 100%;
-    text-align: left;
-  }
+    svg: {
+      transform: isShown ? 'rotate(0.5turn)' : 'none',
+      width: COMMON_SIZES.ICON_SMALL,
+      height: COMMON_SIZES.ICON_SMALL,
+      fill: COLORS.WHITE_TRANSPARENTA,
+    },
+  });
 
-  &:hover {
-    background-color: lightgray; // TODO: 색상 상수화
-  }
+export const dropdownListStyle = (isShown: boolean) =>
+  css({
+    zIndex: 2,
+    backgroundColor: COLORS.BLACK,
+    display: isShown ? 'flex' : 'none',
+    position: 'absolute',
+    left: 0,
+    top: 30,
+    border: makeBorder({}),
+    flexDirection: 'column',
+    width: 'calc(100% - 2px)',
+  });
 
-  &:not(:last-child) {
-    border-bottom: 1px solid black; // TODO: 색상 상수화
-  }
-`;
+export const dropdownListInnerButtonStyle = css({
+  '&&': {
+    border: 0,
+    borderRadius: 0,
+    width: '100%',
+    padding: '3px 5px',
+  },
+
+  ':hover': {
+    backgroundColor: COLORS.GRAY3,
+  },
+});
+
+export const dropdownListInnerStyle = css({
+  borderBottom: makeBorder({}),
+
+  ':last-child': {
+    borderBottom: 0,
+  },
+});
