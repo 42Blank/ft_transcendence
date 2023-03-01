@@ -10,12 +10,16 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <style>
       :root {
-        background-image: url('/images/bg.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
       }
     </style>
+    <script>
+      if (window.location.pathname.startsWith('/login'))
+        document.documentElement.style.backgroundImage = "url('/images/bg.jpg')";
+      else document.documentElement.style.backgroundImage = "url('/images/bg_gray.jpg')";
+    </script>
     <title>Pochitandence</title>
   </head>
   <body>
