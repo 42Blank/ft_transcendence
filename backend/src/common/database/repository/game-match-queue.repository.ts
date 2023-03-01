@@ -31,4 +31,8 @@ export class GameMatchQueueRepository {
   public size(): number {
     return this.gameMatchQueues.length;
   }
+
+  public front(): GameMatchQueue | undefined {
+    return this.gameMatchQueues[0];
+  }
 }

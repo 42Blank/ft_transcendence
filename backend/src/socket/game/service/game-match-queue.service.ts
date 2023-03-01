@@ -18,12 +18,13 @@ export class GameMatchQueueService {
     this.gameMatchQueueRepository.push(socketId, userId);
 
     if (this.gameMatchQueueRepository.size() >= 2) {
-      const host = this.gameMatchQueueRepository.pop();
+      const host = this.gameMatchQueueRepository.front();
 
       if (this.isUserInChatRoom(host.userId) || this.isUserInGameRoom(host.userId)) {
         return undefined;
       }
 
+      this.gameMatchQueueRepository.pop();
       const challenger = this.gameMatchQueueRepository.pop();
       const gameRoom = this.gameRoomRepository.createGameRoom(host.socketId, host.userId, 'normal');
       this.gameRoomRepository.setChallengerToGameRoom(gameRoom.id, challenger.socketId, challenger.userId);
