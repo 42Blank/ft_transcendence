@@ -26,6 +26,10 @@ export class FileController {
         } else {
           callback(new Error('Only image files are allowed!'), false);
         }
+
+        if (file.size > 1024 * 1024 * 2) {
+          callback(new Error('File size is too big!'), false);
+        }
       },
     }),
   )
