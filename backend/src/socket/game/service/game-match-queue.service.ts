@@ -44,6 +44,10 @@ export class GameMatchQueueService {
       return gameRoom.host.userId === userId || gameRoom.challenger?.userId === userId;
     });
 
+    if (gameRoom.state === 'finished') {
+      return false;
+    }
+
     return !!gameRoom;
   }
 
