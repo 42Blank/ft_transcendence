@@ -2,6 +2,14 @@ import { css } from '@emotion/css';
 
 import { COLORS, LOGIN_LEVELS, COMMON_SIZES } from 'styles';
 
+export const loginLayoutScreenWrapperStyle = css({
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
 export const loginLayoutCenterAlignStyle = css({
   width: 500,
   height: 800,
