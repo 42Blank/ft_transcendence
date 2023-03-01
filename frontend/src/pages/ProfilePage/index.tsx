@@ -5,6 +5,7 @@ import { useGetUser } from 'hooks';
 import { Button } from 'common';
 import { MatchHistoryList } from './MatchHistoryList';
 import { ProfileHeader } from './ProfileHeader';
+import { AchievementList } from './AchievementList';
 
 import {
   profileContainerStyle,
@@ -12,7 +13,6 @@ import {
   profileTabStyle,
   profileTabWrapperStyle,
 } from './ProfilePage.styles';
-import { AchievementList } from './AchievementList';
 
 export const ProfilePage = () => {
   const { id } = useParams();

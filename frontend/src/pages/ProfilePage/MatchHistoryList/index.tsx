@@ -1,6 +1,7 @@
 import { useGetMatchHistoryByUserId } from 'hooks';
 import { MatchHistoryType } from 'types/profile';
 import { MatchHistoryElement } from './MatchHistoryElement';
+
 import {
   matchHistoryLoadingStyle,
   matchHistoryWrapperDivStyle,

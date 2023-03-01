@@ -1,6 +1,7 @@
 import { Button } from 'common';
 import { useGetBlockList, useGetFriendList } from 'hooks';
 import { postBlock, postFriend, deleteFriend } from 'services';
+
 import { profileButtonSectionBottomStyle, profileButtonStyle } from './ProfileHeader.styles';
 
 interface Props {

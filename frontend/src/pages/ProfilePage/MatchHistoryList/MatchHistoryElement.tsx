@@ -1,7 +1,8 @@
 import { FightIcon } from 'assets';
 import { MatchHistoryType } from 'types/profile';
-import { matchHistoryTimeWrapper, matchHistoryUserWrapper, matchHistoryWrapper } from './MatchHistoryElement.styles';
 import { MatchHistoryUserBox } from './MatchHistoryUserBox';
+
+import { matchHistoryTimeWrapper, matchHistoryUserWrapper, matchHistoryWrapper } from './MatchHistoryElement.styles';
 
 interface Props {
   history: MatchHistoryType;

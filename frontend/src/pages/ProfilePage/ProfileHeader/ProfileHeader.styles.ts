@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+
 import { COLORS, FONT_SIZES } from 'styles';
 
 export const profileHeaderWrapperStyle = css({
