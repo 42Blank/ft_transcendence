@@ -22,8 +22,9 @@ export const App = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (pathname.startsWith('/login')) document.documentElement.style.backgroundImage = "url('/images/bg.jpg')";
-    else document.documentElement.style.backgroundImage = "url('/images/bg_gray.jpg')";
+    document.documentElement.style.backgroundImage = `url('/images/bg${
+      pathname.startsWith('/login') ? '' : '_gray'
+    }.jpg')`;
   }, [pathname]);
 
   return (
