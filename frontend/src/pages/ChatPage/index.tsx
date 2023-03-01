@@ -6,7 +6,7 @@ import { ROUTE } from 'common/constants';
 import { CloseIcon, LockIcon, MoreHorizIcon } from 'assets';
 import { Modal } from 'common';
 import { useGetBlockList, useGetCurrentChatRoom, useGetUser } from 'hooks';
-import { currentChatDataState, leaveChatRoomState } from 'store';
+import { currentChatDataState, inviteGameRoomState, leaveChatRoomState } from 'store';
 import { checkUserRole } from 'utils';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
@@ -21,6 +21,7 @@ import {
   chatPageWrapperStyle,
   closeButtonStyle,
 } from './ChatPage.styles';
+import { GameInviteModalBody } from './GameInviteModal';
 
 export const ChatPage = () => {
   const {
@@ -30,8 +31,11 @@ export const ChatPage = () => {
   const currentChatData = useRecoilValue(currentChatDataState);
   const resetCurrentChatData = useResetRecoilState(currentChatDataState);
   const currentChatRoom = useGetCurrentChatRoom();
+  const inviteGameRoom = useRecoilValue(inviteGameRoomState);
+  const resetInviteGameRoom = useResetRecoilState(inviteGameRoomState);
   const setLeaveChatRoom = useSetRecoilState(leaveChatRoomState);
   const [isModalShown, setIsModalShown] = useState(false);
+  const [isInviteModalShown, setIsInviteModalShown] = useState(false);
   const currentUserRole = checkUserRole(currentChatRoom.users, id);
   const { blockList } = useGetBlockList();
 
@@ -41,6 +45,11 @@ export const ChatPage = () => {
 
   function handleCloseModal() {
     setIsModalShown(false);
+  }
+
+  function handleCloseInviteModal() {
+    setIsInviteModalShown(false);
+    resetInviteGameRoom();
   }
 
   function onClickExit() {
@@ -55,6 +64,10 @@ export const ChatPage = () => {
       resetCurrentChatData();
     };
   }, []);
+
+  useEffect(() => {
+    setIsInviteModalShown(!!inviteGameRoom.id);
+  }, [inviteGameRoom]);
 
   return (
     <>
@@ -99,6 +112,16 @@ export const ChatPage = () => {
           <button type="button" onClick={handleCloseModal} className={closeButtonStyle}>
             닫기
           </button>
+        </Modal>
+      )}
+      {isInviteModalShown && (
+        <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
+          <h3 className={chatPageTitleStyle}>게임 초대</h3>
+          <GameInviteModalBody
+            onClickClose={handleCloseInviteModal}
+            nickname={inviteGameRoom.nickname}
+            gameRoomId={inviteGameRoom.id}
+          />
         </Modal>
       )}
     </>
