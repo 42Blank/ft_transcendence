@@ -1,21 +1,22 @@
-import { io, Socket } from 'socket.io-client';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { io, Socket } from 'socket.io-client';
 
 import {
   joinChatRoomState,
-  leaveChatRoomState,
-  newChatRoomState,
-  newMessageState,
-  userOperationState,
-  updateChatRoomState,
   joinGameRoomState,
-  joinSpectateRoomState,
-  newGameRoomState,
-  leaveGameRoomState,
   joinMatchMakeState,
+  joinSpectateRoomState,
+  leaveChatRoomState,
+  leaveGameRoomState,
   leaveMatchMakeState,
+  newChatRoomState,
+  newGameRoomState,
+  newMessageState,
+  updateChatRoomState,
+  userOperationState,
 } from 'store';
+import { inviteGameRoomSocketIdState } from '../store/inviteGameRoomSocketIdState';
 import { useSetSocketHandler } from './useSetSocketHandler';
 
 export const sockets: {
@@ -78,6 +79,9 @@ export function useHandleSocket() {
   const leaveGameRoom = useRecoilValue(leaveGameRoomState);
   const resetLeaveGameRoom = useResetRecoilState(leaveGameRoomState);
 
+  const inviteGameRoomSocketId = useRecoilValue(inviteGameRoomSocketIdState);
+  const resetInviteGameRoomSocketId = useResetRecoilState(inviteGameRoomSocketIdState);
+
   const {
     connectHandler,
     exceptionHandler,
@@ -91,6 +95,7 @@ export function useHandleSocket() {
     joinGameRoomHandler,
     joinSpectateRoomHandler,
     getAllGameRoomHandler,
+    inviteGameRoomHandler,
   } = useSetSocketHandler();
 
   useEffect(() => {
@@ -196,6 +201,17 @@ export function useHandleSocket() {
     resetJoinSpectateRoom();
   }, [joinSpectateRoom]);
 
+  useEffect(() => {
+    if (inviteGameRoomSocketId.length === 0) return;
+    if (sockets.gameSocket === null) return;
+
+    sockets.gameSocket.emit('invite_room', {
+      fromSocketId: sockets.chatSocket.id, //
+      toSocketId: inviteGameRoomSocketId,
+    });
+    resetInviteGameRoomSocketId();
+  }, [inviteGameRoomSocketId]);
+
   /* ----------------- Game ----------------- */
   useEffect(() => {
     if (!sockets.chatSocket) {
@@ -207,6 +223,7 @@ export function useHandleSocket() {
       sockets.chatSocket.on('chat_message', getCurrentChatHandler);
       sockets.chatSocket.on('update_chat_room', getAllChatRoomHandler);
       sockets.chatSocket.on('join_room', joinChatRoomHandler);
+      sockets.chatSocket.on('invite_room', inviteGameRoomHandler);
     }
     if (!sockets.gameSocket) {
       sockets.gameSocket = createSocket('game', {

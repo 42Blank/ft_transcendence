@@ -69,10 +69,11 @@ export class ChatRoomService {
       isPrivate: chatRoom.isPrivate,
       dmId: chatRoom.dmId,
       users: await Promise.all(
-        Array.from(chatRoom.sockets.values()).map(async chatUser => ({
+        Array.from(chatRoom.sockets.entries()).map(async ([socketId, chatUser]) => ({
           user: await this.userRepository.findOneBy({ id: chatUser.id }),
           isMuted: chatUser.isMuted,
           role: chatUser.role,
+          socketId: socketId,
         })),
       ),
       bannedUsers: await Promise.all(Array.from(chatRoom.bannedUsers).map(id => this.userRepository.findOneBy({ id }))),

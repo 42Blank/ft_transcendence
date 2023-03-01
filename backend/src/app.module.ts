@@ -29,7 +29,7 @@ import { SocketModule } from './socket/socket.module';
         synchronize: true,
         namingStrategy: new SnakeNamingStrategy(),
         entities: [__dirname + '/common/database/entities/*{.ts,.js}'],
-        logging: configService.getOrThrow('PROFILE') === 'local' ? 'all' : ['error'],
+        logging: false, // configService.getOrThrow('PROFILE') === 'local' ? 'all' : ['error'],
       }),
     }),
     ApiModule,

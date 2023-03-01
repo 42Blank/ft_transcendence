@@ -5,6 +5,7 @@ type ChatUserDetail = {
   user: User;
   role: ChatUserRole;
   isMuted: boolean;
+  socketId: string;
 };
 
 export type ChatRoomDto = {
