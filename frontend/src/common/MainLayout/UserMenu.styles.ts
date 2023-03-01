@@ -33,7 +33,7 @@ export const userMenuNameStyle = css({
 export const userMenuInnerStyle = (isMenuShown: boolean) =>
   css({
     zIndex: 2, // TODO: zindex 상수화
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: COLORS.BLACK,
     position: 'absolute',
     display: isMenuShown ? 'flex' : 'none',
     border: makeBorder({}),

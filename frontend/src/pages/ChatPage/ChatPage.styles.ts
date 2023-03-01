@@ -45,7 +45,7 @@ export const chatPageMenuButtonStyle = css({
     padding: 0,
 
     ':hover': {
-      background: 0,
+      background: COLORS.TRANSPARENT,
     },
   },
 

@@ -6,6 +6,7 @@ export const chatInfoModalBodyStyle = css({
   flex: 1,
   overflowX: 'hidden',
   overflowY: 'scroll',
+  position: 'relative',
   backgroundColor: COLORS.GRAY5,
 });
 

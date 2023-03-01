@@ -36,7 +36,7 @@ export const chatModalIconButtonStyle = css({
     height: COMMON_SIZES.ICON_MEDIUM,
 
     ':hover': {
-      background: 0,
+      background: COLORS.TRANSPARENT,
     },
   },
 
