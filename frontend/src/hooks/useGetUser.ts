@@ -16,7 +16,7 @@ const INIT_DATA: UserInfoType = {
   isTwoFactorAuth: false,
 };
 
-export function useGetUser(userId?: string) {
+export function useGetUser(userId?: string | number) {
   const { pathname } = useLocation();
   const nav = useNavigate();
   const { data = INIT_DATA, refetch } = useQuery(

@@ -8,8 +8,8 @@ import {
   GameListPage,
   GamePage,
   GameResultPage,
-  Login2FaCallbackPage,
-  Login2FaPage,
+  Login2FACallbackPage,
+  Login2FAPage,
   LoginCallbackPage,
   LoginPage,
   LoginRandomPage,
@@ -36,8 +36,8 @@ export const App = () => {
         <Route path={ROUTE.LOGIN_CHECK} element={<LoginCallbackPage />} />
         <Route path={ROUTE.LOGIN_RANDOM} element={<LoginRandomPage />} />
         <Route path={ROUTE.REGISTER} element={<RegisterPage />} />
-        <Route path={ROUTE.LOGIN_2FA} element={<Login2FaPage />} />
-        <Route path={ROUTE.LOGIN_2FA_CHECK} element={<Login2FaCallbackPage />} />
+        <Route path={ROUTE.LOGIN_2FA} element={<Login2FAPage />} />
+        <Route path={ROUTE.LOGIN_2FA_CHECK} element={<Login2FACallbackPage />} />
       </Route>
     </Routes>
   );

@@ -3,7 +3,7 @@ import { UserInfoType } from 'types/user';
 import { axiosGet } from './axiosWrapper';
 
 interface Params {
-  userId?: string;
+  userId?: string | number;
 }
 
 export function getUserInfo({ userId }: Params): Promise<UserInfoType> {

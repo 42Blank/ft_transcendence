@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
-import { getAuth2Fa } from '../services';
+import { getAuth2Fa } from 'services';
 
 export function useTwoFactorLogin() {
   const nav = useNavigate();

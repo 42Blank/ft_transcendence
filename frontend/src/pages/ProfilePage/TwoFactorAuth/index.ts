@@ -1,1 +1,0 @@
-export { TwoFactorAuth } from './TwoFactorAuth';

@@ -27,7 +27,7 @@ export const Modal = ({ children, onClickClose, className }: Props) => {
 
   return createPortal(
     <div className={modalBackgroundStyle}>
-      <div className={`${modalInnerStyle} ${className}`} ref={modalRef}>
+      <div className={`${modalInnerStyle} ${className ?? ''}`} ref={modalRef}>
         {children}
       </div>
     </div>,

@@ -11,13 +11,13 @@ interface Props {
 export const Button = ({ children, isSubmit, className, onClick }: Props) => {
   if (isSubmit) {
     return (
-      <button type="submit" className={`${buttonWrapperStyle} ${className}`}>
+      <button type="submit" className={`${buttonWrapperStyle} ${className ?? ''}`}>
         {children}
       </button>
     );
   }
   return (
-    <button type="button" onClick={onClick} className={`${buttonWrapperStyle} ${className}`}>
+    <button type="button" onClick={onClick} className={`${buttonWrapperStyle} ${className ?? ''}`}>
       {children}
     </button>
   );

@@ -22,7 +22,7 @@ export const Avatar = ({ userAvatar, alt, size = COMMON_SIZES.ICON_LARGE, classN
       alt={alt}
       width={size}
       height={size}
-      className={`${avatarImageStyle} ${className}`}
+      className={`${avatarImageStyle} ${className ?? ''}`}
       onError={handleImgError}
     />
   );
