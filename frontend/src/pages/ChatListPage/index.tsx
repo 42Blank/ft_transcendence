@@ -31,14 +31,13 @@ export const ChatListPage = () => {
       {chatRoomList.map((data, index) => (
         <ChatRoomElement key={`chat-room-${index}`} chatRoomInfo={data} />
       ))}
+
       <button type="button" onClick={handleClickButton} className={chatRoomIconStyle}>
         <PlusIcon />
       </button>
       {isModalShown && (
         <Modal onClickClose={handleClickClose} className={newChatModalWrapperStyle}>
-          <header className={newChatModalHeaderStyle}>
-            <h4>새 채팅방</h4>
-          </header>
+          <h3 className={newChatModalHeaderStyle}>새 채팅방</h3>
           <NewChatModalBody onClickClose={handleClickClose} />
         </Modal>
       )}

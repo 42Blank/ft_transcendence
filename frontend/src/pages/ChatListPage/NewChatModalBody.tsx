@@ -51,7 +51,7 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
           <input id="new-chat-name" ref={nameRef} maxLength={20} type="text" placeholder="최대 20자" required />
         </div>
         <div className={formSectionDivStyle}>
-          <span>공개 여부</span>
+          <label>공개 여부</label>
           <Dropdown
             currentKey={isPrivate ? '비공개' : '공개'}
             elements={dropdownElement}
@@ -67,9 +67,11 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
       </div>
       <div className={formSectionButtonWrapper}>
         <button type="button" onClick={onClickClose}>
-          닫기
+          <span>닫기</span>
         </button>
-        <button type="submit">제출</button>
+        <button type="submit">
+          <span>제출</span>
+        </button>
       </div>
     </form>
   );
