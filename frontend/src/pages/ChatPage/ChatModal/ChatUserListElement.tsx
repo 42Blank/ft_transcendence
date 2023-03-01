@@ -13,6 +13,7 @@ import {
   chatUserLinkWrapperStyle,
   chatUserNicknameSpanStyle,
 } from './ChatUserListElement.styles';
+import { inviteGameRoomSocketIdState } from '../../../store/inviteGameRoomSocketIdState';
 
 interface Props {
   chatUser: ChatUserInfoType;
@@ -20,8 +21,9 @@ interface Props {
 }
 
 export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
-  const { user, role, isMuted } = chatUser;
+  const { user, role, isMuted, socketId } = chatUser;
   const setOperation = useSetRecoilState(userOperationState);
+  const setInviteGameRoomSocketId = useSetRecoilState(inviteGameRoomSocketIdState);
 
   function handleClickGiveOrTakeButton() {
     if (currentUserRole === 'user' || role === 'host') return;
@@ -41,6 +43,10 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
   function handleClickToggleMuteButton() {
     if (currentUserRole === 'user' || role === 'host') return;
     setOperation({ userId: user.id, operation: isMuted ? 'unmute' : 'mute' });
+  }
+
+  function handleFightButton() {
+    setInviteGameRoomSocketId(socketId);
   }
 
   return (
@@ -76,7 +82,7 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
           </button>
         </>
       )}
-      <button type="button" className={chatUserButtonStyle}>
+      <button type="button" onClick={handleFightButton} className={chatUserButtonStyle}>
         <FightIcon />
       </button>
     </li>

@@ -2,10 +2,16 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
 import { ROUTE } from 'common/constants';
-import { chatRoomListState, currentChatDataState, gameRoomListState, onlineUserListState } from 'store';
+import {
+  chatRoomListState,
+  currentChatDataState,
+  gameRoomListState,
+  inviteGameRoomState,
+  onlineUserListState,
+} from 'store';
 import { ChatDataType, ChatRoomInfoType } from 'types/chat';
 
-import { GameRoomInfoType } from 'types/game';
+import { GameRoomInfoType, InviteGameType } from 'types/game';
 import { OnlineUserType } from 'types/user';
 
 export function useSetSocketHandler() {
@@ -13,6 +19,7 @@ export function useSetSocketHandler() {
   const setOnlineUserList = useSetRecoilState(onlineUserListState);
   const setChatRoomList = useSetRecoilState(chatRoomListState);
   const setGameRoomList = useSetRecoilState(gameRoomListState);
+  const setInviteGameRoom = useSetRecoilState(inviteGameRoomState);
   const nav = useNavigate();
 
   function connectHandler() {}
@@ -46,6 +53,9 @@ export function useSetSocketHandler() {
   function joinSpectateRoomHandler(id: string) {
     nav(`${ROUTE.GAME}/${id}`);
   }
+  function inviteGameRoomHandler(data: InviteGameType) {
+    setInviteGameRoom(data);
+  }
 
   return {
     connectHandler,
@@ -58,5 +68,6 @@ export function useSetSocketHandler() {
     getAllGameRoomHandler,
     joinGameRoomHandler,
     joinSpectateRoomHandler,
+    inviteGameRoomHandler,
   };
 }

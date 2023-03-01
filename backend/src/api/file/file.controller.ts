@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -24,11 +24,11 @@ export class FileController {
         if (file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
           callback(null, true);
         } else {
-          callback(new Error('Only image files are allowed!'), false);
+          callback(new BadRequestException('Only image files are allowed!'), false);
         }
 
         if (file.size > 1024 * 1024 * 2) {
-          callback(new Error('File size is too big!'), false);
+          callback(new BadRequestException('File size is too big!'), false);
         }
       },
     }),

@@ -1,6 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { GameRoom } from '../../../common/database/model';
-import { GameRoomRepository } from '../../../common/database/repository';
+import { ChatRoom, GameRoom } from '../../../common/database/model';
+import { ChatRoomRepository, GameRoomRepository } from '../../../common/database/repository';
 import { UpdatePositionDto } from '../dto/incoming/update-position.dto';
 import { GameDataDto } from '../dto/outcoming/game-data.dto';
 import { FinishGameService } from './finish-game.service';
@@ -10,6 +10,7 @@ export class GameUserService {
   constructor(
     private readonly gameRoomRepository: GameRoomRepository,
     private readonly finishGameService: FinishGameService,
+    private readonly chatRoomRepository: ChatRoomRepository,
   ) {}
 
   public joinGameRoom(socketId: string, userId: number, gameRoomId: string): void {
@@ -33,14 +34,14 @@ export class GameUserService {
     this.gameRoomRepository.updateGameRoomState(gameRoomId, 'playing');
   }
 
-  public spectateGameRoom(socketId: string, gameRoomId: string): void {
+  public spectateGameRoom(socketId: string, userId: number, gameRoomId: string): void {
     const gameRoom = this.gameRoomRepository.getGameRoom(gameRoomId);
 
     if (!gameRoom) {
       throw new NotAcceptableException('게임방이 존재하지 않습니다.');
     }
 
-    if (gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId)) {
+    if (gameRoom.host.userId === userId || (gameRoom.challenger && gameRoom.challenger.userId === userId)) {
       throw new NotAcceptableException('게임방에 참가한 유저는 관전할 수 없습니다.');
     }
 
@@ -121,6 +122,33 @@ export class GameUserService {
     }
 
     return gameDataDto;
+  }
+
+  public getSocketIdByUserIdFromChatRoom(myUserId: number, userId: number): string {
+    const chatRoom = this.chatRoomRepository.getChatRooms().find(chatRoom => {
+      return findSocketIdByUserId(chatRoom, myUserId);
+    });
+
+    if (!chatRoom) {
+      throw new NotAcceptableException(`Socket ${myUserId} is in no chat room`);
+    }
+
+    const socketId = findSocketIdByUserId(chatRoom, userId);
+
+    if (!socketId) {
+      throw new NotAcceptableException(`Socket ${userId} is not chat room ${chatRoom.roomTitle}`);
+    }
+
+    return socketId;
+
+    function findSocketIdByUserId(chatRoom: ChatRoom, userId: number): string | undefined {
+      const [socketId] = Array.from(chatRoom.sockets.entries()) //
+        .find(([, chatUserDetail]) => {
+          return chatUserDetail.id === userId;
+        });
+
+      return socketId;
+    }
   }
 
   private getJoinedGameRoom(socketId: string): GameRoom {
