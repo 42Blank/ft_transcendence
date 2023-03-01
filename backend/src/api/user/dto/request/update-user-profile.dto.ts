@@ -1,3 +1,4 @@
+import { Trim } from '@miaooo/class-transformer-trim';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
@@ -6,6 +7,7 @@ export class UpdateUserProfileRequestDto {
   @IsOptional()
   @MinLength(1)
   @MaxLength(8)
+  @Trim()
   @ApiPropertyOptional({ example: 'jasong' })
   nickname?: string;
 
