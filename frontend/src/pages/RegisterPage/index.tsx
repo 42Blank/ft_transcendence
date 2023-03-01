@@ -21,7 +21,7 @@ export const RegisterPage = () => {
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
-    if (checkInputRefValid(nicknameRef, 8)) return;
+    if (!checkInputRefValid(nicknameRef, 8)) return;
     if (!isValidated) return;
     if (imageUrl === LOADING_IMAGE_URL) return;
     await postRegister({ nickname: nicknameRef.current.value, avatar: imageUrl });

@@ -33,7 +33,7 @@ export const LoginLayout = () => {
         className={loginLayoutImageStyle(titleChar.top, titleChar.right)}
       />
       <main className={loginMainWrapperStyle}>
-        <img src="/images/title.webp" width={490} height={140} alt="title logo" />
+        <img src="/images/title.png" width={490} height={140} alt="title logo" />
         <Outlet />
       </main>
       <a href="https://github.com/42Blank/ft_transcendence" className={githubLinkStyle}>
