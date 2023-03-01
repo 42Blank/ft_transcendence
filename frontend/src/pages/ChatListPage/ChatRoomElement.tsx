@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { LockIcon } from 'assets';
 import { useGetUser } from 'hooks';
+import { Button } from 'common';
 import { joinChatRoomState } from 'store';
 import { ChatRoomInfoType } from 'types/chat';
 
@@ -65,20 +66,16 @@ export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
       <LockIcon />
       <h3>{roomTitle}</h3>
       <form className={chatRoomFormSectionStyle} onSubmit={handleSubmitPasswordAndJoin}>
-        <input type="password" ref={passwordRef} required />
+        <input type="password" placeholder="비밀번호" ref={passwordRef} required />
         <div className={chatRoomFormButtonSectionStyle}>
-          <button type="button" onClick={handleClickCancelButton}>
+          <Button onClick={handleClickCancelButton}>
             <span>취소</span>
-          </button>
-          <button type="submit">
+          </Button>
+          <Button isSubmit>
             <span>제출</span>
-          </button>
+          </Button>
         </div>
       </form>
-      <div className={chatRoomTextSectionStyle}>
-        <span>{users[0].user.nickname}</span>
-        <span>{`외 ${users.length - 1}명`}</span>
-      </div>
     </div>
   );
 };

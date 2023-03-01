@@ -5,13 +5,18 @@ export const chatListPageWrapperStyle = css({
   position: 'relative',
   flex: 1,
   height: 'calc(100vh - 110px)',
-  overflowX: 'hidden',
-  overflowY: 'scroll',
+  overflow: 'hidden',
   padding: 20,
+});
+
+export const chatListPageInnerStyle = css({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
   gap: 20,
+  height: 'fit-content',
+  maxHeight: '100%',
+  overflowY: 'scroll',
 });
 
 export const chatRoomIconStyle = css({

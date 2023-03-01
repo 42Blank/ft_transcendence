@@ -1,111 +1,122 @@
 import { css } from '@emotion/css';
+import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
 
-export const chatRoomElementStyle = css`
-  position: relative;
-  user-select: none;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid black; // TODO: border color 상수화
-  border-radius: 5px;
-  overflow: hidden;
+export const chatRoomElementStyle = css({
+  width: 300,
+  height: 200,
+  backgroundColor: COLORS.BLACK_TRANSPARENTC,
+  position: 'relative',
+  userSelect: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+  overflow: 'hidden',
 
-  & > svg {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    width: 20px;
-    height: 20px;
-  }
+  svg: {
+    position: 'absolute',
+    left: 10,
+    top: 10,
+    fill: COLORS.WHITE,
+    width: COMMON_SIZES.ICON_SMALL,
+    height: COMMON_SIZES.ICON_SMALL,
+  },
+  h3: {
+    color: COLORS.WHITE,
+    fontWeight: 600,
+    padding: 15,
+    width: 'calc(100% - 30px)',
+    textAlign: 'center',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+});
 
-  & > h3 {
-    font-weight: 600;
-    padding: 15px;
-    width: calc(100% - 30px);
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-`;
+export const chatRoomFormSectionStyle = css({
+  margin: '10px 0 0',
+  width: '100%',
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 
-export const chatRoomFormSectionStyle = css`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  input: {
+    marginTop: 20,
+    border: 0,
+    background: 0,
+    borderBottom: makeBorder({}),
+    fontSize: 15,
+    color: COLORS.WHITE,
 
-  & > input {
-    border: 1px solid black; // TODO: 상수화
-    border-radius: 5px;
-    padding: 2px 10px;
-    font-size: 15.5px;
-  }
-`;
+    ':placeholder': {
+      color: COLORS.WHITE_TRANSPARENT9,
+    },
+  },
+});
 
-export const chatRoomFormButtonSectionStyle = css`
-  display: flex;
-  flex-direction: row;
-  width: calc(100% - 40px);
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  margin-top: 10px;
+export const chatRoomFormButtonSectionStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  height: 40,
+  alignItems: 'center',
+  borderTop: makeBorder({}),
 
-  & > button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    height: 30px;
-    border: 1px solid black; // TODO: 상수화
-    border-radius: 5px;
-  }
-`;
+  button: {
+    flex: 1,
+    height: '100%',
+    border: 0,
+    background: 0,
+    borderRadius: 0,
 
-export const chatRoomImageSectionStyle = css`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+    ':first-child': {
+      borderRight: makeBorder({}),
+    },
+  },
+});
 
-  & > img {
-    width: 56px;
-    height: 56px;
-    border: 2px solid white; // TODO: border color 상수화
-    object-fit: cover;
-    border-radius: 40px;
+export const chatRoomImageSectionStyle = css({
+  margin: '10px 0',
+  width: '100%',
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
 
-    &:not(:last-child) {
-      margin-right: -15px;
-    }
-  }
-`;
+  img: {
+    width: COMMON_SIZES.ICON_XLARGE,
+    height: COMMON_SIZES.ICON_XLARGE,
+    borderRadius: COMMON_SIZES.ICON_XLARGE,
+    objectFit: 'cover',
+    border: makeBorder({ width: 2 }),
 
-export const chatRoomTextSectionStyle = css`
-  width: calc(100% - 30px);
-  display: flex;
-  flex-direction: row;
-  padding: 15px;
-  overflow: hidden;
+    ':not(:last-child)': {
+      marginRight: -15,
+    },
+  },
+});
 
-  & > span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 18px;
-  }
+export const chatRoomTextSectionStyle = css({
+  width: 'calc(100% - 30px)',
+  display: 'flex',
+  flexDirection: 'row',
+  padding: 15,
+  overflow: 'hidden',
 
-  & > span:last-child {
-    margin-left: 5px;
-    opacity: 0.5;
-    width: 30%;
-    text-align: center;
-  }
-`;
+  span: {
+    color: COLORS.WHITE,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    lineHeight: 1.5,
+  },
+
+  'span:last-child': {
+    marginLeft: 5,
+    opacity: 0.5,
+    width: '30%',
+    textAlign: 'center',
+  },
+});
