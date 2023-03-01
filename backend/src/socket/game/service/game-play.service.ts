@@ -12,7 +12,7 @@ export class GamePlayService {
 
   public async updateScore(
     socketId: string,
-    winner: 'host' | 'challenger',
+    winner?: 'host' | 'challenger',
   ): Promise<
     | {
         isGameFinish: false;
@@ -28,26 +28,34 @@ export class GamePlayService {
       throw new NotAcceptableException(`Game room ${gameRoom.id} is not in playing state`);
     }
 
-    gameRoom.score[winner]++;
+    if (gameRoom.host.socketId === socketId && winner) {
+      gameRoom.score[winner]++;
+    }
 
-    if (gameRoom.score[winner] >= 5) {
-      await this.finishGameService.finishGame(gameRoom);
-
+    if (gameRoom.score.host < 5 && gameRoom.score.challenger < 5) {
       return {
-        isGameFinish: true,
+        isGameFinish: false,
+        score: gameRoom.score,
       };
     }
 
+    await this.finishGameService.finishGame(gameRoom);
+
     return {
-      isGameFinish: false,
-      score: gameRoom.score,
+      isGameFinish: true,
     };
   }
 
   private getJoinedGameRoom(socketId: string): GameRoom {
-    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
-      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
-    });
+    const gameRoom = this.gameRoomRepository
+      .getGameRooms() //
+      .find(gameRoom => {
+        return (
+          gameRoom.host.socketId === socketId ||
+          (gameRoom.challenger && gameRoom.challenger.socketId === socketId) ||
+          gameRoom.spectatorSocketIds.has(socketId)
+        );
+      });
 
     if (!gameRoom) {
       throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
