@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { HamburgerIcon, LockIcon } from 'assets';
+import { ROUTE } from 'common/constants';
+import { CloseIcon, LockIcon, MoreHorizIcon } from 'assets';
 import { Modal } from 'common';
 import { useGetBlockList, useGetCurrentChatRoom, useGetUser } from 'hooks';
 import { currentChatDataState, leaveChatRoomState } from 'store';
@@ -24,6 +26,7 @@ export const ChatPage = () => {
   const {
     data: { id },
   } = useGetUser();
+  const nav = useNavigate();
   const currentChatData = useRecoilValue(currentChatDataState);
   const resetCurrentChatData = useResetRecoilState(currentChatDataState);
   const currentChatRoom = useGetCurrentChatRoom();
@@ -38,6 +41,10 @@ export const ChatPage = () => {
 
   function handleCloseModal() {
     setIsModalShown(false);
+  }
+
+  function onClickExit() {
+    nav(ROUTE.CHAT);
   }
 
   useEffect(() => {
@@ -55,9 +62,14 @@ export const ChatPage = () => {
             {currentChatRoom.isPrivate && <LockIcon />}
             <span>{currentChatRoom.roomTitle ?? ''}</span>
           </div>
-          <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
-            <HamburgerIcon />
-          </button>
+          <div>
+            <button type="button" onClick={handleOpenModal} className={chatPageMenuButtonStyle}>
+              <MoreHorizIcon />
+            </button>
+            <button type="button" onClick={onClickExit} className={chatPageMenuButtonStyle}>
+              <CloseIcon />
+            </button>
+          </div>
         </header>
         <ul className={chatPageListWrapperStyle}>
           {currentChatData
