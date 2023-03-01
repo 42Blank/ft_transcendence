@@ -4,6 +4,7 @@ import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
 
 export const userBoxWrapperStyle = (isRight: boolean) =>
   css({
+    flex: 1,
     display: 'flex',
     flexDirection: isRight ? 'row' : 'row-reverse',
     alignItems: 'flex-end',

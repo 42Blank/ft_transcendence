@@ -45,6 +45,7 @@ export const matchHistoryTimeWrapper = css({
 });
 
 export const matchHistoryUserWrapper = css({
+  width: '100%',
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
