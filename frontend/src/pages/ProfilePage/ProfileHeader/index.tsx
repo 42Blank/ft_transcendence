@@ -2,10 +2,17 @@ import { Avatar, Button } from 'common';
 import { useGetUser } from 'hooks';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { chatRoomListState, joinChatRoomState, newChatRoomState } from 'store';
+import {
+  chatRoomListState,
+  gameRoomListState,
+  joinChatRoomState,
+  joinSpectateRoomState,
+  newChatRoomState,
+  onlineUserListState,
+} from 'store';
 import { COMMON_SIZES } from 'styles';
-import { FriendsSection } from './FriendsSection';
 import { EditProfileSection } from './EditProfileSection';
+import { FriendsSection } from './FriendsSection';
 import { TwoFactorAuthSection } from './TwoFactorAuthSection';
 
 import {
@@ -32,6 +39,9 @@ export const ProfileHeader = ({ userId }: Props) => {
   const chatRoomList = useRecoilValue(chatRoomListState);
   const setNewChatRoom = useSetRecoilState(newChatRoomState);
   const setJoinChatRoom = useSetRecoilState(joinChatRoomState);
+  const onlineUserList = useRecoilValue(onlineUserListState);
+  const gameRoomList = useRecoilValue(gameRoomListState);
+  const setJoinSpectateRoom = useSetRecoilState(joinSpectateRoomState);
 
   function handleClickDMButton() {
     const dmId = `${Math.min(myId, id)}-${Math.max(myId, id)}`;
@@ -49,6 +59,18 @@ export const ProfileHeader = ({ userId }: Props) => {
     });
   }
 
+  function handleClickSpectateButton() {
+    const foundGameRoom = gameRoomList.find(gameRoom => {
+      return gameRoom.host.user.id === id || (gameRoom.challenger && gameRoom.challenger.user.id === id);
+    });
+
+    if (!foundGameRoom) {
+      return;
+    }
+
+    setJoinSpectateRoom({ id: foundGameRoom.id });
+  }
+
   return (
     <header className={profileHeaderWrapperStyle}>
       <Avatar userAvatar={avatar} size={COMMON_SIZES.ICON_XXLARGE} className={profileHeaderAvatarStyle} />
@@ -63,6 +85,11 @@ export const ProfileHeader = ({ userId }: Props) => {
         </div>
       ) : (
         <div className={profileButtonSectionStyle}>
+          {onlineUserList.find(onlineUser => onlineUser.userId === id && onlineUser.state === 'playing') && (
+            <Button onClick={handleClickSpectateButton} className={profileButtonStyle}>
+              <span>게임 보러가기</span>
+            </Button>
+          )}
           <Button onClick={handleClickDMButton} className={profileButtonStyle}>
             <span>DM</span>
           </Button>
