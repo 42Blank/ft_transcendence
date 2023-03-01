@@ -28,7 +28,7 @@ export class GamePlayService {
       throw new NotAcceptableException(`Game room ${gameRoom.id} is not in playing state`);
     }
 
-    if (winner) {
+    if (gameRoom.host.socketId === socketId && winner) {
       gameRoom.score[winner]++;
     }
 
