@@ -33,10 +33,18 @@ export class GameUserService {
     this.gameRoomRepository.updateGameRoomState(gameRoomId, 'playing');
   }
 
-  public spectateGameRoom(socketId: string, gameRoomId: string): GameRoom {
-    this.gameRoomRepository.addSpectatorToGameRoom(gameRoomId, socketId);
+  public spectateGameRoom(socketId: string, gameRoomId: string): void {
+    const gameRoom = this.gameRoomRepository.getGameRoom(gameRoomId);
 
-    return this.gameRoomRepository.getGameRoom(gameRoomId);
+    if (!gameRoom) {
+      throw new NotAcceptableException('게임방이 존재하지 않습니다.');
+    }
+
+    if (gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId)) {
+      throw new NotAcceptableException('게임방에 참가한 유저는 관전할 수 없습니다.');
+    }
+
+    this.gameRoomRepository.addSpectatorToGameRoom(gameRoomId, socketId);
   }
 
   public async leaveGameRoom(socketId: string): Promise<{
@@ -116,9 +124,15 @@ export class GameUserService {
   }
 
   private getJoinedGameRoom(socketId: string): GameRoom {
-    const gameRoom = this.gameRoomRepository.getGameRooms().find(gameRoom => {
-      return gameRoom.host.socketId === socketId || (gameRoom.challenger && gameRoom.challenger.socketId === socketId);
-    });
+    const gameRoom = this.gameRoomRepository
+      .getGameRooms() //
+      .find(gameRoom => {
+        return (
+          gameRoom.host.socketId === socketId ||
+          (gameRoom.challenger && gameRoom.challenger.socketId === socketId) ||
+          gameRoom.spectatorSocketIds.has(socketId)
+        );
+      });
 
     if (!gameRoom) {
       throw new NotAcceptableException(`Socket ${socketId} is in no game room`);
