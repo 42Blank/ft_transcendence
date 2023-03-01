@@ -82,7 +82,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: SpectateGameRoomDto,
   ): Promise<void> {
-    this.gameUserService.spectateGameRoom(client.id, data.id);
+    this.gameUserService.spectateGameRoom(client.id, client.user.id, data.id);
 
     this.logger.verbose(`${client.user.nickname} spectateRoom: ${JSON.stringify(data)}`);
 
