@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 interface GameMatchQueue {
   socketId: string;
@@ -7,6 +7,8 @@ interface GameMatchQueue {
 
 @Injectable()
 export class GameMatchQueueRepository {
+  private readonly logger: Logger = new Logger(GameMatchQueueRepository.name);
+
   private gameMatchQueues: GameMatchQueue[] = [];
 
   public push(socketId: string, userId: number): void {
@@ -15,10 +17,16 @@ export class GameMatchQueueRepository {
     }
 
     this.gameMatchQueues.push({ socketId, userId });
+
+    this.logger.log(`pushed to game match queue: ${JSON.stringify(this.gameMatchQueues)}`);
   }
 
   public pop(): GameMatchQueue | undefined {
-    return this.gameMatchQueues.shift();
+    const gameMatch = this.gameMatchQueues.shift();
+
+    this.logger.log(`popped from game match queue: ${JSON.stringify(this.gameMatchQueues)} ${gameMatch}`);
+
+    return gameMatch;
   }
 
   public remove(socketId: string): void {
@@ -26,6 +34,8 @@ export class GameMatchQueueRepository {
       this.gameMatchQueues.findIndex(queue => queue.socketId === socketId),
       1,
     );
+
+    this.logger.log(`removed from game match queue: ${JSON.stringify(this.gameMatchQueues)}`);
   }
 
   public size(): number {
