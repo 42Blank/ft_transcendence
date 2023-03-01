@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEnum, IsOptional } from 'class-validator';
 
 enum Winner {
   HOST = 'host',
@@ -8,6 +8,7 @@ enum Winner {
 
 export class UpdateScoreDto {
   @IsEnum(Winner)
-  @ApiProperty({ example: Winner.HOST })
-  winner: Winner;
+  @IsOptional()
+  @ApiPropertyOptional({ example: Winner.HOST })
+  winner?: Winner;
 }

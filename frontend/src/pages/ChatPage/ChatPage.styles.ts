@@ -44,6 +44,16 @@ export const chatPageMenuButtonStyle = css`
   }
 `;
 
+export const chatPageExitButtonStyle = css`
+  width: 20px;
+  height: 20px;
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 export const chatPageListWrapperStyle = css`
   flex: 1;
   display: flex;
