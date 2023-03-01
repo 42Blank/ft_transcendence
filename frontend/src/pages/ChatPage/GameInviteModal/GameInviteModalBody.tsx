@@ -37,7 +37,7 @@ export const GameInviteModalBody = ({ onClickClose, nickname, gameRoomId }: Prop
           <span>취소</span>
         </button>
         <button type="button" onClick={handleOnClick}>
-          수락
+          <span>수락</span>
         </button>
       </div>
     </div>
