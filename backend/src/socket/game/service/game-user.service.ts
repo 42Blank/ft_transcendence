@@ -47,7 +47,9 @@ export class GameUserService {
     });
 
     if (!gameRoom) {
-      return;
+      return {
+        isGameFinished: false,
+      };
     }
 
     if (gameRoom.host.socketId !== socketId && gameRoom.challenger?.socketId !== socketId) {

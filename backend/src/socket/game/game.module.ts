@@ -7,6 +7,7 @@ import { ConnectionHandleModule } from '../connection-handle';
 import { OnlineModule } from '../online';
 import { GameGateway } from './game.gateway';
 import { FinishGameService } from './service/finish-game.service';
+import { GameMatchQueueService } from './service/game-match-queue.service';
 import { GamePlayService } from './service/game-play.service';
 import { GameRoomService } from './service/game-room.service';
 import { GameUserService } from './service/game-user.service';
@@ -18,6 +19,6 @@ import { GameUserService } from './service/game-user.service';
     SocketRepositoryModule,
     OnlineModule, // Fix me
   ],
-  providers: [GameRoomService, GameUserService, GamePlayService, FinishGameService, GameGateway],
+  providers: [GameRoomService, GameUserService, GamePlayService, FinishGameService, GameGateway, GameMatchQueueService],
 })
 export class GameModule {}
