@@ -11,18 +11,18 @@ export class GameMatchQueueService {
   ) {}
 
   public joinMatchQueue(socketId: string, userId: number): GameRoom | undefined {
-    if (this.isUserInGameRoom(userId) || this.isUserInChatRoom(userId)) {
-      return undefined;
-    }
+    // if (this.isUserInGameRoom(userId) || this.isUserInChatRoom(userId)) {
+    //   return undefined;
+    // }
 
     this.gameMatchQueueRepository.push(socketId, userId);
 
     if (this.gameMatchQueueRepository.size() >= 2) {
       const host = this.gameMatchQueueRepository.front();
 
-      if (this.isUserInChatRoom(host.userId) || this.isUserInGameRoom(host.userId)) {
-        return undefined;
-      }
+      // if (this.isUserInChatRoom(host.userId) || this.isUserInGameRoom(host.userId)) {
+      //   return undefined;
+      // }
 
       this.gameMatchQueueRepository.pop();
       const challenger = this.gameMatchQueueRepository.pop();
