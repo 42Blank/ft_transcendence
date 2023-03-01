@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { FightIcon, PlusIcon } from 'assets';
 import { Modal } from 'common';
-import { gameRoomListState, leaveMatchMakeState } from 'store';
+import { gameRoomListState } from 'store';
 import { GameRoomElement } from './GameRoomElement';
 
 import {
@@ -13,14 +13,13 @@ import {
   newGameModalHeaderStyle,
   newGameModalWrapperStyle,
 } from './GameListPage.styles';
-import { NewGameModalBody } from './NewGameModalBody';
 import { LadderGameModalBody } from './LadderGameModalBody';
+import { NewGameModalBody } from './NewGameModalBody';
 
 export const GameListPage = () => {
   const [isNewGameModalShown, setIsNewGameModalShown] = useState(false);
   const [isLadderModalShown, setIsLadderModalShown] = useState(false);
   const gameRoomList = useRecoilValue(gameRoomListState);
-  const setLeaveMatchMake = useSetRecoilState(leaveMatchMakeState);
 
   function handleClickButton() {
     setIsNewGameModalShown(true);
@@ -34,16 +33,12 @@ export const GameListPage = () => {
     setIsNewGameModalShown(false);
     if (isLadderModalShown) {
       setIsLadderModalShown(false);
-      setLeaveMatchMake({ id: 'LeaveMatch' });
-      window.location.reload();
     }
   }
   useEffect(() => {
     return () => {
       if (isLadderModalShown) {
         setIsLadderModalShown(false);
-        setLeaveMatchMake({ id: 'LeaveMatch' });
-        window.location.reload();
       }
     };
   }, []);

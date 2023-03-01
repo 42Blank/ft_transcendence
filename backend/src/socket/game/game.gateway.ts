@@ -1,4 +1,4 @@
-import { Logger, UseFilters } from '@nestjs/common';
+import { BadRequestException, Logger, UseFilters } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -13,12 +13,13 @@ import { SocketWithUser } from '../../common/auth/socket-jwt-auth/SocketWithUser
 import { GameRoom } from '../../common/database/model';
 import { WsExceptionFilter } from '../../common/filter/ws-exception.filter';
 import { sleep } from '../../common/utils';
+import { ChatGateway } from '../chat';
 import { ConnectionHandleService } from '../connection-handle';
 import { OnlineGateway } from '../online';
 import { CreateGameRoomDto } from './dto/incoming/create-game-room.dto';
+import { InviteGameRoomDto } from './dto/incoming/invite-game-room.dto';
 import { JoinGameRoomDto } from './dto/incoming/join-game-room.dto';
 import { SpectateGameRoomDto } from './dto/incoming/spectate-game-room.dto';
-import { UpdateModeDto } from './dto/incoming/update-mode.dto';
 import { UpdatePositionDto } from './dto/incoming/update-position.dto';
 import { UpdateScoreDto } from './dto/incoming/update-score.dto';
 import { GameMatchQueueService } from './service/game-match-queue.service';
@@ -39,6 +40,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly gameUserService: GameUserService,
     private readonly gamePlayService: GamePlayService,
     private readonly onlineGateway: OnlineGateway,
+    private readonly chatGateway: ChatGateway,
     private readonly gameMatchQueueService: GameMatchQueueService,
   ) {}
 
@@ -80,12 +82,32 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: SpectateGameRoomDto,
   ): Promise<void> {
-    const gameRoom = this.gameUserService.spectateGameRoom(client.id, data.id);
+    this.gameUserService.spectateGameRoom(client.id, client.user.id, data.id);
 
     this.logger.verbose(`${client.user.nickname} spectateRoom: ${JSON.stringify(data)}`);
 
     client.emit('spectate_room', data.id);
-    client.emit('update_score', gameRoom.score);
+  }
+
+  @SubscribeMessage('invite_room')
+  public async inviteRoom(
+    @ConnectedSocket() client: SocketWithUser, //
+    @MessageBody() data: InviteGameRoomDto,
+  ): Promise<void> {
+    if (data.fromSocketId === data.toSocketId) {
+      throw new BadRequestException('Cannot invite yourself');
+    }
+
+    const gameRoom = this.gameRoomService.createGameRoom(client.id, client.user.id, 'normal');
+
+    this.logger.verbose(`${client.user.nickname} inviteRoom: ${JSON.stringify(data)}`);
+
+    await Promise.all([
+      this.emitGameRooms(), //
+      this.emitJoinRoom(client, gameRoom.id),
+    ]);
+
+    this.chatGateway.emitInviteRoom(data.toSocketId, gameRoom.id, client.user.nickname);
   }
 
   @SubscribeMessage('leave_room')
@@ -101,18 +123,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       await sleep(4000);
       await this.emitGameRooms();
     }
-  }
-
-  @SubscribeMessage('update_mode')
-  public async updateMode(
-    @ConnectedSocket() client: SocketWithUser, //
-    @MessageBody() data: UpdateModeDto,
-  ): Promise<void> {
-    this.gameRoomService.updateGameMode(client.id, data.mode);
-
-    this.logger.verbose(`${client.user.nickname} updateMode: ${JSON.stringify(data)}`);
-
-    await this.emitGameRooms();
   }
 
   @SubscribeMessage('update_position')
@@ -135,21 +145,23 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: SocketWithUser, //
     @MessageBody() data: UpdateScoreDto,
   ): Promise<void> {
-    const gameUserSockets = this.gameUserService.getUsersSocketId(client.id);
     const updateScoreResult = await this.gamePlayService.updateScore(client.id, data.winner);
 
-    this.logger.verbose(`${client.user.nickname} UpdateScore: ${JSON.stringify(data)} }`);
+    this.logger.verbose(`${client.user.nickname} updateScore: ${JSON.stringify(data)}`);
 
-    if (updateScoreResult.isGameFinish === false) {
-      await this.emitUpdateScore(gameUserSockets, updateScoreResult.score);
-    } else if (updateScoreResult.isGameFinish === true) {
+    if (updateScoreResult.isGameFinish === true) {
       await this.emitGameRooms();
       await sleep(4000);
       await this.emitGameRooms();
+      return;
     }
+
+    await this.emitUpdateScore(client, updateScoreResult.score);
   }
 
-  public async emitUpdateScore(gameUserSockets: string[], score: GameRoom['score']): Promise<void> {
+  public async emitUpdateScore(client: SocketWithUser, score: GameRoom['score']): Promise<void> {
+    const gameUserSockets = this.gameUserService.getUsersSocketId(client.id);
+
     this.logger.verbose(`emitUpdateScore: ${JSON.stringify(score)}`);
 
     gameUserSockets.forEach(socketId => {
@@ -164,12 +176,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.io.to(client.id).emit('update_game_room', gameRoom);
     this.io.to(client.id).emit('join_room', gameRoomId);
-
-    const gameUserSockets = this.gameUserService.getUsersSocketId(client.id);
-    this.emitUpdateScore(gameUserSockets, {
-      challenger: 0,
-      host: 0,
-    });
   }
 
   public async emitGameRooms(): Promise<void> {
@@ -191,7 +197,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return;
     }
 
-    this.logger.verbose(`${client.user.nickname} emitJoinMatchRoom: ${matchedGameRoom.id}`);
+    this.logger.verbose(`${client.user.nickname} joinMatchRoom: ${matchedGameRoom.id}`);
 
     const gameRooms = await this.gameRoomService.getGameRooms();
     this.io.to(matchedGameRoom.host.socketId).emit('update_game_room', gameRooms);
@@ -199,12 +205,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.io.to(matchedGameRoom.host.socketId).emit('join_room', matchedGameRoom.id);
     this.io.to(matchedGameRoom.challenger.socketId).emit('join_room', matchedGameRoom.id);
     await this.emitGameRooms();
-
-    const gameUserSockets = this.gameUserService.getUsersSocketId(matchedGameRoom.host.socketId);
-    this.emitUpdateScore(gameUserSockets, {
-      challenger: 0,
-      host: 0,
-    });
   }
 
   @SubscribeMessage('leave_match_make')

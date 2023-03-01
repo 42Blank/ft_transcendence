@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@miaooo/class-transformer-trim": "^1.0.0",
     "@nestjs/common": "^9.3.7",
     "@nestjs/config": "^2.3.0",
     "@nestjs/core": "^9.3.7",

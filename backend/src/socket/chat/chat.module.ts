@@ -17,5 +17,6 @@ import { ChatUserService } from './service/chat-user.service';
     OnlineModule, // Fix me
   ],
   providers: [ChatRoomService, ChatUserService, ChatUserOperateService, ChatGateway],
+  exports: [ChatGateway],
 })
 export class ChatModule {}

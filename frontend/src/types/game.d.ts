@@ -10,6 +10,11 @@ type Score = {
   challenger: number;
 };
 
+export type InviteGameType = {
+  id: string;
+  nickname: string;
+};
+
 export interface GameRoomInfoType {
   id: string;
   state: 'waiting' | 'playing' | 'finished';
