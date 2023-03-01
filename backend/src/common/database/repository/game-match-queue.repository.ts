@@ -24,12 +24,19 @@ export class GameMatchQueueRepository {
   public pop(): GameMatchQueue | undefined {
     const gameMatch = this.gameMatchQueues.shift();
 
-    this.logger.log(`popped from game match queue: ${JSON.stringify(this.gameMatchQueues)} ${gameMatch}`);
+    this.logger.log(
+      `popped from game match queue: ${JSON.stringify(this.gameMatchQueues)} ${JSON.stringify(gameMatch)}`,
+    );
 
     return gameMatch;
   }
 
   public remove(socketId: string): void {
+    const gameMatch = this.gameMatchQueues.find(queue => queue.socketId === socketId);
+    if (!gameMatch) {
+      return;
+    }
+
     this.gameMatchQueues.splice(
       this.gameMatchQueues.findIndex(queue => queue.socketId === socketId),
       1,
