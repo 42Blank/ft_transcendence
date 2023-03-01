@@ -133,11 +133,7 @@ export class GameUserService {
       throw new NotAcceptableException(`Socket ${myUserId} is in no chat room`);
     }
 
-    console.log('foundChatROom', chatRoom);
-
     const socketId = findSocketIdByUserId(chatRoom, userId);
-
-    console.log('foundCSocketId', socketId);
 
     if (!socketId) {
       throw new NotAcceptableException(`Socket ${userId} is not chat room ${chatRoom.roomTitle}`);
