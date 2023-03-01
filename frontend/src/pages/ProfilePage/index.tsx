@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useGetUser } from 'hooks';
 import { Button } from 'common';
-import { MatchHistoryList } from './MatchHistory';
+import { MatchHistoryList } from './MatchHistoryList';
 import { ProfileHeader } from './ProfileHeader';
 
 import {

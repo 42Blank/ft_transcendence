@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 
 import { COLORS, FONT_SIZES } from 'styles';
 
-export const achievementListWrapperDivStyle = css({
+export const matchHistoryWrapperDivStyle = css({
   width: 'calc(100% - 40px)',
   flex: 1,
   padding: 20,
@@ -10,17 +10,15 @@ export const achievementListWrapperDivStyle = css({
   backgroundColor: COLORS.BLACK_TRANSPARENT3,
 });
 
-export const achievementListWrapperStyle = css({
-  maxHeight: '100%',
+export const matchHistoryWrapperStyle = css({
+  height: '100%',
   display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  gap: 20,
+  flexDirection: 'column',
   overflowX: 'hidden',
   overflowY: 'scroll',
 });
 
-export const achievementListLoadingStyle = css({
+export const matchHistoryLoadingStyle = css({
   display: 'inline-block',
   padding: '0 20px',
   color: COLORS.WHITE,

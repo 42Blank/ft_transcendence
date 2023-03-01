@@ -17,4 +17,3 @@ export { ReactComponent as WarningIcon } from './warningIcon.svg';
 export { ReactComponent as FtLogoIcon } from './42.svg';
 export { ReactComponent as GithubIcon } from './github.svg';
 export { ReactComponent as CheckIcon } from './checkIcon.svg';
-export { ReactComponent as MedalIcon } from './medalIcon.svg';
