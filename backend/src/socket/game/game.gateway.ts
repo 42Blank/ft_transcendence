@@ -133,7 +133,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const gameUserSockets = this.gameUserService.getUsersSocketId(client.id);
     const gameData = this.gameUserService.createGameData(client.id, data);
 
-    // this.logger.verbose(`${client.user.nickname} UpdatePosition: ${JSON.stringify(data)}`);
+    this.logger.verbose(`${client.user.nickname} UpdatePosition: ${JSON.stringify(data)}`);
 
     gameUserSockets.forEach(socketId => {
       this.io.to(socketId).emit('game_data', gameData);
