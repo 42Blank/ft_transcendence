@@ -50,8 +50,6 @@ export const editButtonWrapperStyle = css({
   button: {
     flex: 1,
     padding: '10px 0',
-    border: 0,
-    borderRadius: 0,
 
     ':first-child': {
       borderRight: makeBorder({}),

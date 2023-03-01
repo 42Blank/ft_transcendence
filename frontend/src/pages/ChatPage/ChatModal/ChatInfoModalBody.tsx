@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
+import { Button } from 'common';
 import { ChatUserInfoType, ChatUserRoleType } from 'types/chat';
 import { UserInfoType } from 'types/user';
+import { BannedUserListElement } from './BannedUserListElement';
 import { ChatUserListElement } from './ChatUserListElement';
 
 import {
@@ -9,7 +11,6 @@ import {
   chatInfoModalBodyButtonWrapperStyle,
   chatInfoModalBodyStyle,
 } from './ChatInfoModalBody.styles';
-import { BannedUserListElement } from './BannedUserListElement';
 
 interface Props {
   users: ChatUserInfoType[];
@@ -31,20 +32,12 @@ export const ChatInfoModalBody = ({ users, bannedUsers, currentUserRole }: Props
   return (
     <>
       <div className={chatInfoModalBodyButtonWrapperStyle}>
-        <button
-          type="button"
-          className={chatInfoModalBodyButtonStyle(!isBanListShown)}
-          onClick={handleClickUserListButton}
-        >
+        <Button className={chatInfoModalBodyButtonStyle(!isBanListShown)} onClick={handleClickUserListButton}>
           <span>유저 목록</span>
-        </button>
-        <button
-          type="button"
-          className={chatInfoModalBodyButtonStyle(isBanListShown)}
-          onClick={handleClickBanListButton}
-        >
+        </Button>
+        <Button className={chatInfoModalBodyButtonStyle(isBanListShown)} onClick={handleClickBanListButton}>
           <span>차단 목록</span>
-        </button>
+        </Button>
       </div>
       <ul className={chatInfoModalBodyStyle}>
         {isBanListShown

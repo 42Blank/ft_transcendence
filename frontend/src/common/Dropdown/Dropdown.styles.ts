@@ -45,8 +45,6 @@ export const dropdownListStyle = (isShown: boolean) =>
 
 export const dropdownListInnerButtonStyle = css({
   '&&': {
-    border: 0,
-    borderRadius: 0,
     width: '100%',
     padding: '3px 5px',
   },

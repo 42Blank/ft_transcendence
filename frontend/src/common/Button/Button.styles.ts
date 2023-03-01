@@ -1,15 +1,15 @@
 import { css } from '@emotion/css';
 
-import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
+import { COLORS } from 'styles';
 
 export const buttonWrapperStyle = css({
-  backgroundColor: COLORS.BLACK,
+  background: COLORS.BLACK,
+  border: 0,
   padding: '5px 10px',
-  border: makeBorder({}),
-  borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
   transition: 'background-color 0.2s ease-in',
 
   span: {
+    userSelect: 'none',
     color: COLORS.WHITE,
   },
 

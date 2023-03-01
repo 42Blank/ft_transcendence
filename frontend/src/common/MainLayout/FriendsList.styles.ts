@@ -26,7 +26,7 @@ export const friendsListTabButtonStyle = (isCurrentTab: boolean) =>
       padding: 0,
       width: '50%',
       height: '100%',
-      backgroundColor: isCurrentTab ? COLORS.GRAY5 : COLORS.GRAY3,
+      backgroundColor: isCurrentTab ? COLORS.BLACK_TRANSPARENTC : COLORS.BLACK_TRANSPARENT9,
     },
 
     span: {
@@ -36,12 +36,12 @@ export const friendsListTabButtonStyle = (isCurrentTab: boolean) =>
     },
 
     ':hover': {
-      backgroundColor: !isCurrentTab && COLORS.WHITE_TRANSPARENT3,
+      backgroundColor: !isCurrentTab && COLORS.BLACK_TRANSPARENTA,
     },
   });
 
 export const friendsListWrapperStyle = css({
-  backgroundColor: COLORS.GRAY5,
+  backgroundColor: COLORS.BLACK_TRANSPARENTC,
   flex: 1,
   overflowX: 'hidden',
   overflowY: 'scroll',

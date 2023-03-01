@@ -42,9 +42,7 @@ export const chatPageMenuButtonStyle = css({
   marginLeft: 10,
 
   '&&': {
-    border: 0,
     padding: 0,
-    background: 0,
 
     ':hover': {
       background: 0,

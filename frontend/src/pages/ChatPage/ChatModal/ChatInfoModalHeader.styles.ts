@@ -1,12 +1,11 @@
 import { css } from '@emotion/css';
-import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
+import { COLORS, COMMON_SIZES, FONT_SIZES } from 'styles';
 
 export const chatModalHeaderStyle = css({
   width: 'calc(100% - 60px)',
   padding: '10px 30px',
   display: 'flex',
   flexDirection: 'row',
-  borderBottom: makeBorder({}),
 });
 
 export const chatModalLeftStyle = css({
@@ -32,11 +31,10 @@ export const chatModalIconButtonStyle = css({
   marginLeft: 10,
 
   '&&': {
-    border: 0,
     padding: 0,
-    background: 0,
     width: COMMON_SIZES.ICON_MEDIUM,
     height: COMMON_SIZES.ICON_MEDIUM,
+
     ':hover': {
       background: 0,
     },

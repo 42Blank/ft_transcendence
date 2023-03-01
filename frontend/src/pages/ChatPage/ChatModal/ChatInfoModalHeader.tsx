@@ -49,6 +49,7 @@ export const ChatInfoModalHeader = ({ currentChatRoom, currentUserRole, onClickC
     } else {
       setIsPrivate(false);
     }
+    setIsEditMode(false);
   }
 
   function handleChangePrivate(value: number | boolean) {

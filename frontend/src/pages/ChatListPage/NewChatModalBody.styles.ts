@@ -37,8 +37,6 @@ export const formSectionButtonStyle = css({
 
   '&&': {
     padding: '10px 0',
-    border: 0,
-    borderRadius: 0,
 
     ':first-child': {
       borderRight: makeBorder({}),

@@ -25,7 +25,6 @@ export const headerHamburgerButtonStyle = css({
   '&&': {
     padding: 0,
     marginRight: 20,
-    border: 0,
   },
 
   svg: {
@@ -43,7 +42,6 @@ export const headerIconButtonStyle = css({
   '&&': {
     padding: 0,
     marginRight: 30,
-    border: 0,
   },
 
   ':hover': {
@@ -56,7 +54,6 @@ export const headerMainButtonStyle = (isSelected: boolean) =>
     '&&': {
       paddingLeft: 20,
       paddingRight: 20,
-      border: 0,
     },
 
     span: {

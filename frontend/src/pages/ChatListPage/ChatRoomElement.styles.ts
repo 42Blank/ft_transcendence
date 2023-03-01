@@ -53,9 +53,6 @@ export const chatRoomFormButtonSectionStyle = css({
   button: {
     flex: 1,
     height: '100%',
-    border: 0,
-    background: 0,
-    borderRadius: 0,
 
     ':first-child': {
       borderRight: makeBorder({}),

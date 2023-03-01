@@ -51,8 +51,6 @@ export const userMenuHoverButton = css({
   '&&': {
     width: '100%',
     padding: 10,
-    borderRadius: 0,
-    border: 0,
   },
 
   ':first-child': {
