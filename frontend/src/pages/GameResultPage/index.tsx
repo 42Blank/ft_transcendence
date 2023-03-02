@@ -5,6 +5,7 @@ import { Button } from 'common';
 import { useGetMatchHistoryById } from 'hooks';
 import { FightIcon } from 'assets';
 import { MatchHistoryUserBox } from 'pages/ProfilePage/MatchHistoryList/MatchHistoryUserBox';
+
 import {
   gameResultButtonWrapper,
   gameResultMatchWrapper,
