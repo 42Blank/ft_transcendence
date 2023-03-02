@@ -16,7 +16,6 @@ import { ChatInfoModalBody, ChatInfoModalHeader } from './ChatModal';
 import {
   chatPageListWrapperStyle,
   chatPageMenuButtonStyle,
-  chatPageModalStyle,
   chatPageTitleLeftSectionStyle,
   chatPageTitleStyle,
   chatPageWrapperStyle,
@@ -101,7 +100,7 @@ export const ChatPage = () => {
         <ChatInput />
       </main>
       {isModalShown && (
-        <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
+        <Modal onClickClose={handleCloseModal}>
           <ChatInfoModalHeader
             currentChatRoom={currentChatRoom}
             currentUserRole={currentUserRole}
@@ -111,7 +110,7 @@ export const ChatPage = () => {
         </Modal>
       )}
       {isInviteModalShown && (
-        <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
+        <Modal onClickClose={handleCloseModal}>
           <h3 className={chatPageTitleStyle}>게임 초대</h3>
           <GameInviteModalBody
             onClickClose={handleCloseInviteModal}

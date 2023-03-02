@@ -66,7 +66,7 @@ export const chatUserDrawerStyle = (isDrawerOpen: boolean) =>
     flexDirection: 'row',
     alignItems: 'flex-start',
     width: 'fit-content',
-    height: '100%',
+    height: 'calc(100% - 16px)',
     top: 16,
     right: isDrawerOpen ? 0 : -120,
     transition: makeTransition({ attrs: 'right' }),
@@ -75,10 +75,12 @@ export const chatUserDrawerStyle = (isDrawerOpen: boolean) =>
 export const chatUserDrawerInnerStyle = css({
   backgroundColor: COLORS.GRAYA,
   width: 100,
-  height: 'calc(100% - 52px)',
+  height: 'calc(100% - 20px)',
   display: 'flex',
   flexDirection: 'column',
   padding: 10,
+  overflowX: 'hidden',
+  overflowY: 'scroll',
 });
 
 export const chatUserButtonStyle = css({
