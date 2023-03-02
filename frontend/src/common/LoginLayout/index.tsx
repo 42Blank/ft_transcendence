@@ -1,8 +1,5 @@
-import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-import { useGetUser } from 'hooks';
-import { ROUTE } from 'common/constants';
 import { GithubIcon } from 'assets';
 
 import {
@@ -21,10 +18,6 @@ interface TitleCharObj {
 }
 
 export const LoginLayout = () => {
-  const {
-    data: { id },
-  } = useGetUser();
-  const nav = useNavigate();
   const titleChar: TitleCharObj = {
     5: { src: '/images/kobeni.png', alt: 'kobeni', top: -60, right: -120 },
     6: { src: '/images/power.png', alt: 'power', top: -60, right: -120 },
@@ -32,10 +25,6 @@ export const LoginLayout = () => {
     8: { src: '/images/quanxi.png', alt: 'quanxi', top: -70, right: -130 },
     9: { src: '/images/yoru.png', alt: 'yoru', top: -80, right: -60 },
   }[Math.floor(Math.random() * 10)] ?? { src: '/images/csm.png', alt: 'chainsaw-man', top: -60, right: -180 };
-
-  useEffect(() => {
-    if (id >= 0) nav(ROUTE.CHAT);
-  }, [id]);
 
   return (
     <div className={loginLayoutScreenWrapperStyle}>
