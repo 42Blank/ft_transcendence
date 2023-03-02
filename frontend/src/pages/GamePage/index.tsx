@@ -8,7 +8,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTE } from 'common/constants';
 import { playerRoleState } from 'store/playerRoleState';
+import { Button } from 'common';
+import { HourglassIcon } from 'assets';
 import GamePong from './GamePong';
+import { waitGameTitleStyle, waitGameWrapperStyle } from './GamePage.styles';
 
 export const GamePage = () => {
   const nav = useNavigate();
@@ -36,11 +39,12 @@ export const GamePage = () => {
 
   if (currentGameRoom.state === 'waiting') {
     return (
-      <div>
-        <span>상대를 기다리는 중</span>
-        <button type="button" onClick={onClickCancle}>
-          <span>[취소]</span>
-        </button>
+      <div className={waitGameWrapperStyle}>
+        <HourglassIcon />
+        <h3 className={waitGameTitleStyle}>상대를 기다리는 중...</h3>
+        <Button onClick={onClickCancle}>
+          <span>취소</span>
+        </Button>
       </div>
     );
   }
