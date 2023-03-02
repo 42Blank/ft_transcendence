@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder } from 'styles';
+import { COLORS, COMMON_SIZES, FONT_SIZES } from 'styles';
 
 export const chatPageWrapperStyle = css({
   flex: 1,
@@ -62,11 +62,4 @@ export const chatPageListWrapperStyle = css({
   flexDirection: 'column-reverse',
   overflowX: 'hidden',
   overflowY: 'scroll',
-});
-
-export const chatPageModalStyle = css({
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: COLORS.BLACK,
-  border: makeBorder({}),
 });

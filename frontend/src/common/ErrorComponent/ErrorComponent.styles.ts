@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 export const errorComponentWrapperStyle = css({
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
 

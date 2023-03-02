@@ -1,25 +1,29 @@
 import { css } from '@emotion/css';
 
-export const modalBackgroundStyle = css`
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 5;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(5px);
-  background-color: #00000010; // TODO: 상수화
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
 
-export const modalInnerStyle = css`
-  z-index: 10;
-  background-color: white;
-  width: 50%;
-  height: 50%;
-  border: 1px solid black; // TODO: 상수화
-  border-radius: 5px;
-`;
+export const modalBackgroundStyle = css({
+  position: 'fixed',
+  left: 0,
+  top: 0,
+  zIndex: 5,
+  width: '100vw',
+  height: '100vh',
+  backdropFilter: 'blur(5px)',
+  backgroundColor: COLORS.BLACK_TRANSPARENT3,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+export const modalInnerStyle = css({
+  display: 'flex',
+  flexDirection: 'column',
+  width: 480,
+  height: 320,
+  zIndex: 10,
+  backgroundColor: COLORS.BLACK,
+  border: makeBorder({}),
+  borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+});

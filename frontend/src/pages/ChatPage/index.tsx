@@ -10,17 +10,16 @@ import { currentChatDataState, inviteGameRoomState, leaveChatRoomState } from 's
 import { checkUserRole } from 'utils';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
+import { GameInviteModalBody } from './GameInviteModal';
 import { ChatInfoModalBody, ChatInfoModalHeader } from './ChatModal';
 
 import {
   chatPageListWrapperStyle,
   chatPageMenuButtonStyle,
-  chatPageModalStyle,
   chatPageTitleLeftSectionStyle,
   chatPageTitleStyle,
   chatPageWrapperStyle,
 } from './ChatPage.styles';
-import { GameInviteModalBody } from './GameInviteModal';
 
 export const ChatPage = () => {
   const {
@@ -101,32 +100,17 @@ export const ChatPage = () => {
         <ChatInput />
       </main>
       {isModalShown && (
-        <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
+        <Modal onClickClose={handleCloseModal}>
           <ChatInfoModalHeader
             currentChatRoom={currentChatRoom}
             currentUserRole={currentUserRole}
             onClickClose={handleCloseModal}
           />
-          <ChatInfoModalBody
-            users={currentChatRoom.users}
-            bannedUsers={[
-              {
-                id: 0,
-                intraId: '111',
-                nickname: '테스트',
-                avatar: 'null',
-                point: 1,
-                createdAt: 'a',
-                updatedAt: 'a',
-                isTwoFactorAuth: false,
-              },
-            ]}
-            currentUserRole={currentUserRole}
-          />
+          <ChatInfoModalBody users={currentChatRoom.users} bannedUsers={blockList} currentUserRole={currentUserRole} />
         </Modal>
       )}
       {isInviteModalShown && (
-        <Modal onClickClose={handleCloseModal} className={chatPageModalStyle}>
+        <Modal onClickClose={handleCloseModal}>
           <h3 className={chatPageTitleStyle}>게임 초대</h3>
           <GameInviteModalBody
             onClickClose={handleCloseInviteModal}

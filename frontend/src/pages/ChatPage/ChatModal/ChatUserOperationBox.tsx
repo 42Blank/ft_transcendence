@@ -2,6 +2,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { userOperationState, inviteGameRoomSocketIdState } from 'store';
 import { Button } from 'common';
+import { useGetUser } from 'hooks';
 import { ChatUserInfoType, ChatUserRoleType } from 'types/chat';
 import { BanIcon, FightIcon, KickIcon, MuteIcon, UnmuteIcon, VerifiedIcon, VerifyIcon } from 'assets';
 
@@ -14,6 +15,9 @@ interface Props {
 
 export const ChatUserOperationBox = ({ chatUser, currentUserRole }: Props) => {
   const { user, role, isMuted, socketId } = chatUser;
+  const {
+    data: { id: myId },
+  } = useGetUser();
   const setOperation = useSetRecoilState(userOperationState);
   const setInviteGameRoomSocketId = useSetRecoilState(inviteGameRoomSocketIdState);
 
@@ -40,6 +44,25 @@ export const ChatUserOperationBox = ({ chatUser, currentUserRole }: Props) => {
   function handleFightButton() {
     setInviteGameRoomSocketId(socketId);
   }
+
+  if (user.id === myId)
+    return (
+      <div className={chatUserDrawerInnerStyle}>
+        <Button className={chatUserButtonStyle}>
+          {role === 'operator' || role === 'host' ? (
+            <>
+              <VerifiedIcon />
+              <span>관리자</span>
+            </>
+          ) : (
+            <>
+              <VerifyIcon />
+              <span>일반 유저</span>
+            </>
+          )}
+        </Button>
+      </div>
+    );
 
   return (
     <div className={chatUserDrawerInnerStyle}>

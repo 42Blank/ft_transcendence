@@ -3,6 +3,7 @@ import { COLORS, COMMON_SIZES, FONT_SIZES } from 'styles';
 
 export const chatModalHeaderStyle = css({
   width: 'calc(100% - 60px)',
+  height: 100,
   padding: '10px 30px',
   display: 'flex',
   flexDirection: 'row',
@@ -55,10 +56,12 @@ export const chatVisibilityWrapperStyle = css({
 });
 
 export const chatVisibilitySpanStyle = css({
+  fontSize: FONT_SIZES.MEDIUM,
   color: COLORS.WHITE,
 });
 
 export const chatVisibilityMiddleSpanStyle = css({
+  fontSize: FONT_SIZES.MEDIUM,
   margin: '0 5px',
 });
 
