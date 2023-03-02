@@ -20,3 +20,4 @@ export { ReactComponent as CheckIcon } from './checkIcon.svg';
 export { ReactComponent as CloseIcon } from './closeIcon.svg';
 export { ReactComponent as EllipsisIcon } from './ellipsisIcon.svg';
 export { ReactComponent as SendIcon } from './sendIcon.svg';
+export { ReactComponent as hourglassIcon } from './hourglassIcon.svg';
