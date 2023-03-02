@@ -1,4 +1,30 @@
 import { css } from '@emotion/css';
+import { COLORS, FONT_SIZES, makeBorder } from 'styles';
+
+export const newGameModalStyle = css({
+  width: 480,
+  height: 'fit-content',
+  overflow: 'hidden',
+  '&&': {
+    border: makeBorder({}),
+  },
+});
+
+export const newGameFormWrapperStyle = css({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: COLORS.BLACK,
+});
+
+export const newGameFormTitleStyle = css({
+  width: 'calc(100% - 60px)',
+  fontSize: FONT_SIZES.LARGE,
+  color: COLORS.WHITE,
+  padding: '10px 30px',
+  marginBottom: 20,
+  borderBottom: makeBorder({}),
+});
 
 export const newGameFormStyle = css`
   flex: 1;

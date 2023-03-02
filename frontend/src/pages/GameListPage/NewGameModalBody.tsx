@@ -1,5 +1,5 @@
-import { Dropdown } from 'common';
-import { FormEvent, useState } from 'react';
+import { Button, Dropdown } from 'common';
+import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { newGameRoomState, playerRoleState } from 'store';
 
@@ -27,8 +27,7 @@ export const NewGameModalBody = ({ onClickClose }: Props) => {
   function handleToggleMode(value: number | boolean) {
     setIsNormal(value as boolean);
   }
-  function handleOnClick(e: FormEvent) {
-    e.preventDefault();
+  function handleOnClick() {
     setPlayerRole({ role: 'host' });
     const mode = isNormal ? 'normal' : 'red';
     setNewGameRoom({
@@ -47,12 +46,12 @@ export const NewGameModalBody = ({ onClickClose }: Props) => {
         </div>
       </div>
       <div className={formSectionButtonWrapper}>
-        <button type="button" onClick={onClickClose}>
-          닫기
-        </button>
-        <button type="button" onClick={handleOnClick}>
-          생성
-        </button>
+        <Button onClick={onClickClose}>
+          <span>닫기</span>
+        </Button>
+        <Button onClick={handleOnClick}>
+          <span>생성</span>
+        </Button>
       </div>
     </div>
   );
