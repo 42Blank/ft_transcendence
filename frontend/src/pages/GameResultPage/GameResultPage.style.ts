@@ -6,7 +6,7 @@ export const gameResultPageWrapper = css({
   flexDirection: 'column',
   alignItems: 'center',
   width: 'calc(100% - 40px)',
-  padding: '15% 20px',
+  padding: '150px 20px',
 
   ':not(:last-child)': {
     borderBottom: makeBorder({ color: COLORS.WHITE_TRANSPARENT6 }),
@@ -15,7 +15,6 @@ export const gameResultPageWrapper = css({
   ':first-child': {
     paddingTop: 0,
   },
-  ':nth-child(2)': {},
 
   svg: {
     width: COMMON_SIZES.ICON_LARGE,
@@ -44,7 +43,7 @@ export const gameResultPageMatchPointWinWrapper = css({
   textAlign: 'right',
   fontWeight: 600,
   fontSize: FONT_SIZES.XLARGE,
-  color: COLORS.GREEN,
+  color: COLORS.YELLOW,
   marginTop: 10,
 });
 
@@ -54,7 +53,7 @@ export const gameResultPageMatchPointLoseWrapper = css({
   textAlign: 'left',
   fontWeight: 600,
   fontSize: FONT_SIZES.XLARGE,
-  color: COLORS.RED,
+  color: COLORS.GRAY5,
   marginTop: 10,
 });
 
