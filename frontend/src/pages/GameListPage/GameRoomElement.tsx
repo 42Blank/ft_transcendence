@@ -1,15 +1,18 @@
+import { Button } from 'common';
 import { Avatar } from 'common/Avatar';
 import { useSetRecoilState } from 'recoil';
-import { joinGameRoomState, joinSpectateRoomState } from 'store';
-import { playerRoleState } from 'store/playerRoleState';
+import { joinGameRoomState, joinSpectateRoomState, playerRoleState } from 'store';
 import { GameRoomInfoType } from 'types/game';
 
 import {
   gameRoomElementStyle,
   gameRoomVsSectionStyle,
-  gameRoomLinkStyle,
-  gameRoomUserWrapperStyle,
   gameRoomVsSpanStyle,
+  gameRoomFormSectionStyle,
+  gameRoomFormButtonSectionStyle,
+  gameRoomTextSectionStyle,
+  gameRoomAvatarSectionStyle,
+  gameRoomUserWrapperStyle,
 } from './GameRoomElement.styles';
 
 interface Props {
@@ -32,32 +35,29 @@ export const GameRoomElement = ({ gameRoomInfo }: Props) => {
   }
 
   return (
-    <div className={gameRoomLinkStyle}>
-      <div className={gameRoomElementStyle}>
+    <div className={gameRoomElementStyle}>
+      <h3>
+        {mode} - {state}
+      </h3>
+      <div className={gameRoomFormSectionStyle}>
         <div className={gameRoomVsSectionStyle}>
           <div className={gameRoomUserWrapperStyle}>
-            <Avatar userAvatar={host.user.avatar} size={30} />
-            <span>{host.user.nickname}</span>
+            <Avatar userAvatar={host.user.avatar} className={gameRoomAvatarSectionStyle} />
+            <span className={gameRoomTextSectionStyle}>{host.user.nickname}</span>
           </div>
           <span className={gameRoomVsSpanStyle}>vs</span>
           <div className={gameRoomUserWrapperStyle}>
-            <Avatar userAvatar={challenger && challenger.user.avatar} size={30} />
-            <span>{challenger && challenger.user.nickname}</span>
+            <Avatar userAvatar={challenger && challenger.user.avatar} className={gameRoomAvatarSectionStyle} />
+            <span className={gameRoomTextSectionStyle}>{challenger && challenger.user.nickname}</span>
           </div>
-          <div>
-            <span>{mode}</span>
-          </div>
-          <div>
-            <span>{state}</span>
-          </div>
-          <div>
-            <button type="button" onClick={handleClickJoinButton}>
-              <span>[입장]</span>
-            </button>
-            <button type="button" onClick={handleClickSpectateButton}>
-              <span>[관전]</span>
-            </button>
-          </div>
+        </div>
+        <div className={gameRoomFormButtonSectionStyle}>
+          <Button onClick={handleClickJoinButton}>
+            <span>입장</span>
+          </Button>
+          <Button onClick={handleClickSpectateButton}>
+            <span>관전</span>
+          </Button>
         </div>
       </div>
     </div>

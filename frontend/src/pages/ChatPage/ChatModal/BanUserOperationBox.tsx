@@ -11,14 +11,16 @@ import { chatUserButtonStyle, chatUserDrawerInnerStyle } from './ChatUserListEle
 interface Props {
   banUser: UserInfoType;
   currentUserRole: ChatUserRoleType;
+  onClickClose: () => void;
 }
 
-export const BanUserOperationBox = ({ banUser, currentUserRole }: Props) => {
+export const BanUserOperationBox = ({ banUser, currentUserRole, onClickClose }: Props) => {
   const { id } = banUser;
   const setOperation = useSetRecoilState(userOperationState);
 
   function handleClickUnbanIcon() {
     setOperation({ userId: id, operation: 'unban' });
+    onClickClose();
   }
 
   return (

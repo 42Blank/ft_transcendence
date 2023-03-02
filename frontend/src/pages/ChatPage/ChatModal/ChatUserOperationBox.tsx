@@ -11,9 +11,10 @@ import { chatUserButtonStyle, chatUserDrawerInnerStyle } from './ChatUserListEle
 interface Props {
   chatUser: ChatUserInfoType;
   currentUserRole: ChatUserRoleType;
+  onClickClose: () => void;
 }
 
-export const ChatUserOperationBox = ({ chatUser, currentUserRole }: Props) => {
+export const ChatUserOperationBox = ({ chatUser, currentUserRole, onClickClose }: Props) => {
   const { user, role, isMuted, socketId } = chatUser;
   const {
     data: { id: myId },
@@ -22,33 +23,42 @@ export const ChatUserOperationBox = ({ chatUser, currentUserRole }: Props) => {
   const setInviteGameRoomSocketId = useSetRecoilState(inviteGameRoomSocketIdState);
 
   function handleClickGiveOrTakeButton() {
-    if (currentUserRole === 'user' || role === 'host') return;
-    setOperation({ userId: user.id, operation: role === 'user' ? 'give_operator' : 'take_operator' });
+    if (!(currentUserRole === 'user' || role === 'host')) {
+      setOperation({ userId: user.id, operation: role === 'user' ? 'give_operator' : 'take_operator' });
+    }
+    onClickClose();
   }
 
   function handleClickBanButton() {
-    if (currentUserRole === 'user' || role === 'host') return;
-    setOperation({ userId: user.id, operation: 'ban' });
+    if (!(currentUserRole === 'user' || role === 'host')) {
+      setOperation({ userId: user.id, operation: 'ban' });
+    }
+    onClickClose();
   }
 
   function handleClickKickButton() {
-    if (currentUserRole === 'user' || role === 'host') return;
-    setOperation({ userId: user.id, operation: 'kick' });
+    if (!(currentUserRole === 'user' || role === 'host')) {
+      setOperation({ userId: user.id, operation: 'kick' });
+    }
+    onClickClose();
   }
 
   function handleClickToggleMuteButton() {
-    if (currentUserRole === 'user' || role === 'host') return;
-    setOperation({ userId: user.id, operation: isMuted ? 'unmute' : 'mute' });
+    if (!(currentUserRole === 'user' || role === 'host')) {
+      setOperation({ userId: user.id, operation: isMuted ? 'unmute' : 'mute' });
+    }
+    onClickClose();
   }
 
   function handleFightButton() {
     setInviteGameRoomSocketId(socketId);
+    onClickClose();
   }
 
   if (user.id === myId)
     return (
       <div className={chatUserDrawerInnerStyle}>
-        <Button className={chatUserButtonStyle}>
+        <Button className={chatUserButtonStyle} onClick={onClickClose}>
           {role === 'operator' || role === 'host' ? (
             <>
               <VerifiedIcon />

@@ -60,22 +60,24 @@ export const chatUserNicknameSpanStyle = css({
 
 export const chatUserDrawerStyle = (isDrawerOpen: boolean) =>
   css({
-    position: 'absolute',
+    position: 'fixed',
     zIndex: 6,
+    opacity: isDrawerOpen ? 1 : 0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    width: 'fit-content',
+    width: 400,
     height: 'calc(100% - 16px)',
-    top: 16,
-    right: isDrawerOpen ? 0 : -120,
-    transition: makeTransition({ attrs: 'right' }),
+    top: '50vh',
+    left: isDrawerOpen ? 'calc(50vw + 130px)' : 'calc(50vw + 230px)',
+    transition: `${makeTransition({ attrs: 'opacity' })}, ${makeTransition({ attrs: 'left' })}`,
   });
 
 export const chatUserDrawerInnerStyle = css({
+  width: 180,
+  height: 180,
   backgroundColor: COLORS.GRAYA,
-  width: 100,
-  height: 'calc(100% - 20px)',
+  borderRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
   display: 'flex',
   flexDirection: 'column',
   padding: 10,
