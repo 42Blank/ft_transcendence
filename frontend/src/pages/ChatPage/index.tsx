@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { ROUTE } from 'common/constants';
-import { CloseIcon, LockIcon, EllipsisIcon } from 'assets';
+import { CloseIcon, EllipsisIcon, LockIcon } from 'assets';
 import { Button, Modal } from 'common';
+import { ROUTE } from 'common/constants';
 import { useGetBlockList, useGetCurrentChatRoom, useGetUser } from 'hooks';
 import { currentChatDataState, inviteGameRoomState, leaveChatRoomState } from 'store';
 import { checkUserRole } from 'utils';
 import { ChatElement } from './ChatElement';
 import { ChatInput } from './ChatInput';
-import { GameInviteModalBody } from './GameInviteModal';
 import { ChatInfoModalBody, ChatInfoModalHeader } from './ChatModal';
+import { GameInviteModalBody } from './GameInviteModal';
 
 import {
   chatPageListWrapperStyle,
@@ -106,7 +106,11 @@ export const ChatPage = () => {
             currentUserRole={currentUserRole}
             onClickClose={handleCloseModal}
           />
-          <ChatInfoModalBody users={currentChatRoom.users} bannedUsers={blockList} currentUserRole={currentUserRole} />
+          <ChatInfoModalBody
+            users={currentChatRoom.users}
+            bannedUsers={currentChatRoom.bannedUsers}
+            currentUserRole={currentUserRole}
+          />
         </Modal>
       )}
       {isInviteModalShown && (
