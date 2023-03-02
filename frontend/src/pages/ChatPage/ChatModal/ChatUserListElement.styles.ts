@@ -72,13 +72,12 @@ export const chatUserDrawerStyle = (isDrawerOpen: boolean) =>
   });
 
 export const chatUserDrawerInnerStyle = css({
-  backgroundColor: COLORS.GRAY9,
+  backgroundColor: COLORS.GRAYA,
   width: 100,
   height: 'calc(100% - 52px)',
   display: 'flex',
   flexDirection: 'column',
   padding: 10,
-  borderBottomLeftRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
 });
 
 export const chatUserButtonStyle = css({
@@ -91,7 +90,7 @@ export const chatUserButtonStyle = css({
   '&&': {
     padding: '5px 0',
     ':hover': {
-      backgroundColor: COLORS.TRANSPARENT,
+      backgroundColor: COLORS.GRAY9,
     },
   },
 
@@ -122,12 +121,12 @@ export const chatUserDrawerButtonStyle = (isDrawerOpen: boolean) =>
     transition: makeTransition({ attrs: 'margin-right' }),
 
     '&&': {
-      backgroundColor: COLORS.GRAY9,
+      backgroundColor: COLORS.GRAYA,
       borderTopLeftRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
       borderBottomLeftRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
 
       ':hover': {
-        backgroundColor: COLORS.GRAY9,
+        backgroundColor: COLORS.GRAYA,
       },
     },
 
