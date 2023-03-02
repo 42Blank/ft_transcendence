@@ -7,7 +7,7 @@ import { gameRoomListState } from 'store';
 import { GameRoomElement } from './GameRoomElement';
 
 import { gameListWrapperStyle, gameMatchIconStyle, gameRoomIconStyle } from './GameListPage.styles';
-import { newGameFormTitleStyle, newGameFormWrapperStyle, newGameModalStyle } from './NewGameModalBody.styles';
+import { newGameModalHeaderStyle, newGameModalWrapperStyle } from './NewGameModalBody.styles';
 import { LadderGameModalBody } from './LadderGameModalBody';
 import { NewGameModalBody } from './NewGameModalBody';
 import {
@@ -54,17 +54,15 @@ export const GameListPage = () => {
         <FightIcon />
       </button>
       {isNewGameModalShown && (
-        <Modal onClickClose={handleClickClose} className={newGameModalStyle}>
-          <header className={newGameFormWrapperStyle}>
-            <h3 className={newGameFormTitleStyle}>새 게임 만들기</h3>
-          </header>
+        <Modal onClickClose={handleClickClose} className={newGameModalWrapperStyle}>
+          <h3 className={newGameModalHeaderStyle}>새 게임 만들기</h3>
           <NewGameModalBody onClickClose={handleClickClose} />
         </Modal>
       )}
       {isLadderModalShown && (
         <Modal onClickClose={handleClickClose} className={ladderGameModalStyle}>
           <header className={ladderGameFormWrapperStyle}>
-            <h4 className={ladderGameFormTitleStyle}> 상대를 찾는 중</h4>
+            <h3 className={ladderGameFormTitleStyle}> 상대를 찾는 중</h3>
           </header>
           <LadderGameModalBody onClickClose={handleClickClose} />
         </Modal>
