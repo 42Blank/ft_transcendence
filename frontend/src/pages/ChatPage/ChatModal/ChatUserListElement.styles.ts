@@ -1,13 +1,16 @@
 import { css } from '@emotion/css';
+import { COLORS, COMMON_SIZES, FONT_SIZES, makeBorder, makeTransition } from 'styles';
 import { ChatUserRoleType } from 'types/chat';
 
-export const chatUserElementWrapperStyle = css`
-  width: calc(100% - 20px);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-`;
+export const chatUserElementWrapperStyle = css({
+  width: 'calc(100% - 10px)',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 10,
+  paddingLeft: 20,
+  paddingRight: 0,
+});
 
 export const chatUserLinkWrapperStyle = (userRole: ChatUserRoleType) =>
   css({
@@ -18,7 +21,6 @@ export const chatUserLinkWrapperStyle = (userRole: ChatUserRoleType) =>
     flexDirection: 'row',
     alignItems: 'center',
     overflow: 'hidden',
-    color: 'black',
     textDecoration: 'none',
 
     ':hover': {
@@ -29,43 +31,110 @@ export const chatUserLinkWrapperStyle = (userRole: ChatUserRoleType) =>
       position: 'absolute',
       left: 33,
       top: 30,
-      width: 20,
-      height: 20,
-      backgroundColor: userRole === 'host' ? 'magenta' : 'skyblue', // TODO: 상수화
-      border: '1px solid white', // TODO: 상수화
-      fill: 'white', // TODO: 상수화
-      borderRadius: 15,
+      width: COMMON_SIZES.ICON_SMALL,
+      height: COMMON_SIZES.ICON_SMALL,
+      backgroundColor: userRole === 'host' ? COLORS.HOST_COLOR : COLORS.OPERATOR_COLOR,
+      border: makeBorder({}),
+      fill: COLORS.WHITE,
+      borderRadius: COMMON_SIZES.ICON_SMALL,
     },
   });
 
 export const chatUserElementImageStyle = css({
-  width: 50,
-  height: 50,
   objectFit: 'cover',
-  borderRadius: 25,
-  marginRight: 10,
-  border: '1px solid black',
+  borderRadius: COMMON_SIZES.ICON_XLARGE,
+  marginRight: 20,
+  border: makeBorder({}),
 });
 
-export const chatUserNicknameSpanStyle = css`
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 20px;
-`;
+export const chatUserNicknameSpanStyle = css({
+  flex: 1,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  lineHeight: 1.5,
+  color: COLORS.WHITE,
+  fontSize: FONT_SIZES.MEDIUM,
+  fontWeight: 600,
+});
 
-export const chatUserButtonStyle = css`
-  position: relative;
-  width: 20px;
-  height: 20px;
+export const chatUserDrawerStyle = (isDrawerOpen: boolean) =>
+  css({
+    position: 'absolute',
+    zIndex: 6,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    width: 'fit-content',
+    height: '100%',
+    top: 16,
+    right: isDrawerOpen ? 0 : -120,
+    transition: makeTransition({ attrs: 'right' }),
+  });
 
-  & > svg {
-    width: 20px;
-    height: 20px;
-  }
+export const chatUserDrawerInnerStyle = css({
+  backgroundColor: COLORS.GRAYA,
+  width: 100,
+  height: 'calc(100% - 52px)',
+  display: 'flex',
+  flexDirection: 'column',
+  padding: 10,
+});
 
-  &:not(:last-child) {
-    margin-right: 10px;
-  }
-`;
+export const chatUserButtonStyle = css({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderBottom: makeBorder({ color: COLORS.GRAY5 }),
+
+  '&&': {
+    padding: '5px 0',
+    ':hover': {
+      backgroundColor: COLORS.GRAY9,
+    },
+  },
+
+  ':not(:last-child)': {
+    marginRight: 10,
+  },
+
+  svg: {
+    width: COMMON_SIZES.ICON_MEDIUM,
+    height: COMMON_SIZES.ICON_MEDIUM,
+    marginRight: 10,
+  },
+
+  span: {
+    color: COLORS.BLACK,
+    fontSize: FONT_SIZES.SMALL,
+  },
+});
+
+export const chatUserDrawerButtonStyle = (isDrawerOpen: boolean) =>
+  css({
+    width: COMMON_SIZES.ICON_LARGE,
+    height: COMMON_SIZES.ICON_LARGE,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: isDrawerOpen ? 120 : 0,
+    transition: makeTransition({ attrs: 'margin-right' }),
+
+    '&&': {
+      backgroundColor: COLORS.GRAYA,
+      borderTopLeftRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+      borderBottomLeftRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+
+      ':hover': {
+        backgroundColor: COLORS.GRAYA,
+      },
+    },
+
+    svg: {
+      transform: isDrawerOpen ? 'rotate(0.75turn)' : 'rotate(0.25turn)',
+      width: COMMON_SIZES.ICON_MEDIUM,
+      height: COMMON_SIZES.ICON_MEDIUM,
+      fill: COLORS.GRAY3,
+    },
+  });

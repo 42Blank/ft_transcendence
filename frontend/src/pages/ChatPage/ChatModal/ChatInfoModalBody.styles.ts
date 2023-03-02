@@ -1,11 +1,13 @@
 import { css } from '@emotion/css';
+import { COLORS } from 'styles';
 
 export const chatInfoModalBodyStyle = css({
   width: '100%',
   flex: 1,
   overflowX: 'hidden',
   overflowY: 'scroll',
-  borderBottom: '1px solid black', // TODO: 상수화
+  position: 'relative',
+  backgroundColor: COLORS.GRAY5,
 });
 
 export const chatInfoModalBodyButtonWrapperStyle = css({
@@ -13,7 +15,7 @@ export const chatInfoModalBodyButtonWrapperStyle = css({
   height: 30,
   display: 'flex',
   flexDirection: 'row',
-  borderBottom: '1px solid black', // TODO: 상수화
+  backgroundColor: COLORS.GRAY3,
 });
 
 export const chatInfoModalBodyButtonStyle = (isSelected: boolean) =>
@@ -21,11 +23,13 @@ export const chatInfoModalBodyButtonStyle = (isSelected: boolean) =>
     flex: 1,
     height: '100%',
 
-    span: {
-      fontWeight: isSelected ? 700 : 500,
+    '&&': {
+      padding: 0,
+      backgroundColor: isSelected ? COLORS.GRAY5 : COLORS.GRAY3,
     },
 
-    ':first-child': {
-      borderRight: '1px solid black', // TODO: 상수화
+    span: {
+      fontWeight: isSelected ? 700 : 500,
+      opacity: isSelected ? 1 : 0.7,
     },
   });

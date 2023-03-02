@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { LockIcon } from 'assets';
 import { useGetUser } from 'hooks';
-import { Button } from 'common';
+import { Button, Input } from 'common';
 import { joinChatRoomState } from 'store';
 import { ChatRoomInfoType } from 'types/chat';
 
@@ -66,7 +66,7 @@ export const ChatRoomElement = ({ chatRoomInfo }: Props) => {
       <LockIcon />
       <h3>{roomTitle}</h3>
       <form className={chatRoomFormSectionStyle} onSubmit={handleSubmitPasswordAndJoin}>
-        <input type="password" placeholder="비밀번호" ref={passwordRef} required />
+        <Input isPassword maxLength={20} placeholder="비밀번호" inputRef={passwordRef} required />
         <div className={chatRoomFormButtonSectionStyle}>
           <Button onClick={handleClickCancelButton}>
             <span>취소</span>

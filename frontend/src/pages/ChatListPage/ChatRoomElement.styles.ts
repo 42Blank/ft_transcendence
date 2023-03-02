@@ -40,19 +40,6 @@ export const chatRoomFormSectionStyle = css({
   flexDirection: 'column',
   justifyContent: 'space-between',
   alignItems: 'center',
-
-  input: {
-    marginTop: 20,
-    border: 0,
-    background: 0,
-    borderBottom: makeBorder({}),
-    fontSize: 15,
-    color: COLORS.WHITE,
-
-    ':placeholder': {
-      color: COLORS.WHITE_TRANSPARENT9,
-    },
-  },
 });
 
 export const chatRoomFormButtonSectionStyle = css({
@@ -66,9 +53,6 @@ export const chatRoomFormButtonSectionStyle = css({
   button: {
     flex: 1,
     height: '100%',
-    border: 0,
-    background: 0,
-    borderRadius: 0,
 
     ':first-child': {
       borderRight: makeBorder({}),

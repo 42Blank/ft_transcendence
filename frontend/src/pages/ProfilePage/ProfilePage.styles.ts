@@ -20,9 +20,7 @@ export const profileTabStyle = (isSelected: boolean) =>
   css({
     '&&': {
       backgroundColor: isSelected ? COLORS.BLACK_TRANSPARENT3 : COLORS.BLACK_TRANSPARENT6,
-      border: 0,
       padding: '10px 40px',
-      borderRadius: 0,
     },
 
     span: {

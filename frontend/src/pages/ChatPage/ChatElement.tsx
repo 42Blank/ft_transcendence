@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 
 import { CrownIcon } from 'assets';
+import { Avatar } from 'common';
 import { ROUTE } from 'common/constants';
 import { ChatUserInfoType } from 'types/chat';
+import { COMMON_SIZES } from 'styles';
 
 import {
   chatBodyWrapper,
@@ -37,7 +39,7 @@ export const ChatElement = ({ chatUser, message, timestamp, isMine }: Props) => 
   return (
     <li className={chatElementWrapper(false)}>
       <Link to={`${ROUTE.PROFILE}/${id}`} className={chatProfileWrapper}>
-        <img src={avatar} alt={`${nickname}-profile`} width={50} height={50} />
+        <Avatar userAvatar={avatar} size={COMMON_SIZES.ICON_XLARGE} />
         <span>{nickname}</span>
         {(chatUser.role === 'operator' || chatUser.role === 'host') && <CrownIcon />}
       </Link>

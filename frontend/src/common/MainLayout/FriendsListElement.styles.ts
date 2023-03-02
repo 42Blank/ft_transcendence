@@ -1,6 +1,16 @@
 import { css } from '@emotion/css';
 import { COLORS, makeBorder, makeTransition } from 'styles';
 
+function getStateColor(state: string) {
+  return (
+    {
+      online: COLORS.GREEN,
+      chatting: COLORS.YELLOW,
+      playing: COLORS.ORANGE,
+    }[state] ?? COLORS.GRAY3
+  );
+}
+
 export const friendsListElementStyle = (state: string) =>
   css({
     position: 'relative',
@@ -26,7 +36,7 @@ export const friendsListElementStyle = (state: string) =>
       position: 'absolute',
       display: 'block',
       bottom: 5,
-      left: 45,
+      left: 40,
       width: 12,
       height: 12,
       backgroundColor: getStateColor(state),
@@ -35,26 +45,14 @@ export const friendsListElementStyle = (state: string) =>
     },
 
     ':hover': {
-      backgroundColor: COLORS.GRAY3,
+      backgroundColor: COLORS.BLACK_TRANSPARENT3,
     },
   });
 
 export const friendsListImageStyle = css({
-  marginRight: 20,
+  marginRight: 15,
 });
 
-function getStateColor(state: string) {
-  if (state === 'online') {
-    return COLORS.GREEN;
-  }
-  if (state === 'chatting') {
-    return COLORS.YELLOW;
-  }
-  if (state === 'playing') {
-    return COLORS.ORANGE;
-  }
-  return COLORS.GRAY3;
-}
 export const friendsListNameStyle = css({
   flex: 1,
   overflow: 'hidden',

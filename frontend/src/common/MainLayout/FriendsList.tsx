@@ -7,7 +7,12 @@ import { onlineUserListState } from 'store';
 import { UserInfoType } from 'types/user';
 import { FriendsListElement } from './FriendsListElement';
 
-import { friendsListStyle, friendsListTabButtonStyle, friendsListTabWrapperStyle } from './FriendsList.styles';
+import {
+  friendsListStyle,
+  friendsListTabButtonStyle,
+  friendsListTabWrapperStyle,
+  friendsListWrapperStyle,
+} from './FriendsList.styles';
 
 interface Props {
   isOpen: boolean;
@@ -48,7 +53,7 @@ export const FriendsList = ({ isOpen }: Props) => {
           <span>전체 유저 목록</span>
         </Button>
       </div>
-      <ul>
+      <ul className={friendsListWrapperStyle}>
         {(isFriendTab ? friendList : userList).map(userInfo => (
           <FriendsListElement
             userInfo={userInfo}

@@ -7,38 +7,42 @@ export const friendsListStyle = (isOpen: boolean) =>
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: COLORS.BLACK,
     transition: makeTransition({ attrs: 'margin' }),
     marginLeft: !isOpen && -251,
-
-    ul: {
-      flex: 1,
-      overflowX: 'hidden',
-      overflowY: 'scroll',
-    },
+    overflow: 'hidden',
   });
 
 export const friendsListTabWrapperStyle = css({
   width: '100%',
+  height: 40,
   textAlign: 'center',
-  marginBottom: 10,
 });
 
 export const friendsListTabButtonStyle = (isCurrentTab: boolean) =>
   css({
     '&&': {
       border: 0,
+      borderRadius: 0,
+      padding: 0,
       width: '50%',
-      padding: '10px 0',
-      opacity: !isCurrentTab && 0.5,
+      height: '100%',
+      backgroundColor: isCurrentTab ? COLORS.BLACK_TRANSPARENTC : COLORS.BLACK_TRANSPARENT9,
     },
 
     span: {
       color: COLORS.WHITE,
+      opacity: isCurrentTab ? 1 : 0.7,
       fontWeight: isCurrentTab ? 700 : 400,
     },
 
     ':hover': {
-      backgroundColor: isCurrentTab && COLORS.BLACK,
+      backgroundColor: !isCurrentTab && COLORS.BLACK_TRANSPARENTA,
     },
   });
+
+export const friendsListWrapperStyle = css({
+  backgroundColor: COLORS.BLACK_TRANSPARENTC,
+  flex: 1,
+  overflowX: 'hidden',
+  overflowY: 'scroll',
+});

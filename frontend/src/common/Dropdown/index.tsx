@@ -1,8 +1,10 @@
 import { ArrowDownIcon } from 'assets';
+import { Button } from 'common/Button';
 import { useState } from 'react';
 
 import {
-  dropdownListElementStyle,
+  dropdownListInnerButtonStyle,
+  dropdownListInnerStyle,
   dropdownListStyle,
   dropdownTopValueStyle,
   dropdownWrapperStyle,
@@ -12,9 +14,10 @@ interface Props {
   currentKey: string;
   elements: { key: string; value: number | boolean }[];
   onChange: (value: number | boolean) => void;
+  className?: string;
 }
 
-export const Dropdown = ({ currentKey, elements, onChange }: Props) => {
+export const Dropdown = ({ currentKey, elements, onChange, className }: Props) => {
   const [isDropdownShown, setIsDropdownShown] = useState(false);
 
   function handleClickValue(value: number | boolean) {
@@ -27,7 +30,7 @@ export const Dropdown = ({ currentKey, elements, onChange }: Props) => {
   }
 
   return (
-    <div className={dropdownWrapperStyle}>
+    <div className={`${dropdownWrapperStyle} ${className}`}>
       <button type="button" onClick={handleClickToggle} className={dropdownTopValueStyle(isDropdownShown)}>
         <span>{currentKey}</span>
         <ArrowDownIcon />
@@ -35,10 +38,10 @@ export const Dropdown = ({ currentKey, elements, onChange }: Props) => {
       {isDropdownShown && (
         <ul className={dropdownListStyle(isDropdownShown)}>
           {elements.map(({ key, value }, index) => (
-            <li key={`dropdown-${index}`} className={dropdownListElementStyle}>
-              <button type="button" onClick={() => handleClickValue(value)}>
+            <li key={`dropdown-${index}`} className={dropdownListInnerStyle}>
+              <Button onClick={() => handleClickValue(value)} className={dropdownListInnerButtonStyle}>
                 <span>{key}</span>
-              </button>
+              </Button>
             </li>
           ))}
         </ul>
