@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ArrowDownIcon, CrownIcon } from 'assets';
-import { Button } from 'common';
+import { Avatar, Button } from 'common';
 import { ROUTE } from 'common/constants';
 import { ChatUserInfoType, ChatUserRoleType } from 'types/chat';
 import { COMMON_SIZES } from 'styles';
@@ -34,11 +34,10 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
     <>
       <li className={chatUserElementWrapperStyle}>
         <Link to={`${ROUTE.PROFILE}/${user.id}`} className={chatUserLinkWrapperStyle(role)}>
-          <img
-            src={user.avatar}
+          <Avatar
+            userAvatar={user.avatar}
             alt={`${user.nickname}-avatar`}
-            width={COMMON_SIZES.ICON_XLARGE}
-            height={COMMON_SIZES.ICON_XLARGE}
+            size={COMMON_SIZES.ICON_XLARGE}
             className={chatUserElementImageStyle}
           />
           {role !== 'user' && <CrownIcon />}

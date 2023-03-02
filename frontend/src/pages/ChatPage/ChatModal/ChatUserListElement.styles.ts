@@ -8,6 +8,7 @@ export const chatUserElementWrapperStyle = css({
   flexDirection: 'row',
   alignItems: 'center',
   padding: 10,
+  paddingLeft: 20,
   paddingRight: 0,
 });
 

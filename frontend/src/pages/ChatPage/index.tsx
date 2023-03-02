@@ -109,7 +109,18 @@ export const ChatPage = () => {
           />
           <ChatInfoModalBody
             users={currentChatRoom.users}
-            bannedUsers={currentChatRoom.bannedUsers}
+            bannedUsers={[
+              {
+                id: 0,
+                intraId: '111',
+                nickname: '테스트',
+                avatar: 'null',
+                point: 1,
+                createdAt: 'a',
+                updatedAt: 'a',
+                isTwoFactorAuth: false,
+              },
+            ]}
             currentUserRole={currentUserRole}
           />
         </Modal>
