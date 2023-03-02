@@ -1,38 +1,49 @@
 import { css } from '@emotion/css';
+import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
 
-export const newChatFormStyle = css`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
+export const newChatFormStyle = css({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+});
 
-export const newChatInnerDivStyle = css`
-  flex: 1;
-`;
+export const newChatInnerDivStyle = css({
+  flex: 1,
+});
 
-export const formSectionDivStyle = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  width: calc(100% - 40px);
-`;
+export const formSectionDivStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: '0 30px',
+  marginBottom: 20,
+  width: 'calc(100% - 60px)',
 
-export const formSectionButtonWrapper = css`
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid black; // TODO: 색상 상수화
+  label: {
+    width: 80,
+    color: COLORS.WHITE,
+    marginRight: 10,
+  },
+});
 
-  & button {
-    width: 50%;
-    height: 100%;
-  }
+export const formSectionButtonWrapperStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  borderTop: makeBorder({}),
+});
 
-  & button:first-child {
-    border-right: 1px solid black; // TODO: 색상 상수화
-  }
-`;
+export const formSectionButtonStyle = css({
+  flex: 1,
+
+  '&&': {
+    padding: '10px 0',
+
+    ':first-child': {
+      borderRight: makeBorder({}),
+      borderBottomLeftRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+    },
+    ':last-child': {
+      borderBottomRightRadius: COMMON_SIZES.BORDER_RADIUS_SMALL,
+    },
+  },
+});

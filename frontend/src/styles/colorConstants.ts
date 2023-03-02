@@ -1,6 +1,7 @@
 export const COLORS = {
   BLACK: '#000000',
   WHITE: '#ffffff',
+  TRANSPARENT: '#00000000',
 
   BLACK_TRANSPARENT3: '#00000033',
   BLACK_TRANSPARENT6: '#00000066',
@@ -21,8 +22,12 @@ export const COLORS = {
   GRAYA: '#aaaaaa',
   GRAYC: '#cccccc',
   GRAYE: '#eeeeee',
+
   GREEN: '#10D300',
   RED: '#F13810',
   YELLOW: '#F9DB57',
   ORANGE: '#E2792E',
+
+  HOST_COLOR: '#FA89A6',
+  OPERATOR_COLOR: '#4EAD92',
 } as const;

@@ -23,3 +23,4 @@ export { leaveMatchMakeState } from './leaveMatchMakeState';
 export { finishedGameState } from './finishedGameState';
 export { playerRoleState } from './playerRoleState';
 export { inviteGameRoomState } from './inviteGameRoomState';
+export { inviteGameRoomSocketIdState } from './inviteGameRoomSocketIdState';

@@ -1,11 +1,12 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { Dropdown } from 'common';
+import { Button, Dropdown, Input } from 'common';
 import { newChatRoomState } from 'store';
 
 import {
-  formSectionButtonWrapper,
+  formSectionButtonStyle,
+  formSectionButtonWrapperStyle,
   formSectionDivStyle,
   newChatFormStyle,
   newChatInnerDivStyle,
@@ -48,10 +49,10 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
       <div className={newChatInnerDivStyle}>
         <div className={formSectionDivStyle}>
           <label htmlFor="new-chat-name">이름</label>
-          <input id="new-chat-name" ref={nameRef} maxLength={20} type="text" placeholder="최대 20자" required />
+          <Input id="new-chat-name" inputRef={nameRef} maxLength={20} placeholder="최대 20자" required />
         </div>
         <div className={formSectionDivStyle}>
-          <span>공개 여부</span>
+          <label>공개 여부</label>
           <Dropdown
             currentKey={isPrivate ? '비공개' : '공개'}
             elements={dropdownElement}
@@ -61,15 +62,17 @@ export const NewChatModalBody = ({ onClickClose }: Props) => {
         {isPrivate && (
           <div className={formSectionDivStyle}>
             <label htmlFor="new-chat-password">비밀번호</label>
-            <input id="new-chat-password" ref={passwordRef} type="text" placeholder="최대 20자" />
+            <Input id="new-chat-password" inputRef={passwordRef} placeholder="최대 20자" />
           </div>
         )}
       </div>
-      <div className={formSectionButtonWrapper}>
-        <button type="button" onClick={onClickClose}>
-          닫기
-        </button>
-        <button type="submit">제출</button>
+      <div className={formSectionButtonWrapperStyle}>
+        <Button onClick={onClickClose} className={formSectionButtonStyle}>
+          <span>닫기</span>
+        </Button>
+        <Button isSubmit className={formSectionButtonStyle}>
+          <span>제출</span>
+        </Button>
       </div>
     </form>
   );

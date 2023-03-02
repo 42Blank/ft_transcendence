@@ -13,12 +13,8 @@ export const UserMenu = () => {
   const nav = useNavigate();
   const logout = useLogout();
 
-  function handleMouseOver() {
-    setIsMenuShown(true);
-  }
-
-  function handleMouseOut() {
-    setIsMenuShown(false);
+  function handleClickProfile() {
+    setIsMenuShown(prevState => !prevState);
   }
 
   function handleClickProfileButton() {
@@ -31,23 +27,24 @@ export const UserMenu = () => {
   }
 
   return (
-    <div
-      onMouseOver={handleMouseOver}
-      onFocus={handleMouseOver}
-      onMouseOut={handleMouseOut}
-      onBlur={handleMouseOut}
-      className={userMenuWrapperStyle}
-    >
-      <Avatar userAvatar={currentUser.avatar} alt="nav-bar-profile" />
-      <span className={userMenuNameStyle}>{currentUser.nickname}</span>
-      <div className={userMenuInnerStyle(isMenuShown)}>
-        <Button onClick={handleClickProfileButton} className={userMenuHoverButton}>
-          <span>내 프로필</span>
-        </Button>
-        <Button onClick={handleClickLogoutButton} className={userMenuHoverButton}>
-          <span>로그아웃</span>
-        </Button>
-      </div>
-    </div>
+    <>
+      <Button onClick={handleClickProfile} className={userMenuWrapperStyle}>
+        <Avatar userAvatar={currentUser.avatar} alt="nav-bar-profile" />
+        <span className={userMenuNameStyle}>{currentUser.nickname}</span>
+      </Button>
+      {isMenuShown && (
+        <div className={userMenuInnerStyle}>
+          <Button onClick={handleClickProfileButton} className={userMenuHoverButton}>
+            <span>내 프로필</span>
+          </Button>
+          <Button onClick={handleClickLogoutButton} className={userMenuHoverButton}>
+            <span>로그아웃</span>
+          </Button>
+          <Button onClick={handleClickProfile} className={userMenuHoverButton}>
+            <span>닫기</span>
+          </Button>
+        </div>
+      )}
+    </>
   );
 };

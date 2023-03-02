@@ -42,9 +42,6 @@ export const profileButtonStyle = css({
   '&&': {
     flex: 1,
     padding: '10px 0',
-    border: 0,
-    background: 0,
-    userSelect: 'none',
   },
 
   ':hover': {

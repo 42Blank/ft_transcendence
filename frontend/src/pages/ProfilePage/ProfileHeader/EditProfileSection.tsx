@@ -9,6 +9,7 @@ import { SampleAvatarElement } from './SampleAvatarElement';
 
 import {
   changeComponentStyle,
+  editButtonWrapperStyle,
   editProfileFormTitleStyle,
   editProfileFormWrapperStyle,
   editProfileModalStyle,
@@ -86,9 +87,14 @@ export const EditProfileSection = () => {
                 />
               ))}
             </ul>
-            <Button isSubmit>
-              <span>제출</span>
-            </Button>
+            <div className={editButtonWrapperStyle}>
+              <Button onClick={handleClickClose}>
+                <span>취소</span>
+              </Button>
+              <Button isSubmit>
+                <span>제출</span>
+              </Button>
+            </div>
           </form>
         </Modal>
       )}

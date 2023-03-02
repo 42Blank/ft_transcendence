@@ -41,3 +41,18 @@ export const sampleAvatarListStyle = css({
   marginBottom: 30,
   padding: '0 30px',
 });
+
+export const editButtonWrapperStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  borderTop: makeBorder({}),
+
+  button: {
+    flex: 1,
+    padding: '10px 0',
+
+    ':first-child': {
+      borderRight: makeBorder({}),
+    },
+  },
+});

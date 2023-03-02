@@ -50,16 +50,7 @@ export const changeNicknameWrapperStyle = css({
 
   input: {
     marginLeft: 10,
-    width: 100,
     paddingRight: 30,
-    backgroundColor: COLORS.BLACK,
-    border: 0,
-    borderBottom: makeBorder({}),
-    color: COLORS.WHITE,
-
-    ':placeholder': {
-      color: COLORS.GRAY3,
-    },
   },
 
   svg: {
