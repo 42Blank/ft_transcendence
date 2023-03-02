@@ -7,7 +7,7 @@ import { ROUTE } from 'common/constants';
 import { ChatUserRoleType } from 'types/chat';
 import { UserInfoType } from 'types/user';
 import { COMMON_SIZES } from 'styles';
-import { BanUserOperationBox } from './BanUserOperationBox';
+import { BanUserOperationBox } from './asdBanUserOperationBox';
 
 import {
   chatUserDrawerButtonStyle,
