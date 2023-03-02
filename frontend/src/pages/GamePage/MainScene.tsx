@@ -90,8 +90,8 @@ export class MainScene extends Phaser.Scene {
     /**
      * @param collideCallback 으로 패들 출돌 위치에 따라 velocity를 다르게 주면 되지 않을까?
      */
-    this.physics.add.collider(this.ball, this.paddleLeft, this.updateHostBallPos.bind(this), null, this);
-    this.physics.add.collider(this.ball, this.paddleRight, this.updateHostBallPos.bind(this), null, this);
+    this.physics.add.collider(this.ball, this.paddleLeft, null, null, this);
+    this.physics.add.collider(this.ball, this.paddleRight, null, null, this);
 
     this.key = this.input.keyboard.createCursorKeys();
 
@@ -111,7 +111,6 @@ export class MainScene extends Phaser.Scene {
     if (this.playerRole === 'host') {
       this.time.delayedCall(1500, () => {
         this.ball.setVelocity(300, 150);
-        this.updateHostBallPos();
       });
     }
 
@@ -131,22 +130,14 @@ export class MainScene extends Phaser.Scene {
   updateHostPos() {
     sockets.gameSocket.emit('update_position', {
       paddleY: this.paddleLeft.y, //
-    });
-  }
-
-  updateHostBallPos() {
-    sockets.gameSocket.emit('update_position', {
-      paddleY: this.paddleLeft.y, //
       ball: {
         x: this.ball.x,
         y: this.ball.y,
         velocityX: this.ball.body.velocity.x,
         velocityY: this.ball.body.velocity.y,
-        timestamp: Date.now().toString(),
       },
     });
   }
-
   updateChalPos() {
     sockets.gameSocket.emit('update_position', {
       paddleY: this.paddleRight.y, //
