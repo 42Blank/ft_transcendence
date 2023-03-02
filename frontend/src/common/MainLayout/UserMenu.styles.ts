@@ -15,8 +15,11 @@ export const userMenuWrapperStyle = css({
     marginRight: 10,
   },
 
-  ':hover': {
-    cursor: 'pointer',
+  '&&': {
+    ':hover': {
+      cursor: 'pointer',
+      background: COLORS.TRANSPARENT,
+    },
   },
 });
 
@@ -30,34 +33,34 @@ export const userMenuNameStyle = css({
   userSelect: 'none',
 });
 
-export const userMenuInnerStyle = (isMenuShown: boolean) =>
-  css({
-    zIndex: 2, // TODO: zindex 상수화
-    backgroundColor: COLORS.BLACK,
-    position: 'absolute',
-    display: isMenuShown ? 'flex' : 'none',
-    border: makeBorder({}),
-    borderRadius: 5,
-    overflow: 'hidden',
-    right: 0,
-    top: 50,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyItems: 'center',
-    width: 90,
-  });
+export const userMenuInnerStyle = css({
+  zIndex: 2, // TODO: zindex 상수화
+  backgroundColor: COLORS.BLACK,
+  position: 'absolute',
+  display: 'flex',
+  border: makeBorder({}),
+  borderRadius: 5,
+  overflow: 'hidden',
+  right: 30,
+  top: 60,
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyItems: 'center',
+  width: 90,
+});
 
 export const userMenuHoverButton = css({
   '&&': {
     width: '100%',
     padding: 10,
-  },
-
-  ':first-child': {
     borderBottom: makeBorder({}),
   },
 
+  ':last-child': {
+    border: 0,
+  },
+
   ':hover': {
-    backgroundColor: COLORS.GRAYE,
+    backgroundColor: COLORS.GRAY3,
   },
 });
