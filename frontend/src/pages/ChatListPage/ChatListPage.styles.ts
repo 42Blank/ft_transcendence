@@ -37,12 +37,9 @@ export const chatRoomIconStyle = css({
 
 export const newChatModalWrapperStyle = css({
   '&&': {
-    width: 480,
     height: 'fit-content',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: COLORS.BLACK,
-    border: makeBorder({}),
   },
 });
 

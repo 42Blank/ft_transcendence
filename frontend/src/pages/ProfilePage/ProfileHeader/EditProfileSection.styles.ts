@@ -3,7 +3,6 @@ import { css } from '@emotion/css';
 import { FONT_SIZES, COLORS, makeBorder } from 'styles';
 
 export const editProfileModalStyle = css({
-  width: 480,
   height: 'fit-content',
   overflow: 'hidden',
   '&&': {

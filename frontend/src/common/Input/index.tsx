@@ -49,6 +49,7 @@ export const Input = ({
       defaultValue={defaultValue}
       id={id}
       required={required}
+      onChange={onChange}
       className={`${inputStyle(maxLength)} ${className}`}
     />
   );

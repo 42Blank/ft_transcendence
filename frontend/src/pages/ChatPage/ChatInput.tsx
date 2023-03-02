@@ -1,9 +1,9 @@
 import { FormEvent, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
+import { SendIcon } from 'assets';
 import { Button, Input } from 'common';
 import { newMessageState } from 'store';
-import { SendIcon } from 'assets';
 
 import { buttonStyle, chatInputStyle } from './ChatInput.styles';
 
@@ -19,7 +19,7 @@ export const ChatInput = () => {
 
   return (
     <form className={chatInputStyle} onSubmit={handleSubmit}>
-      <Input placeholder="메시지를 입력하세요..." inputRef={inputRef} />
+      <Input placeholder="메시지를 입력하세요..." inputRef={inputRef} maxLength={420} />
       <Button isSubmit className={buttonStyle}>
         <SendIcon />
       </Button>
