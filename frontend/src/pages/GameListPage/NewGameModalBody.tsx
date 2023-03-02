@@ -41,7 +41,7 @@ export const NewGameModalBody = ({ onClickClose }: Props) => {
     <div className={newGameFormStyle}>
       <div className={newGameInnerDivStyle}>
         <div className={formSectionDivStyle}>
-          <span>모드 설정</span>
+          <label>모드 설정</label>
           <Dropdown currentKey={isNormal ? '일반' : 'RED'} elements={dropdownElement} onChange={handleToggleMode} />
         </div>
       </div>
