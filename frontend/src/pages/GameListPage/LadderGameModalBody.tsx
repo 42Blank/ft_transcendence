@@ -1,12 +1,8 @@
+import { Button } from 'common';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { joinMatchMakeState, leaveMatchMakeState } from 'store';
-import {
-  formSectionButtonWrapper,
-  formSectionDivStyle,
-  newGameFormStyle,
-  newGameInnerDivStyle,
-} from './NewGameModalBody.styles';
+import { ladderGameFormWrapperStyle, ladderGameLabelStyle } from './LadderGameModalBody.styles';
 
 interface Props {
   onClickClose: () => void;
@@ -27,17 +23,13 @@ export const LadderGameModalBody = ({ onClickClose }: Props) => {
   }, []);
 
   return (
-    <div className={newGameFormStyle}>
-      <div className={newGameInnerDivStyle}>
-        <div className={formSectionDivStyle}>
-          <span>🕰️ 대충 뭔가 돌아감</span>
-        </div>
+    <div className={ladderGameFormWrapperStyle}>
+      <div className={ladderGameLabelStyle}>
+        <span>🕰️ 대충 뭔가 돌아감</span>
       </div>
-      <div className={formSectionButtonWrapper}>
-        <button type="button" onClick={onClickClose}>
-          취소
-        </button>
-      </div>
+      <Button onClick={onClickClose}>
+        <span>취소</span>
+      </Button>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from '../../../common/database/entities/user.entity';
 import { ChatRoom } from '../../../common/database/model';
 import { ChatRoomRepository } from '../../../common/database/repository';
+import { pwEncryption } from '../../../common/utils';
 import { ChatRoomDto } from '../dto/outcoming/chat-room.dto';
 
 @Injectable()
@@ -53,7 +54,7 @@ export class ChatRoomService {
 
     chatRoom.roomTitle = data.roomTitle ?? chatRoom.roomTitle;
     chatRoom.isPrivate = data.isPrivate ?? chatRoom.isPrivate;
-    chatRoom.password = data.password ?? chatRoom.password;
+    chatRoom.password = data.password ? pwEncryption(data.password) : chatRoom.password;
   }
 
   public async getChatRooms(): Promise<ChatRoomDto[]> {
