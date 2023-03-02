@@ -6,15 +6,15 @@ import { Modal } from 'common';
 import { gameRoomListState } from 'store';
 import { GameRoomElement } from './GameRoomElement';
 
-import {
-  gameListWrapperStyle,
-  gameMatchIconStyle,
-  gameRoomIconStyle,
-  newGameModalHeaderStyle,
-  newGameModalWrapperStyle,
-} from './GameListPage.styles';
+import { gameListWrapperStyle, gameMatchIconStyle, gameRoomIconStyle } from './GameListPage.styles';
+import { newGameFormTitleStyle, newGameFormWrapperStyle, newGameModalStyle } from './NewGameModalBody.styles';
 import { LadderGameModalBody } from './LadderGameModalBody';
 import { NewGameModalBody } from './NewGameModalBody';
+import {
+  ladderGameFormTitleStyle,
+  ladderGameFormWrapperStyle,
+  ladderGameModalStyle,
+} from './LadderGameModalBody.styles';
 
 export const GameListPage = () => {
   const [isNewGameModalShown, setIsNewGameModalShown] = useState(false);
@@ -54,17 +54,17 @@ export const GameListPage = () => {
         <FightIcon />
       </button>
       {isNewGameModalShown && (
-        <Modal onClickClose={handleClickClose} className={newGameModalWrapperStyle}>
-          <header className={newGameModalHeaderStyle}>
-            <h4>🐦 게임 만들기</h4>
+        <Modal onClickClose={handleClickClose} className={newGameModalStyle}>
+          <header className={newGameFormWrapperStyle}>
+            <h3 className={newGameFormTitleStyle}>새 게임 만들기</h3>
           </header>
           <NewGameModalBody onClickClose={handleClickClose} />
         </Modal>
       )}
       {isLadderModalShown && (
-        <Modal onClickClose={handleClickClose} className={newGameModalWrapperStyle}>
-          <header className={newGameModalHeaderStyle}>
-            <h4> 상대를 찾는 중</h4>
+        <Modal onClickClose={handleClickClose} className={ladderGameModalStyle}>
+          <header className={ladderGameFormWrapperStyle}>
+            <h4 className={ladderGameFormTitleStyle}> 상대를 찾는 중</h4>
           </header>
           <LadderGameModalBody onClickClose={handleClickClose} />
         </Modal>
