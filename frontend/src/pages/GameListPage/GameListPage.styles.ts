@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { COLORS, COMMON_SIZES, makeBorder } from 'styles';
 
 export const gameListWrapperStyle = css`
   position: relative;
@@ -13,37 +14,40 @@ export const gameListWrapperStyle = css`
   gap: 20px;
 `;
 
-export const gameRoomIconStyle = css`
-  position: fixed;
-  z-index: 2;
-  right: 30px;
-  bottom: 30px;
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-  background-color: white; // TODO: 상수화
-  border: 1px solid black; // TODO: 상수화
+export const gameRoomIconStyle = css({
+  position: 'fixed',
+  zIndex: 2,
+  right: 30,
+  bottom: 30,
+  width: COMMON_SIZES.ICON_XLARGE,
+  height: COMMON_SIZES.ICON_XLARGE,
+  borderRadius: COMMON_SIZES.ICON_XLARGE,
+  border: makeBorder({}),
+  backgroundColor: COLORS.GRAY3,
 
-  & > svg {
-    fill: black; // TODO: 상수화
-  }
-`;
+  svg: {
+    fill: COLORS.WHITE,
+  },
+});
 
-export const gameMatchIconStyle = css`
-  position: fixed;
-  z-index: 2;
-  right: 105px;
-  bottom: 30px;
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-  background-color: white; // TODO: 상수화
-  border: 1px solid black; // TODO: 상수화
+export const gameMatchIconStyle = css({
+  position: 'fixed',
+  zIndex: 2,
+  right: 100,
+  bottom: 30,
+  width: COMMON_SIZES.ICON_XLARGE,
+  height: COMMON_SIZES.ICON_XLARGE,
+  borderRadius: COMMON_SIZES.ICON_XLARGE,
+  border: makeBorder({}),
+  backgroundColor: COLORS.GRAY3,
 
-  & > svg {
-    fill: black; // TODO: 상수화
-  }
-`;
+  svg: {
+    paddingTop: 3,
+    fill: COLORS.WHITE,
+    width: 32,
+    height: 32,
+  },
+});
 
 export const newGameModalWrapperStyle = css`
   height: 30%;
