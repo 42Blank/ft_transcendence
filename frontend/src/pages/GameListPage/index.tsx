@@ -6,10 +6,11 @@ import { Modal } from 'common';
 import { gameRoomListState } from 'store';
 import { GameRoomElement } from './GameRoomElement';
 
-import { gameListWrapperStyle, gameMatchIconStyle, gameRoomIconStyle } from './GameListPage.styles';
-import { newGameModalHeaderStyle, newGameModalWrapperStyle } from './NewGameModalBody.styles';
 import { LadderGameModalBody } from './LadderGameModalBody';
 import { NewGameModalBody } from './NewGameModalBody';
+
+import { gameListWrapperStyle, gameMatchIconStyle, gameRoomIconStyle } from './GameListPage.styles';
+import { newGameModalHeaderStyle, newGameModalWrapperStyle } from './NewGameModalBody.styles';
 import {
   ladderGameFormTitleStyle,
   ladderGameFormWrapperStyle,
