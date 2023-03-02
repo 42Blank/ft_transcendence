@@ -26,6 +26,26 @@ export const newGameFormTitleStyle = css({
   borderBottom: makeBorder({}),
 });
 
+export const newGameModalWrapperStyle = css({
+  '&&': {
+    width: 480,
+    height: 'fit-content',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: COLORS.BLACK,
+    border: makeBorder({}),
+  },
+});
+
+export const newGameModalHeaderStyle = css({
+  fontSize: FONT_SIZES.LARGE,
+  width: 'calc(100% - 60px)',
+  color: COLORS.WHITE,
+  padding: '10px 30px',
+  marginBottom: 20,
+  borderBottom: makeBorder({}),
+});
+
 export const newGameFormStyle = css`
   flex: 1;
   display: flex;
@@ -36,14 +56,20 @@ export const newGameInnerDivStyle = css`
   flex: 1;
 `;
 
-export const formSectionDivStyle = css`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  width: calc(100% - 40px);
-`;
+export const formSectionDivStyle = css({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: '0 30px',
+  marginBottom: 20,
+  width: 'calc(100% - 60px)',
+
+  label: {
+    width: 80,
+    color: COLORS.WHITE,
+    marginRight: 10,
+  },
+});
 
 export const formSectionButtonWrapper = css`
   width: 100%;
