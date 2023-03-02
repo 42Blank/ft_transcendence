@@ -4,9 +4,9 @@ import { COLORS, makeBorder } from 'styles';
 export const waitGameWrapperStyle = css({
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
   alignItems: 'center',
   justifyContent: 'center',
+  flex: 1,
 
   ':not(:last-child)': {
     borderBottom: makeBorder({ color: COLORS.WHITE_TRANSPARENT6 }),
