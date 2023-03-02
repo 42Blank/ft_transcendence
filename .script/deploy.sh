@@ -1,7 +1,7 @@
 #!/bin/bash
 
-docker-compose down
-docker-compose -p for_local down
+# docker-compose down
+# docker-compose -p for_local down
 
 git reset
 git checkout .
