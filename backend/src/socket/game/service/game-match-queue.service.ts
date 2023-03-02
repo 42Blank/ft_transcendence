@@ -11,19 +11,20 @@ export class GameMatchQueueService {
   ) {}
 
   public joinMatchQueue(socketId: string, userId: number): GameRoom | undefined {
-    if (this.isUserInGameRoom(userId) || this.isUserInChatRoom(userId)) {
-      return undefined;
-    }
+    // if (this.isUserInGameRoom(userId) || this.isUserInChatRoom(userId)) {
+    //   return undefined;
+    // }
 
     this.gameMatchQueueRepository.push(socketId, userId);
 
     if (this.gameMatchQueueRepository.size() >= 2) {
-      const host = this.gameMatchQueueRepository.pop();
+      const host = this.gameMatchQueueRepository.front();
 
-      if (this.isUserInChatRoom(host.userId) || this.isUserInGameRoom(host.userId)) {
-        return undefined;
-      }
+      // if (this.isUserInChatRoom(host.userId) || this.isUserInGameRoom(host.userId)) {
+      //   return undefined;
+      // }
 
+      this.gameMatchQueueRepository.pop();
       const challenger = this.gameMatchQueueRepository.pop();
       const gameRoom = this.gameRoomRepository.createGameRoom(host.socketId, host.userId, 'normal');
       this.gameRoomRepository.setChallengerToGameRoom(gameRoom.id, challenger.socketId, challenger.userId);
@@ -44,11 +45,15 @@ export class GameMatchQueueService {
       return gameRoom.host.userId === userId || gameRoom.challenger?.userId === userId;
     });
 
+    if (!gameRoom) {
+      return false;
+    }
+
     if (gameRoom.state === 'finished') {
       return false;
     }
 
-    return !!gameRoom;
+    return true;
   }
 
   private isUserInChatRoom(userId: number): boolean {
