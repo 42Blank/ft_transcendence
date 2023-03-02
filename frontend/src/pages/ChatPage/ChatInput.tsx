@@ -1,10 +1,11 @@
 import { FormEvent, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { Input } from 'common';
+import { Button, Input } from 'common';
 import { newMessageState } from 'store';
+import { SendIcon } from 'assets';
 
-import { chatInputStyle } from './ChatInput.styles';
+import { buttonStyle, chatInputStyle } from './ChatInput.styles';
 
 export const ChatInput = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -19,7 +20,9 @@ export const ChatInput = () => {
   return (
     <form className={chatInputStyle} onSubmit={handleSubmit}>
       <Input placeholder="메시지를 입력하세요..." inputRef={inputRef} />
-      <button type="submit">{'>'}</button>
+      <Button isSubmit className={buttonStyle}>
+        <SendIcon />
+      </Button>
     </form>
   );
 };
