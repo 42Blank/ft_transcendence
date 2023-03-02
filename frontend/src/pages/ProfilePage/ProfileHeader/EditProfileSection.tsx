@@ -50,6 +50,7 @@ export const EditProfileSection = () => {
       refetch();
       refetchAllUserList();
       setIsModalShown(false);
+      window.location.reload();
     });
   }
 
