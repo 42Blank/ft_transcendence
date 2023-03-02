@@ -20,6 +20,7 @@ import {
   chatPageTitleStyle,
   chatPageWrapperStyle,
 } from './ChatPage.styles';
+import { inviteGameTitleStyle } from './GameInviteModal/GameInviteModalBody.styles';
 
 export const ChatPage = () => {
   const {
@@ -115,7 +116,7 @@ export const ChatPage = () => {
       )}
       {isInviteModalShown && (
         <Modal onClickClose={handleCloseModal}>
-          <h3 className={chatPageTitleStyle}>게임 초대</h3>
+          <h3 className={inviteGameTitleStyle}>게임 초대</h3>
           <GameInviteModalBody
             onClickClose={handleCloseInviteModal}
             nickname={inviteGameRoom.nickname}
