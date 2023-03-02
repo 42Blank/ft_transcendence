@@ -30,6 +30,10 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
     setIsDrawerOpen(prevState => !prevState);
   }
 
+  function handleClickCloseDrawer() {
+    setIsDrawerOpen(false);
+  }
+
   return (
     <>
       <li className={chatUserElementWrapperStyle}>
@@ -48,7 +52,11 @@ export const ChatUserListElement = ({ chatUser, currentUserRole }: Props) => {
         </Button>
       </li>
       <div className={chatUserDrawerStyle(isDrawerOpen)}>
-        <ChatUserOperationBox chatUser={chatUser} currentUserRole={currentUserRole} />
+        <ChatUserOperationBox
+          chatUser={chatUser}
+          currentUserRole={currentUserRole}
+          onClickClose={handleClickCloseDrawer}
+        />
       </div>
     </>
   );

@@ -30,6 +30,10 @@ export const BannedUserListElement = ({ user, currentUserRole }: Props) => {
     setIsDrawerOpen(prevState => !prevState);
   }
 
+  function handleClickCloseDrawer() {
+    setIsDrawerOpen(false);
+  }
+
   return (
     <>
       <li className={chatUserElementWrapperStyle}>
@@ -49,7 +53,7 @@ export const BannedUserListElement = ({ user, currentUserRole }: Props) => {
         )}
       </li>
       <div className={chatUserDrawerStyle(isDrawerOpen)}>
-        <BanUserOperationBox banUser={user} currentUserRole={currentUserRole} />
+        <BanUserOperationBox banUser={user} currentUserRole={currentUserRole} onClickClose={handleClickCloseDrawer} />
       </div>
     </>
   );
