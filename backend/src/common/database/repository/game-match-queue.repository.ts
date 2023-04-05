@@ -12,7 +12,7 @@ export class GameMatchQueueRepository {
   private gameMatchQueues: GameMatchQueue[] = [];
 
   public push(socketId: string, userId: number): void {
-    if (this.gameMatchQueues.find(queue => queue.socketId === socketId)) {
+    if (this.gameMatchQueues.find(queue => queue.userId === userId)) {
       return;
     }
 
