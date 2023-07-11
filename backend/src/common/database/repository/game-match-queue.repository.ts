@@ -1,9 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-
-interface GameMatchQueue {
-  socketId: string;
-  userId: number;
-}
+import { GameMatchQueue } from '../model/game-match-queue';
 
 @Injectable()
 export class GameMatchQueueRepository {
